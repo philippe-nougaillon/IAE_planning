@@ -1,0 +1,31 @@
+<%= bootstrap_form_for(@formation) do |f| %>
+  <% if @formation.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@formation.errors.count, "error") %> prohibited this formation from being saved:</h2>
+
+      <ul>
+      <% @formation.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+
+    <div class="col-sm-7">
+      <%= f.text_field :nom %>
+      <%= f.text_field :promo %>
+      <%= f.text_field :diplome, label:"Diplôme" %>
+      <%= f.text_field :domaine %>
+      <%= f.check_box :apprentissage, label:"Apprentissage ?" %>
+      <%= f.text_area :memo, label:"Mémo" %>
+      <br>
+
+      <%= f.submit %>
+
+      <%= link_to '| Retour', formations_path %>
+    </div>
+  </div>
+
+<% end %>

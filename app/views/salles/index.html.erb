@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Liste des Salles</h1>
+
+<div class="table-responsive">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Nom</th>
+        <th>Places</th>
+        <th colspan="2"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @salles.each do |salle| %>
+        <tr>
+          <td><%= salle.nom %></td>
+          <td><%= salle.places %></td>
+          <td><%= link_to 'Modif', edit_salle_path(salle) %></td>
+          <td><%= link_to '[X]', salle, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<br>
+
+<%= link_to 'Ajouter une Salle', new_salle_path %>

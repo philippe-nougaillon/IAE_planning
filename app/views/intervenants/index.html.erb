@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Liste des Intervenants</h1>
+
+<div class="table-responsive">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Nom</th>
+        <th>Prénom</th>
+        <th colspan="2"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @intervenants.each do |intervenant| %>
+        <tr>
+          <td><%= intervenant.nom %></td>
+          <td><%= intervenant.prenom %></td>
+          <td><%= link_to 'Modif', edit_intervenant_path(intervenant) %></td>
+          <td><%= link_to '[X]', intervenant, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<br>
+
+<%= link_to 'Ajouter un Intervenant', new_intervenant_path %>

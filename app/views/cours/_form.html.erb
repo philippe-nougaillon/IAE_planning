@@ -1,0 +1,68 @@
+<%= form_for(@cour, html:{class:"form-horizontal"}) do |f| %>
+  <% if @cour.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@cour.errors.count, "erreur") %>. Merci de corriger</h2>
+
+      <ul>
+      <% @cour.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <br>
+
+  <div class="form-group">
+    <%= f.label :debut, "Début", class:"control-label col-sm-2" %>
+    <div class="col-sm-6">
+      <%= f.datetime_select :debut, minute_step:15, class:"form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :fin, class:"control-label col-sm-2" %>
+    <div class="col-sm-6">
+      <%= f.datetime_select :fin, minute_step:15, class:"form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :formation_id, class:"control-label col-sm-2" %>
+    <div class="col-sm-6">
+      <%= f.collection_select(:formation_id, Formation.all, :id, :nom_promo) %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :intervenant_id, class:"control-label col-sm-2" %>
+    <div class="col-sm-6">
+      <%= f.collection_select(:intervenant_id, Intervenant.all, :id, :nom_prenom, {include_blank: true}) %>
+    </div>
+  </div>
+  <div class="form-group lg-2">
+    <%= f.label :ue, "UE", class:"control-label col-sm-2" %>
+    <div class="col-sm-1">
+      <%= f.text_field :ue, class:"form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :nom, class:"control-label col-sm-2" %>
+    <div class="col-sm-6">
+      <%= f.text_field :nom, class:"form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :salle_id, class:"control-label col-sm-2" %>
+    <div class="col-sm-6">
+      <%= f.collection_select(:salle_id, Salle.all, :id, :nom_places, {include_blank: true}) %>
+    </div>
+  </div>
+  <br>
+  
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <%= f.submit "Enregistrer ce cours", class:"btn btn-default" %>
+      <% if @cour.new_record? %>
+        <%= f.submit "Enregistrer et saisir le cours suivant", name: 'create_and_add', class:"btn btn-default" %>
+      <% end %>
+    </div>
+  </div>
+
+<% end %>

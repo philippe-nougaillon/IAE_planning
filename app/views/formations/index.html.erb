@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Liste des Formations</h1>
+
+<div class="table-responsive">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Nom</th>
+        <th>Promotion</th>
+        <th>Diplôme</th>
+        <th>Domaine</th>
+        <th>Apprentissage?</th>
+        <th colspan="2"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @formations.each do |formation| %>
+        <tr>
+          <td><%= formation.nom %></td>
+          <td><%= formation.promo %></td>
+          <td><%= formation.diplome %></td>
+          <td><%= formation.domaine %></td>
+          <td><%= "Oui" if formation.apprentissage %></td>
+          <td><%= link_to 'Modif', edit_formation_path(formation) %></td>
+          <td><%= link_to '[X]', formation, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<br>
+
+<%= link_to 'Ajouter une Formation', new_formation_path %>

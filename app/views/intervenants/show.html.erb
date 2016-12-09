@@ -1,0 +1,12 @@
+<p>
+  <strong>Nom:</strong>
+  <%= @intervenant.nom %>
+</p>
+
+<p>
+  <strong>Prénom:</strong>
+  <%= @intervenant.prenom %>
+</p>
+
+<%= link_to 'Modification', edit_intervenant_path(@intervenant) %> |
+<%= link_to 'Retour', intervenants_path %>

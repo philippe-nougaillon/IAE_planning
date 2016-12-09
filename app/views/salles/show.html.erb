@@ -1,0 +1,12 @@
+<p>
+  <strong>Nom:</strong>
+  <%= @salle.nom %>
+</p>
+
+<p>
+  <strong>Places:</strong>
+  <%= @salle.places %>
+</p>
+
+<%= link_to 'Modification', edit_salle_path(@salle) %> |
+<%= link_to 'Retour', salles_path %>

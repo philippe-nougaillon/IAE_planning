@@ -1,0 +1,32 @@
+<p>
+  <strong>Nom:</strong>
+  <%= @formation.nom %>
+</p>
+
+<p>
+  <strong>Promo:</strong>
+  <%= @formation.promo %>
+</p>
+
+<p>
+  <strong>Diplôme:</strong>
+  <%= @formation.diplome %>
+</p>
+
+<p>
+  <strong>Domaine:</strong>
+  <%= @formation.domaine %>
+</p>
+
+<p>
+  <strong>Apprentissage:</strong>
+  <%= @formation.apprentissage %>
+</p>
+
+<p>
+  <strong>Mémo:</strong>
+  <%= @formation.memo %>
+</p>
+
+<%= link_to 'Modification', edit_formation_path(@formation) %> |
+<%= link_to 'Retour', formations_path %>

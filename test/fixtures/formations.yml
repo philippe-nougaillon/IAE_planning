@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  nom: MyString
+  promo: MyString
+  diplome: MyString
+  domaine: MyString
+  apprentissage: false
+
+two:
+  nom: MyString
+  promo: MyString
+  diplome: MyString
+  domaine: MyString
+  apprentissage: false

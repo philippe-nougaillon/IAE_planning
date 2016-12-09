@@ -1,0 +1,150 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Liste des Cours</h1>
+<div class='container'>
+  <div class='row'>
+    <%= form_tag request.path, method: :get do %>
+      <div class="form-group">
+
+<!--           <div class="col-sm-2">
+              <%= label_tag "Période du" %>    
+              <%= text_field_tag :date_debut, params[:date_debut], type:'date', class:"form-control" %>
+          </div>
+          
+          <div class="col-sm-2">
+              <%= label_tag "au" %>    
+              <%= text_field_tag :date_fin, params[:date_fin], type:'date', onchange:'this.form.submit()', class:"form-control" %>
+          </div>
+ -->
+        <div class="row">
+          <div class="col-sm-5">
+              <%= label_tag "Formation" %>    
+                <%= select_tag :formation_id, 
+                    options_from_collection_for_select(Formation.all, :id, :nom_promo, params[:formation_id]), include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
+          </div>
+          <div class="col-sm-5">
+              <%= label_tag "Intervenant" %>    
+              <div class="input-group">
+              <%= select_tag :intervenant_id, 
+                    options_from_collection_for_select(Intervenant.all, :id, :nom_prenom, params[:intervenant_id]), 
+                      include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
+                <span class="input-group-btn">
+                    <%= submit_tag 'Rechercher', class:"btn btn-primary" %>
+                    <%= link_to 'Ajouter', new_cour_path, class:"btn btn-success" %>
+                </span>
+              </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-2">
+              <%= label_tag :ue, "UE" %>    
+                <%= select_tag :ue, options_for_select(['UE1','UE2','UE3','UE4','UE5','UE6','UE7'], params[:ue]), 
+                        include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
+          </div>
+          <div class="col-sm-3">
+              <%= label_tag "Salle" %>    
+                <%= select_tag :salle_id, 
+                      options_from_collection_for_select(Salle.all, :id, :nom, params[:salle_id]), 
+                        include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
+          </div>
+          <div class="col-sm-3">
+            <br>
+            <%= label_tag "Vue:" %> 
+            <%= radio_button_tag :view, "list",  (params[:view]=='list'), onchange:'this.form.submit()' %>
+            Liste 
+            <%= radio_button_tag :view, "calendar", (params[:view]=='calendar'), onchange:'this.form.submit()' %>
+            Calendrier 
+          </div>
+        </div>
+      </div>  
+    <% end %>
+  </div>
+  <div class='row'>
+    <br>
+  </div>
+</div>
+
+<% if params[:view] == "calendar" %>
+  <div class="row">
+    <div class="col-md-12">
+      <%= month_calendar events: @cours do |date, meetings| %>
+        <%= date.day %>
+
+        <% meetings.each do |meeting| %>
+          <div>
+            <b><%= l(meeting.debut, format: :heures_min) %></b>
+            <%= link_to meeting.nom, meeting %>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+
+<% elsif params[:view] == "list" %>
+
+  <div class="table-responsive">
+    <table class="table table-hover table-striped table-condensed">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Début</th>
+          <th>Fin</th>
+          <th>Durée</th>
+          <th>Formation</th>
+          <th>Intervenant</th>
+          <th>UE</th>
+          <th>Intitulé</th>
+          <th>Salle</th>
+          <th colspan="2"></th>
+        </tr>
+      </thead>
+
+      <% if @cours.any? %>
+        <tbody>
+          <% current_date = "" %>
+          <% sum_duree = 0.0 %>
+          <% @cours.each do |cours| %>
+            <% sum_duree += cours.duree %>
+            <tr>
+              <td>
+                <% if cours.debut.to_date != current_date   %>
+                  <b><%= l(cours.debut.to_date) %></b> 
+                  <% current_date = cours.debut.to_date %>
+                <% end %>  
+              </td>
+              <td><%= l(cours.debut, format: :heures_min) %></td>
+              <td><%= l(cours.fin, format: :heures_min) %></td>
+              <td><%= number_with_precision(cours.duree, precision: 2) %></td>
+              <td><%= cours.formation.nom_promo %></td>
+              <td><%= cours.intervenant.nom_prenom %></td>
+              <td><%= cours.ue %></td>
+              <td><%= cours.nom %></td>
+              <td><%= cours.salle.nom if cours.salle %></td>
+              <td>
+                <%= link_to edit_cour_path(cours), class: "btn btn-default" do %>
+                  <i class="glyphicon glyphicon-pencil"></i>
+                <% end %>
+              </td>
+              <td>
+                <%= link_to(cours, method: :delete, data:{confirm: 'Confirmez-vous ?'}, class: "btn btn-default") do %>
+                  <i class="glyphicon glyphicon-remove"></i>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+
+        <tfoot>
+          <tr>
+            <th /><th /><th /><th />
+            <%= number_with_precision(sum_duree, precision: 2) %>
+            <% 7.times do %><th /><% end %>
+          </tr>
+        </tfoot>
+      <% end %>
+    </table>
+  </div>
+  <br>
+<% end %>
+

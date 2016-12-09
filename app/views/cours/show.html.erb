@@ -1,0 +1,44 @@
+<br>
+
+<p>
+  <strong>Début:</strong>
+  <%= l(@cour.debut, format: :long) %>
+</p>
+
+<p>
+  <strong>Fin:</strong>
+  <%= l(@cour.fin, format: :long) %>
+</p>
+
+<p>
+  <strong>Durée:</strong>
+  <%= @cour.duree %>h
+</p>
+
+<p>
+  <strong>Formation:</strong>
+  <%= @cour.formation.nom_promo %>
+</p>
+
+<p>
+  <strong>Intervenant:</strong>
+  <%= @cour.intervenant.nom_prenom %>
+</p>
+
+<p>
+  <strong>UE:</strong>
+  <%= @cour.ue %>
+</p>
+
+<p>
+  <strong>Nom:</strong>
+  <%= @cour.nom %>
+</p>
+
+<p>
+  <strong>Salle:</strong>
+  <%= @cour.salle.nom_places if @cour.salle %>
+</p>
+
+<%= link_to 'Modifier', edit_cour_path(@cour) %> |
+<%= link_to 'Retour', cours_path %>

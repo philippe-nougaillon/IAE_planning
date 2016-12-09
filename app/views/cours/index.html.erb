@@ -53,8 +53,10 @@
             <%= label_tag "Vue:" %> 
             <%= radio_button_tag :view, "list",  (params[:view]=='list'), onchange:'this.form.submit()' %>
             Liste 
-            <%= radio_button_tag :view, "calendar", (params[:view]=='calendar'), onchange:'this.form.submit()' %>
-            Calendrier 
+            <%= radio_button_tag :view, "calendar_week", (params[:view]=='calendar_week'), onchange:'this.form.submit()' %>
+            Semaine 
+            <%= radio_button_tag :view, "calendar_month", (params[:view]=='calendar_month'), onchange:'this.form.submit()' %>
+            Mois 
           </div>
         </div>
       </div>  
@@ -65,24 +67,46 @@
   </div>
 </div>
 
-<% if params[:view] == "calendar" %>
+<% if params[:view] == "calendar_month" %>
   <div class="row">
     <div class="col-md-12">
       <%= month_calendar events: @cours do |date, meetings| %>
-        <%= date.day %>
+        <span class="calendar_day">
+          <%= date.day %>
+        </span>
 
         <% meetings.each do |meeting| %>
-          <div>
+          <div class="meeting">
             <b><%= l(meeting.debut, format: :heures_min) %></b>
-            <%= link_to meeting.nom, meeting %>
+            <%= link_to meeting.formation.nom, meeting %> / 
+            <%= link_to meeting.intervenant.nom_prenom, meeting %>
           </div>
         <% end %>
       <% end %>
     </div>
   </div>
 
-<% elsif params[:view] == "list" %>
+<% elsif params[:view] == "calendar_week" %>
+  <div class="row">
+    <div class="col-md-12">
+      <%= week_calendar events: @cours do |date, meetings| %>
+        <span class="calendar_day">
+          <%= date.day %>
+        </span>
 
+        <% meetings.each do |meeting| %>
+          <div class="meeting">
+            <b><%= l(meeting.debut, format: :heures_min) %></b>
+            <%= link_to meeting.formation.nom, meeting %> / 
+            <%= link_to meeting.intervenant.nom_prenom, meeting %>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+
+
+<% elsif params[:view] == "list" %>
   <div class="table-responsive">
     <table class="table table-hover table-striped table-condensed">
       <thead>
@@ -93,7 +117,6 @@
           <th>Durée</th>
           <th>Formation</th>
           <th>Intervenant</th>
-          <th>UE</th>
           <th>Intitulé</th>
           <th>Salle</th>
           <th colspan="2"></th>
@@ -118,7 +141,6 @@
               <td><%= number_with_precision(cours.duree, precision: 2) %></td>
               <td><%= cours.formation.nom_promo %></td>
               <td><%= cours.intervenant.nom_prenom %></td>
-              <td><%= cours.ue %></td>
               <td><%= cours.nom %></td>
               <td><%= cours.salle.nom if cours.salle %></td>
               <td>
@@ -139,7 +161,7 @@
           <tr>
             <th /><th /><th /><th />
             <%= number_with_precision(sum_duree, precision: 2) %>
-            <% 7.times do %><th /><% end %>
+            <% 6.times do %><th /><% end %>
           </tr>
         </tfoot>
       <% end %>

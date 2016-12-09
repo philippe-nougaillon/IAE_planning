@@ -211,6 +211,3 @@ fr:
       short: "%d %b %Hh%M"
       heures_min: "%H:%M"
     pm: pm
-  simple_calendar:
-    previous: "Mois précédent"
-    next: "Mois suivant"

@@ -30,6 +30,10 @@ class CoursController < ApplicationController
       @cours = @cours.where(ue:params[:ue])
     end
 
+    unless params[:etat].blank?
+      @cours = @cours.where(etat:params[:etat])
+    end
+
     params[:view] ||= "list"
 
   end
@@ -107,6 +111,6 @@ class CoursController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def cour_params
-      params.require(:cour).permit(:debut, :fin, :formation_id, :intervenant_id, :salle_id, :ue, :nom)
+      params.require(:cour).permit(:debut, :fin, :formation_id, :intervenant_id, :salle_id, :ue, :nom, :etat)
     end
 end

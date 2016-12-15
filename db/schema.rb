@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161215084505) do
+ActiveRecord::Schema.define(version: 20161215114043) do
 
   create_table "cours", force: :cascade do |t|
     t.datetime "debut"
@@ -21,8 +21,9 @@ ActiveRecord::Schema.define(version: 20161215084505) do
     t.integer  "salle_id"
     t.string   "ue"
     t.string   "nom"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.integer  "etat",           default: 0
   end
 
   add_index "cours", ["formation_id"], name: "index_cours_on_formation_id"

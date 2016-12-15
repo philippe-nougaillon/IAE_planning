@@ -3,7 +3,7 @@
     <%= link_to calendar.url_for_previous_view , class: "btn btn-default" do %>
         <i class="glyphicon glyphicon-backward"></i>
     <% end %>
-    <span class="calendar-title"><%= t('date.month_names')[start_date.month] %> <%= start_date.year %></span>
+    <span class="calendar-title"><%= t('date.month_names')[start_date.month].humanize %> <%= start_date.year %></span>
     <%= link_to calendar.url_for_next_view , class: "btn btn-default" do %>
         <i class="glyphicon glyphicon-forward"></i>
     <% end %>

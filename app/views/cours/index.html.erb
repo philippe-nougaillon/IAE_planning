@@ -19,7 +19,7 @@
         <div class="row">
           <div class="col-sm-5">
               <%= label_tag "Formation" %>    
-                <%= select_tag :formation_id, 
+              <%= select_tag :formation_id, 
                     options_from_collection_for_select(Formation.all, :id, :nom_promo, params[:formation_id]), include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
           </div>
           <div class="col-sm-5">
@@ -35,18 +35,25 @@
               </div>
           </div>
         </div>
+        <br>
         <div class="row">
           <div class="col-sm-2">
               <%= label_tag :ue, "UE" %>    
-                <%= select_tag :ue, options_for_select(['UE1','UE2','UE3','UE4','UE5','UE6','UE7'], params[:ue]), 
+              <%= select_tag :ue, options_for_select(['UE1','UE2','UE3','UE4','UE5','UE6','UE7'], params[:ue]), 
                         include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
           </div>
           <div class="col-sm-3">
               <%= label_tag "Salle" %>    
-                <%= select_tag :salle_id, 
+              <%= select_tag :salle_id, 
                       options_from_collection_for_select(Salle.all, :id, :nom, params[:salle_id]), 
                         include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
           </div>
+          <div class="col-sm-3">
+            <%= label_tag :etat, "Etat" %>
+            <%= select_tag :etat, options_for_select(Cour.etats, params[:etat]), include_blank:true,
+                    class:"form-control", onchange:'this.form.submit()' %>
+          </div>
+
           <div class="col-sm-3">
             <%= label_tag "Vue" %>
             <br> 
@@ -106,74 +113,80 @@
   </div>
 
 <% elsif params[:view] == "list" %>
-  <div class="table-responsive">
-    <table class="table table-hover table-striped table-condensed">
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Début</th>
-          <th>Fin</th>
-          <th>Durée</th>
-          <th>Formation</th>
-          <th>Intervenant</th>
-          <th>Intitulé cours</th>
-          <th>Salle</th>
-          <th colspan="2"></th>
-        </tr>
-      </thead>
-
-      <% if @cours.any? %>
-        <tbody>
-          <% current_date = "" %>
-          <% sum_duree = 0.0 %>
-          <% @cours.each do |cours| %>
-            <% sum_duree += cours.duree %>
-            <tr>
-              <td>
-                  <% if cours.debut.to_date != current_date   %>
-                    <b><%= l(cours.debut.to_date) %></b> 
-                    <% current_date = cours.debut.to_date %>
-                  <% end %>  
-              </td>
-              <td><%= l(cours.debut, format: :heures_min) %></td>
-              <td><%= l(cours.fin, format: :heures_min) %></td>
-              <td>
-                <span class="pull-right">
-                  <%= number_with_precision(cours.duree, precision: 2) %>
-                </span>
-              </td>
-              <td><%= cours.formation.nom_promo %></td>
-              <td><%= cours.intervenant.nom_prenom %></td>
-              <td><%= cours.nom %></td>
-              <td><%= cours.salle.nom if cours.salle %></td>
-              <td>
-                <%= link_to edit_cour_path(cours), class: "btn btn-default" do %>
-                  <i class="glyphicon glyphicon-pencil"></i>
-                <% end %>
-              </td>
-              <td>
-                <%= link_to(cours, method: :delete, data:{confirm: 'Confirmez-vous ?'}, class: "btn btn-default") do %>
-                  <i class="glyphicon glyphicon-remove"></i>
-                <% end %>
-              </td>
-            </tr>
-          <% end %>
-        </tbody>
-
-        <tfoot>
+  <% if @cours.any? %>
+    <div class="table-responsive">
+      <table class="table table-hover table-striped table-condensed">
+        <thead>
           <tr>
-            <th /><th /><th />
-            <th>
-              <span class="pull-right">
-                <%= number_with_precision(sum_duree, precision: 2) %>
-              </span>
-            </th>
-            <% 6.times do %><th /><% end %>
+            <th>Date</th>
+            <th>Début</th>
+            <th>Fin</th>
+            <th>Durée</th>
+            <th>Formation</th>
+            <th>Intervenant</th>
+            <th>Intitulé cours</th>
+            <th>Etat</th>
+            <th>Salle</th>
+            <th colspan="2"></th>
           </tr>
-        </tfoot>
-      <% end %>
-    </table>
-  </div>
-  <br>
+        </thead>
+
+        <% if @cours.any? %>
+          <tbody>
+            <% current_date = "" %>
+            <% sum_duree = 0.0 %>
+            <% @cours.each do |cours| %>
+              <% sum_duree += cours.duree %>
+              <tr>
+                <td>
+                    <% if cours.debut.to_date != current_date   %>
+                      <b><%= l(cours.debut.to_date) %></b> 
+                      <% current_date = cours.debut.to_date %>
+                    <% end %>  
+                </td>
+                <td><%= l(cours.debut, format: :heures_min) %></td>
+                <td><%= l(cours.fin, format: :heures_min) %></td>
+                <td>
+                  <span class="pull-right">
+                    <%= number_with_precision(cours.duree, precision: 2) %>
+                  </span>
+                </td>
+                <td><%= cours.formation.nom_promo %></td>
+                <td><%= cours.intervenant.nom_prenom %></td>
+                <td><%= cours.nom %></td>
+                <td>
+                  <span class="label <%= cours.style %>"><%= cours.etat.humanize %></span>
+                </td>
+                <td><%= cours.salle.nom if cours.salle %></td>
+                <td>
+                  <%= link_to edit_cour_path(cours), class: "btn btn-default" do %>
+                    <i class="glyphicon glyphicon-pencil"></i>
+                  <% end %>
+                </td>
+                <td>
+                  <%= link_to(cours, method: :delete, data:{confirm: 'Confirmez-vous ?'}, class: "btn btn-default") do %>
+                    <i class="glyphicon glyphicon-remove"></i>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+
+          <tfoot>
+            <tr>
+              <th /><th /><th />
+              <th>
+                <span class="pull-right">
+                  <%= number_with_precision(sum_duree, precision: 2) %>
+                </span>
+              </th>
+              <% 6.times do %><th /><% end %>
+            </tr>
+          </tfoot>
+        <% end %>
+      </table>
+    </div>
+    <br>
+  <% end %>
 <% end %>
 

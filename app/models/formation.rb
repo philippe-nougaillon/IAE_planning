@@ -5,7 +5,7 @@ class Formation < ActiveRecord::Base
 	validates :nom, uniqueness: true
 	
 	def nom_promo
-		self.promo.blank? ? self.nom : "#{self.nom} -- #{self.promo}" 
+		self.promo.blank? ? "#{self.nom} (#{self.nbr_etudiants}E)"  : "#{self.nom} -- #{self.promo} (#{self.nbr_etudiants}E)" 
 	end
 
 end

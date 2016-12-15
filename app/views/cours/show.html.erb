@@ -37,6 +37,10 @@
 </p>
 
 <p>
+  <strong>Etat:</strong>
+  <span class="label <%= @cour.style %>"><%= @cour.etat.humanize %></span>
+</p>
+<p>
   <strong>Salle:</strong>
   <%= @cour.salle.nom_places if @cour.salle %>
 </p>

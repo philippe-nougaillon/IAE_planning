@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'tools/index'
+
   resources :cours
   resources :salles
   resources :formations

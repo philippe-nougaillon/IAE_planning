@@ -39,11 +39,8 @@
           <li class="<%= (params[:controller]=='formations' ? 'active' : '') %>">
           	<%= link_to "Formations", formations_path %>
           </li>
-          <li class="<%= (params[:controller]=='intervenants' ? 'active' : '') %>">
-          	<%= link_to "Intervenants", intervenants_path %>
-          </li>
-          <li class="<%= (params[:controller]=='salles' ? 'active' : '') %>">
-          	<%= link_to "Salles", salles_path %>
+          <li class="<%= (params[:controller]=='tools' ? 'active' : '') %>">
+          	<%= link_to "Admin", tools_index_path %>
           </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">

@@ -151,7 +151,7 @@
 			"file": "/home/phil/Documents/IAE 201612",
 			"settings":
 			{
-				"buffer_size": 143,
+				"buffer_size": 246,
 				"line_ending": "Unix",
 				"name": "IAE 201612"
 			}
@@ -645,7 +645,7 @@
 	"groups":
 	[
 		{
-			"selected": 32,
+			"selected": 2,
 			"sheets":
 			[
 				{
@@ -707,15 +707,15 @@
 					"file": "/home/phil/Documents/IAE 201612",
 					"settings":
 					{
-						"buffer_size": 143,
+						"buffer_size": 246,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								124,
-								124
+								170,
+								170
 							]
 						],
 						"settings":
@@ -1533,7 +1533,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1096.0,
+						"translation.y": 301.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"

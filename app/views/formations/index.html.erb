@@ -1,5 +1,3 @@
-<p id="notice"><%= notice %></p>
-
 <h1>Liste des Formations</h1>
 
 <div class='container'>
@@ -59,15 +57,19 @@
           <th>Domaine</th>
           <th>Apprentissage?</th>
           <th>Etudiants</th>
-          <th colspan="2"></th>
+          <% if current_user.admin? %>
+            <th colspan="2"></th>
+          <% end %>  
         </tr>
       </thead>
 
       <tfoot>
         <tr>
           <% 5.times do %><th><% end %>
-          <th><span class="pull-right"><%= @formations.sum(:nbr_etudiants) %></span></th> 
-          <th /><th />  
+          <th><span class="pull-right"><%= @formations.sum(:nbr_etudiants) %></span></th>
+          <% if current_user.admin? %>
+            <th /><th />
+          <% end %>  
         </tr>
       </tfoot>
 
@@ -80,16 +82,18 @@
             <td><%= formation.domaine %></td>
             <td><%= "Oui" if formation.apprentissage %></td>
             <td><span class="pull-right"><%= formation.nbr_etudiants %></span></td>
-            <td>
-              <%= link_to edit_formation_path(formation), class: "btn btn-default" do %>
-                <i class="glyphicon glyphicon-pencil"></i>
-              <% end %>
-            </td>
-            <td>
-              <%= link_to(formation, method: :delete, data:{confirm: 'Confirmez-vous ?'}, class: "btn btn-default") do %>
-                <i class="glyphicon glyphicon-remove"></i>
-              <% end %>
-            </td>
+            <% if current_user.admin? %>
+              <td>
+                <%= link_to edit_formation_path(formation), class: "btn btn-default" do %>
+                  <i class="glyphicon glyphicon-pencil"></i>
+                <% end %>
+              </td>
+              <td>
+                <%= link_to(formation, method: :delete, data:{confirm: 'Confirmez-vous ?'}, class: "btn btn-default") do %>
+                  <i class="glyphicon glyphicon-remove"></i>
+                <% end %>
+              </td>
+            <% end %>
           </tr>
         <% end %>
       </tbody>

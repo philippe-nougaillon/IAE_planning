@@ -1,5 +1,20 @@
 <br>
 
+<h2>
+  <%= @cour.formation.nom_promo %>
+</h2>
+
+<h3>
+  <%= @cour.nom %>
+</h3>
+
+<p>
+  <strong>Etat:</strong>
+  <span class="label <%= @cour.style %>"><%= @cour.etat.humanize %></span>
+</p>
+
+<br>
+
 <p>
   <strong>Début:</strong>
   <%= l(@cour.debut, format: :long) %>
@@ -16,12 +31,6 @@
 </p>
 
 <p>
-  <strong>Formation:</strong>
-  <%= @cour.formation.nom_promo %>
-  (<%= @cour.formation.nbr_etudiants %> étudiants)
-</p>
-
-<p>
   <strong>Intervenant:</strong>
   <%= @cour.intervenant.nom_prenom %>
 </p>
@@ -31,15 +40,7 @@
   <%= @cour.ue %>
 </p>
 
-<p>
-  <strong>Nom:</strong>
-  <%= @cour.nom %>
-</p>
 
-<p>
-  <strong>Etat:</strong>
-  <span class="label <%= @cour.style %>"><%= @cour.etat.humanize %></span>
-</p>
 <p>
   <strong>Salle:</strong>
   <%= @cour.salle.nom_places if @cour.salle %>
@@ -47,3 +48,21 @@
 
 <%= link_to 'Modifier', edit_cour_path(@cour) %> |
 <%= link_to 'Retour', cours_path %>
+
+<% if current_user.admin? %>
+  <% if @cour.audits.any? %>
+    <br>
+    <br>
+    <h4>Historique</h4>
+    <table class="table">
+      <% @cour.audits.reverse.each do |audit| %>
+        <tr>
+          <td><%= l(audit.created_at) %></td>
+          <td><%= audit.user.email %></td>
+          <td><%= audit.action %></td>
+          <td><%= audit.audited_changes %></td>
+        </tr>  
+      <% end %>
+    </table>
+  <% end %>
+<% end %>

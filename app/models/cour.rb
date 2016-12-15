@@ -1,6 +1,9 @@
 # Encoding: utf-8
 
 class Cour < ActiveRecord::Base
+
+  audited
+
   belongs_to :formation
   belongs_to :intervenant
   belongs_to :salle
@@ -14,7 +17,7 @@ class Cour < ActiveRecord::Base
   end
 
   def self.styles
-  	 ['label-success','label-default','label-primary','label-warning']
+  	 ['label-default','label-primary','label-warning','label-success']
   end
 
   def style

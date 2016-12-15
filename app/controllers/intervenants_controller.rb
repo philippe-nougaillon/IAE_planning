@@ -7,6 +7,11 @@ class IntervenantsController < ApplicationController
   # GET /intervenants.json
   def index
     @intervenants = Intervenant.order(:nom)
+
+    unless params[:nom].blank?
+      @intervenants = @intervenants.where("nom like ?", "%#{params[:nom]}%" )
+    end
+
   end
 
   # GET /intervenants/1

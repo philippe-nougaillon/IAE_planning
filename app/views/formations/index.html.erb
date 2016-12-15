@@ -2,34 +2,98 @@
 
 <h1>Liste des Formations</h1>
 
-<div class="table-responsive">
-  <table class="table table-hover">
-    <thead>
-      <tr>
-        <th>Nom</th>
-        <th>Promotion</th>
-        <th>Diplôme</th>
-        <th>Domaine</th>
-        <th>Apprentissage?</th>
-        <th colspan="2"></th>
-      </tr>
-    </thead>
+<div class='container'>
+  <div class='row'>
 
-    <tbody>
-      <% @formations.each do |formation| %>
-        <tr>
-          <td><%= formation.nom %></td>
-          <td><%= formation.promo %></td>
-          <td><%= formation.diplome %></td>
-          <td><%= formation.domaine %></td>
-          <td><%= "Oui" if formation.apprentissage %></td>
-          <td><%= link_to 'Modif', edit_formation_path(formation) %></td>
-          <td><%= link_to '[X]', formation, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
+    <%= form_tag request.path, method: :get do %>
+
+      <div class="form-group">
+        <div class="row">
+          <div class="col-sm-3">
+            <%= label_tag "Nom" %>    
+            <%= text_field_tag :nom, params[:nom], include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
+          </div>
+
+          <div class="col-sm-2">
+            <%= label_tag "Diplôme" %>    
+            <%= select_tag :diplome, 
+                  options_for_select(Formation.select(:diplome).uniq.pluck(:diplome).sort, params[:diplome]),   include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
+          </div>
+
+          <div class="col-sm-2">
+            <%= label_tag :apprentissage, "Apprentissage ?" %>
+            <br>    
+            <%= check_box_tag :apprentissage, 1, params[:apprentissage], 
+                  onchange:'this.form.submit()', class:"form-control" %>
+          </div>
+          
+          <div class="col-sm-4">
+            <%= label_tag "Promotion" %>    
+            <div class="input-group">
+            <%= select_tag :promo, 
+                  options_for_select(Formation.select(:promo).uniq.pluck(:promo).sort, params[:promo]), 
+                    include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
+              <span class="input-group-btn">
+                <%= submit_tag 'Rechercher', class:"btn btn-primary" %>
+                <%= link_to 'Ajouter', new_formation_path, class:"btn btn-success" %>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>  
+    <% end %>
+  </div>
+  <div class='row'>
+    <br>
+  </div>
 </div>
-<br>
 
-<%= link_to 'Ajouter une Formation', new_formation_path %>
+<% if @formations.any? %>
+  <div class="table-responsive">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Diplôme</th>
+          <th>Promotion</th>
+          <th>Domaine</th>
+          <th>Apprentissage?</th>
+          <th>Etudiants</th>
+          <th colspan="2"></th>
+        </tr>
+      </thead>
+
+      <tfoot>
+        <tr>
+          <% 5.times do %><th><% end %>
+          <th><span class="pull-right"><%= @formations.sum(:nbr_etudiants) %></span></th> 
+          <th /><th />  
+        </tr>
+      </tfoot>
+
+      <tbody>
+        <% @formations.each do |formation| %>
+          <tr>
+            <td><%= formation.nom %></td>
+            <td><%= formation.diplome %></td>
+            <td><%= formation.promo %></td>
+            <td><%= formation.domaine %></td>
+            <td><%= "Oui" if formation.apprentissage %></td>
+            <td><span class="pull-right"><%= formation.nbr_etudiants %></span></td>
+            <td>
+              <%= link_to edit_formation_path(formation), class: "btn btn-default" do %>
+                <i class="glyphicon glyphicon-pencil"></i>
+              <% end %>
+            </td>
+            <td>
+              <%= link_to(formation, method: :delete, data:{confirm: 'Confirmez-vous ?'}, class: "btn btn-default") do %>
+                <i class="glyphicon glyphicon-remove"></i>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% end %>
+<br>

@@ -35,7 +35,6 @@
               </div>
           </div>
         </div>
-
         <div class="row">
           <div class="col-sm-2">
               <%= label_tag :ue, "UE" %>    
@@ -49,8 +48,8 @@
                         include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
           </div>
           <div class="col-sm-3">
-            <br>
-            <%= label_tag "Vue:" %> 
+            <%= label_tag "Vue" %>
+            <br> 
             <%= radio_button_tag :view, "list",  (params[:view]=='list'), onchange:'this.form.submit()' %>
             Liste 
             <%= radio_button_tag :view, "calendar_week", (params[:view]=='calendar_week'), onchange:'this.form.submit()' %>
@@ -87,6 +86,7 @@
   </div>
 
 <% elsif params[:view] == "calendar_week" %>
+
   <div class="row">
     <div class="col-md-12">
       <%= week_calendar events: @cours do |date, meetings| %>
@@ -98,13 +98,12 @@
           <div class="meeting">
             <b><%= l(meeting.debut, format: :heures_min) %></b>
             <%= link_to meeting.formation.nom, meeting %> / 
-            <%= link_to meeting.intervenant.nom_prenom, meeting %>
+            <%= link_to meeting.intervenant.nom_prenom, url_for(params.merge(intervenant_id:meeting.intervenant_id)) %>
           </div>
         <% end %>
       <% end %>
     </div>
   </div>
-
 
 <% elsif params[:view] == "list" %>
   <div class="table-responsive">
@@ -117,7 +116,7 @@
           <th>Durée</th>
           <th>Formation</th>
           <th>Intervenant</th>
-          <th>Intitulé</th>
+          <th>Intitulé cours</th>
           <th>Salle</th>
           <th colspan="2"></th>
         </tr>
@@ -131,14 +130,18 @@
             <% sum_duree += cours.duree %>
             <tr>
               <td>
-                <% if cours.debut.to_date != current_date   %>
-                  <b><%= l(cours.debut.to_date) %></b> 
-                  <% current_date = cours.debut.to_date %>
-                <% end %>  
+                  <% if cours.debut.to_date != current_date   %>
+                    <b><%= l(cours.debut.to_date) %></b> 
+                    <% current_date = cours.debut.to_date %>
+                  <% end %>  
               </td>
               <td><%= l(cours.debut, format: :heures_min) %></td>
               <td><%= l(cours.fin, format: :heures_min) %></td>
-              <td><%= number_with_precision(cours.duree, precision: 2) %></td>
+              <td>
+                <span class="pull-right">
+                  <%= number_with_precision(cours.duree, precision: 2) %>
+                </span>
+              </td>
               <td><%= cours.formation.nom_promo %></td>
               <td><%= cours.intervenant.nom_prenom %></td>
               <td><%= cours.nom %></td>
@@ -159,8 +162,12 @@
 
         <tfoot>
           <tr>
-            <th /><th /><th /><th />
-            <%= number_with_precision(sum_duree, precision: 2) %>
+            <th /><th /><th />
+            <th>
+              <span class="pull-right">
+                <%= number_with_precision(sum_duree, precision: 2) %>
+              </span>
+            </th>
             <% 6.times do %><th /><% end %>
           </tr>
         </tfoot>

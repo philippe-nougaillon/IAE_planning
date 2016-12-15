@@ -7,6 +7,22 @@ class FormationsController < ApplicationController
   # GET /formations.json
   def index
     @formations = Formation.all
+
+    unless params[:nom].blank?
+      @formations = @formations.where("nom like ?", "%#{params[:nom]}%" )
+    end
+
+    unless params[:diplome].blank?
+      @formations = @formations.where(diplome:params[:diplome])
+    end
+
+    unless params[:apprentissage].blank?
+      @formations = @formations.where(apprentissage:true)
+    end
+
+    unless params[:promo].blank?
+      @formations = @formations.where(promo:params[:promo])
+    end
   end
 
   # GET /formations/1
@@ -71,6 +87,6 @@ class FormationsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def formation_params
-      params.require(:formation).permit(:nom, :promo, :diplome, :domaine, :apprentissage, :memo)
+      params.require(:formation).permit(:nom, :promo, :diplome, :domaine, :apprentissage, :memo, :nbr_etudiants)
     end
 end

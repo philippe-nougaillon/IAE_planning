@@ -8,5 +8,10 @@
   <%= @intervenant.prenom %>
 </p>
 
+<p>
+  <strong>Email:</strong>
+  <%= @intervenant.email %>
+</p>
+
 <%= link_to 'Modification', edit_intervenant_path(@intervenant) %> |
 <%= link_to 'Retour', intervenants_path %>

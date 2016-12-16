@@ -7,6 +7,20 @@ class SallesController < ApplicationController
   # GET /salles.json
   def index
     @salles = Salle.order(:nom)
+
+    unless params[:nom].blank?
+      @salles = @salles.where(nom:params[:nom])
+    end
+
+    unless params[:date].blank?
+      @date = params[:date].to_date
+      @salles = @salles.joins(:cours).where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 1.day)
+    end
+
+    unless params[:libre].blank? 
+      @salles = Salle.all - @salles.joins(:cours).where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 1.day)
+    end
+
   end
 
   # GET /salles/1

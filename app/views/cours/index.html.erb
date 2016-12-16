@@ -1,19 +1,8 @@
-<h1>Liste des Cours</h1>
-<div class='container'>
+<h1>Liste des cours</h1>
+<div class='container-fluid'>
   <div class='row'>
     <%= form_tag request.path, method: :get do %>
       <div class="form-group">
-
-<!--           <div class="col-sm-2">
-              <%= label_tag "Période du" %>    
-              <%= text_field_tag :date_debut, params[:date_debut], type:'date', class:"form-control" %>
-          </div>
-          
-          <div class="col-sm-2">
-              <%= label_tag "au" %>    
-              <%= text_field_tag :date_fin, params[:date_fin], type:'date', onchange:'this.form.submit()', class:"form-control" %>
-          </div>
- -->
         <div class="row">
           <div class="col-sm-6">
               <%= label_tag "Formation" %>    
@@ -28,13 +17,21 @@
                       include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
                 <span class="input-group-btn">
                     <%= submit_tag 'Rechercher', class:"btn btn-primary" %>
-                    <%= link_to 'Ajouter', new_cour_path, class:"btn btn-success" %>
+                    <% if current_user.try(:admin?) %>
+                      <%= link_to 'Ajouter', new_cour_path, class:"btn btn-success" %>
+                    <% end %>
                 </span>
               </div>
           </div>
         </div>
         <br>
+    
         <div class="row">
+          <div class="col-sm-2">
+            <%= label_tag "Date" %>    
+            <%= text_field_tag :date, params[:date], type:'date', class:"form-control" %>
+          </div>
+
           <div class="col-sm-2">
               <%= label_tag :ue, "UE" %>    
               <%= select_tag :ue, options_for_select(['UE1','UE2','UE3','UE4','UE5','UE6','UE7'], params[:ue]), 
@@ -120,12 +117,12 @@
             <th>Début</th>
             <th>Fin</th>
             <th>Durée</th>
+            <th>Salle</th>
             <th>Formation</th>
             <th>Intervenant</th>
             <th>Intitulé cours</th>
             <th>Etat</th>
-            <th>Salle</th>
-            <% if current_user.admin? %>
+            <% if current_user.try(:admin?) %>
               <th colspan="2"></th>
             <% end %>
           </tr>
@@ -148,18 +145,18 @@
                 <td><%= l(cours.fin, format: :heures_min) %></td>
                 <td>
                   <span class="pull-right">
-                    <%= number_with_precision(cours.duree, precision: 2) %>
+                    <%= number_with_precision(cours.duree, precision: 1) %>h
                   </span>
                 </td>
-                <td><%= cours.formation.nom_promo %></td>
+                <td><%= cours.salle.nom if cours.salle %></td>
+                <td><%= link_to cours.formation.nom_promo, cours.formation %></td>
                 <td><%= cours.intervenant.nom_prenom %></td>
-                <td><%= link_to cours.nom, cours %></td>
+                <td><b><%= link_to cours.nom, cours %><b></td>
                 <td>
                   <span class="label <%= cours.style %>"><%= cours.etat.humanize %></span>
                 </td>
-                <td><%= cours.salle.nom if cours.salle %></td>
 
-                <% if current_user.admin? %>
+                <% if current_user.try(:admin?) %>
                   <td>
                     <%= link_to edit_cour_path(cours), class: "btn btn-default" do %>
                       <i class="glyphicon glyphicon-pencil"></i>
@@ -180,11 +177,11 @@
               <th /><th /><th />
               <th>
                 <span class="pull-right">
-                  <%= number_with_precision(sum_duree, precision: 2) %>
+                  <%= number_with_precision(sum_duree, precision: 1) %>h
                 </span>
               </th>
               <% 5.times do %><th /><% end %>
-              <% if current_user.admin? %>
+              <% if current_user.try(:admin?) %>
                 <th colspan="2"></th>
               <% end %>
             </tr>

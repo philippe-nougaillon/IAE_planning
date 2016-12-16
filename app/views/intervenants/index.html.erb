@@ -1,5 +1,6 @@
-<h1>Liste des Intervenants</h1>
-<div class='container'>
+<h1>Liste des intervenants</h1>
+
+<div class='container-fluid'>
   <div class='row'>
 
     <%= form_tag request.path, method: :get do %>
@@ -12,7 +13,7 @@
             <%= text_field_tag :nom, params[:nom], include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
               <span class="input-group-btn">
                 <%= submit_tag 'Rechercher', class:"btn btn-primary" %>
-                <%= link_to 'Ajouter', new_formation_path, class:"btn btn-success" %>
+                <%= link_to 'Ajouter', new_intervenant_path, class:"btn btn-success" %>
               </span>
             </div>
           </div>
@@ -31,16 +32,23 @@
       <tr>
         <th>Nom</th>
         <th>Prénom</th>
+        <th>Email</th>
         <th>Cours</th>
         <th colspan="2"></th>
       </tr>
     </thead>
+    <tfoot>
+      <tr>
+        <% 5.times do %><th /><% end %>
+      </tr>
+    </tfoot>
 
     <tbody>
       <% @intervenants.each do |intervenant| %>
         <tr>
           <td><%= intervenant.nom %></td>
           <td><%= intervenant.prenom %></td>
+          <td><%= intervenant.email %></td>
           <td><%= link_to intervenant.cours.count, cours_path(intervenant_id:intervenant) %></td>
           <td>
             <%= link_to edit_intervenant_path(intervenant), class: "btn btn-default" do %>

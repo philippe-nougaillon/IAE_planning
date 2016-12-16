@@ -1,18 +1,18 @@
 <br>
 
 <h2>
-  <%= @cour.formation.nom_promo %>
+  <%= @cour.formation.nom_promo_etudiants %>
 </h2>
 
 <h3>
   <%= @cour.nom %>
 </h3>
+<br>
 
 <p>
   <strong>Etat:</strong>
   <span class="label <%= @cour.style %>"><%= @cour.etat.humanize %></span>
 </p>
-
 <br>
 
 <p>
@@ -46,8 +46,10 @@
   <%= @cour.salle.nom_places if @cour.salle %>
 </p>
 
-<%= link_to 'Modifier', edit_cour_path(@cour) %> |
-<%= link_to 'Retour', cours_path %>
+<% if current_user.admin? %>
+  <%= link_to 'Modifier', edit_cour_path(@cour) %> |
+  <%= link_to 'Retour', cours_path %>
+<% end %>
 
 <% if current_user.admin? %>
   <% if @cour.audits.any? %>

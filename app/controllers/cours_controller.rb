@@ -2,7 +2,7 @@
 
 class CoursController < ApplicationController
   before_action :set_cour, only: [:show, :edit, :update, :destroy]
-
+  
   # GET /cours
   # GET /cours.json
   def index
@@ -13,9 +13,14 @@ class CoursController < ApplicationController
     # end
 
     unless params[:date].blank?
-        @date = params[:date].to_date
-        @cours = @cours.where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 1.day)
+      @date = params[:date].to_date
+      @cours = @cours.where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 1.day)
     end
+
+    # unless params[:start_date].blank?
+    #   @date = params[:start_date].to_date
+    #   @cours = @cours.where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 1.month)
+    # end
 
     unless params[:formation_id].blank?
       @cours = @cours.where(formation_id:params[:formation_id])
@@ -38,7 +43,6 @@ class CoursController < ApplicationController
     end
 
     params[:view] ||= "list"
-
   end
 
   # GET /cours/1
@@ -49,9 +53,9 @@ class CoursController < ApplicationController
   # GET /cours/new
   def new
     @cour = Cour.new
-    @cour.debut = params[:debut]
-    @cour.fin = params[:fin]  
     @cour.formation_id = params[:formation_id]
+    @cour.debut = params[:fin] 
+    @cour.fin = params[:fin]  
     @cour.intervenant_id = params[:intervenant_id]
     @cour.ue = params[:ue]
   end

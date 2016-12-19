@@ -12,21 +12,42 @@
   <% end %>
 
   <div class="form-group">
+    <div class="row">
+      <div class="col-sm-5">
+        <%= f.text_field :nom %>
+        <%= f.text_field :promo %>
+        <%= f.text_field :diplome, label:"Diplôme" %>
+        <%= f.text_field :domaine %>
+        <%= f.check_box :apprentissage, label:"Apprentissage ?" %>
+        <%= f.number_field :nbr_etudiants, label:"Nombre d'étudiants" %>
+        <%= f.text_area :memo, label:"Mémo" %>
+        <br>
+        <%= f.submit %>
 
-    <div class="col-sm-7">
-      <%= f.text_field :nom %>
-      <%= f.text_field :promo %>
-      <%= f.text_field :diplome, label:"Diplôme" %>
-      <%= f.text_field :domaine %>
-      <%= f.check_box :apprentissage, label:"Apprentissage ?" %>
-      <%= f.number_field :nbr_etudiants, label:"Nombre d'étudiants" %>
-      <%= f.text_area :memo, label:"Mémo" %>
-      <br>
+        <%= link_to '| Retour', formations_path %>
+      </div>
 
-      <%= f.submit %>
+      <div class="col-sm-1">
+      </div>
 
-      <%= link_to '| Retour', formations_path %>
+      <div class="col-sm-6">
+        <h4>UE</h4>
+        <ul>
+          <%= f.fields_for :unites do |ue| %>
+            <div class="row">
+              <li>
+                <div class="col-sm-2">
+                  <%= ue.text_field :num, label:"N°" %>
+                </div>  
+                <div class="col-sm-10">
+                  <%= ue.text_field :nom %>
+                  <%= ue.check_box :_destroy, label:"Supprimer ?" %>
+                </div>
+              </li> 
+            </div>
+          <% end %>
+        </ul>
+      </div>
     </div>
   </div>
-
 <% end %>

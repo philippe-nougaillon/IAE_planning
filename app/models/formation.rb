@@ -1,8 +1,14 @@
 class Formation < ActiveRecord::Base
+	
+	has_many :cours, dependent: :destroy
+	
+	has_many :unites
+	accepts_nested_attributes_for :unites, allow_destroy: true, reject_if: lambda {|attributes| attributes['num'].blank?}
 
-	default_scope { order(:nom, :promo) } 
 	validates :nom, presence: true
-	validates :nom, uniqueness: true
+	validates :nom, uniqueness: {scope: :promo}
+	
+	default_scope { order(:nom, :promo) } 
 	
 	def nom_promo
 		self.promo.blank? ? self.nom : "#{self.nom} - #{self.promo}" 

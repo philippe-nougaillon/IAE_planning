@@ -1,3 +1,5 @@
+# ENCODING: UTF-8
+
 class Intervenant < ActiveRecord::Base
 
 	has_many :cours
@@ -8,6 +10,14 @@ class Intervenant < ActiveRecord::Base
 	
 	def nom_prenom
 		self.prenom.blank? ? self.nom : "#{self.nom} #{self.prenom}" 
+	end
+
+	def total_cours
+		sum = 0.0
+		self.cours.where(etat:Cour.etats[:plannifié]).each do | c |
+			sum += c.duree
+		end
+		return sum
 	end
 
 end

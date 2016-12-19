@@ -12,9 +12,9 @@ class Cour < ActiveRecord::Base
 
   enum etat: [:nouveau, :plannifié, :a_placer, :placé]
 
-  before_validation(on: :create) do
-      self.user = RequestStore.store[:current_user]
-  end
+  # before_validation(on: :create) do
+  #     self.user = RequestStore.store[:current_user]
+  # end
 
   def self.styles
   	 ['label-default','label-primary','label-warning','label-success']
@@ -28,8 +28,28 @@ class Cour < ActiveRecord::Base
   	((self.fin - self.debut) / 60) / 60
   end
 
- def start_time
-    self.debut 
- end
+  # Simple_calendar attributes
+  def start_time
+    self.debut.to_datetime 
+  end
+  def end_time
+   self.fin.to_datetime
+  end
+
+  def nom_ou_ue
+    begin
+      if self.nom.blank?
+        if ue = self.formation.unites.find_by(num:self.ue) 
+          "#{self.ue}:#{ue.nom}"
+        else
+          "UE pas trouvée => #{self.ue}"
+        end
+      else
+        self.nom
+      end
+    rescue Exception => e 
+      "erreur => #{e}"
+    end
+  end
 
 end

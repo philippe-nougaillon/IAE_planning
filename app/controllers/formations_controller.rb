@@ -3,6 +3,11 @@
 class FormationsController < ApplicationController
   before_action :set_formation, only: [:show, :edit, :update, :destroy]
 
+  # check if logged and admin  
+  before_filter except: :show do 
+    redirect_to new_user_session_path unless current_user && current_user.admin?
+  end
+
   # GET /formations
   # GET /formations.json
   def index
@@ -23,6 +28,9 @@ class FormationsController < ApplicationController
     unless params[:promo].blank?
       @formations = @formations.where(promo:params[:promo])
     end
+
+    @formations = @formations.order(:nom, :promo)
+
   end
 
   # GET /formations/1
@@ -33,10 +41,12 @@ class FormationsController < ApplicationController
   # GET /formations/new
   def new
     @formation = Formation.new
+    2.times { @formation.unites.build}
   end
 
   # GET /formations/1/edit
   def edit
+    2.times { @formation.unites.build}
   end
 
   # POST /formations
@@ -87,6 +97,7 @@ class FormationsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def formation_params
-      params.require(:formation).permit(:nom, :promo, :diplome, :domaine, :apprentissage, :memo, :nbr_etudiants)
+      params.require(:formation).permit(:nom, :promo, :diplome, :domaine, :apprentissage, :memo, :nbr_etudiants,
+                                          unites_attributes: [:id, :num, :nom, :_destroy])
     end
 end

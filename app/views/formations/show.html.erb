@@ -1,6 +1,7 @@
 <h2>
   <%= @formation.nom %>
 </h2>
+<br>
 
 <p>
   <strong>Promo:</strong>
@@ -19,7 +20,7 @@
 
 <p>
   <strong>Apprentissage:</strong>
-  <%= @formation.apprentissage %>
+  <%= @formation.apprentissage ? "Oui" : "Non" %>
 </p>
 
 <p>
@@ -32,5 +33,19 @@
   <%= @formation.memo %>
 </p>
 
-<%= link_to 'Modification', edit_formation_path(@formation) %> |
-<%= link_to 'Retour', formations_path %>
+<h3>Les Unités d'Enseignement:</h3>
+<p>
+  <ul>
+  <% @formation.unites.each do | unite | %>
+    <li>
+      <%= unite.num %> : <%= unite.nom %>
+    </li>
+  <% end %> 
+  </ul>
+</p>
+<br>
+
+<% if current_user.admin? %>
+  <%= link_to 'Modification', edit_formation_path(@formation) %> |
+  <%= link_to 'Retour', formations_path %>
+<% end %>

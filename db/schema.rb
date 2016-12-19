@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161216134200) do
+ActiveRecord::Schema.define(version: 20161219095432) do
 
   create_table "audits", force: :cascade do |t|
     t.integer  "auditable_id"
@@ -79,6 +79,16 @@ ActiveRecord::Schema.define(version: 20161216134200) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "unites", force: :cascade do |t|
+    t.integer  "formation_id"
+    t.string   "nom"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.string   "num"
+  end
+
+  add_index "unites", ["formation_id"], name: "index_unites_on_formation_id"
 
 # Could not dump table "users" because of following NoMethodError
 #   undefined method `[]' for nil:NilClass

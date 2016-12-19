@@ -60,7 +60,7 @@
       <% @cour.audits.reverse.each do |audit| %>
         <tr>
           <td><%= l(audit.created_at) %></td>
-          <td><%= audit.user.email %></td>
+          <td><%= audit.user.email if audit.user %></td>
           <td><%= audit.action %></td>
           <td><%= audit.audited_changes %></td>
         </tr>  

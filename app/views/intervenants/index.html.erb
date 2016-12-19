@@ -12,8 +12,8 @@
             <div class="input-group">
             <%= text_field_tag :nom, params[:nom], include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
               <span class="input-group-btn">
-                <%= submit_tag 'Rechercher', class:"btn btn-primary" %>
-                <%= link_to 'Ajouter', new_intervenant_path, class:"btn btn-success" %>
+                <%= submit_tag 'Rechercher', class:"btn btn-success" %>
+                <%= link_to 'Ajouter', new_intervenant_path, class:"btn btn-primary" %>
               </span>
             </div>
           </div>
@@ -26,40 +26,46 @@
   </div>
 </div>
 
-<div class="table-responsive">
-  <table class="table table-hover">
-    <thead>
-      <tr>
-        <th>Nom</th>
-        <th>Prénom</th>
-        <th>Email</th>
-        <th>Cours</th>
-        <th colspan="2"></th>
-      </tr>
-    </thead>
-    <tfoot>
-      <tr>
-        <% 5.times do %><th /><% end %>
-      </tr>
-    </tfoot>
-
-    <tbody>
-      <% @intervenants.each do |intervenant| %>
+<% if @intervenants.any? %>
+  <div class="table-responsive">
+    <table class="table table-hover table-striped">
+      <thead>
         <tr>
-          <td><%= intervenant.nom %></td>
-          <td><%= intervenant.prenom %></td>
-          <td><%= intervenant.email %></td>
-          <td><%= link_to intervenant.cours.count, cours_path(intervenant_id:intervenant) %></td>
-          <td>
-            <%= link_to edit_intervenant_path(intervenant), class: "btn btn-default" do %>
-              <i class="glyphicon glyphicon-pencil"></i>
-            <% end %>
-            <%= link_to(intervenant, method: :delete, data:{confirm: 'Confirmez-vous ?'}, class: "btn btn-default") do %>
-              <i class="glyphicon glyphicon-remove"></i>
-            <% end %>
-          </td>
+          <th>Nom</th>
+          <th>Prénom</th>
+          <th>Email</th>
+          <th>Plannifiés</th>
+          <th colspan="2"></th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
-</div>
+      </thead>
+      <tfoot>
+        <tr>
+          <% 5.times do %><th /><% end %>
+        </tr>
+      </tfoot>
+
+      <tbody>
+        <% @intervenants.includes(:cours).each do |intervenant| %>
+          <tr>
+            <td><b><%= intervenant.nom %></b></td>
+            <td><%= intervenant.prenom %></td>
+            <td><%= intervenant.email %></td>
+            <td>
+              <%= link_to "#{intervenant.total_cours}h", cours_path(intervenant_id:intervenant) %>
+            </td>
+            <td>
+              <%= link_to edit_intervenant_path(intervenant), class: "btn btn-default" do %>
+                <i class="glyphicon glyphicon-pencil"></i>
+              <% end %>
+              <% unless intervenant.cours.any? %> 
+                <%= link_to(intervenant, method: :delete, data:{confirm: 'Confirmez-vous ?'}, class: "btn btn-default") do %>
+                  <i class="glyphicon glyphicon-remove"></i>
+                <% end %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% end %>

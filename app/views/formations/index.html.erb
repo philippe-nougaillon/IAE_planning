@@ -32,8 +32,8 @@
                   options_for_select(Formation.select(:promo).uniq.pluck(:promo).sort, params[:promo]), 
                     include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
               <span class="input-group-btn">
-                <%= submit_tag 'Rechercher', class:"btn btn-primary" %>
-                <%= link_to 'Ajouter', new_formation_path, class:"btn btn-success" %>
+                <%= submit_tag 'Rechercher', class:"btn btn-success" %>
+                <%= link_to 'Ajouter', new_formation_path, class:"btn btn-primary" %>
               </span>
             </div>
           </div>
@@ -48,14 +48,15 @@
 
 <% if @formations.any? %>
   <div class="table-responsive">
-    <table class="table table-hover">
+    <table class="table table-hover table-striped">
       <thead>
         <tr>
           <th>Nom</th>
           <th>Diplôme</th>
           <th>Promotion</th>
           <th>Domaine</th>
-          <th>Apprentissage?</th>
+          <th>Apprentissage ?</th>
+          <th>UE</th>
           <th>Etudiants</th>
           <% if current_user.admin? %>
             <th colspan="2"></th>
@@ -65,7 +66,7 @@
 
       <tfoot>
         <tr>
-          <% 5.times do %><th><% end %>
+          <% 6.times do %><th><% end %>
           <th><span class="pull-right"><%= @formations.sum(:nbr_etudiants) %></span></th>
           <% if current_user.admin? %>
             <th /><th />
@@ -76,11 +77,12 @@
       <tbody>
         <% @formations.each do |formation| %>
           <tr>
-            <td><%= formation.nom %></td>
+            <td><b><%= formation.nom %></b></td>
             <td><%= formation.diplome %></td>
             <td><%= formation.promo %></td>
             <td><%= formation.domaine %></td>
             <td><%= "Oui" if formation.apprentissage %></td>
+            <td><span class="pull-right"><%= formation.unites.count %></span></td>
             <td><span class="pull-right"><%= formation.nbr_etudiants %></span></td>
             <% if current_user.admin? %>
               <td>

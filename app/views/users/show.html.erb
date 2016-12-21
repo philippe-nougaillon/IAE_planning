@@ -1,0 +1,19 @@
+<div class="page-header">
+  <% if current_user.try(:admin?) %>	
+	  <%= link_to users_path, class: 'btn btn-default' do %>
+	    <span class="glyphicon glyphicon-list-alt"></span>
+	    Retour
+	  <% end %>
+	  <%= link_to edit_user_path(@user), class: 'btn btn-primary' do %>
+	    <span class="glyphicon glyphicon-pencil"></span>
+	    Modifier
+	  <% end %>
+  <% end %>	  
+  <h1><%= @user.email %></h1>
+</div>
+
+<dl class="dl-horizontal">
+</dl>
+
+Administrateur: 
+<%= @user.admin? ? "Oui" : 'Non' %>

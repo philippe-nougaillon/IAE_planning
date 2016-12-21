@@ -1,8 +1,19 @@
-<br>
-
-<h2>
-  <%= @cour.formation.nom_promo_etudiants %>
-</h2>
+<div class="page-header">
+  <% if current_user.admin? %>
+    <%= link_to cours_path, class: 'btn btn-default' do %>
+      <span class="glyphicon glyphicon-list-alt"></span>
+      Retour
+    <% end %>
+    <%= link_to edit_cour_path(@cour), class: 'btn btn-primary' do %>
+      <span class="glyphicon glyphicon-pencil"></span>
+      Modifier
+    <% end %>
+  <% end %>
+  
+  <h2>
+    <%= @cour.formation.nom_promo_etudiants %>
+  </h2>
+</div>
 
 <h3>
   <%= @cour.nom %>
@@ -47,15 +58,8 @@
 </p>
 
 <% if current_user.admin? %>
-  <%= link_to 'Modifier', edit_cour_path(@cour) %> |
-  <%= link_to 'Retour', cours_path %>
-<% end %>
-
-<% if current_user.admin? %>
   <% if @cour.audits.any? %>
-    <br>
-    <br>
-    <h4>Historique</h4>
+    <h3>Historique des modifications</h3>
     <table class="table">
       <% @cour.audits.reverse.each do |audit| %>
         <tr>

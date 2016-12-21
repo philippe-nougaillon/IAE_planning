@@ -4,9 +4,10 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <meta name="description" content="">
   <meta name="author" content="">
-  <title>Planning IAE</title>
+  <title>IAE-Paris</title>
 
   <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!--[if lt IE 9]>
@@ -45,31 +46,36 @@
                   <li><%= link_to "Formations", formations_path %></li>
                   <li><%= link_to "Intervenants", intervenants_path %></li>
                   <li><%= link_to "Salles", salles_path %></li>
+                  <li><%= link_to "Utilisateurs", users_path %></li>
                 </ul>
               </li>
             <% end %>
           <% end %>
         </ul>
-
-        <ul class="nav navbar-nav navbar-right">
-          <% if user_signed_in? %>
-            <%= link_to edit_user_registration_path, :class => 'navbar-link' do %>
-              <span class="glyphicon glyphicon-user"></span> 
-              <%= current_user.email %>
-              <% if current_user.admin? %>
-                (Admin)
+          <div style="margin-right:50px"> 
+            <ul class="nav navbar-nav navbar-right">
+              <% unless user_signed_in? %>
+                <li><a href="/users/sign_in"><span class="glyphicon glyphicon-log-in"></span> Connexion</a></li>
+              <% else %>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="glyphicon glyphicon-user"></i>
+                     <%= current_user.email %><b class="caret"></b>
+                  </a>
+                  <ul class="dropdown-menu">
+                    <% if current_user.try(:admin?) %>
+                      <li><%= link_to "Informations utilisateur", user_path(current_user) %></li>
+                    <% end %>
+                    <li class="divider"></li>
+                    <li>
+                      <%= link_to "Déconnexion",  "/users/sign_out", method: :delete %>
+                    </li>
+                  </ul>
+                </li>
               <% end %>
-            <% end %>
-            | 
-            <%= link_to destroy_user_session_path, method: :delete, :class => 'navbar-link' do %>
-              <span class="glyphicon glyphicon-log-in"></span> 
-              Déconnexion
-            <% end %>
-          <% else %>
-            <%= link_to "Inscription", new_user_registration_path, :class => 'navbar-link'  %> |
-            <%= link_to "Connexion", new_user_session_path, :class => 'navbar-link'  %>
-          <% end %>
-       </ul>
+            </ul>
+          </div>
+
       </div>
     </div>
   </nav>

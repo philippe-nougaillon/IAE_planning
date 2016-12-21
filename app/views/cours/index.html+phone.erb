@@ -1,0 +1,66 @@
+<div class="container-fluid">
+    <%= form_tag request.path, method: :get do %>
+      <div class="form-group">
+        <div class="row">
+          <div class="col-sm-6">
+              <%= label_tag "Formation" %>    
+              <%= select_tag :formation_id, 
+                    options_from_collection_for_select(Formation.all, :id, :nom_promo, params[:formation_id]), include_blank:true, onchange:'this.form.submit()', class:"form-control", 
+                        disabled:(current_user.formation) %>
+          </div>
+          <div class="col-sm-5">
+              <%= label_tag "Intervenant" %>    
+              <div class="input-group">
+                <% if current_user.try(:admin?) %>
+                  <%= select_tag :intervenant_id, 
+                    options_from_collection_for_select(Intervenant.all, :id, :nom_prenom, params[:intervenant_id]), 
+                      include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
+                <% else %>
+                  <%= select_tag :intervenant_id, 
+                    options_from_collection_for_select(current_user.formation.intervenants.uniq, :id, :nom_prenom, params[:intervenant_id]), 
+                      include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
+                <% end %>
+
+                <span class="input-group-btn">
+                    <%= submit_tag 'Chercher', class:"btn btn-success" %>
+                    <% if current_user.try(:admin?) %>
+                      <%= link_to new_cour_path, class: 'btn btn-primary' do %>
+                        <span class="glyphicon glyphicon-plus"></span>
+                        Cours
+                      <% end %>
+                    <% end %>
+                </span>
+              </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  
+    <% if params[:view] == "list" %>
+      <% current_date = "" %>
+      <% @cours.where("debut >= ?", Date.today)
+               .where(etat:[Cour.etats[:plannifié],Cour.etats[:reporté],Cour.etats[:annulé]])
+               .each do |cours| %>
+         <div class="row">
+            <div class="col-xs-3">
+              <% if cours.debut.to_date != current_date   %>
+                <b><%= l(cours.debut.to_date, format: :short) %></b> 
+                <% current_date = cours.debut.to_date %>
+                <br>  
+              <% end %>
+            </div>
+            <div class="col-xs-3">
+              <%= l(cours.debut, format: :heures_min) %>-<%= l(cours.fin, format: :heures_min) %>
+              <% unless cours.plannifié? %>
+                <span class="label <%= cours.style %>"><%= cours.etat.humanize %></span>
+              <% else %>
+                <b><%= cours.salle.nom if cours.salle %></b>
+              <% end %>
+            </div>
+            <div class="col-xs-6">
+              <%= link_to cours.nom_ou_ue, cours %>
+            </div>
+          </div>  
+      <% end %>
+    <% end %>
+</div>

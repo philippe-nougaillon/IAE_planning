@@ -22,6 +22,10 @@ class CoursController < ApplicationController
     #   @cours = @cours.where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 1.month)
     # end
 
+    if current_user.formation 
+      params[:formation_id] = current_user.formation_id
+    end
+
     unless params[:formation_id].blank?
       @cours = @cours.where(formation_id:params[:formation_id])
     end
@@ -43,6 +47,7 @@ class CoursController < ApplicationController
     end
 
     params[:view] ||= "list"
+
   end
 
   # GET /cours/1

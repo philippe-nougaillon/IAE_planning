@@ -1,13 +1,16 @@
-<h1>Liste des cours</h1>
+<div class="page-header">
+  <h1>Liste des cours</h1>
+</div>
+
 <div class='container-fluid'>
-  <div class='row'>
     <%= form_tag request.path, method: :get do %>
       <div class="form-group">
         <div class="row">
           <div class="col-sm-6">
               <%= label_tag "Formation" %>    
               <%= select_tag :formation_id, 
-                    options_from_collection_for_select(Formation.all, :id, :nom_promo, params[:formation_id]), include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
+                    options_from_collection_for_select(Formation.all, :id, :nom_promo, params[:formation_id]), include_blank:true, onchange:'this.form.submit()', class:"form-control", 
+                        disabled:(current_user.formation) %>
           </div>
           <div class="col-sm-5">
               <%= label_tag "Intervenant" %>    
@@ -18,13 +21,15 @@
                 <span class="input-group-btn">
                     <%= submit_tag 'Rechercher', class:"btn btn-success" %>
                     <% if current_user.try(:admin?) %>
-                      <%= link_to 'Ajouter', new_cour_path(formation_id:params[:formation_id]), class:"btn btn-primary" %>
+                      <%= link_to new_cour_path, class: 'btn btn-primary' do %>
+                        <span class="glyphicon glyphicon-plus"></span>
+                        Cours
+                      <% end %>
                     <% end %>
                 </span>
               </div>
           </div>
         </div>
-        <br>
     
         <div class="row">
           <div class="col-sm-2">
@@ -43,11 +48,14 @@
                       options_from_collection_for_select(Salle.order(:nom), :id, :nom, params[:salle_id]), 
                         include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
           </div>
-          <div class="col-sm-2">
-            <%= label_tag :etat, "Etat" %>
-            <%= select_tag :etat, options_for_select(Cour.etats, params[:etat]), include_blank:true,
-                    class:"form-control", onchange:'this.form.submit()' %>
-          </div>
+
+          <% if current_user.try(:admin?) %>
+            <div class="col-sm-2">
+              <%= label_tag :etat, "Etat" %>
+              <%= select_tag :etat, options_for_select(Cour.etats, params[:etat]), include_blank:true,
+                      class:"form-control", onchange:'this.form.submit()' %>
+            </div>
+          <% end %>
 
           <div class="col-sm-3">
             <%= label_tag "Vue" %>
@@ -62,10 +70,6 @@
         </div>
       </div>  
     <% end %>
-  </div>
-  <div class='row'>
-    <br>
-  </div>
 </div>
 
 <% if params[:view] == "calendar_month" %>
@@ -150,7 +154,7 @@
                 </td>
                 <td><%= link_to cours.formation.nom_promo, cours.formation %></td>
                 <td><%= cours.intervenant.nom_prenom %></td>
-                <td><b><%= link_to cours.nom_ou_ue, cours %><b></td>
+                <td><b><%= link_to cours.nom_ou_ue, cours %></b></td>
                 <td>
                   <span class="label <%= cours.style %>"><%= cours.etat.humanize %></span>
                 </td>

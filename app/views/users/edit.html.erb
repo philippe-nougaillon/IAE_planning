@@ -1,14 +1,13 @@
 <div class="page-header">
-  <%= link_to salles_path, class: 'btn btn-default' do %>
+  <%= link_to users_path, class: 'btn btn-default' do %>
     <span class="glyphicon glyphicon-list-alt"></span>
     Retour
   <% end %>
-  <%= link_to @salle, class: 'btn btn-primary' do %>
+  <%= link_to @user, class: 'btn btn-primary' do %>
     <span class="glyphicon glyphicon-info-sign"></span>
     Voir
   <% end %>
-  <h1>Modification Salle</h1>
+  <h1>Modification utilisateur</h1>
 </div>
 
 <%= render 'form' %>
-

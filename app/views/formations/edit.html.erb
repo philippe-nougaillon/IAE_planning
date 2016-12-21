@@ -1,3 +1,13 @@
-<h1>Modification Formation</h1>
+<div class="page-header">
+  <%= link_to formations_path, class: 'btn btn-default' do %>
+    <span class="glyphicon glyphicon-list-alt"></span>
+    Retour
+  <% end %>
+  <%= link_to @formation, class: 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-info-sign"></span>
+    Voir
+  <% end %>
+  <h1>Modification Formation</h1>
+</div>
 
 <%= render 'form' %>

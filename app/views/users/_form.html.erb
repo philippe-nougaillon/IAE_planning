@@ -1,0 +1,27 @@
+<%= bootstrap_form_for(@user) do |f| %>
+  <% if @user.errors.any? %>
+    <div class="alert alert-danger alert-dismissable" role="alert">
+      <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+      <h4><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h4>
+
+      <ul>
+      <% @user.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <div class="row">
+      <div class="col-sm-5">
+        <%= f.text_field :email %>
+        <%= f.check_box :admin, label:"Administrateur ?" %>
+        <br>
+        
+        <%= f.submit class: "btn btn-primary" %>
+      </div>
+
+    </div>
+  </div>
+<% end %>

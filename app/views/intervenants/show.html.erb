@@ -1,3 +1,20 @@
+<div class="page-header">
+  <% if current_user.admin? %>
+    <%= link_to intervenants_path, class: 'btn btn-default' do %>
+      <span class="glyphicon glyphicon-list-alt"></span>
+      Retour
+    <% end %>
+    <%= link_to edit_intervenant_path(@intervenant), class: 'btn btn-primary' do %>
+      <span class="glyphicon glyphicon-pencil"></span>
+      Modifier
+    <% end %>
+  <% end %>
+  
+  <h2>
+    <%= @intervenant.nom %>
+  </h2>
+</div>
+
 <p>
   <strong>Nom:</strong>
   <%= @intervenant.nom %>
@@ -12,6 +29,3 @@
   <strong>Email:</strong>
   <%= @intervenant.email %>
 </p>
-
-<%= link_to 'Modification', edit_intervenant_path(@intervenant) %> |
-<%= link_to 'Retour', intervenants_path %>

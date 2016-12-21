@@ -1,3 +1,13 @@
-<h1>Modification Intervenant</h1>
+<div class="page-header">
+  <%= link_to intervenants_path, class: 'btn btn-default' do %>
+    <span class="glyphicon glyphicon-list-alt"></span>
+    Retour
+  <% end %>
+  <%= link_to @intervenant, class: 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-info-sign"></span>
+    Voir
+  <% end %>
+  <h1>Modification Intervenant</h1>
+</div>
 
 <%= render 'form' %>

@@ -1,7 +1,23 @@
-<h2>
-  <%= @formation.nom %>
-</h2>
-<br>
+<div class="page-header">
+  <% if current_user.admin? %>
+    <%= link_to formations_path, class: 'btn btn-default' do %>
+      <span class="glyphicon glyphicon-list-alt"></span>
+      Retour
+    <% end %>
+    <%= link_to edit_formation_path(@formation), class: 'btn btn-primary' do %>
+      <span class="glyphicon glyphicon-pencil"></span>
+      Modifier
+    <% end %>
+  <% end %>
+  
+  <h2>
+    <%= @formation.nom %>
+  </h2>
+
+</div>
+
+<dl class="dl-horizontal">
+</dl>
 
 <p>
   <strong>Promo:</strong>
@@ -45,7 +61,3 @@
 </p>
 <br>
 
-<% if current_user.admin? %>
-  <%= link_to 'Modification', edit_formation_path(@formation) %> |
-  <%= link_to 'Retour', formations_path %>
-<% end %>

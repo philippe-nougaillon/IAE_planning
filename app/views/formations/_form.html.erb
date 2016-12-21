@@ -21,10 +21,7 @@
         <%= f.check_box :apprentissage, label:"Apprentissage ?" %>
         <%= f.number_field :nbr_etudiants, label:"Nombre d'étudiants" %>
         <%= f.text_area :memo, label:"Mémo" %>
-        <br>
-        <%= f.submit %>
-
-        <%= link_to '| Retour', formations_path %>
+        <%= f.submit class: "btn btn-primary" %>
       </div>
 
       <div class="col-sm-1">

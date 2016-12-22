@@ -45,6 +45,11 @@
 </p>
 
 <p>
+  <strong>Nbr comptes utilisateurs:</strong>
+  <%= link_to @formation.users.count, users_path(formation_id: @formation.id) %>
+</p>
+
+<p>
   <strong>Mémo:</strong>
   <%= @formation.memo %>
 </p>

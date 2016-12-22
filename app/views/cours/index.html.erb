@@ -1,4 +1,10 @@
 <div class="page-header">
+  <% if current_user.try(:admin?) %>
+    <%= link_to new_cour_path, class: 'btn btn-primary' do %>
+      <span class="glyphicon glyphicon-plus"></span>
+      Ajouter
+    <% end %>
+  <% end %>
   <h1>Liste des cours</h1>
 </div>
 
@@ -12,20 +18,14 @@
                     options_from_collection_for_select(Formation.all, :id, :nom_promo, params[:formation_id]), include_blank:true, onchange:'this.form.submit()', class:"form-control", 
                         disabled:(current_user.formation) %>
           </div>
-          <div class="col-sm-5">
+          <div class="col-sm-4">
               <%= label_tag "Intervenant" %>    
               <div class="input-group">
               <%= select_tag :intervenant_id, 
                     options_from_collection_for_select(Intervenant.all, :id, :nom_prenom, params[:intervenant_id]), 
                       include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
                 <span class="input-group-btn">
-                    <%= submit_tag 'Rechercher', class:"btn btn-success" %>
-                    <% if current_user.try(:admin?) %>
-                      <%= link_to new_cour_path, class: 'btn btn-primary' do %>
-                        <span class="glyphicon glyphicon-plus"></span>
-                        Cours
-                      <% end %>
-                    <% end %>
+                  <%= submit_tag 'Rechercher', class:"btn btn-success" %>
                 </span>
               </div>
           </div>
@@ -140,8 +140,8 @@
               <% sum_duree += cours.duree %>
               <tr>
                 <td>
-                    <% if cours.debut.to_date != current_date   %>
-                      <b><%= l(cours.debut.to_date) %></b> 
+                    <% if cours.debut.to_date != current_date %>
+                      <b><%= l(cours.debut.to_date, format: :short) %></b> 
                       <% current_date = cours.debut.to_date %>
                     <% end %>  
                 </td>

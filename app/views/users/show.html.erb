@@ -25,10 +25,13 @@
 	<%= @user.admin? ? "Oui" : 'Non' %>
 </p>
 
-<% if @user.last_sign_in_at %>
+<% unless @user.sign_in_count.zero? %>
 	<p>
 		Dernière connexion: 
 		<%= l(@user.last_sign_in_at) %> 
 		| Il y a <%= time_ago_in_words(@user.last_sign_in_at) %>
+	</p>
+	<p>
+		sign_in_count: <%= @user.sign_in_count %> 
 	</p>
 <% end %>

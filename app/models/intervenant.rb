@@ -13,6 +13,10 @@ class Intervenant < ActiveRecord::Base
 	end
 
 	def total_cours
+		self.cours.where(etat:Cour.etats[:plannifié]).count
+	end
+
+	def total_heures_de_cours
 		sum = 0.0
 		self.cours.where(etat:Cour.etats[:plannifié]).each do | c |
 			sum += c.duree

@@ -10,7 +10,7 @@ class Cour < ActiveRecord::Base
 
   validates :formation_id, :intervenant_id, presence: true
 
-  enum etat: [:nouveau, :plannifié, :reporté, :annulé]
+  enum etat: [:nouveau, :planifié, :reporté, :annulé]
 
   # before_validation(on: :create) do
   #     self.user = RequestStore.store[:current_user]

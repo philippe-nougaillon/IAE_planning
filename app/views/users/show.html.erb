@@ -15,5 +15,20 @@
 <dl class="dl-horizontal">
 </dl>
 
-Administrateur: 
-<%= @user.admin? ? "Oui" : 'Non' %>
+<p>
+	Formation:
+	<%= @user.formation.nom_promo if @user.formation %>
+</p>
+
+<p>
+	Administrateur: 
+	<%= @user.admin? ? "Oui" : 'Non' %>
+</p>
+
+<% if @user.last_sign_in_at %>
+	<p>
+		Dernière connexion: 
+		<%= l(@user.last_sign_in_at) %> 
+		| Il y a <%= time_ago_in_words(@user.last_sign_in_at) %>
+	</p>
+<% end %>

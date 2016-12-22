@@ -1,4 +1,8 @@
 <div class="page-header">
+  <%= link_to new_user_path, class: 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-plus"></span>
+    Ajouter
+  <% end %>
   <h1>Liste des salles</h1>
 </div>
 
@@ -13,16 +17,12 @@
                         include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
           </div>
 
-          <div class="col-sm-4">
+          <div class="col-sm-3">
             <%= label_tag "Date" %>    
             <div class="input-group">
               <%= text_field_tag :date, params[:date], type:'date', onchange:'this.form.submit()', class:"form-control" %>
               <span class="input-group-btn">
                 <%= submit_tag 'Rechercher', class:"btn btn-success" %>
-                <%= link_to new_salle_path, class: 'btn btn-primary' do %>
-                  <span class="glyphicon glyphicon-plus"></span>
-                  Salle
-                <% end %>
               </span>
             </div>
           </div>

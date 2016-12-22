@@ -1,3 +1,5 @@
+# ENCODING: UTF-8
+
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
   
@@ -9,7 +11,16 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    @users = User.order(:email)
+    @users = User.order(:admin, :email)
+
+    unless params[:courriel].blank?
+      @users = @users.where("email like ?", "%#{params[:courriel]}%" )
+    end
+
+    unless params[:formation_id].blank?
+      @users = @users.where(formation_id:params[:formation_id])
+    end
+
   end
 
   # GET /users/1
@@ -33,7 +44,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        format.html { redirect_to @user, notice: 'User was successfully created.' }
+        format.html { redirect_to @user, notice: 'Utilisateur créé avec succès.'}
         format.json { render :show, status: :created, location: @user }
       else
         format.html { render :new }
@@ -47,7 +58,7 @@ class UsersController < ApplicationController
   def update
     respond_to do |format|
       if @user.update(user_params)
-        format.html { redirect_to @user, notice: 'User was successfully updated.' }
+        format.html { redirect_to @user, notice: 'Utilisateur modifié avec succès' }
         format.json { render :show, status: :ok, location: @user }
       else
         format.html { render :edit }
@@ -61,7 +72,7 @@ class UsersController < ApplicationController
   def destroy
     @user.destroy
     respond_to do |format|
-      format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
+      format.html { redirect_to users_url, notice: 'Utilisateur supprimé !' }
       format.json { head :no_content }
     end
   end
@@ -75,6 +86,6 @@ class UsersController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
       #params.fetch(:user, {})
-      params.require(:user).permit(:email, :admin, :formation_id)
+      params.require(:user).permit(:email, :admin, :formation_id, :password, :password_confirmation)
     end
 end

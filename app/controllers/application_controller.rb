@@ -5,7 +5,6 @@ class ApplicationController < ActionController::Base
 
   # before_action :authenticate_user!, except: [:index]
   before_action :authenticate_user!
-
   before_action :detect_device_format
 
   def detect_device_format

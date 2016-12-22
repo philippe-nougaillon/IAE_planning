@@ -1,4 +1,8 @@
 <div class="page-header">
+  <%= link_to new_formation_path, class: 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-plus"></span>
+    Ajouter
+  <% end %>
   <h1>Liste des formations</h1>
 </div>
 
@@ -24,7 +28,7 @@
                   onchange:'this.form.submit()', class:"form-control" %>
           </div>
           
-          <div class="col-sm-4">
+          <div class="col-sm-3">
             <%= label_tag "Promotion" %>    
             <div class="input-group">
             <%= select_tag :promo, 
@@ -32,10 +36,6 @@
                     include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
               <span class="input-group-btn">
                 <%= submit_tag 'Rechercher', class:"btn btn-success" %>
-                <%= link_to new_formation_path, class: 'btn btn-primary' do %>
-                  <span class="glyphicon glyphicon-plus"></span>
-                  Formation
-                <% end %>
               </span>
             </div>
           </div>

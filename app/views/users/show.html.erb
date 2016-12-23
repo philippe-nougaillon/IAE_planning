@@ -27,11 +27,16 @@
 
 <% unless @user.sign_in_count.zero? %>
 	<p>
+		Connexion actuelle: 
+		le <%= l(@user.current_sign_in_at) %> 
+		| Il y a <%= time_ago_in_words(@user.current_sign_in_at) %>
+	</p>
+	<p>
 		Dernière connexion: 
-		<%= l(@user.last_sign_in_at) %> 
+		le <%= l(@user.last_sign_in_at) %> 
 		| Il y a <%= time_ago_in_words(@user.last_sign_in_at) %>
 	</p>
 	<p>
-		sign_in_count: <%= @user.sign_in_count %> 
+		Nbr connexions: <%= @user.sign_in_count %> 
 	</p>
 <% end %>

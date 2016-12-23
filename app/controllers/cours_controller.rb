@@ -6,7 +6,7 @@ class CoursController < ApplicationController
   # GET /cours
   # GET /cours.json
   def index
-    @cours = Cour.order(:debut)
+    @cours = Cour.includes(:formation, :intervenant, :salle).order(:debut)
 
     # unless current_user
     #     params[:date] = Date.today

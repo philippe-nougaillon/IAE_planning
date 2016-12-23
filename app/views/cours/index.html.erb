@@ -141,7 +141,7 @@
               <tr>
                 <td>
                     <% if cours.debut.to_date != current_date %>
-                      <b><%= l(cours.debut.to_date, format: :short) %></b> 
+                      <b><%= l(cours.debut.to_date, format: :long) %></b> 
                       <% current_date = cours.debut.to_date %>
                     <% end %>  
                 </td>

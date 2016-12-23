@@ -19,8 +19,7 @@
               <%= label_tag "Formation" %>    
               <div class="input-group">
                 <%= select_tag :formation_id, 
-                      options_from_collection_for_select(Formation.all, :id, :nom_promo, params[:formation_id]), include_blank:true, onchange:'this.form.submit()', class:"form-control", 
-                          disabled:(current_user.formation) %>
+                      options_from_collection_for_select(Formation.all, :id, :nom_promo, params[:formation_id]), include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
                 <span class="input-group-btn">
                   <%= submit_tag 'Rechercher', class:"btn btn-success" %>
                 </span>

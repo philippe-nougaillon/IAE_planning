@@ -39,7 +39,7 @@
     <% if params[:view] == "list" %>
       <% current_date = "" %>
       <% @cours.where("debut >= ?", Date.today)
-               .where(etat:[Cour.etats[:plannifié],Cour.etats[:reporté],Cour.etats[:annulé]])
+               .where(etat:[Cour.etats[:planifié],Cour.etats[:reporté],Cour.etats[:annulé]])
                .each do |cours| %>
          <div class="row">
             <div class="col-xs-3">

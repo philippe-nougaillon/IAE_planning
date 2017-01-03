@@ -9,7 +9,7 @@ class Intervenant < ActiveRecord::Base
 	validates :nom, uniqueness: true
 	
 	def nom_prenom
-		self.prenom.blank? ? self.nom : "#{self.nom} #{self.prenom}" 
+		self.prenom.blank? ? self.nom.upcase : "#{self.nom.upcase} #{self.prenom}" 
 	end
 
 	def total_cours

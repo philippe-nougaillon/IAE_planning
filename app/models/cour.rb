@@ -9,6 +9,7 @@ class Cour < ActiveRecord::Base
   belongs_to :salle
 
   validates :formation_id, :intervenant_id, presence: true
+  validate :la_fin_apres_le_debut
 
   enum etat: [:nouveau, :planifié, :reporté, :annulé]
 
@@ -17,7 +18,7 @@ class Cour < ActiveRecord::Base
   # end
 
   def self.styles
-  	 ['label-info','label-success','label-warning','label-danger']
+  	['label-info','label-success','label-warning','label-danger']
   end
 
   def style
@@ -33,7 +34,11 @@ class Cour < ActiveRecord::Base
     self.debut.to_datetime 
   end
   def end_time
-   self.fin.to_datetime
+    self.fin.to_datetime
+  end
+
+  def manque_de_places? 
+    (self.formation.nbr_etudiants > self.salle.places)
   end
 
   def nom_ou_ue
@@ -51,5 +56,10 @@ class Cour < ActiveRecord::Base
       "erreur => #{e}"
     end
   end
+
+  private
+  def la_fin_apres_le_debut
+    errors.add(:debut, "du cours ne peut pas être après la fin !") if self.debut > self.fin
+  end  
 
 end

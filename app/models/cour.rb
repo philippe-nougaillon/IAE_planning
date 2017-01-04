@@ -26,7 +26,7 @@ class Cour < ActiveRecord::Base
   end
 	
   def duree
-  	((self.fin - self.debut) / 60) / 60
+  	self.fin ? ((self.fin - self.debut) / 60) / 60  : 0
   end
 
   # Simple_calendar attributes

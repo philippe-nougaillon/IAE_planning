@@ -127,7 +127,7 @@
             <th>Etat</th>
             <th>Salle</th>
             <% if current_user.try(:admin?) %>
-              <th colspan="2"></th>
+              <th />
             <% end %>
           </tr>
         </thead>
@@ -175,11 +175,6 @@
                       <i class="glyphicon glyphicon-pencil"></i>
                     <% end %>
                   </td>
-                  <td>
-                    <%= link_to(cours, method: :delete, data:{confirm: 'Confirmez-vous ?'}, class:"btn btn-default") do %>
-                      <i class="glyphicon glyphicon-remove"></i>
-                    <% end %>
-                  </td>
                 <% end %>
               </tr>
             <% end %>
@@ -195,7 +190,7 @@
               </th>
               <% 5.times do %><th /><% end %>
               <% if current_user.try(:admin?) %>
-                <th colspan="2"></th>
+                <th />
               <% end %>
             </tr>
           </tfoot>

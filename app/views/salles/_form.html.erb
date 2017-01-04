@@ -2,7 +2,8 @@
   <% if @salle.errors.any? %>
     <div class="alert alert-danger alert-dismissable" role="alert">
       <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-    <h2><%= t('activerecord.errors.template.header',
+  
+      <h2><%= t('activerecord.errors.template.header',
                   model: Salle.model_name.human, count: @salle.errors.count) %></h2>
       <ul>
       <% @salle.errors.full_messages.each do |message| %>

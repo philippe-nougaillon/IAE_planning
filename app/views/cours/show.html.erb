@@ -4,6 +4,12 @@
       <span class="glyphicon glyphicon-list-alt"></span>
       Retour
     <% end %>
+
+    <%= link_to(@cour, method: :delete, data:{confirm: 'Confirmez-vous la suppression définitive de ce cours ?'}, class:"btn btn-warning") do %>
+      <span class="glyphicon glyphicon-remove"></span>
+      Supprimer
+    <% end %>
+
     <%= link_to edit_cour_path(@cour), class: 'btn btn-primary' do %>
       <span class="glyphicon glyphicon-pencil"></span>
       Modifier

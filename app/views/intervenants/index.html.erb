@@ -46,7 +46,7 @@
       <tbody>
         <% @intervenants.includes(:cours).each do |intervenant| %>
           <tr>
-            <td><b><%= intervenant.nom %></b></td>
+            <td><b><%= intervenant.nom.upcase %></b></td>
             <td><%= intervenant.prenom %></td>
             <td><%= intervenant.email %></td>
             <th>

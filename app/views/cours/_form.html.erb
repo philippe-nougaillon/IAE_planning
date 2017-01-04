@@ -1,8 +1,11 @@
 <%= form_for(@cour, html:{class:"form-horizontal"}) do |f| %>
   <% if @cour.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@cour.errors.count, "erreur") %>. Merci de corriger</h2>
-
+    <div class="alert alert-danger alert-dismissable" role="alert">
+      <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+  
+      <h2><%= t('activerecord.errors.template.header',
+                  model: Cour.model_name.human, count: @cour.errors.count) %></h2>
+     
       <ul>
       <% @cour.errors.full_messages.each do |message| %>
         <li><%= message %></li>

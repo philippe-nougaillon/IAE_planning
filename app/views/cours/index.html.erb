@@ -155,7 +155,7 @@
                 <td><%= link_to cours.formation.nom_promo, cours.formation %></td>
                 <td>
                   <% if cours.intervenant.linkedin_photo %>
-                    <%= link_to(image_tag( cours.intervenant.linkedin_photo, class: "img-circle", size:'30x30'), cours.intervenant) %>
+                    <%= link_to(image_tag( cours.intervenant.linkedin_photo, class: "img-circle", size:'50x50'), cours.intervenant) %>
                   <% end %>
                 </td>
                 <td>
@@ -195,7 +195,7 @@
                   <%= number_with_precision(sum_duree, precision: 1) %>h
                 </span>
               </th>
-              <% 5.times do %><th /><% end %>
+              <% 6.times do %><th /><% end %>
               <% if current_user.try(:admin?) %>
                 <th />
               <% end %>

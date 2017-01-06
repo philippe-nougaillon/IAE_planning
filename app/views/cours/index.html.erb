@@ -155,13 +155,13 @@
                 <td><%= link_to cours.formation.nom_promo, cours.formation %></td>
                 <td>
                   <% if cours.intervenant.linkedin_photo %>
-                    <%= link_to(image_tag( cours.intervenant.linkedin_photo, class: "img-circle", size:'50x50'), cours.intervenant) %>
+                    <%= link_to(image_tag( cours.intervenant.linkedin_photo, class: "img-circle", size:'45x45'), cours.intervenant) %>
                   <% end %>
                 </td>
                 <td>
                   <%= cours.intervenant.nom_prenom %>
                 </td>
-                <td><b><%= link_to cours.nom_ou_ue, cours %></b></td>
+                <td><%= link_to cours.nom_ou_ue, cours %></td>
                 <td>
                   <span class="label <%= cours.style %>"><%= cours.etat.humanize %></span>
                 </td>

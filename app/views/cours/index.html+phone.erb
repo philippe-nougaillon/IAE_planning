@@ -49,15 +49,20 @@
                 <br>  
               <% end %>
             </div>
-            <div class="col-xs-3">
-              <%= l(cours.debut, format: :heures_min) %>-<%= l(cours.fin, format: :heures_min) %>
-              <% unless cours.plannifié? %>
+            <div class="col-xs-2">
+              <b><%= l(cours.debut, format: :heures_min) %></b>
+              <% unless cours.planifié? %>
                 <span class="label <%= cours.style %>"><%= cours.etat.humanize %></span>
               <% else %>
                 <b><%= cours.salle.nom if cours.salle %></b>
               <% end %>
             </div>
-            <div class="col-xs-6">
+            <div class="col-xs-2">
+              <% if cours.intervenant.linkedin_photo %>
+                <%= image_tag( cours.intervenant.linkedin_photo, class: "img-circle", size:'45x45') %>
+              <% end %>
+            </div>
+            <div class="col-xs-5">
               <%= link_to cours.nom_ou_ue, cours %>
             </div>
           </div>  

@@ -45,7 +45,12 @@
 </p>
 
 <p>
-  <strong>Nbr comptes utilisateurs:</strong>
+  <strong>Nbr d'heures planifiées:</strong>
+  <%= link_to @formation.cours.planifié.collect {|c| c.duree }.sum, cours_path(formation_id:@formation, etat:1)  %>
+</p>
+
+<p>
+  <strong>Nbr d'utilisateurs associés:</strong>
   <%= link_to @formation.users.count, users_path(formation_id: @formation.id) %>
 </p>
 
@@ -54,12 +59,15 @@
   <%= @formation.memo %>
 </p>
 
-<h3>Les Unités d'Enseignement:</h3>
+<h3>Unités d'Enseignement</h3>
 <p>
   <ul>
   <% @formation.unites.each do | unite | %>
     <li>
-      <%= unite.num %> : <%= unite.nom %>
+      <%= link_to unite.num, cours_path(formation_id:@formation, ue:unite.num) %> 
+      <b><%= unite.nom %></b> 
+      (<%= @formation.cours.where(ue:unite.num).count %> cours/
+       <%= @formation.cours.where(ue:unite.num).collect {|c| c.duree }.sum %>h)
     </li>
   <% end %> 
   </ul>

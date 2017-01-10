@@ -21,6 +21,10 @@ class UsersController < ApplicationController
       @users = @users.where(formation_id:params[:formation_id])
     end
 
+    unless params[:admin].blank?
+      @users = @users.where(admin:true)
+    end
+
   end
 
   # GET /users/1

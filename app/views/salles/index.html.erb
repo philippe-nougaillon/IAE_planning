@@ -18,7 +18,7 @@
           </div>
 
           <div class="col-sm-3">
-            <%= label_tag "Date" %>    
+            <%= label_tag "Date Réservation" %>    
             <div class="input-group">
               <%= text_field_tag :date, params[:date], type:'date', onchange:'this.form.submit()', class:"form-control" %>
               <span class="input-group-btn">
@@ -28,8 +28,8 @@
           </div>
 
           <% unless params[:date].blank? %>
-            <div class="col-sm-2">
-              <%= label_tag :libre, "Salles libres ?" %>
+            <div class="col-sm-3">
+              <%= label_tag :libre, "Afficher que les salles libres ?" %>
               <br>    
               <%= check_box_tag :libre, 1, params[:libre], 
                     onchange:'this.form.submit()', class:"form-control" %>

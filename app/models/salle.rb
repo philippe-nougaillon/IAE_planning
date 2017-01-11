@@ -1,5 +1,6 @@
 class Salle < ActiveRecord::Base
-
+	audited
+	
 	has_many :cours
 
 	default_scope { order(:nom) } 

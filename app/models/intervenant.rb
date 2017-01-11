@@ -1,6 +1,7 @@
 # ENCODING: UTF-8
 
 class Intervenant < ActiveRecord::Base
+	audited
 
 	has_many :cours
 

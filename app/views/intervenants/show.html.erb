@@ -9,33 +9,35 @@
       Modifier
     <% end %>
   <% end %>
-  
-  <h2>
-    <%= @intervenant.nom_prenom %> 
-  </h2>
+  <br><br>  
 </div>
-<br>
+
 <p>
   <%= image_tag( @intervenant.linkedin_photo, class: "img-circle", size:'150x150') %>
 </p>
+
+<h2>
+  <%= @intervenant.nom_prenom %> 
+</h2>
 <br>
 
 <p>
-  <strong>Nom:</strong>
-  <%= @intervenant.nom %>
+  <strong>Courriel</strong><br>
+  <%= mail_to @intervenant.email %>
 </p>
 
 <p>
-  <strong>Prénom:</strong>
-  <%= @intervenant.prenom %>
-</p>
-
-<p>
-  <strong>Email:</strong>
-  <%= @intervenant.email %>
-</p>
-
-<p>
-  <strong>Profil LinkedIn:</strong>
+  <strong>Profil LinkedIn</strong><br>
   <%= link_to_if @intervenant.linkedin_url, @intervenant.linkedin_url, @intervenant.linkedin_url, target:'_blank' %>
 </p>
+
+<p>
+  <strong>Cours planifiés</strong><br>  
+  <%= link_to "#{@intervenant.total_cours}", cours_path(intervenant_id:@intervenant) %>
+</p>
+
+<p>
+  <strong>Heures planifiées</strong><br>
+  <%= @intervenant.total_heures_de_cours %> h
+</p>
+

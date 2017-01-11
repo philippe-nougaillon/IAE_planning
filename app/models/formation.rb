@@ -1,4 +1,5 @@
 class Formation < ActiveRecord::Base
+	audited
 	
 	has_many :users
 	has_many :cours, dependent: :destroy

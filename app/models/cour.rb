@@ -37,6 +37,10 @@ class Cour < ActiveRecord::Base
     self.fin.to_datetime
   end
 
+  def start_time_short_fr
+    I18n.l(self.debut, format: :short) 
+  end
+
   def manque_de_places? 
     (self.formation.nbr_etudiants > self.salle.places)
   end
@@ -55,6 +59,18 @@ class Cour < ActiveRecord::Base
     rescue Exception => e 
       "erreur => #{e}"
     end
+  end
+
+  def photo_json
+    self.intervenant.linkedin_photo
+  end
+
+  def formation_json
+    self.formation.nom
+  end
+
+  def salle_json
+    self.salle.nom if self.salle
   end
 
   private

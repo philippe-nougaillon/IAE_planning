@@ -46,7 +46,13 @@ class CoursController < ApplicationController
       @cours = @cours.where(etat:params[:etat])
     end
 
+
     params[:view] ||= "list"
+    params[:filter] ||= "upcoming"
+
+    if params[:filter] == 'upcoming'
+      @cours = @cours.where("cours.debut >= ? " , Date.today)
+    end
 
   end
 

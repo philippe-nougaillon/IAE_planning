@@ -37,12 +37,12 @@
             <%= text_field_tag :date, params[:date], type:'date', onchange:'this.form.submit()', class:"form-control" %>
           </div>
 
-          <div class="col-sm-2">
+          <div class="col-sm-1">
               <%= label_tag :ue, "UE" %>    
               <%= select_tag :ue, options_for_select(['UE1','UE2','UE3','UE4','UE5','UE6','UE7'], params[:ue]), 
                         include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
           </div>
-          <div class="col-sm-2">
+          <div class="col-sm-1">
               <%= label_tag "Salle" %>    
               <%= select_tag :salle_id, 
                       options_from_collection_for_select(Salle.order(:nom), :id, :nom, params[:salle_id]), 
@@ -56,6 +56,15 @@
                       class:"form-control", onchange:'this.form.submit()' %>
             </div>
           <% end %>
+
+          <div class="col-sm-2">
+            <%= label_tag "Cours" %>
+            <br> 
+            <%= radio_button_tag :filter, "upcoming",  (params[:filter]=='upcoming'), onchange:'this.form.submit()' %>
+            A venir 
+            <%= radio_button_tag :filter, "all", (params[:filter]=='all'), onchange:'this.form.submit()' %>
+            Tous 
+          </div>
 
           <div class="col-sm-3">
             <%= label_tag "Vue" %>

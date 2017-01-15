@@ -21,7 +21,7 @@
   <dd><%= @document.intervenant.nom_prenom %></dd>
 
   <dt>Unite:</dt>
-  <dd><%= @document.unite.num_nom %></dd>
+  <dd><%= @document.unite.num_nom if @document.unite %></dd>
 
   <dt>Fichier:</dt>
   <dd><%= link_to @document.fichier, @document.fichier.url %></dd>

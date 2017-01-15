@@ -23,7 +23,7 @@
       <%= content_tag_for(:tr, @documents) do |document| %>
           <td><%= document.nom %></td>
           <td><%= document.formation.nom_promo %></td>
-          <td><%= document.unite.num_nom %></td>
+          <td><%= document.unite.num_nom if document.unite %></td>
           <td><%= document.intervenant.nom_prenom %></td>
           <td>
             <%= link_to document.fichier.url, class: "btn btn-default" do %>

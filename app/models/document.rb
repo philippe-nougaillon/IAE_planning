@@ -7,7 +7,6 @@ class Document < ActiveRecord::Base
   belongs_to :intervenant
   belongs_to :unite
 
-
-  validates :nom, :formation_id, presence:true
+  validates :nom, :formation_id, :intervenant_id, presence:true
 
 end

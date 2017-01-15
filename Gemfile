@@ -39,6 +39,7 @@ gem 'devise', '3.4.1'
 gem 'devise-i18n'
 gem "audited", "~> 4.3"
 gem 'rack-cors'
+gem 'carrierwave', '0.11.0'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

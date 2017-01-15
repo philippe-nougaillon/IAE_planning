@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  nom: MyString
+  formation_id: 
+  intervenant_id: 
+  unite_id: 
+  fichier: MyString
+
+two:
+  nom: MyString
+  formation_id: 
+  intervenant_id: 
+  unite_id: 
+  fichier: MyString

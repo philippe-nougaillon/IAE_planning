@@ -7,7 +7,7 @@
 
   <meta name="description" content="">
   <meta name="author" content="">
-  <title>IAE-Planning v0.2c</title>
+  <title>IAE-Planning v0.3</title>
 
   <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!--[if lt IE 9]>
@@ -60,6 +60,9 @@
             <% if current_user.try(:admin?) %>
               <li class="<%= (params[:controller]=='formations' ? 'active' : '') %>">
                 <%= link_to "Formations", formations_path %>
+              </li>
+              <li class="<%= (params[:controller]=='documents' ? 'active' : '') %>">
+                <%= link_to "Documents", documents_path %>
               </li>
               <li class="<%= (params[:controller]=='intervenants' ? 'active' : '') %>">
                 <%= link_to "Intervenants", intervenants_path %>

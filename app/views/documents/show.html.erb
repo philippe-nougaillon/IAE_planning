@@ -1,0 +1,28 @@
+<div class="page-header">
+  <%= link_to documents_path, class: 'btn btn-default' do %>
+    <span class="glyphicon glyphicon-list-alt"></span>
+    Retour
+  <% end %>
+  <%= link_to edit_document_path(@document), class: 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-pencil"></span>
+    Modifier
+  <% end %>
+  <h1>Document</h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt>Nom:</dt>
+  <dd><%= @document.nom %></dd>
+
+  <dt>Formation:</dt>
+  <dd><%= @document.formation.nom_promo %></dd>
+
+  <dt>Intervenant:</dt>
+  <dd><%= @document.intervenant.nom_prenom %></dd>
+
+  <dt>Unite:</dt>
+  <dd><%= @document.unite.num_nom %></dd>
+
+  <dt>Fichier:</dt>
+  <dd><%= link_to @document.fichier, @document.fichier.url %></dd>
+</dl>

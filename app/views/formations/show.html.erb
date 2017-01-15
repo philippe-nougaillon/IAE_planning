@@ -74,3 +74,31 @@
 </p>
 <br>
 
+<% if @formation.documents.any? %>
+  <h3>Documents</h3>
+  <div class="table-responsive">
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th>UE</th>
+          <th>Intervenant</th>
+          <th>Voir</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <%= content_tag_for(:tr, @formation.documents) do |document| %>
+            <td><%= document.nom %></td>
+            <td><%= document.unite.num_nom %></td>
+            <td><%= document.intervenant.nom_prenom %></td>
+            <td>
+              <%= link_to document.fichier.url, class: "btn btn-default" do %>
+                <i class="glyphicon glyphicon-eye-open"></i>
+              <% end %>
+            </td>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% end %>

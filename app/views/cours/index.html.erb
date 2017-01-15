@@ -5,7 +5,10 @@
       Cours
     <% end %>
   <% end %>
-  <h1>Liste des cours</h1>
+  <h1>
+    <span class="glyphicon glyphicon-calendar"></span>
+    Liste des cours
+  </h1>
 </div>
 
 <div class='container-fluid'>
@@ -17,6 +20,12 @@
               <%= select_tag :formation_id, 
                     options_from_collection_for_select(Formation.all, :id, :nom_promo, params[:formation_id]), include_blank:true, onchange:'this.form.submit()', class:"form-control", 
                         disabled:(current_user.formation) %>
+          </div>
+          <div class="col-sm-2">
+              <%= label_tag :ue, "UE" %>   
+              <%= select_tag :ue, 
+                    options_from_collection_for_select(Unite.where(formation_id:params[:formation_id]).order(:num), :num, :num_nom, params[:ue]), 
+                        include_blank: true, onchange:'this.form.submit()', class: "form-control" %>
           </div>
           <div class="col-sm-4">
               <%= label_tag "Intervenant" %>    
@@ -37,11 +46,6 @@
             <%= text_field_tag :date, params[:date], type:'date', onchange:'this.form.submit()', class:"form-control" %>
           </div>
 
-          <div class="col-sm-1">
-              <%= label_tag :ue, "UE" %>    
-              <%= select_tag :ue, options_for_select(['UE1','UE2','UE3','UE4','UE5','UE6','UE7'], params[:ue]), 
-                        include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
-          </div>
           <div class="col-sm-1">
               <%= label_tag "Salle" %>    
               <%= select_tag :salle_id, 

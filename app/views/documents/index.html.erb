@@ -3,8 +3,50 @@
     <span class="glyphicon glyphicon-plus"></span>
     Document
   <% end %>
-  <h1>Liste des documents</h1>
+  <h1>
+    <span class="glyphicon glyphicon-book"></span>
+    Liste des documents
+  </h1>
 </div>
+
+<div class='container-fluid'>
+    <%= form_tag request.path, method: :get do %>
+      <div class="form-group">
+        <div class="row">
+    
+          <div class="col-sm-5">
+              <%= label_tag "Formation" %>    
+              <%= select_tag :formation_id, 
+                    options_from_collection_for_select(Formation.all, :id, :nom_promo, params[:formation_id]),  
+                      include_blank:true, onchange:'this.form.submit()', class:"form-control", 
+                        disabled:(current_user.formation) %>
+          </div>
+    
+          <div class="col-sm-2">
+              <%= label_tag :ue, "UE" %>
+              <%= select_tag :unite_id, 
+                    options_from_collection_for_select(Unite.where(formation_id:params[:formation_id]).order(:num), :id, :num_nom, params[:unite_id]), 
+                        include_blank: true, onchange:'this.form.submit()', class: "form-control" %>
+    
+          </div>
+    
+          <div class="col-sm-4">
+              <%= label_tag "Intervenant" %>    
+              <div class="input-group">
+              <%= select_tag :intervenant_id, 
+                    options_from_collection_for_select(Intervenant.all, :id, :nom_prenom, params[:intervenant_id]), 
+                      include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
+                <span class="input-group-btn">
+                  <%= submit_tag 'Rechercher', class:"btn btn-success" %>
+                </span>
+              </div>
+          </div>
+    
+        </div>
+      </div>  
+    <% end %>
+</div>
+
 
 <div class="table-responsive">
   <table class="table table-striped table-hover">
@@ -14,22 +56,16 @@
         <th>Formation</th>
         <th>UE</th>
         <th>Intervenant</th>
-        <th>Voir</th>
         <th></th>
       </tr>
     </thead>
 
     <tbody>
       <%= content_tag_for(:tr, @documents) do |document| %>
-          <td><%= document.nom %></td>
+          <td><%= link_to document.nom, document %></td>
           <td><%= document.formation.nom_promo %></td>
           <td><%= document.unite.num_nom if document.unite %></td>
           <td><%= document.intervenant.nom_prenom %></td>
-          <td>
-            <%= link_to document.fichier.url, class: "btn btn-default" do %>
-              <i class="glyphicon glyphicon-eye-open"></i>
-            <% end %>
-          </td>
           <td>
             <%= link_to edit_document_path(document), class: "btn btn-default" do %>
               <i class="glyphicon glyphicon-pencil"></i>

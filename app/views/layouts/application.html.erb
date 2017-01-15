@@ -55,23 +55,35 @@
         <ul class="nav navbar-nav">
           <% if user_signed_in? %>
             <li class="<%= (params[:controller]=='cours' ? 'active' : '') %>">
-            	<%= link_to "Cours", cours_path %>
+              <%= link_to cours_path do %>
+                <span class="glyphicon glyphicon-calendar"></span>
+                Cours
+              <% end %>
             </li>
             <% if current_user.try(:admin?) %>
               <li class="<%= (params[:controller]=='formations' ? 'active' : '') %>">
-                <%= link_to "Formations", formations_path %>
+                <%= link_to formations_path do %>
+                  <span class="glyphicon glyphicon-education"></span>
+                  Formations
+                <% end %>
               </li>
               <li class="<%= (params[:controller]=='documents' ? 'active' : '') %>">
-                <%= link_to "Documents", documents_path %>
+                <%= link_to documents_path do %>
+                  <span class="glyphicon glyphicon-book"></span>
+                    Documents
+                <% end %>
               </li>
               <li class="<%= (params[:controller]=='intervenants' ? 'active' : '') %>">
-                <%= link_to "Intervenants", intervenants_path %>
-              </li>
-              <li class="<%= (params[:controller]=='users' ? 'active' : '') %>">
-                <%= link_to "Utilisateurs", users_path %>
+                <%= link_to intervenants_path do %>
+                  <span class="glyphicon glyphicon-user"></span>
+                    Intervenants
+                <% end %>
               </li>
               <li class="<%= (params[:controller]=='salles' ? 'active' : '') %>">
-                <%= link_to "Salles", salles_path %>
+                <%= link_to salles_path do %>
+                  <span class="glyphicon glyphicon-blackboard"></span>
+                    Salles
+                <% end %>
               </li>
             <% end %>
           <% end %>

@@ -7,6 +7,22 @@ class DocumentsController < ApplicationController
   # GET /documents.json
   def index
     @documents = Document.all
+
+    if current_user.formation 
+      params[:formation_id] = current_user.formation_id
+    end
+
+    unless params[:formation_id].blank?
+      @documents = @documents.where(formation_id:params[:formation_id])
+    end
+
+    unless params[:intervenant_id].blank?
+      @documents = @documents.where(intervenant_id:params[:intervenant_id])
+    end
+
+    unless params[:unite_id].blank?
+      @documents = @documents.where(unite_id:params[:unite_id])
+    end
   end
 
   # GET /documents/1

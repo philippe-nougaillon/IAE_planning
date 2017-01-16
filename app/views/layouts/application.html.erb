@@ -95,7 +95,8 @@
                 <li><a href="/users/sign_in"><span class="glyphicon glyphicon-log-in"></span> Connexion</a></li>
               <% else %>
                 <%= link_to current_user.email, current_user %>
-                <%= link_to  "/users/sign_out", method: :delete do %> | 
+                |
+                <%= link_to  "/users/sign_out", method: :delete do %> 
                   <span class="glyphicon glyphicon-log-out"></span> Déconnexion
                 <% end %>
               <% end %>

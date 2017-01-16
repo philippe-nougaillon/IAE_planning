@@ -23,6 +23,7 @@ class DocumentsController < ApplicationController
     unless params[:unite_id].blank?
       @documents = @documents.where(unite_id:params[:unite_id])
     end
+    @documents = @documents.order("updated_at DESC")
   end
 
   # GET /documents/1

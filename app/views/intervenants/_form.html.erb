@@ -2,8 +2,8 @@
   <% if @intervenant.errors.any? %>
     <div class="alert alert-danger alert-dismissable" role="alert">
       <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        <h2><%= t('activerecord.errors.template.header',
-                  model: Intervenant.model_name.human, count: @intervenant.errors.count) %></h2>
+        <h3><%= t('activerecord.errors.template.header',
+                  model: Intervenant.model_name.human, count: @intervenant.errors.count) %></h3>
       <ul>
       <% @intervenant.errors.full_messages.each do |message| %>
         <li><%= message %></li>

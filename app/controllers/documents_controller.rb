@@ -33,6 +33,9 @@ class DocumentsController < ApplicationController
   # GET /documents/new
   def new
     @document = Document.new
+    if current_user.formation 
+      @document.formation_id = current_user.formation_id
+    end
   end
 
   # GET /documents/1/edit
@@ -42,6 +45,8 @@ class DocumentsController < ApplicationController
   # POST /documents
   # POST /documents.json
   def create
+    return unless current_user.try(:admin?)
+
     @document = Document.new(document_params)
 
     respond_to do |format|
@@ -58,6 +63,8 @@ class DocumentsController < ApplicationController
   # PATCH/PUT /documents/1
   # PATCH/PUT /documents/1.json
   def update
+    return unless current_user.try(:admin?)
+
     respond_to do |format|
       if @document.update(document_params)
         format.html { redirect_to @document, notice: 'Document modifié avec succès.' }

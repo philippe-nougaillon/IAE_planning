@@ -3,9 +3,11 @@
     <span class="glyphicon glyphicon-list-alt"></span>
     Retour
   <% end %>
-  <%= link_to edit_document_path(@document), class: 'btn btn-primary' do %>
-    <span class="glyphicon glyphicon-pencil"></span>
-    Modifier
+  <% if current_user.try(:admin?) %>
+    <%= link_to edit_document_path(@document), class: 'btn btn-primary' do %>
+      <span class="glyphicon glyphicon-pencil"></span>
+      Modifier
+    <% end %>
   <% end %>
   <h1>Document</h1>
 </div>

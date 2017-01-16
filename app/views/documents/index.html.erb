@@ -1,7 +1,9 @@
 <div class="page-header">
-  <%= link_to new_document_path, class: 'btn btn-primary' do %>
-    <span class="glyphicon glyphicon-plus"></span>
-    Document
+  <% if current_user.try(:admin?) %>
+    <%= link_to new_document_path, class: 'btn btn-primary' do %>
+      <span class="glyphicon glyphicon-plus"></span>
+      Document
+    <% end %>
   <% end %>
   <h1>
     <span class="glyphicon glyphicon-book"></span>
@@ -47,34 +49,55 @@
     <% end %>
 </div>
 
-
 <div class="table-responsive">
   <table class="table table-striped table-hover">
     <thead>
       <tr>
+        <th>Publié il y a</th>
+        <th colspan="2">Par</th>
         <th>Nom</th>
         <th>Formation</th>
         <th>UE</th>
-        <th>Intervenant</th>
-        <th></th>
+        <% if current_user.try(:admin?) %>
+          <th />
+        <% end %>
       </tr>
     </thead>
 
     <tbody>
       <%= content_tag_for(:tr, @documents) do |document| %>
+          <td><%= time_ago_in_words(document.updated_at) %></td>
+          <td>
+            <% if document.intervenant.linkedin_photo %>
+              <%= link_to(image_tag(document.intervenant.linkedin_photo, class: "img-circle", size:'45x45'), document.intervenant) %>
+            <% end %>
+          </td>
+          <td>
+            <%= document.intervenant.nom_prenom %>
+          </td>
           <td><%= link_to document.nom, document %></td>
           <td><%= document.formation.nom_promo %></td>
           <td><%= document.unite.num_nom if document.unite %></td>
-          <td><%= document.intervenant.nom_prenom %></td>
-          <td>
-            <%= link_to edit_document_path(document), class: "btn btn-default" do %>
-              <i class="glyphicon glyphicon-pencil"></i>
-            <% end %>
-            <%= link_to(document, method: :delete, data:{confirm: 'Confirmez-vous ?'}, class: "btn btn-default") do %>
-              <i class="glyphicon glyphicon-remove"></i>
-            <% end %>
-          </td>
+          <% if current_user.try(:admin?) %>
+            <td>
+              <%= link_to edit_document_path(document), class: "btn btn-default" do %>
+                <i class="glyphicon glyphicon-pencil"></i>
+              <% end %>
+              <%= link_to(document, method: :delete, data:{confirm: 'Confirmez-vous ?'}, class: "btn btn-default") do %>
+                <i class="glyphicon glyphicon-remove"></i>
+              <% end %>
+            </td>
+          <% end %>
       <% end %>
     </tbody>
+
+    <tfoot>
+      <tr>
+        <% 6.times do %><th /><% end %>
+        <% if current_user.try(:admin?) %>
+          <th />  
+        <% end %>
+      </tr>
+    </tfoot>
   </table>
 </div>

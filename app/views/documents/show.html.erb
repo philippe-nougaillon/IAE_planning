@@ -12,7 +12,15 @@
   <h1>Document</h1>
 </div>
 
+
 <dl class="dl-horizontal">
+
+  <dt></dt>
+  <dd>
+    <%= image_tag @document.fichier.url(:thumb) %>
+  </dd>
+  <br>
+    
   <dt>Nom:</dt>
   <dd><%= @document.nom %></dd>
 

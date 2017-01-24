@@ -41,6 +41,8 @@ gem "audited", "~> 4.3"
 gem 'rack-cors'
 gem 'carrierwave', '0.11.0'
 gem 'rmagick'
+gem 'capture_stdout'
+#gem 'capture-output'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

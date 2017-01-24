@@ -39,7 +39,7 @@
                     options_from_collection_for_select(Intervenant.all, :id, :nom_prenom, params[:intervenant_id]), 
                       include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
                 <span class="input-group-btn">
-                  <%= submit_tag 'Rechercher', class:"btn btn-success" %>
+                  <%= submit_tag 'Filtrer', class:"btn btn-success" %>
                 </span>
               </div>
           </div>

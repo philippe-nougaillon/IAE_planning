@@ -1,8 +1,12 @@
 Rails.application.routes.draw do
-  resources :documents
-  devise_for :users
+  
   get 'tools/index'
+  get 'tools/import'
+  post 'tools/import_do'
 
+  devise_for :users
+  
+  resources :documents
   resources :cours
   resources :salles
   resources :formations

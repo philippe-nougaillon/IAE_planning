@@ -1,12 +1,19 @@
 <div class="page-header">
-  <h1>Admin</h1>
+  <h1>
+  	<span class="glyphicon glyphicon-wrench"></span>
+  	Outils
+  </h1>
 </div>
 
 <ul>
 	<li>
-		
+		<span class="glyphicon glyphicon-user"></span>
+		<%= link_to "Utilisateurs", users_path %>
 	</li>
+	<br>
+
 	<li>
-		
+		<span class="glyphicon glyphicon-download-alt"></span>
+		<%= link_to "Import de cours", tools_import_path %>
 	</li>
 </ul>

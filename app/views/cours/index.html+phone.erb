@@ -22,13 +22,7 @@
                 <% end %>
 
                 <span class="input-group-btn">
-                    <%= submit_tag 'Chercher', class:"btn btn-success" %>
-                    <% if current_user.try(:admin?) %>
-                      <%= link_to new_cour_path, class: 'btn btn-primary' do %>
-                        <span class="glyphicon glyphicon-plus"></span>
-                        Cours
-                      <% end %>
-                    <% end %>
+                  <%= submit_tag 'Filtrer', class:"btn btn-success" %>
                 </span>
               </div>
           </div>

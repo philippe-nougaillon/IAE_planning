@@ -13,12 +13,12 @@
     <%= form_tag request.path, method: :get do %>
       <div class="form-group">
         <div class="row">
-          <div class="col-sm-5">
+          <div class="col-sm-4">
             <%= label_tag "Nom" %>    
             <div class="input-group">
             <%= text_field_tag :nom, params[:nom], include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
               <span class="input-group-btn">
-                <%= submit_tag 'Rechercher', class:"btn btn-success" %>
+                <%= submit_tag 'Filtrer', class:"btn btn-success" %>
               </span>
             </div>
           </div>

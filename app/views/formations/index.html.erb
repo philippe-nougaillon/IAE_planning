@@ -38,7 +38,7 @@
                   options_for_select(Formation.select(:promo).uniq.pluck(:promo).sort, params[:promo]), 
                     include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
               <span class="input-group-btn">
-                <%= submit_tag 'Rechercher', class:"btn btn-success" %>
+                <%= submit_tag 'Filtrer', class:"btn btn-success" %>
               </span>
             </div>
           </div>

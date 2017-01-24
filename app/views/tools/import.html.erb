@@ -1,0 +1,46 @@
+<div class="page-header">
+  <h1>
+  	<span class="glyphicon glyphicon-download-alt"></span>
+  	Import de cours
+  </h1>
+</div>
+
+<%= form_tag({action: "import_do", method: :post}, multipart: true) do %>
+  <div>
+    <h3>Cette fonction permet l'importation de cours à partir d'un fichier CSV</h3>
+    <ul>
+        <li>Le fichier source peut avoir les colonnes suivantes: Date;Heure début;Heure fin;Durée;UE;Intervenant;Intitulé</li>
+        <li>Ce fichier doit être au format CSV, Encodage=UTF-8, Séparateur=Point-virgule, Noms colonnes=Première ligne.</li>
+        <li>Exemple de fichier conforme : <%= link_to "import_cours.csv", "/import_cours.csv" %></li>
+    </ul>
+  </div>
+  <br>
+
+ <div class="row">
+  	<div class="col-sm-4">
+      	<%= label_tag "Formation" %>    
+      	<%= select_tag :formation_id, 
+            options_from_collection_for_select(Formation.all, :id, :nom_promo, params[:formation_id]), class:"form-control" %>
+  	</div>
+  </div>
+
+  <div class="field">
+    <%= label :filename, "Fichier source" %>
+    <%= file_field_tag 'upload', accept: 'text/csv' %>
+  </div>
+  <br>
+  
+  <div class="field">
+    Enregistrer les changements ? <br>
+    <%= label :save, "Oui", :value => "true" %>
+    <%= radio_button_tag :save, true %>
+    <%= label :save, "Non", :value => "false" %>
+    <%= radio_button_tag :save, false, :checked => true %>
+    <br><i>Choisissez 'Non' pour tester votre import car <b>il est irréversible !</b></i><br />
+  </div>
+  <br>
+  
+  <div class="actions">
+    <%= submit_tag "Lancer l'import", class: "btn btn-primary"%>
+  </div>
+<% end %>

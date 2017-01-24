@@ -7,7 +7,7 @@
 
   <meta name="description" content="">
   <meta name="author" content="">
-  <title>IAE-Planning v0.3a</title>
+  <title><%= @sitename %></title>
 
   <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!--[if lt IE 9]>
@@ -54,32 +54,32 @@
       <div id="navbar" class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
           <% if user_signed_in? %>
-            <li class="<%= (params[:controller]=='cours' ? 'active' : '') %>">
+            <li class="<%= (@ctrl=='cours' ? 'active' : '') %>">
               <%= link_to cours_path do %>
                 <span class="glyphicon glyphicon-calendar"></span>
                 Cours
               <% end %>
             </li>
-            <li class="<%= (params[:controller]=='documents' ? 'active' : '') %>">
+            <li class="<%= (@ctrl=='documents' ? 'active' : '') %>">
               <%= link_to documents_path do %>
                 <span class="glyphicon glyphicon-book"></span>
                   Documents
               <% end %>
             </li>
             <% if current_user.try(:admin?) %>
-              <li class="<%= (params[:controller]=='formations' ? 'active' : '') %>">
+              <li class="<%= (@ctrl=='formations' ? 'active' : '') %>">
                 <%= link_to formations_path do %>
                   <span class="glyphicon glyphicon-education"></span>
                   Formations
                 <% end %>
               </li>
-              <li class="<%= (params[:controller]=='intervenants' ? 'active' : '') %>">
+              <li class="<%= (@ctrl=='intervenants' ? 'active' : '') %>">
                 <%= link_to intervenants_path do %>
                   <span class="glyphicon glyphicon-user"></span>
                     Intervenants
                 <% end %>
               </li>
-              <li class="<%= (params[:controller]=='salles' ? 'active' : '') %>">
+              <li class="<%= (@ctrl=='salles' ? 'active' : '') %>">
                 <%= link_to salles_path do %>
                   <span class="glyphicon glyphicon-blackboard"></span>
                     Salles
@@ -88,21 +88,45 @@
             <% end %>
           <% end %>
         </ul>
-
-        <div style="margin-right:50px"> 
+          <div style="margin-right:50px"> 
             <ul class="nav navbar-nav navbar-right">
               <% unless user_signed_in? %>
-                <li><a href="/users/sign_in"><span class="glyphicon glyphicon-log-in"></span> Connexion</a></li>
+                <li><a href="/users/sign_in"><span class="glyphicon glyphicon-log-in"></span> Log in</a></li>
               <% else %>
-                <%= link_to current_user.email, current_user %>
-                |
-                <%= link_to  "/users/sign_out", method: :delete do %> 
-                  <span class="glyphicon glyphicon-log-out"></span> Déconnexion
-                <% end %>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="glyphicon glyphicon-user"></i>
+                     <%= current_user.email %><b class="caret"></b>
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li>
+                      <%= link_to current_user do %>
+                        <span class="glyphicon glyphicon-user"></span>
+                        Compte 
+                      <% end %>    
+                    </li>
+                    
+                    <% if current_user.admin? %>
+                      <li class="divider"></li>
+                      <li>
+                        <%= link_to tools_index_path do %>
+                          <span class="glyphicon glyphicon-wrench"></span>
+                          Outils
+                        <% end %>
+                      </li>
+                    <% end %>
+                    <li class="divider"></li>
+                    <li>
+                      <%= link_to "/users/sign_out", method: :delete do %>
+                        <span class="glyphicon glyphicon-log-out"></span>
+                        Déconnexion
+                      <% end %>
+                    </li>
+                  </ul>
+                </li>
               <% end %>
             </ul>
-        </div>
-
+          </div>
       </div>
     </div>
   </nav>

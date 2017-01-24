@@ -15,7 +15,7 @@
     <%= form_tag request.path, method: :get do %>
       <div class="form-group">
         <div class="row">
-          <div class="col-sm-6">
+          <div class="col-sm-5">
               <%= label_tag "Formation" %>    
               <%= select_tag :formation_id, 
                     options_from_collection_for_select(Formation.all, :id, :nom_promo, params[:formation_id]), include_blank:true, onchange:'this.form.submit()', class:"form-control", 
@@ -34,7 +34,7 @@
                     options_from_collection_for_select(Intervenant.all, :id, :nom_prenom, params[:intervenant_id]), 
                       include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
                 <span class="input-group-btn">
-                  <%= submit_tag 'Rechercher', class:"btn btn-success" %>
+                  <%= submit_tag 'Filtrer', class:"btn btn-success" %>
                 </span>
               </div>
           </div>

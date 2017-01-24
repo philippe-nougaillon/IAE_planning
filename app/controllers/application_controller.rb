@@ -6,14 +6,22 @@ class ApplicationController < ActionController::Base
   # before_action :authenticate_user!, except: [:index]
   before_action :authenticate_user!
   before_action :detect_device_format
+  before_filter :set_layout_variables
 
-  def detect_device_format
-    case request.user_agent
-        when /iPhone/i, /Android/i && /mobile/i, /Windows Phone/i
-          request.variant = :phone
-        else
-          request.variant = :desktop
-      end
-  end
+  private
+    def set_layout_variables
+      @ctrl = params[:controller]
+      @sitename ||= "IAE-Planning"
+      @sitename.concat(" v0.4") 
+    end
+
+    def detect_device_format
+      case request.user_agent
+          when /iPhone/i, /Android/i && /mobile/i, /Windows Phone/i
+            request.variant = :phone
+          else
+            request.variant = :desktop
+        end
+    end
 
 end

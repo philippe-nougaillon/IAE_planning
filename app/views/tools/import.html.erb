@@ -10,7 +10,7 @@
     <h3>Cette fonction permet l'importation de cours à partir d'un fichier CSV</h3>
     <ul>
         <li>Le fichier source peut avoir les colonnes suivantes: Date;Heure début;Heure fin;Durée;UE;Intervenant;Intitulé</li>
-        <li>Ce fichier doit être au format CSV, Encodage=UTF-8, Séparateur=Point-virgule, Noms colonnes=Première ligne.</li>
+        <li>Ce fichier doit être au format CSV, Encodage=UTF-8, Séparateur=Point-virgule, Noms colonnes=Première ligne</li>
         <li>Exemple de fichier conforme : <%= link_to "import_cours.csv", "/import_cours.csv" %></li>
     </ul>
   </div>
@@ -31,7 +31,7 @@
   <br>
   
   <div class="field">
-    Enregistrer les changements ? <br>
+    <b>Enregistrer les changements ?</b> <br>
     <%= label :save, "Oui", :value => "true" %>
     <%= radio_button_tag :save, true %>
     <%= label :save, "Non", :value => "false" %>

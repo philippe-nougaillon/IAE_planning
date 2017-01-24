@@ -97,7 +97,10 @@
                 <%= link_to current_user.email, current_user %>
                 |
                 <% if current_user.admin? %>
-                  <%= link_to "Outils", tools_index_path %>
+                  <%= link_to tools_index_path do %>
+                    <span class="glyphicon glyphicon-wrench"></span>
+                    Outils
+                  <% end %>
                   |
                 <% end %>
                 <%= link_to  "/users/sign_out", method: :delete do %> 

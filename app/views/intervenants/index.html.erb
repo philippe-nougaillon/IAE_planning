@@ -14,7 +14,7 @@
       <div class="form-group">
         <div class="row">
           <div class="col-sm-4">
-            <%= label_tag "Nom" %>    
+            <%= label_tag "Nom/Prénom" %>    
             <div class="input-group">
             <%= text_field_tag :nom, params[:nom], include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
               <span class="input-group-btn">
@@ -32,8 +32,7 @@
     <table class="table table-hover table-striped">
       <thead>
         <tr>
-          <th />
-          <th>Intervenant</th>
+          <th colspan="2">Intervenant</th>
           <th>Courriel</th>
           <th>Cours planifiés</th>
           <th>Heures planifiées</th>
@@ -50,8 +49,8 @@
         <% @intervenants.includes(:cours).each do |intervenant| %>
           <tr>
             <td>
-              <% if intervenant.linkedin_photo %>
-                <%= link_to( image_tag(intervenant.linkedin_photo, class:"img-circle", size:'60x60'), intervenant) %>
+              <% unless intervenant.linkedin_photo.blank? %>
+                <%= link_to(image_tag(intervenant.linkedin_photo, class:"img-circle", size:'60x60'), intervenant) %>
               <% end %>
             </td>
             <td><b><%= link_to intervenant.nom_prenom, intervenant %></b></td>

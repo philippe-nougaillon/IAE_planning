@@ -17,24 +17,20 @@
   <% end %>
   
   <h2>
-    <%= @cour.formation.nom_promo_etudiants %>
+    <%= l(@cour.debut, format: :long) %>
   </h2>
 </div>
 
 <h3>
-  <%= @cour.nom %>
+  <%= @cour.formation.nom_promo_etudiants %><br>
+  <%= @cour.nom %><br>
+  <%= @cour.ue %>
 </h3>
 <br>
 
 <p>
-  <strong>Etat:</strong>
-  <span class="label <%= @cour.style %>"><%= @cour.etat.humanize %></span>
-</p>
-<br>
-
-<p>
-  <strong>Début:</strong>
-  <%= l(@cour.debut, format: :long) %>
+  <strong>Durée:</strong>
+  <%= @cour.duree %>h
 </p>
 
 <p>
@@ -43,18 +39,13 @@
 </p>
 
 <p>
-  <strong>Durée:</strong>
-  <%= @cour.duree %>h
-</p>
-
-<p>
   <strong>Intervenant:</strong>
-  <%= @cour.intervenant.nom_prenom %>
+  <%= link_to @cour.intervenant.nom_prenom, @cour.intervenant %>
 </p>
 
 <p>
-  <strong>UE:</strong>
-  <%= @cour.ue %>
+  <strong>Formation:</strong>
+  <%= link_to @cour.formation.nom_promo, @cour.formation %>
 </p>
 
 <p>
@@ -68,6 +59,12 @@
     <% end %>
   <% end %>
 </p>
+
+<p>
+  <strong>Etat:</strong>
+  <span class="label <%= @cour.style %>"><%= @cour.etat.humanize %></span>
+</p>
+<br>
 
 <% if current_user.admin? %>
   <% if @cour.audits.any? %>

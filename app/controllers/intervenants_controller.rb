@@ -14,7 +14,7 @@ class IntervenantsController < ApplicationController
     @intervenants = Intervenant.order(:nom)
 
     unless params[:nom].blank?
-      @intervenants = @intervenants.where("nom like ?", "%#{params[:nom]}%" )
+      @intervenants = @intervenants.where("nom like ? or prenom like ?", "%#{params[:nom]}%", "%#{params[:nom]}%" )
     end
 
   end

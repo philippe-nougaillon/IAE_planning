@@ -33,8 +33,7 @@
       <thead>
         <tr>
           <th />
-          <th>Nom</th>
-          <th>Prénom</th>
+          <th>Intervenant</th>
           <th>Courriel</th>
           <th>Cours planifiés</th>
           <th>Heures planifiées</th>
@@ -43,7 +42,7 @@
       </thead>
       <tfoot>
         <tr>
-          <% 7.times do %><th /><% end %>
+          <% 6.times do %><th /><% end %>
         </tr>
       </tfoot>
 
@@ -55,8 +54,7 @@
                 <%= link_to( image_tag(intervenant.linkedin_photo, class:"img-circle", size:'60x60'), intervenant) %>
               <% end %>
             </td>
-            <td><b><%= link_to intervenant.nom.upcase, intervenant %></b></td>
-            <td><%= intervenant.prenom %></td>
+            <td><b><%= link_to intervenant.nom_prenom, intervenant %></b></td>
             <td><%= intervenant.email %></td>
             <th>
               <%= link_to "#{intervenant.total_cours}", cours_path(intervenant_id:intervenant) %>

@@ -113,6 +113,7 @@
       </div>
     </div>
   </nav>
+
   <div class="container">
     <% flash.each do |name, msg| %>
       <%= content_tag :div, class: "alert alert-#{ name == :error ? "danger" : "success" } alert-dismissable", role: "alert" do %>
@@ -134,7 +135,6 @@
 
   ga('create', 'UA-89540844-1', 'auto');
   ga('send', 'pageview');
-
 </script>
 
 </html>

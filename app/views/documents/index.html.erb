@@ -77,10 +77,10 @@
             <% end %>
           </td>
           <td>
-            <%= document.intervenant.nom_prenom %>
+            <%= link_to document.intervenant.nom_prenom, document.intervenant %>
           </td>
           <td><%= link_to document.nom, document %></td>
-          <td><%= document.formation.nom_promo %></td>
+          <td><%= link_to document.formation.nom_promo, document.formation %></td>
           <td><%= document.unite.num_nom if document.unite %></td>
           <% if current_user.try(:admin?) %>
             <td>
@@ -97,7 +97,7 @@
 
     <tfoot>
       <tr>
-        <% 6.times do %><th /><% end %>
+        <% 7.times do %><th /><% end %>
         <% if current_user.try(:admin?) %>
           <th />  
         <% end %>

@@ -14,7 +14,7 @@ class FormationsController < ApplicationController
     @formations = Formation.all
 
     unless params[:nom].blank?
-      @formations = @formations.where("nom like ?", "%#{params[:nom]}%" )
+      @formations = @formations.where("nom like ?", "%#{params[:nom]}%")
     end
 
     unless params[:diplome].blank?

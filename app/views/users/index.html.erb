@@ -21,7 +21,7 @@
                 <%= select_tag :formation_id, 
                       options_from_collection_for_select(Formation.all, :id, :nom_promo, params[:formation_id]), include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
                 <span class="input-group-btn">
-                  <%= submit_tag 'Filtrer', class:"btn btn-success" %>
+                  <%= submit_tag 'Filtrer', class:"btn btn-success form-control" %>
                 </span>
             </div>
           </div>

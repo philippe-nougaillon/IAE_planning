@@ -167,12 +167,12 @@
                 </td>
                 <td><%= link_to cours.formation.nom_promo, cours.formation %></td>
                 <td>
-                  <% if cours.intervenant.linkedin_photo %>
+                  <% unless cours.intervenant.linkedin_photo.blank? %>
                     <%= link_to(image_tag( cours.intervenant.linkedin_photo, class: "img-circle", size:'45x45'), cours.intervenant) %>
                   <% end %>
                 </td>
                 <td>
-                  <%= cours.intervenant.nom_prenom %>
+                  <%= link_to cours.intervenant.nom_prenom, cours.intervenant %>
                 </td>
                 <td><%= link_to cours.nom_ou_ue, cours %></td>
                 <td>

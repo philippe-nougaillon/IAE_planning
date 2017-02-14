@@ -11,14 +11,14 @@ class Cour < ActiveRecord::Base
   validates :formation_id, :intervenant_id, presence: true
   validate :la_fin_apres_le_debut
 
-  enum etat: [:nouveau, :planifié, :reporté, :annulé]
+  enum etat: [:nouveau, :planifié, :reporté, :annulé, :a_réserver]
 
   # before_validation(on: :create) do
   #     self.user = RequestStore.store[:current_user]
   # end
 
   def self.styles
-  	['label-info','label-success','label-warning','label-danger']
+  	['label-info','label-success','label-warning','label-danger','label-primary']
   end
 
   def style

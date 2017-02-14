@@ -139,9 +139,7 @@
    <div class="row">
     <div class="col-md-12">
       <% Salle.all.each do |salle_id| %>
-        <h4>
-          Salle: <%= "#{Salle.find(salle_id).nom}" if salle_id %>
-        </h4>
+        <h4><%= "#{Salle.find(salle_id).nom}" if salle_id %></h4>
         <%= week_calendar events: @cours.where(salle_id:salle_id) do |date, meetings| %>
           <span class="calendar_day">
             <%= date.day %>
@@ -151,11 +149,9 @@
             <div class="meeting">
               <b>
                 <%= "#{l(meeting.debut, format: :heures_min)}-#{l(meeting.fin, format: :heures_min)}" %>
-                <%= "(#{meeting.salle.nom})" if meeting.salle %>  
               </b>
               <br>
-              <%= link_to meeting.formation.nom, meeting %> / 
-              <%= link_to meeting.intervenant.nom_prenom, url_for(params.merge(intervenant_id:meeting.intervenant_id)) %>
+              <%= link_to meeting.formation.nom, meeting %>
             </div>
           <% end %>
         <% end %>

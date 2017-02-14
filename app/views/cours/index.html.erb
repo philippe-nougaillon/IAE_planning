@@ -79,6 +79,8 @@
             Semaine 
             <%= radio_button_tag :view, "calendar_month", (params[:view]=='calendar_month'), onchange:'this.form.submit()' %>
             Mois 
+            <%= radio_button_tag :view, "calendar_rooms", (params[:view]=='calendar_rooms'), onchange:'this.form.submit()' %>
+            Salles 
           </div>
         </div>
       </div>  
@@ -95,7 +97,11 @@
 
         <% meetings.each do |meeting| %>
           <div class="meeting">
-            <b><%= l(meeting.debut, format: :heures_min) %></b>
+            <b>
+              <%= "#{l(meeting.debut, format: :heures_min)}-#{l(meeting.fin, format: :heures_min)}" %>
+              <%= "(#{meeting.salle.nom})" if meeting.salle %>  
+            </b>
+            <br>
             <%= link_to meeting.formation.nom, meeting %> / 
             <%= link_to meeting.intervenant.nom_prenom, meeting %>
           </div>
@@ -115,10 +121,43 @@
 
         <% meetings.each do |meeting| %>
           <div class="meeting">
-            <b><%= l(meeting.debut, format: :heures_min) %></b>
+            <b>
+              <%= "#{l(meeting.debut, format: :heures_min)}-#{l(meeting.fin, format: :heures_min)}" %>
+              <%= "(#{meeting.salle.nom})" if meeting.salle %>  
+            </b>
+            <br>
             <%= link_to meeting.formation.nom, meeting %> / 
             <%= link_to meeting.intervenant.nom_prenom, url_for(params.merge(intervenant_id:meeting.intervenant_id)) %>
           </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+
+<% elsif params[:view] == "calendar_rooms" %>
+   <% @week_selector_visible = true %>
+   <div class="row">
+    <div class="col-md-12">
+      <% Salle.all.each do |salle_id| %>
+        <h4>
+          Salle: <%= "#{Salle.find(salle_id).nom}" if salle_id %>
+        </h4>
+        <%= week_calendar events: @cours.where(salle_id:salle_id) do |date, meetings| %>
+          <span class="calendar_day">
+            <%= date.day %>
+          </span>
+
+          <% meetings.each do |meeting| %>
+            <div class="meeting">
+              <b>
+                <%= "#{l(meeting.debut, format: :heures_min)}-#{l(meeting.fin, format: :heures_min)}" %>
+                <%= "(#{meeting.salle.nom})" if meeting.salle %>  
+              </b>
+              <br>
+              <%= link_to meeting.formation.nom, meeting %> / 
+              <%= link_to meeting.intervenant.nom_prenom, url_for(params.merge(intervenant_id:meeting.intervenant_id)) %>
+            </div>
+          <% end %>
         <% end %>
       <% end %>
     </div>

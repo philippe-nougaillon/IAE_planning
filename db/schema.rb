@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170202092339) do
+ActiveRecord::Schema.define(version: 20170214112902) do
 
   create_table "audits", force: :cascade do |t|
     t.integer  "auditable_id"
@@ -77,6 +77,7 @@ ActiveRecord::Schema.define(version: 20170202092339) do
     t.datetime "updated_at",                null: false
     t.string   "memo"
     t.integer  "nbr_etudiants", default: 0
+    t.integer  "nbr_heures"
   end
 
   create_table "intervenants", force: :cascade do |t|

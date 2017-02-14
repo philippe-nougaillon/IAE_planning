@@ -9,7 +9,7 @@ class Formation < ActiveRecord::Base
 	has_many :unites
 	accepts_nested_attributes_for :unites, allow_destroy: true, reject_if: lambda {|attributes| attributes['num'].blank?}
 
-	validates :nom, :promo, :nbr_etudiants, presence: true
+	validates :nom, :promo, :nbr_etudiants, :nbr_heures, presence: true
 	validates :nom, uniqueness: {scope: :promo}
 	
 	default_scope { order(:nom, :promo) } 

@@ -60,12 +60,6 @@
                 Cours
               <% end %>
             </li>
-            <li class="<%= (@ctrl=='documents' ? 'active' : '') %>">
-              <%= link_to documents_path do %>
-                <span class="glyphicon glyphicon-book"></span>
-                  Documents
-              <% end %>
-            </li>
             <% if current_user.try(:admin?) %>
               <li class="<%= (@ctrl=='formations' ? 'active' : '') %>">
                 <%= link_to formations_path do %>
@@ -77,12 +71,6 @@
                 <%= link_to intervenants_path do %>
                   <span class="glyphicon glyphicon-user"></span>
                     Intervenants
-                <% end %>
-              </li>
-              <li class="<%= (@ctrl=='salles' ? 'active' : '') %>">
-                <%= link_to salles_path do %>
-                  <span class="glyphicon glyphicon-blackboard"></span>
-                    Salles
                 <% end %>
               </li>
             <% end %>

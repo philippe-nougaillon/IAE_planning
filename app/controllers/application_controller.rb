@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
     def set_layout_variables
       @ctrl = params[:controller]
       @sitename ||= "IAE-Planning"
-      @sitename.concat(" v0.5") 
+      @sitename.concat(" v0.6") 
     end
 
     def detect_device_format

@@ -152,7 +152,11 @@
                 <%= "#{l(meeting.debut, format: :heures_min)}-#{l(meeting.fin, format: :heures_min)}" %>
               </b>
               <br>
-              <%= link_to meeting.formation.nom, meeting %>
+              <% if meeting.formation.abrg %>
+                <%= link_to meeting.formation.abrg, meeting, title:meeting.formation.nom %>
+              <% else %>
+                <%= link_to meeting.formation.nom, meeting %>
+              <% end %>
             </div>
           <% end %>
         <% end %>

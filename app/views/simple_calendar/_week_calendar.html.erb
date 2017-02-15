@@ -1,6 +1,5 @@
 <div class="simple-calendar">
   <% if @week_selector_visible %>
-
     <div class="calendar-heading">
       <%= link_to calendar.url_for_previous_view , class: "btn btn-default" do %>
           <i class="glyphicon glyphicon-backward"></i>
@@ -30,9 +29,12 @@
     <tbody>
       <% date_range.each_slice(7) do |week| %>
         <tr>
-          <td>
-            <h3><%= @salle.nom %></h3>
-          </td>
+          <% if defined? @week_selector_visible %>
+            <td>
+              <h3><%= @salle.nom %></h3>
+            </td>
+          <% end %>
+          
           <% week.each do |day| %>
             <% unless day.sunday? %>
               <%= content_tag :td, class: calendar.td_classes_for(day) do %>

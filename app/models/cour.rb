@@ -11,6 +11,8 @@ class Cour < ActiveRecord::Base
   validates :formation_id, :intervenant_id, presence: true
   validate :la_fin_apres_le_debut
 
+  validate :check_chevauchement, :if => Proc.new {|cour| cour.salle_id }
+
   enum etat: [:nouveau, :planifié, :reporté, :annulé, :a_réserver]
 
   # before_validation(on: :create) do
@@ -25,9 +27,9 @@ class Cour < ActiveRecord::Base
 	  Cour.styles[Cour.etats[self.etat]]
   end
 	
-  def duree
-  	self.fin ? ((self.fin - self.debut) / 60) / 60  : 0
-  end
+  #def duree
+  #	self.fin ? ((self.fin - self.debut) / 60) / 60  : 0
+  #end
 
   # Simple_calendar attributes
   def start_time
@@ -74,8 +76,15 @@ class Cour < ActiveRecord::Base
   end
 
   private
-  def la_fin_apres_le_debut
-    errors.add(:debut, "du cours ne peut pas être après la fin !") if self.debut > self.fin
-  end  
+    def la_fin_apres_le_debut
+      errors.add(:debut, "du cours ne peut pas être après la fin !") if self.debut > self.fin
+    end  
+
+    def check_chevauchement
+      if Cour.where("id != ? AND salle_id = ? AND (debut BETWEEN ? AND ?)",self.id, self.salle_id, self.debut, self.fin).any?
+        # chevauchement !
+        errors.add(:cours, 'en chevauchement dans la même salle')
+      end
+    end  
 
 end

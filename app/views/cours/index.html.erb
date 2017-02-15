@@ -88,6 +88,7 @@
 </div>
 
 <% if params[:view] == "calendar_month" %>
+
   <div class="row">
     <div class="col-md-12">
       <%= month_calendar events: @cours do |date, meetings| %>
@@ -139,8 +140,8 @@
    <div class="row">
     <div class="col-md-12">
       <% Salle.all.each do |salle_id| %>
-        <h4><%= "#{Salle.find(salle_id).nom}" if salle_id %></h4>
-        <%= week_calendar events: @cours.where(salle_id:salle_id) do |date, meetings| %>
+        <% @salle = Salle.find(salle_id) %> 
+        <%= week_calendar events: @cours.where(salle_id:@salle.id), salle_id:@salle.id do |date, meetings| %>
           <span class="calendar_day">
             <%= date.day %>
           </span>
@@ -243,7 +244,7 @@
 
           <tfoot>
             <tr>
-              <th /><th /><th />
+              <th /><th />
               <th>
                 <span class="pull-right">
                   <%= number_with_precision(sum_duree, precision: 1) %>h

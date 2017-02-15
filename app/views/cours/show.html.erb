@@ -29,13 +29,18 @@
 <br>
 
 <p>
-  <strong>Durée:</strong>
-  <%= @cour.duree %>h
+  <strong>Début:</strong>
+  <%= l(@cour.debut, format: :long) %>
 </p>
 
 <p>
   <strong>Fin:</strong>
   <%= l(@cour.fin, format: :long) %>
+</p>
+
+<p>
+  <strong>Durée:</strong>
+  <%= @cour.duree %>h
 </p>
 
 <p>

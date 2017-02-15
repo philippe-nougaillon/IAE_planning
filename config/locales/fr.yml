@@ -1,5 +1,9 @@
 fr:
   activerecord:
+    models:
+      cour:
+        one: Cours
+        other: Cours
     errors:
       messages:
         record_invalid: 'La validation a échoué : %{errors}'

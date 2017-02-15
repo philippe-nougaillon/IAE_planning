@@ -42,6 +42,8 @@ gem 'rack-cors'
 gem 'carrierwave', '0.11.0'
 gem 'rmagick'
 gem 'capture_stdout'
+gem "rails-erd"
+
 #gem 'capture-output'
 
 # Use ActiveModel has_secure_password

@@ -66,7 +66,7 @@ class CoursController < ApplicationController
     @cour = Cour.new
     @cour.formation_id = params[:formation_id]
     @cour.debut = params[:fin] 
-    #@cour.fin = params[:fin]  
+    #@cour.fin = nil  
     @cour.intervenant_id = params[:intervenant_id]
     @cour.ue = params[:ue]
   end
@@ -79,11 +79,13 @@ class CoursController < ApplicationController
   # POST /cours.json
   def create
     @cour = Cour.new(cour_params)
-    
-    unless params[:duree_cours].blank?
-      @cour.fin = eval("@cour.debut + #{params[:duree_cours]}.hour") 
-    else
-      @cour.fin = @cour.debut 
+
+    fin = eval("@cour.debut + @cour.duree.hour")
+    #logger.debug "[DEBUG] #{fin}"
+
+    if @cour.fin != fin
+      @cour.fin = fin
+      @cour.save
     end
 
     respond_to do |format|
@@ -107,14 +109,17 @@ class CoursController < ApplicationController
   # PATCH/PUT /cours/1.json
   def update
 
-    unless params[:duree_cours].blank?
-      @cour.fin = eval("@cour.debut + #{params[:duree_cours]}.hour") 
-    else
-      @cour.fin = @cour.debut 
-    end
 
     respond_to do |format|
       if @cour.update(cour_params)
+        fin = eval("@cour.debut + @cour.duree.hour")
+        #logger.debug "[DEBUG] #{fin}"
+
+        if @cour.fin != fin
+          @cour.fin = fin
+          @cour.save
+        end
+
         format.html { redirect_to @cour, notice: 'Cours modifié avec succès.' }
         format.json { render :show, status: :ok, location: @cour }
       else
@@ -142,6 +147,6 @@ class CoursController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def cour_params
-      params.require(:cour).permit(:debut, :fin, :formation_id, :intervenant_id, :salle_id, :ue, :nom, :etat)
+      params.require(:cour).permit(:debut, :fin, :formation_id, :intervenant_id, :salle_id, :ue, :nom, :etat, :duree)
     end
 end

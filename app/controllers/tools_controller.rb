@@ -47,19 +47,76 @@ class ToolsController < ApplicationController
 			puts "- -" * 80
 			puts
 		end
+	  	puts "----------- Les modification n'ont pas été enregistrées ! ---------------" unless params[:save] == 'true'
+	  	puts
+
 		puts "=" * 80
 		puts "Lignes importées: #{@importes} | Lignes ignorées: #{@errors}"
 		puts "=" * 80
       end
 
       # save output            
-      @now = DateTime.now.to_s
+      #@now = DateTime.now.to_s
       #File.open("public/Documents/Import_logements-#{@now}.txt", "w") { |file| file.write @out }
     else
       flash[:alert] = "Manque le fichier source pour lancer l'importation !"
       redirect_to action: 'import'
     end  
+  end
 
+  def creation_cours
+  end
+
+  def creation_cours_do
+
+	@start_date = Date.civil(params[:cours]["start_date(1i)"].to_i,
+                         params[:cours]["start_date(2i)"].to_i,
+                         params[:cours]["start_date(3i)"].to_i)
+
+	@end_date = Date.civil(params[:cours]["end_date(1i)"].to_i,
+                         params[:cours]["end_date(2i)"].to_i,
+                         params[:cours]["end_date(3i)"].to_i)
+
+  	@ndays = (@end_date - @start_date).to_i
+
+  	date = @start_date
+  	@cours_créés = @erreurs = 0
+
+  	# capture output
+    @stream = capture_stdout do
+
+	  	@ndays.times do
+	  		wday = date.wday
+	  		if (params[:lundi] and wday == 1) or (params[:mardi] and wday == 2) or (params[:mercredi] and wday == 3) or (params[:jeudi] and wday == 4) or (params[:vendredi] and wday == 5) or (params[:samedi] and wday == 6)
+
+		  		debut = date.to_datetime + Time.parse("#{params[:cours]["end_date(4i)"]}:#{params[:cours]["end_date(5i)"]}").seconds_since_midnight.seconds
+	
+		  		fin = date.to_datetime + Time.parse("#{params[:cours]["end_date(4i)"]}:#{params[:cours]["end_date(5i)"]}").seconds_since_midnight.seconds
+
+		  		fin = eval("fin + #{params[:duree]}.hour")
+
+		  		new_cours = Cour.new(debut:debut, fin:fin, duree:params[:duree],
+		  								formation_id:params[:formation_id], 
+		  								intervenant_id:params[:intervenant_id])
+
+		  		if new_cours.valid?
+		  			new_cours.save if params[:save] == 'true'
+	  			  	@cours_créés += 1
+			  		puts "[OK] #{I18n.l(new_cours.debut, format: :long)}"
+	  			else
+	  				@erreurs += 1
+			  		puts "[NOK] #{new_cours.inspect}"
+	  			end
+	  		end
+	  		date = date + 1.day
+	  	end
+	  	puts
+	  	puts "----------- Les modification n'ont pas été enregistrées ! ---------------" unless params[:save] == 'true'
+	  	puts
+		puts "=" * 80
+	  	puts "Création termninée | #{@cours_créés} cours_créés | #{@erreurs} erreurs"
+		puts "=" * 80
+	end  	
   end
 
 end

@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   get 'tools/index'
   get 'tools/import'
   post 'tools/import_do'
+  get 'tools/creation_cours'
+  post 'tools/creation_cours_do'
 
   devise_for :users
   

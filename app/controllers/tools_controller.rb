@@ -47,7 +47,7 @@ class ToolsController < ApplicationController
 			puts "- -" * 80
 			puts
 		end
-	  	puts "----------- Les modification n'ont pas été enregistrées ! ---------------" unless params[:save] == 'true'
+	  	puts "----------- Les modifications n'ont pas été enregistrées ! ---------------" unless params[:save] == 'true'
 	  	puts
 
 		puts "=" * 80
@@ -68,7 +68,6 @@ class ToolsController < ApplicationController
   end
 
   def creation_cours_do
-
 	@start_date = Date.civil(params[:cours]["start_date(1i)"].to_i,
                          params[:cours]["start_date(2i)"].to_i,
                          params[:cours]["start_date(3i)"].to_i)
@@ -84,7 +83,6 @@ class ToolsController < ApplicationController
 
   	# capture output
     @stream = capture_stdout do
-
 	  	@ndays.times do
 	  		wday = date.wday
 	  		if (params[:lundi] and wday == 1) or (params[:mardi] and wday == 2) or (params[:mercredi] and wday == 3) or (params[:jeudi] and wday == 4) or (params[:vendredi] and wday == 5) or (params[:samedi] and wday == 6)
@@ -111,7 +109,7 @@ class ToolsController < ApplicationController
 	  		date = date + 1.day
 	  	end
 	  	puts
-	  	puts "----------- Les modification n'ont pas été enregistrées ! ---------------" unless params[:save] == 'true'
+	  	puts "----------- Les modifications n'ont pas été enregistrées ! ---------------" unless params[:save] == 'true'
 	  	puts
 		puts "=" * 80
 	  	puts "Création termninée | #{@cours_créés} cours_créés | #{@erreurs} erreurs"

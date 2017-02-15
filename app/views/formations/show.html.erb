@@ -11,7 +11,7 @@
   <% end %>
   
   <h2>
-    <%= @formation.nom %> (<%= @formation.abrg %>)
+    <%= @formation.nom %> <%= "(#{@formation.abrg})" if @formation.abrg %>
   </h2>
 
 </div>

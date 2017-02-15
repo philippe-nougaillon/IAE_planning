@@ -59,7 +59,7 @@
           <th>Domaine</th>
           <th>UE</th>
           <th>Etudiants</th>
-          <% if current_user.admin? %>
+          <% if current_user.try(:admin?) %>
             <th colspan="2"></th>
           <% end %>  
         </tr>
@@ -67,9 +67,9 @@
 
       <tfoot>
         <tr>
-          <% 7.times do %><th><% end %>
+          <% 6.times do %><th><% end %>
           <th><span class="pull-right"><%= @formations.sum(:nbr_etudiants) %></span></th>
-          <% if current_user.admin? %>
+          <% if current_user.try(:admin?) %>
             <th /><th />
           <% end %>  
         </tr>

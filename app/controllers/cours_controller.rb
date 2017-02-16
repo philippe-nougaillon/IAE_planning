@@ -66,7 +66,6 @@ class CoursController < ApplicationController
     @cour = Cour.new
     @cour.formation_id = params[:formation_id]
     @cour.debut = params[:fin] 
-    #@cour.fin = nil  
     @cour.intervenant_id = params[:intervenant_id]
     @cour.ue = params[:ue]
   end
@@ -79,14 +78,6 @@ class CoursController < ApplicationController
   # POST /cours.json
   def create
     @cour = Cour.new(cour_params)
-
-    fin = eval("@cour.debut + @cour.duree.hour")
-    #logger.debug "[DEBUG] #{fin}"
-
-    if @cour.fin != fin
-      @cour.fin = fin
-      @cour.save
-    end
 
     respond_to do |format|
       if @cour.save
@@ -108,18 +99,8 @@ class CoursController < ApplicationController
   # PATCH/PUT /cours/1
   # PATCH/PUT /cours/1.json
   def update
-
-
     respond_to do |format|
       if @cour.update(cour_params)
-        fin = eval("@cour.debut + @cour.duree.hour")
-        #logger.debug "[DEBUG] #{fin}"
-
-        if @cour.fin != fin
-          @cour.fin = fin
-          @cour.save
-        end
-
         format.html { redirect_to @cour, notice: 'Cours modifié avec succès.' }
         format.json { render :show, status: :ok, location: @cour }
       else

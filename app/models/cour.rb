@@ -8,10 +8,11 @@ class Cour < ActiveRecord::Base
   belongs_to :intervenant
   belongs_to :salle
 
-  validates :formation_id, :intervenant_id, presence: true
-  validate :la_fin_apres_le_debut
+  before_validation :update_date_fin
 
-  validate :check_chevauchement, :if => Proc.new {|cour| cour.salle_id }
+  #validate :la_fin_apres_le_debut
+  validates :formation_id, :intervenant_id, presence: true
+  validate :check_chevauchement, if: Proc.new {|cours| cours.salle_id }
 
   enum etat: [:nouveau, :planifié, :reporté, :annulé, :a_réserver]
 
@@ -76,13 +77,19 @@ class Cour < ActiveRecord::Base
   end
 
   private
+    def update_date_fin
+      fin = eval("self.debut + self.duree.hour")
+      self.fin = fin if self.fin != fin
+    end
+
     def la_fin_apres_le_debut
       errors.add(:debut, "du cours ne peut pas être après la fin !") if self.debut > self.fin
     end  
 
     def check_chevauchement
-      if Cour.where("id != ? AND salle_id = ? AND (debut BETWEEN ? AND ?)",self.id, self.salle_id, self.debut, self.fin).any?
-        # chevauchement !
+      if Cour.where("id != ? AND salle_id = ? AND (debut BETWEEN ? AND ?) OR (fin BETWEEN ? AND ?)", 
+                      self.id, self.salle_id, self.debut, self.fin, self.debut, self.fin)  
+
         errors.add(:cours, 'en chevauchement dans la même salle')
       end
     end  

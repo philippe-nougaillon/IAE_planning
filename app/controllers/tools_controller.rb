@@ -8,7 +8,7 @@ class ToolsController < ApplicationController
   end
 
   def import_do
-    if params[:upload]
+    if params[:upload] and !params[:formation_id].blank?
     	
       # Enregistre le fichier localement
       file_with_path = Rails.root.join('public', 'tmp', params[:upload].original_filename)
@@ -59,7 +59,7 @@ class ToolsController < ApplicationController
       #@now = DateTime.now.to_s
       #File.open("public/Documents/Import_logements-#{@now}.txt", "w") { |file| file.write @out }
     else
-      flash[:alert] = "Manque le fichier source pour lancer l'importation !"
+      flash[:alert] = "Manque le fichier source ou la formation pour pouvoir lancer l'importation !"
       redirect_to action: 'import'
     end  
   end
@@ -114,7 +114,64 @@ class ToolsController < ApplicationController
       #File.open("public/Documents/Import_logements-#{@now}.txt", "w") { |file| file.write @out }
     else
       flash[:alert] = "Manque le fichier source pour lancer l'importation !"
-      redirect_to action: 'import'
+      redirect_to action: 'import_intervenants'
+    end  
+  end
+
+  def import_utilisateurs
+  end
+
+  def import_utilisateurs_do
+    if params[:upload] and !params[:formation_id].blank?
+    	
+      # Enregistre le fichier localement
+      file_with_path = Rails.root.join('public', 'tmp', params[:upload].original_filename)
+      File.open(file_with_path, 'wb') do |file|
+          file.write(params[:upload].read)
+      end
+
+      # capture output
+      @stream = capture_stdout do
+	  	@importes = @errors = 0	
+
+	  	index = 0
+
+		CSV.foreach(file_with_path, headers:true, col_sep:';', quote_char:'"', encoding:'UTF-8') do |row|
+			index += 1
+			puts "Ligne ##{index}"
+
+			generated_password = Devise.friendly_token.first(8)
+			user = User.new(email:row['email'], password:generated_password, formation_id:params[:formation_id])
+
+			UserMailer.welcome_email(user, generated_password).deliver if params[:save] == 'true'
+			
+			if user.valid? 
+				puts "user VALIDE => #{user.changes}"
+				user.save if params[:save] == 'true'
+	        	@importes += 1
+			else
+				puts "!! user INVALIDE !! Erreur => #{user.errors.messages} | Source: #{row}"
+				puts
+				puts user.changes
+				@errors += 1
+			end
+			puts "- -" * 80
+			puts
+		end
+	  	puts "----------- Les modifications n'ont pas été enregistrées ! ---------------" unless params[:save] == 'true'
+	  	puts
+
+		puts "=" * 80
+		puts "Lignes importées: #{@importes} | Lignes ignorées: #{@errors}"
+		puts "=" * 80
+      end
+
+      # save output            
+      #@now = DateTime.now.to_s
+      #File.open("public/Documents/Import_logements-#{@now}.txt", "w") { |file| file.write @out }
+    else
+      flash[:alert] = "Manque le fichier source ou la formation pour pouvoir lancer l'importation !"
+      redirect_to action: 'import_utilisateurs'
     end  
   end
 

@@ -64,6 +64,61 @@ class ToolsController < ApplicationController
     end  
   end
 
+  def import_intervenants
+  end
+
+  def import_intervenants_do
+    if params[:upload]
+    	
+      # Enregistre le fichier localement
+      file_with_path = Rails.root.join('public', 'tmp', params[:upload].original_filename)
+      File.open(file_with_path, 'wb') do |file|
+          file.write(params[:upload].read)
+      end
+
+      # capture output
+      @stream = capture_stdout do
+	  	@importes = @errors = 0	
+
+	  	index = 0
+
+		CSV.foreach(file_with_path, headers:true, col_sep:';', quote_char:'"', encoding:'UTF-8') do |row|
+			index += 1
+			puts "Ligne ##{index}"
+
+			intervenant = Intervenant.new(nom:row['nom'], prenom:row['prénom'], email:row['email'], linkedin_url:row['linkedin_url'], linkedin_photo:row['linkedin_photo'])
+			
+			if intervenant.valid? 
+				puts "Intervenant VALIDE => #{intervenant.changes}"
+				intervenant.save if params[:save] == 'true'
+	        	@importes += 1
+			else
+				puts "!! Intervenant INVALIDE !! Erreur => #{intervenant.errors.messages} | Source: #{row}"
+				puts
+				puts intervenant.changes
+				@errors += 1
+			end
+			puts "- -" * 80
+			puts
+		end
+	  	puts "----------- Les modifications n'ont pas été enregistrées ! ---------------" unless params[:save] == 'true'
+	  	puts
+
+		puts "=" * 80
+		puts "Lignes importées: #{@importes} | Lignes ignorées: #{@errors}"
+		puts "=" * 80
+      end
+
+      # save output            
+      #@now = DateTime.now.to_s
+      #File.open("public/Documents/Import_logements-#{@now}.txt", "w") { |file| file.write @out }
+    else
+      flash[:alert] = "Manque le fichier source pour lancer l'importation !"
+      redirect_to action: 'import'
+    end  
+  end
+
+
   def creation_cours
   end
 

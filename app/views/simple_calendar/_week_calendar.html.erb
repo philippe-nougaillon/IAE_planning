@@ -29,7 +29,7 @@
     <tbody>
       <% date_range.each_slice(7) do |week| %>
         <tr>
-          <% if defined? @week_selector_visible %>
+          <% if defined? @week_selector_visible and @salle %>
             <td>
               <h2><%= @salle.nom %></h2>
             </td>

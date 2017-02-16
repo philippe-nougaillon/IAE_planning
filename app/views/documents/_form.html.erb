@@ -33,7 +33,7 @@
     </div>
   </div>
   <div class="form-group">
-    <%= f.label :intervenant, class: "col-sm-2 control-label" %>
+    <%= f.label :intervenant, 'Publié par', class: "col-sm-2 control-label" %>
     <div class="col-sm-4">
       <%= f.collection_select(:intervenant_id, Intervenant.all, :id, :nom_prenom, {include_blank: true}, class: "form-control") %>
     </div>

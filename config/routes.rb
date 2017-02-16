@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   post 'tools/import_do'
   get 'tools/creation_cours'
   post 'tools/creation_cours_do'
+  get 'tools/import_intervenants'
+  post 'tools/import_intervenants_do'
 
   devise_for :users
   

@@ -112,6 +112,7 @@
   </div>
 
 <% elsif params[:view] == "calendar_week" %>
+  <% @week_selector_visible = true %>
 
   <div class="row">
     <div class="col-md-12">
@@ -136,8 +137,9 @@
   </div>
 
 <% elsif params[:view] == "calendar_rooms" %>
-   <% @week_selector_visible = true %>
-   <div class="row">
+  <% @week_selector_visible = true %>
+  
+  <div class="row">
     <div class="col-md-12">
       <% Salle.all.each do |salle_id| %>
         <% @salle = Salle.find(salle_id) %> 

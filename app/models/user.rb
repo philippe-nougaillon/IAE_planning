@@ -8,4 +8,7 @@ class User < ActiveRecord::Base
 
   belongs_to :formation       
 
+  default_scope { order(:email) } 
+
+
 end

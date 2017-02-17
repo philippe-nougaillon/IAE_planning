@@ -43,12 +43,13 @@
                 <br>  
               <% end %>
             </div>
+
             <div class="col-xs-2">
-              <b><%= l(cours.debut, format: :heures_min) %></b>
+              <%= "#{l(cours.debut, format: :heures_min)}-#{l(cours.fin, format: :heures_min)}" %>
               <% unless cours.planifié? %>
                 <span class="label <%= cours.style %>"><%= cours.etat.humanize %></span>
               <% else %>
-                <b><%= cours.salle.nom if cours.salle %></b>
+                <%= "(#{cours.salle.nom})" if cours.salle %>  
               <% end %>
             </div>
             <div class="col-xs-2">

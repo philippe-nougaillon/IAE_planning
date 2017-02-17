@@ -49,9 +49,12 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <%= link_to "IAE-Paris", "#", class: "navbar-brand" %>
+        <span class="navbar-brand">
+            <%= image_tag("logo_iae_small.png") %>
+        </span>
       </div>
       <div id="navbar" class="collapse navbar-collapse">
+        <br>
         <ul class="nav navbar-nav">
           <% if user_signed_in? %>
             <li class="<%= (@ctrl=='cours' ? 'active' : '') %>">

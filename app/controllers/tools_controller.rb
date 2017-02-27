@@ -27,7 +27,12 @@ class ToolsController < ApplicationController
 			puts "Ligne ##{index}"
 
 			# Date;Heure début;Heure fin;Durée;UE;Intervenant;Intitulé
-			int= row['Intervenant'] ? Intervenant.where("nom like ?", row['Intervenant'].split(' ').first).first : nil
+			
+			int = nil
+			if row['Intervenant']
+				nom = row['Intervenant'].split(' ').first
+				int = Intervenant.where("nom like ?", "%#{nom}%").first
+			end
 
 			cours = Cour.new(debut:row['Date'] + " " + row['Heure début'], 
 							fin:row['Date'] + " " + row['Heure fin'], 

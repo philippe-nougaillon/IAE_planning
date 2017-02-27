@@ -22,17 +22,17 @@ class ToolsController < ApplicationController
 
 	  	index = 0
 
-		CSV.foreach(file_with_path, headers:true, col_sep:';', quote_char:'"', encoding:'UTF-8') do |row|
+		CSV.foreach(file_with_path, headers:true, col_sep:';', quote_char:'"', encoding:'iso-8859-1') do |row|
 			index += 1
 			puts "Ligne ##{index}"
 
 			# Date;Heure début;Heure fin;Durée;UE;Intervenant;Intitulé
 			int= row['Intervenant'] ? Intervenant.where("nom like ?", row['Intervenant'].split(' ').first).first : nil
 
-			cours = Cour.new(debut:row['Date'] + " " + row['Heure début'], 
+			cours = Cour.new(debut:row['Date'] + " " + row['Heure debut'], 
 							fin:row['Date'] + " " + row['Heure fin'], 
 							formation_id: params[:formation_id], 
-							ue:row['UE'], intervenant:int, nom:row['Intitulé'] )
+							ue:row['UE'], intervenant:int, nom:row['Intitule'] )
 			
 			if cours.valid? 
 				puts "COURS VALIDE => #{cours.changes}"
@@ -82,7 +82,7 @@ class ToolsController < ApplicationController
 
 	  	index = 0
 
-		CSV.foreach(file_with_path, headers:true, col_sep:';', quote_char:'"', encoding:'UTF-8') do |row|
+		CSV.foreach(file_with_path, headers:true, col_sep:';', quote_char:'"', encoding:'iso-8859-1:UTF-8') do |row|
 			index += 1
 			puts "Ligne ##{index}"
 
@@ -136,7 +136,7 @@ class ToolsController < ApplicationController
 
 	  	index = 0
 
-		CSV.foreach(file_with_path, headers:true, col_sep:';', quote_char:'"', encoding:'UTF-8') do |row|
+		CSV.foreach(file_with_path, headers:true, col_sep:';', quote_char:'"', encoding:'iso-8859-1:UTF-8') do |row|
 			index += 1
 			puts "Ligne ##{index}"
 
@@ -212,10 +212,10 @@ class ToolsController < ApplicationController
 		  		if new_cours.valid?
 		  			new_cours.save if params[:save] == 'true'
 	  			  	@cours_créés += 1
-			  		puts "[OK] #{I18n.l(new_cours.debut, format: :long)}-#{I18n.l(new_cours.fin, format: :heures_min)}  "
+			  		puts "[Création OK] #{I18n.l(new_cours.debut, format: :long)}-#{I18n.l(new_cours.fin, format: :heures_min)}  "
 	  			else
 	  				@erreurs += 1
-			  		puts "[NOK] #{new_cours.inspect}"
+			  		puts "[Erreur!] #{I18n.l(new_cours.debut, format: :long)}-#{I18n.l(new_cours.fin, format: :heures_min)}  "
 	  			end
 	  		end
 	  		current_date = current_date + 1.day

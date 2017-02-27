@@ -22,17 +22,17 @@ class ToolsController < ApplicationController
 
 	  	index = 0
 
-		CSV.foreach(file_with_path, headers:true, col_sep:';', quote_char:'"', encoding:'iso-8859-1') do |row|
+		CSV.foreach(file_with_path, headers:true, col_sep:';', quote_char:'"', encoding:'iso-8859-1:UTF-8') do |row|
 			index += 1
 			puts "Ligne ##{index}"
 
 			# Date;Heure début;Heure fin;Durée;UE;Intervenant;Intitulé
 			int= row['Intervenant'] ? Intervenant.where("nom like ?", row['Intervenant'].split(' ').first).first : nil
 
-			cours = Cour.new(debut:row['Date'] + " " + row['Heure debut'], 
+			cours = Cour.new(debut:row['Date'] + " " + row['Heure début'], 
 							fin:row['Date'] + " " + row['Heure fin'], 
 							formation_id: params[:formation_id], 
-							ue:row['UE'], intervenant:int, nom:row['Intitule'] )
+							ue:row['UE'], intervenant:int, nom:row['Intitulé'] )
 			
 			if cours.valid? 
 				puts "COURS VALIDE => #{cours.changes}"
@@ -180,19 +180,24 @@ class ToolsController < ApplicationController
   end
 
   def creation_cours_do
+  	if params[:duree].blank?
+      flash[:alert] = "Erreur... manque la durée"
+      redirect_to action: 'creation_cours'
+      return
+    end 
+
 	@start_date = Date.civil(params[:cours]["start_date(1i)"].to_i,
-                         params[:cours]["start_date(2i)"].to_i,
-                         params[:cours]["start_date(3i)"].to_i)
+                         	 params[:cours]["start_date(2i)"].to_i,
+                         	 params[:cours]["start_date(3i)"].to_i)
 
 	@end_date = Date.civil(params[:cours]["end_date(1i)"].to_i,
-                         params[:cours]["end_date(2i)"].to_i,
-                         params[:cours]["end_date(3i)"].to_i)
-
-  	@ndays = (@end_date - @start_date).to_i + 1
-
-	duree = params[:duree]
+                           params[:cours]["end_date(2i)"].to_i,
+                           params[:cours]["end_date(3i)"].to_i)
 
   	current_date = @start_date
+  	@ndays = (@end_date - @start_date).to_i + 1
+	duree = params[:duree]
+
   	@cours_créés = @erreurs = 0
 
   	# capture output

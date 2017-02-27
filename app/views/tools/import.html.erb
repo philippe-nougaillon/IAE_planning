@@ -9,9 +9,12 @@
   <div>
     <h3>Cette fonction permet l'importation de cours à partir d'un fichier CSV</h3>
     <ul>
-        <li>Le fichier source peut avoir les colonnes suivantes: <b>Date;Heure début;Heure fin;Durée;UE;Intervenant;Intitulé</b></li>
-        <li>Ce fichier doit être au format CSV, Encodage=UTF-8, Séparateur=Point-virgule, Noms colonnes=Première ligne</li>
-        <li>Exemple de fichier conforme : <%= link_to "import_cours.csv", "/import_cours.csv" %></li>
+      <li>
+          Le fichier source peut avoir les colonnes suivantes: 
+          <b>Date;Heure début;Heure fin;Durée;UE;Intervenant;Intitulé</b>
+      </li>
+      <li>Ce fichier doit être au format CSV, Encodage=Unicode UTF-8, Séparateur=Point-virgule, Noms colonnes=Première ligne</li>
+      <li>Exemple de fichier conforme : <%= link_to "import_cours.csv", "/import_cours.csv" %></li>
     </ul>
   </div>
   <br>
@@ -20,7 +23,7 @@
     <div class="col-sm-4">
       <%= label_tag "Formation" %>    
       <%= select_tag :formation_id, 
-              options_from_collection_for_select(Formation.all, :id, :nom_promo, params[:formation_id]), 
+            options_from_collection_for_select(Formation.all, :id, :nom_promo, params[:formation_id]), 
               class:"form-control", include_blank:true %>
     </div>
   </div>

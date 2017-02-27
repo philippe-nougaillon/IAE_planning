@@ -190,41 +190,41 @@ class ToolsController < ApplicationController
 
   	@ndays = (@end_date - @start_date).to_i
 
-  	date = @start_date
+	duree = params[:duree]
+
+  	current_date = @start_date
   	@cours_créés = @erreurs = 0
 
   	# capture output
     @stream = capture_stdout do
 	  	@ndays.times do
-	  		wday = date.wday
+	  		wday = current_date.wday
 	  		if (params[:lundi] and wday == 1) or (params[:mardi] and wday == 2) or (params[:mercredi] and wday == 3) or (params[:jeudi] and wday == 4) or (params[:vendredi] and wday == 5) or (params[:samedi] and wday == 6)
 
-		  		debut = date.to_datetime + Time.parse("#{params[:cours]["end_date(4i)"]}:#{params[:cours]["end_date(5i)"]}").seconds_since_midnight.seconds
-	
-		  		fin = date.to_datetime + Time.parse("#{params[:cours]["end_date(4i)"]}:#{params[:cours]["end_date(5i)"]}").seconds_since_midnight.seconds
+		  		debut = Time.zone.parse(current_date.to_s + " #{params[:cours]["start_date(4i)"]}:#{params[:cours]["start_date(5i)"]}")
 
-		  		fin = eval("fin + #{params[:duree]}.hour")
+		  		fin = eval("debut + #{duree}.hour")
 
-		  		new_cours = Cour.new(debut:debut, fin:fin, duree:params[:duree],
-		  								formation_id:params[:formation_id], 
-		  								intervenant_id:params[:intervenant_id])
+		  		new_cours = Cour.new(debut:debut.utc, fin:fin, duree:duree, formation_id:params[:formation_id], intervenant_id:params[:intervenant_id])
+
+		  		#puts "#{debut} | #{fin} | #{new_cours.debut}"
 
 		  		if new_cours.valid?
 		  			new_cours.save if params[:save] == 'true'
 	  			  	@cours_créés += 1
-			  		puts "[OK] #{I18n.l(new_cours.debut, format: :long)}"
+			  		puts "[OK] #{I18n.l(new_cours.debut, format: :long)}-#{I18n.l(new_cours.fin, format: :heures_min)}  "
 	  			else
 	  				@erreurs += 1
 			  		puts "[NOK] #{new_cours.inspect}"
 	  			end
 	  		end
-	  		date = date + 1.day
+	  		current_date = current_date + 1.day
 	  	end
 	  	puts
-	  	puts "----------- Les modifications n'ont pas été enregistrées ! ---------------" unless params[:save] == 'true'
+	  	puts "----------- Les modifications n'ont pas été enregistrées ---------------" unless params[:save] == 'true'
 	  	puts
 		puts "=" * 80
-	  	puts "Création termninée | #{@cours_créés} cours_créés | #{@erreurs} erreurs"
+	  	puts "Création termninée | #{@cours_créés} créneaux_créés | #{@erreurs} erreurs"
 		puts "=" * 80
 	end  	
   end

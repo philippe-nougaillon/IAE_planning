@@ -4,47 +4,56 @@
   	Réglages
   </h1>
 </div>
+<br>	
 
-<ul>
-  	<li>
-		<span class="glyphicon glyphicon-blackboard"></span>
-		<%= link_to "Salles", salles_path %>
-	</li>
-	<br>
+<dir class="row" >
+	<div class="col-sm-4">
+		<ul>
+		  	<li>
+				<span class="glyphicon glyphicon-blackboard"></span>
+				<%= link_to "Salles", salles_path %>
+			</li>
+			<br>
 
-	<li>
-		<span class="glyphicon glyphicon-user"></span>
-		<%= link_to "Utilisateurs", users_path %>
-	</li>
-	<br>
+			<li>
+				<span class="glyphicon glyphicon-user"></span>
+				<%= link_to "Utilisateurs", users_path %>
+			</li>
+			<br>
 
-	<li>
-		<span class="glyphicon glyphicon-book"></span>
-		<%= link_to "Documents", documents_path %>
-	</li>
-	<br>
+			<li>
+				<span class="glyphicon glyphicon-book"></span>
+				<%= link_to "Documents", documents_path %>
+			</li>
+			<br>
+		</ul>
+	</div>
+	
+	<div class="col-sm-4">
+		<ul>
+			<li>
+				<span class="glyphicon glyphicon-download-alt"></span>
+				<%= link_to "Import de cours", tools_import_path %>
+			</li>
+			<br>
 
-	<li>
-		<span class="glyphicon glyphicon-download-alt"></span>
-		<%= link_to "Import de cours", tools_import_path %>
-	</li>
-	<br>
+			<li>
+				<span class="glyphicon glyphicon-download-alt"></span>
+				<%= link_to "Import des intervenants", tools_import_intervenants_path %>
+			</li>
+			<br>
 
-	<li>
-		<span class="glyphicon glyphicon-download-alt"></span>
-		<%= link_to "Import des intervenants", tools_import_intervenants_path %>
-	</li>
-	<br>
+			<li>
+				<span class="glyphicon glyphicon-download-alt"></span>
+				<%= link_to "Import des utilisateurs", tools_import_utilisateurs_path %>
+			</li>
+			<br>
 
-	<li>
-		<span class="glyphicon glyphicon-download-alt"></span>
-		<%= link_to "Import des utilisateurs", tools_import_utilisateurs_path %>
-	</li>
-	<br>
+			<li>
+				<span class="glyphicon glyphicon-repeat"></span>
+				<%= link_to "Réserver des créneaux", tools_creation_cours_path %>
+			</li>
 
-	<li>
-		<span class="glyphicon glyphicon-repeat"></span>
-		<%= link_to "Création de cours en masse", tools_creation_cours_path %>
-	</li>
-
-</ul>
+		</ul>
+	</div>
+</dir>

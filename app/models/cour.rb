@@ -11,7 +11,7 @@ class Cour < ActiveRecord::Base
   before_validation :update_date_fin
 
   #validate :la_fin_apres_le_debut
-  validates :formation_id, :intervenant_id, presence: true
+  validates :formation_id, :intervenant_id, :duree, presence: true
   validate :check_chevauchement, if: Proc.new {|cours| cours.salle_id }
 
   enum etat: [:nouveau, :planifié, :reporté, :annulé, :a_réserver]

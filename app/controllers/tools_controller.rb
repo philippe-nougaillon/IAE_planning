@@ -28,23 +28,30 @@ class ToolsController < ApplicationController
 
 			# Date;Heure début;Heure fin;Durée;UE;Intervenant;Intitulé
 			
-			int = nil
+			intervenant = nil
 			if row['Intervenant']
 				nom = row['Intervenant'].split(' ').first
-				int = Intervenant.where("nom like ?", "%#{nom}%").first
+				intervenant = Intervenant.where("nom like ?", "%#{nom}%").first
 			end
 
-			cours = Cour.new(debut:row['Date'] + " " + row['Heure début'], 
-							fin:row['Date'] + " " + row['Heure fin'], 
-							formation_id: params[:formation_id], 
-							ue:row['UE'], intervenant:int, nom:row['Intitulé'] )
-			
+			debut = Time.parse(row['Date'] + " " + row['Heure début'])
+			fin   = Time.parse(row['Date'] + " " + row['Heure fin'])
+
+			cours = Cour.where(debut:debut, formation_id: params[:formation_id]).first_or_initialize 
+			cours.fin = fin
+			cours.ue = row['UE']
+			cours.intervenant = intervenant
+			cours.nom = row['Intitulé']
+			cours.duree = ((cours.fin - cours.debut) / 3600).round
+
 			if cours.valid? 
-				puts "COURS VALIDE => #{cours.changes}"
+				puts "COURS VALIDE => #{cours.changes}" if cours.new_record?
+				puts "UPDATE =>#{cours.attributes}" unless cours.new_record?
+				#puts "Durée: #{cours.duree.to_f}"
 				cours.save if params[:save] == 'true'
 	        	@importes += 1
 			else
-				puts "!! COURS INVALIDE !! Erreur => #{cours.errors.messages} | Source: #{row}"
+				puts "COURS INVALIDE !! Erreur => #{cours.errors.messages} | Source: #{row}"
 				puts
 				puts cours.changes
 				@errors += 1

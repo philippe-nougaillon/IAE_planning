@@ -4,11 +4,13 @@
   	Réservation de créneaux horaires
   </h1>
 </div>
+<div>
+  <h3>Cette fonction permet la création de créneaux réservés</h3>
+</div>
+
+<br>
 
 <%= form_tag({action: "creation_cours_do", method: :post}, multipart: true) do %>
-  <div>
-    <h3>Cette fonction permet la création de créneaux réservés</h3>
-  </div>
 
   <div class="form-group">
     <div class="row">
@@ -16,11 +18,12 @@
 
         <%= label_tag :debut, "Réserver des créneaux horaires à partir du" %><br>
         <%= datetime_select :cours, :start_date %>
-        <br>
-
-        <%= label_tag :fin, "Jusqu'au" %><br>
-        <%= date_select :cours, :end_date %>
         <br><br>
+
+        <%= label_tag :duree, "Durée (h)" %>
+        <%= select_tag :duree, options_for_select(['0.5','1.0','1.5','2.0','2.5','3.0','3.5','4.0']), 
+                          include_blank:true, class:"form-control" %>
+        <br>
 
         <div class="field">
           <%= label_tag :jours, nil %><br>
@@ -33,10 +36,15 @@
         </div>
         <br>
 
-        <%= label_tag :duree, "Durée (h)" %>
-        <%= select_tag :duree, options_for_select(['0.5','1.0','1.5','2.0','2.5','3.0','3.5','4.0']), 
-                          include_blank:true, class:"form-control" %>
-        <br>
+        <%= label_tag :fin, "Répéter jusqu'au" %><br>
+        <%= date_select :cours, :end_date %>
+        <br><br>
+
+      </div>
+      
+      <div class="col-sm-1"></div>
+
+      <div class="col-sm-6">
 
         <%= label_tag "Formation" %>    
         <%= select_tag :formation_id, 
@@ -48,20 +56,21 @@
               options_from_collection_for_select(Intervenant.all, :id, :nom_prenom, Intervenant.where("nom like '%IAE%'").first.id.to_s), class:"form-control" %>
         <br>
 
+        <div class="field">
+          <b>Enregistrer les changements ?</b> <br>
+          <%= label :save, "Oui", :value => "true" %>
+          <%= radio_button_tag :save, true %>
+          <%= label :save, "Non", :value => "false" %>
+          <%= radio_button_tag :save, false, :checked => true %>
+          <br><i>Choisissez 'Non' pour tester votre création car <b>elle est irréversible !</b></i><br />
+        </div>
+        <br>
+      
+        <div class="actions">
+          <%= submit_tag "Lancer la création", class: "btn btn-primary"%>
+        </div>
+
     </div>
   </div>
-
-  <div class="field">
-    <b>Enregistrer les changements ?</b> <br>
-    <%= label :save, "Oui", :value => "true" %>
-    <%= radio_button_tag :save, true %>
-    <%= label :save, "Non", :value => "false" %>
-    <%= radio_button_tag :save, false, :checked => true %>
-    <br><i>Choisissez 'Non' pour tester votre création car <b>elle est irréversible !</b></i><br />
-  </div>
-  <br>
   
-  <div class="actions">
-    <%= submit_tag "Enregister", class: "btn btn-primary"%>
-  </div>
 <% end %>

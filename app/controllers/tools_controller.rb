@@ -188,7 +188,7 @@ class ToolsController < ApplicationController
                          params[:cours]["end_date(2i)"].to_i,
                          params[:cours]["end_date(3i)"].to_i)
 
-  	@ndays = (@end_date - @start_date).to_i
+  	@ndays = (@end_date - @start_date).to_i + 1
 
 	duree = params[:duree]
 
@@ -221,11 +221,11 @@ class ToolsController < ApplicationController
 	  		current_date = current_date + 1.day
 	  	end
 	  	puts
-	  	puts "----------- Les modifications n'ont pas été enregistrées ---------------" unless params[:save] == 'true'
-	  	puts
 		puts "=" * 80
 	  	puts "Création termninée | #{@cours_créés} créneaux_créés | #{@erreurs} erreurs"
 		puts "=" * 80
+	  	puts
+	  	puts "----------- Les modifications n'ont pas été enregistrées ---------------" unless params[:save] == 'true'
 	end  	
   end
 

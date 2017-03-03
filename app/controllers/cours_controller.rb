@@ -56,8 +56,8 @@ class CoursController < ApplicationController
   end
 
   def index_slide
-    # cours du jours à T - 2 heures jusqu'à minuit 
-    @cours = Cour.where("debut between ? and ?", DateTime.now - 2.hour, (DateTime.now.beginning_of_day) + 1.day)
+    # cours du jours à T-4 heures jusqu'à minuit 
+    @cours = Cour.where("debut between ? and ?", DateTime.now - 4.hour, (DateTime.now.beginning_of_day) + 1.day)
   end
 
   # GET /cours/1

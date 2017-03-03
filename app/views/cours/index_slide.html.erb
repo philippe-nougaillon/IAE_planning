@@ -37,8 +37,9 @@
                 <h3><%= cours.formation.nom_promo %></h3>
                 <% pct = ((DateTime.now.to_f - cours.debut.to_f) / (cours.fin.to_f - cours.debut.to_f) * 100).to_i %>
                 <div class="progress">
-                  <div class="progress-bar" role="progressbar"
-                  aria-valuemin="0" aria-valuemax="100" style="width:<%= pct %>%">
+                  <div class="progress-bar progress-bar-success progress-bar-striped active"
+                       role="progressbar" aria-valuemin="0" aria-valuemax="100" 
+                       style="width:<%= pct %>%">
                   </div>
                 </div>
               </td>

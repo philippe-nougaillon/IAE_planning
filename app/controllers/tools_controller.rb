@@ -98,8 +98,10 @@ class ToolsController < ApplicationController
 			index += 1
 			puts "Ligne ##{index}"
 
-			intervenant = Intervenant.new(nom:row['nom'], prenom:row['prénom'], email:row['email'], linkedin_url:row['linkedin_url'], linkedin_photo:row['linkedin_photo'])
-			
+			intervenant = Intervenant.new(nom:row['nom'], prenom:row['prénom'], email:row['email'], linkedin_url:row['linkedin_url'], linkedin_photo:row['linkedin_photo'], titre1:row['titre1'], titre1:row['titre2'],
+				spécialité:row['spécialité'], téléphone_fixe:row['téléphone_fixe'], téléphone_mobile:row['téléphone_mobile'],
+				bureau:row['bureau'])
+							
 			if intervenant.valid? 
 				puts "Intervenant VALIDE => #{intervenant.changes}"
 				intervenant.save if params[:save] == 'true'

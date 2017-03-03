@@ -19,25 +19,54 @@
 <h2>
   <%= @intervenant.nom_prenom %> 
 </h2>
-<br>
 
-<p>
-  <strong>Courriel</strong><br>
-  <%= mail_to @intervenant.email %>
-</p>
+<div class="row">
+  <dir class="col-sm-4">
+    <p>
+      <b><%= @intervenant.titre1 %></b>
+    </p>
+    <p>
+      <%= @intervenant.titre2 %>
+    </p>
+    <p>
+      <i><%= "Spécialité: #{@intervenant.spécialité}" if @intervenant.spécialité %></i>
+    </p>
+  </dir>
+  <dir class="col-sm-4">
+    <p>
+      <strong>Fixe</strong><br>
+      <%= @intervenant.téléphone_fixe %>
+    </p>
+    <p>
+      <strong>Mobile</strong><br>
+      <%= @intervenant.téléphone_mobile %>
+    </p>
+    <p>
+      <strong>Courriel</strong><br>
+      <%= mail_to @intervenant.email %>
+    </p>
+    <p>
+      <strong>Bureau</strong><br>
+      <%= @intervenant.bureau %>
+    </p>
+  </dir>  
+  <dir class="col-sm-4">
 
-<p>
-  <strong>Profil LinkedIn</strong><br>
-  <%= link_to_if @intervenant.linkedin_url, @intervenant.linkedin_url, @intervenant.linkedin_url, target:'_blank' %>
-</p>
+    <p>
+      <strong>Profil LinkedIn</strong><br>
+      <%= link_to_if @intervenant.linkedin_url, @intervenant.linkedin_url, @intervenant.linkedin_url, target:'_blank' %>
+    </p>
 
-<p>
-  <strong>Cours planifiés</strong><br>  
-  <%= link_to "#{@intervenant.total_cours}", cours_path(intervenant_id:@intervenant) %>
-</p>
+    <p>
+      <strong>Cours planifiés</strong><br>  
+      <%= link_to "#{@intervenant.total_cours}", cours_path(intervenant_id:@intervenant) %>
+    </p>
 
-<p>
-  <strong>Heures planifiées</strong><br>
-  <%= @intervenant.total_heures_de_cours %> h
-</p>
+    <p>
+      <strong>Heures planifiées</strong><br>
+      <%= @intervenant.total_heures_de_cours %> h
+    </p>
+  </dir>
+  
+</div>
 

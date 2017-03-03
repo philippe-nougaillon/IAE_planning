@@ -12,17 +12,27 @@
     </div>
   <% end %>
 
-  <div class="form-group">
+  <dir class="row">
     <div class="col-sm-5">
- 
       <%= f.text_field :nom %>
       <%= f.text_field :prenom, label:"Prénom" %>
       <%= f.text_field :email %>
       <%= f.text_field :linkedin_url %>
       <%= f.text_field :linkedin_photo %>
-            
       <%= f.submit class: "btn btn-primary" %>
     </div>
-  </div>  
+    <div class="col-sm-5">
+      <%= f.text_field :titre1 %>
+      <%= f.text_field :titre2 %>
+      <%= f.text_field :spécialité %>
+        <div class="col-sm-6">
+          <%= f.text_field :téléphone_fixe %>
+        </div>
+        <div class="col-sm-6">
+          <%= f.text_field :téléphone_mobile %>
+        </div>
+      <%= f.text_field :bureau %>
+    </div>       
+  </dir>
 
 <% end %>

@@ -87,8 +87,12 @@ class Cour < ActiveRecord::Base
     end  
 
     def check_chevauchement
-      if Cour.where("id != ? AND salle_id = ? AND (debut BETWEEN ? AND ?) OR (fin BETWEEN ? AND ?)", 
-                      self.id, self.salle_id, self.debut, self.fin, self.debut, self.fin)  
+      # si il y a dejà des cours dans la même salle et à la même date
+      cours = Cour.where("salle_id = ? AND (debut BETWEEN ? AND ?) OR (fin BETWEEN ? AND ?)", 
+                      self.salle_id, self.debut, self.fin, self.debut, self.fin)
+
+      # si cours en chevauchement n'est pas le cours lui même (modif de cours)
+      if cours.any? and !cours.where(id:self.id).any?  
 
         errors.add(:cours, 'en chevauchement dans la même salle')
       end

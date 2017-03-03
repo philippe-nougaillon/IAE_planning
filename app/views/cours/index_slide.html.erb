@@ -1,0 +1,70 @@
+<script type="text/javascript">    
+    setInterval(function() {
+        window.location.reload();
+    }, 10*60000); 
+</script>
+
+<div class="page-header">
+  <h1>
+    <span class="glyphicon glyphicon-calendar"></span>
+    Planning du <%= l(Date.today, format: :long) %>
+  </h1>
+</div>
+
+<% if @cours.any? %>
+  <div class="table-responsive">
+    <table class="table table-hover table-striped table-condensed">
+      <thead>
+        <tr>
+          <th>Heure</th>
+          <th>Formation</th>
+          <th />
+          <th>Intervenant</th>
+          <th>Etat</th>
+          <th>Salle</th>
+        </tr>
+      </thead>
+
+      <% if @cours.any? %>
+        <tbody>
+          <% @cours.each do | cours | %>
+
+            <tr>
+              <td>
+                <h3><%= l(cours.debut, format: :heures_min) %></h3>
+              </td>
+              <td>
+                <h3><%= cours.formation.nom_promo %></h3>
+                <% pct = ((DateTime.now.to_f - cours.debut.to_f) / (cours.fin.to_f - cours.debut.to_f) * 100).to_i %>
+                <div class="progress">
+                  <div class="progress-bar" role="progressbar"
+                  aria-valuemin="0" aria-valuemax="100" style="width:<%= pct %>%">
+                  </div>
+                </div>
+              </td>
+              <td>
+                <% unless cours.intervenant.linkedin_photo.blank? %>
+                  <%= image_tag(cours.intervenant.linkedin_photo, class: "img-circle", size:'60x60') %>
+                <% end %>
+              </td>
+              <td>
+                <h3><%= cours.intervenant.nom_prenom %></h3>
+              </td>
+              <td>
+                <h3><span class="label <%= cours.style %>"><%= cours.etat.humanize %></span><h3>
+              </td>
+              <td>
+                <h3><%= cours.salle.nom if cours.salle %></h3>
+              </td>
+            </tr>
+
+          <% end %>
+        </tbody>
+      <% end %>
+    </table>
+  </div>
+<% end %>
+<br>
+
+Maj: <%= l(DateTime.now) %>
+

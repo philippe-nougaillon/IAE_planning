@@ -49,7 +49,7 @@ fr:
     formats:
       default: "%d/%m/%Y"
       short: "%a %e %b"
-      long: "%a %e %B %Y"
+      long: "%A %e %B %Y"
       month: "%B"
     month_names:
     -

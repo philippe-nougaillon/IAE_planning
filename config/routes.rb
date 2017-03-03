@@ -10,6 +10,8 @@ Rails.application.routes.draw do
   get 'tools/import_utilisateurs'
   post 'tools/import_utilisateurs_do'
 
+  get 'cours/index_slide'
+
   devise_for :users
   
   resources :documents
@@ -20,9 +22,9 @@ Rails.application.routes.draw do
   resources :users
 
   namespace :api, defaults: {format: 'json'} do 
-      namespace :v1 do 
-          resources :cours
-      end 
+    namespace :v1 do 
+        resources :cours
+    end 
   end 
 
   # The priority is based upon order of creation: first created -> highest priority.

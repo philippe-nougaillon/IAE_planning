@@ -10,21 +10,21 @@
 </div>
 
 <div class='container-fluid'>
-    <%= form_tag request.path, method: :get do %>
-      <div class="form-group">
-        <div class="row">
-          <div class="col-sm-4">
-            <%= label_tag "Nom/Prénom" %>    
-            <div class="input-group">
-            <%= text_field_tag :nom, params[:nom], include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
-              <span class="input-group-btn">
-                <%= submit_tag 'Filtrer', class:"btn btn-success" %>
-              </span>
-            </div>
+  <%= form_tag request.path, method: :get do %>
+    <div class="form-group">
+      <div class="row">
+        <div class="col-sm-4">
+          <%= label_tag :nom, "Nom/Prénom" %>    
+          <div class="input-group">
+          <%= text_field_tag :nom, params[:nom], include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
+            <span class="input-group-btn">
+              <%= submit_tag 'Filtrer', class:"btn btn-success" %>
+            </span>
           </div>
         </div>
-      </div>  
-    <% end %>
+      </div>
+    </div>  
+  <% end %>
 </div>
 
 <% if @intervenants.any? %>
@@ -32,7 +32,8 @@
     <table class="table table-hover table-striped">
       <thead>
         <tr>
-          <th colspan="2">Intervenant</th>
+          <th />
+          <th>Nom/Prénom de l'intervenant</th>
           <th>Courriel</th>
           <th>Cours planifiés</th>
           <th>Heures planifiées</th>

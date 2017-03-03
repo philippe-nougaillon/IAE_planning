@@ -76,6 +76,11 @@ class Cour < ActiveRecord::Base
     self.salle.nom if self.salle
   end
 
+  def progress_bar_pct
+    # calcul le % de réalisation du cours
+    ((DateTime.now.to_f - self.debut.to_f) / (self.fin.to_f - self.debut.to_f) * 100).to_i
+  end
+
   private
     def update_date_fin
       fin = eval("self.debut + self.duree.hour")

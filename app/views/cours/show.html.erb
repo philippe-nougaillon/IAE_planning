@@ -26,7 +26,6 @@
   <%= @cour.nom %><br>
   <%= @cour.ue %>
 </h3>
-<br>
 
 <p>
   <strong>Début:</strong>
@@ -74,8 +73,8 @@
 <% if current_user.admin? %>
   <% if @cour.audits.any? %>
     <h3>Historique des modifications</h3>
-    <table class="table">
-      <% @cour.audits.reverse.each do |audit| %>
+    <table class="table table-condensed">
+      <% @cour.audits.includes(:user).reverse.each do |audit| %>
         <tr>
           <td><%= l(audit.created_at) %></td>
           <td><%= audit.user.email if audit.user %></td>

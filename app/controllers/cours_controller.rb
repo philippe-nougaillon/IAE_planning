@@ -3,24 +3,26 @@
 class CoursController < ApplicationController
   before_action :set_cour, only: [:show, :edit, :update, :destroy]
   
+  layout :define_layout
+
+  def define_layout
+    if params[:action] == 'index_slide'
+      'slide'
+    else
+      'application'
+    end
+  end
+
+
   # GET /cours
   # GET /cours.json
   def index
     @cours = Cour.includes(:formation, :intervenant, :salle).order(:debut)
 
-    # unless current_user
-    #     params[:date] = Date.today
-    # end
-
     unless params[:date].blank?
       @date = params[:date].to_date
       @cours = @cours.where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 1.day)
     end
-
-    # unless params[:start_date].blank?
-    #   @date = params[:start_date].to_date
-    #   @cours = @cours.where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 1.month)
-    # end
 
     if current_user.formation 
       params[:formation_id] = current_user.formation_id
@@ -56,8 +58,10 @@ class CoursController < ApplicationController
   end
 
   def index_slide
-    # cours du jours à T-4 heures jusqu'à minuit 
-    @cours = Cour.where("debut between ? and ?", DateTime.now - 4.hour, (DateTime.now.beginning_of_day) + 1.day)
+    # voir tous les cours du jours à T-4 heures jusqu'à minuit
+    limite_debut = DateTime.now - 4.hour
+    limite_fin = (DateTime.now.beginning_of_day) + 1.day  
+    @cours = Cour.where("(debut between ? and ?) and fin >= ?", limite_debut, limite_fin, DateTime.now).order(:debut)
   end
 
   # GET /cours/1

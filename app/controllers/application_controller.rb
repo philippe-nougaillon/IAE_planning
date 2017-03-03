@@ -3,8 +3,7 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  # before_action :authenticate_user!, except: [:index]
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:index_slide]
   before_action :detect_device_format
   before_filter :set_layout_variables
 
@@ -12,7 +11,7 @@ class ApplicationController < ActionController::Base
     def set_layout_variables
       @ctrl = params[:controller]
       @sitename ||= "IAE-Planning"
-      @sitename.concat(" v0.7d") 
+      @sitename.concat(" v0.7e") 
     end
 
     def detect_device_format

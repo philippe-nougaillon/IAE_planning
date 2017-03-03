@@ -189,7 +189,7 @@
           <tbody>
             <% current_date = "" %>
             <% sum_duree = 0.0 %>
-            <% @cours.each do | cours | %>
+            <% @cours.includes(:formation, :intervenant, :salle).each do | cours | %>
               <% sum_duree += cours.duree %>
               <tr>
                 <td>

@@ -26,15 +26,17 @@
 				<%= link_to "Documents", documents_path %>
 			</li>
 			<br>
-			<li>
-				<span class="glyphicon glyphicon-calendar"></span>
-				<%= link_to "Vue Slide", cours_index_slide_path %>
-			</li>
 		</ul>
 	</div>
 	
 	<div class="col-sm-4">
 		<ul>
+			<li>
+				<span class="glyphicon glyphicon-calendar"></span>
+				<%= link_to "Réserver des créneaux", tools_creation_cours_path %>
+			</li>
+			<br>
+			
 			<li>
 				<span class="glyphicon glyphicon-download-alt"></span>
 				<%= link_to "Import de cours", tools_import_path %>
@@ -52,12 +54,12 @@
 				<%= link_to "Import des utilisateurs", tools_import_utilisateurs_path %>
 			</li>
 			<br>
-
-			<li>
-				<span class="glyphicon glyphicon-calendar"></span>
-				<%= link_to "Réserver des créneaux", tools_creation_cours_path %>
-			</li>
-
 		</ul>
+	</div>
+	<div class="col-sm-4">
+		<li>
+			<span class="glyphicon glyphicon-calendar"></span>
+			<%= link_to "Vue Slide", cours_index_slide_path %>
+		</li>
 	</div>
 </dir>

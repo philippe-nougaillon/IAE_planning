@@ -3,10 +3,10 @@
         window.location.reload();
     }, 2*60000); 
 </script>
-<br><br>
+<br>
 
 <% if @cours.any? %>
-  <table class="table table-striped">
+  <table class="table table-striped table-bordered">
     <% if @cours.any? %>
       <tbody>
         <% @cours.includes(:formation, :intervenant, :salle).each do | cours | %>
@@ -24,13 +24,12 @@
                 </div>
               </div>
             </td>
-            <td style="vertical-align: middle;padding-left: 20px;">
+            <td>
+              <h3>
               <% unless cours.intervenant.linkedin_photo.blank? %>
                 <%= image_tag(cours.intervenant.linkedin_photo, class: "img-circle", size:'60x60') %>
               <% end %>
-            </td>
-            <td style="vertical-align: middle">
-              <h3><%= cours.intervenant.nom_prenom %></h3>
+              <%= cours.intervenant.nom_prenom %></h3>
             </td>
             <td style="vertical-align: middle">
               <h3>
@@ -46,9 +45,6 @@
           </tr>
         <% end %>
       </tbody>
-      <tfoot>
-        <th /><th /><th /><th /><th /><th />
-      </tfoot>
     <% end %>
   </table>
 <% end %>

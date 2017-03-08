@@ -81,24 +81,24 @@
         </ul>
 
         <div style="margin-right:50px"> 
-            <ul class="nav navbar-nav navbar-right">
-              <% unless user_signed_in? %>
-                <li><a href="/users/sign_in"><span class="glyphicon glyphicon-log-in"></span> Connexion</a></li>
-              <% else %>
-                <%= link_to current_user.email, current_user %>
+          <ul class="nav navbar-nav navbar-right">
+            <% unless user_signed_in? %>
+              <li><a href="/users/sign_in"><span class="glyphicon glyphicon-log-in"></span> Connexion</a></li>
+            <% else %>
+              <%= link_to current_user.email, current_user %>
+              |
+              <% if current_user.admin? %>
+                <%= link_to tools_index_path do %>
+                  <span class="glyphicon glyphicon-wrench"></span>
+                  Outils
+                <% end %>
                 |
-                <% if current_user.admin? %>
-                  <%= link_to tools_index_path do %>
-                    <span class="glyphicon glyphicon-wrench"></span>
-                    Outils
-                  <% end %>
-                  |
-                <% end %>
-                <%= link_to  "/users/sign_out", method: :delete do %> 
-                  <span class="glyphicon glyphicon-log-out"></span> Déconnexion
-                <% end %>
               <% end %>
-            </ul>
+              <%= link_to "/users/sign_out", method: :delete do %> 
+                <span class="glyphicon glyphicon-log-out"></span> Déconnexion
+              <% end %>
+            <% end %>
+          </ul>
         </div>
 
       </div>

@@ -4,22 +4,10 @@
     }, 5*60000); 
 </script>
 
-
-<br>
+<br><br>
 
 <% if @cours.any? %>
   <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Heure</th>
-        <th>Formation</th>
-        <th />
-        <th>Intervenant</th>
-        <th>Etat</th>
-        <th>Salle</th>
-      </tr>
-    </thead>
-
     <% if @cours.any? %>
       <tbody>
         <% @cours.includes(:formation, :intervenant, :salle).each do | cours | %>
@@ -33,11 +21,11 @@
               <div class="progress">
                 <div class="progress-bar progress-bar-striped active" 
                      role="progressbar" aria-valuemin="0" aria-valuemax="100" 
-                     style="width:<%= cours.progress_bar_pct %>%">
+                     style="width:<%= cours.progress_bar_pct(@planning_date) %>%">
                 </div>
               </div>
             </td>
-            <td style="vertical-align: middle">
+            <td style="vertical-align: middle;padding-left: 20px;">
               <% unless cours.intervenant.linkedin_photo.blank? %>
                 <%= image_tag(cours.intervenant.linkedin_photo, class: "img-circle", size:'60x60') %>
               <% end %>

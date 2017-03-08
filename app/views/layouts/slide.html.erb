@@ -21,18 +21,18 @@
   <%= csrf_meta_tags %>
 </head>
 
-<body class="body_slide">
+<body>
   <nav class="navbar navbar-fixed-top" role="navigation">
     <div class="container-fluid">
       <div class="navbar-header">
         <span class="navbar-brand">
-            <%= image_tag("logo_iae_small.png") %>
+          <%= image_tag("logo_iae_small.png") %>
         </span>
       </div>
-      <br>
-      <h1>
+
+      <h1 style="padding-top: 12px;">
         <span class="glyphicon glyphicon-calendar"></span>
-        Planning du <%= l(Date.today, format: :long) %>
+        Planning du <%= l(@planning_date, format: :long) %>
       </h1>
     </div>
   </nav>
@@ -40,6 +40,7 @@
   <div class="container">
     <%= yield %>
   </div>
+
 </body>
 
 </html>

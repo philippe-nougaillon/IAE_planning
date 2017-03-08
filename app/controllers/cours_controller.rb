@@ -47,22 +47,22 @@ class CoursController < ApplicationController
       @cours = @cours.where(etat:params[:etat])
     end
 
-    params[:view] ||= "list"
-    params[:filter] ||= "upcoming"
+    params[:view]   ||= 'list'
+    params[:filter] ||= 'upcoming'
 
     if params[:filter] == 'upcoming'
-      @cours = @cours.where("cours.debut >= ? " , Date.today)
+      @cours = @cours.where("cours.debut >= ? ", Date.today)
     end
   end
 
   def index_slide
     if params[:planning_date]
-      @planning_date = DateTime.parse(params[:planning_date])
+      @planning_date = DateTime.parse(params[:planning_date] + "+0100")
     else
       @planning_date = DateTime.now 
     end
 
-    # voir tous les cours du jours à T-4 heures jusqu'à minuit
+    # affichier tous les cours du jour à heure H-4 jusqu'à minuit
     limite_debut = @planning_date - 4.hour
     limite_fin = (@planning_date.beginning_of_day) + 1.day  
     @cours = Cour.where("(debut between ? and ?) and fin >= ?", limite_debut, limite_fin, @planning_date).order(:debut)

@@ -1,9 +1,8 @@
 <script type="text/javascript">    
     setInterval(function() {
         window.location.reload();
-    }, 5*60000); 
+    }, 2*60000); 
 </script>
-
 <br><br>
 
 <% if @cours.any? %>
@@ -34,7 +33,10 @@
               <h3><%= cours.intervenant.nom_prenom %></h3>
             </td>
             <td style="vertical-align: middle">
-              <h3><span class="label <%= cours.style %>"><%= cours.etat.humanize %></span><h3>
+              <h3>
+                <span class="label <%= cours.style %>">
+                <%= cours.etat.humanize %></span>
+              <h3>
             </td>
             <td style="vertical-align: middle">
               <% if cours.salle %>

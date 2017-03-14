@@ -76,7 +76,7 @@
       </tfoot>
 
       <tbody>
-        <% @formations.each do |formation| %>
+        <% @formations.includes(:unites).each do |formation| %>
           <tr>
             <td><%= link_to formation.nom, formation  %></td>
             <td><%= formation.abrg %></td>

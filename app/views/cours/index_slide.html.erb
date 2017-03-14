@@ -25,10 +25,10 @@
                 </div>
               </div>
             </td>
-            <td>
+            <td style="text-align: center;vertical-align: middle;">
               <h3>
                 <% unless cours.intervenant.linkedin_photo.blank? %>
-                  <%= image_tag(cours.intervenant.linkedin_photo, class: "img-circle", size:'60x60') %>
+                  <%= image_tag(cours.intervenant.linkedin_photo, class: "img-circle", size:'80x80') %>
                 <% end %>
                 <%= cours.intervenant.nom_prenom %>
               </h3>

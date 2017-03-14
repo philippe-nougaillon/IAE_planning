@@ -34,6 +34,8 @@
         <tr>
           <th />
           <th>Nom/Prénom de l'intervenant</th>
+          <th>Titre</th>
+          <th>Spécialité</th>
           <th>Courriel</th>
           <th>Cours planifiés</th>
           <th>Heures planifiées</th>
@@ -42,7 +44,7 @@
       </thead>
       <tfoot>
         <tr>
-          <% 6.times do %><th /><% end %>
+          <% 7.times do %><th /><% end %>
         </tr>
       </tfoot>
 
@@ -55,6 +57,8 @@
               <% end %>
             </td>
             <td><b><%= link_to intervenant.nom_prenom, intervenant %></b></td>
+            <td><%= intervenant.titre1 %></td>
+            <td><%= intervenant.spécialité %></td>
             <td><%= intervenant.email %></td>
             <th>
               <%= link_to "#{intervenant.total_cours}", cours_path(intervenant_id:intervenant) %>

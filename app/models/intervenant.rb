@@ -4,11 +4,13 @@ class Intervenant < ActiveRecord::Base
 	audited
 
 	has_many :cours
+	has_many :formations, through: :cours
 
-	default_scope { order(:nom) } 
 	validates :nom, :prenom, :email, presence: true
 	validates :nom, uniqueness: true
 	
+	default_scope { order(:nom) } 
+
 	def nom_prenom
 		self.prenom.blank? ? self.nom.upcase : "#{self.nom.upcase} #{self.prenom}" 
 	end

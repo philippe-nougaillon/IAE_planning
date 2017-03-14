@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   
+  resources :fermetures
   get 'tools/index'
   get 'tools/import'
   post 'tools/import_do'

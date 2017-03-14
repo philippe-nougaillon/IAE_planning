@@ -6,7 +6,7 @@
 	<%= hidden_field_tag :action_name, params[:action_name] %>
 
   <div class="col-sm-12">
-    <h4>Cours sélectionnés :</h4>
+    <h4>Cours sélectionnés</h4>
 
     <ul class="list-group">
   		<% @action_ids.each do |id| %>
@@ -28,19 +28,25 @@
 
   <% if params[:action_name] == "Changer de salle" %>  
     <div class="col-sm-2">
-      <%= label_tag "Nouvelle Salle :" %>    
+      <%= label_tag "Nouvelle Salle" %>    
       <%= select_tag :salle_id, 
             options_from_collection_for_select(Salle.order(:nom), :id, :nom, params[:salle_id]), 
             include_blank:true, class:"form-control" %>
     </div>
   <% elsif params[:action_name] == "Changer d'état" %>
     <div class="col-sm-2">
-      <%= label_tag "Nouvel état :" %>    
+      <%= label_tag "Nouvel état" %>    
       <%= select_tag :etat, options_for_select(Cour.etats, params[:etat]), include_blank:true,
                       class:"form-control" %>
     </div>
+    <div class="col-sm-6">
+      <%= label_tag "Notification" %><br>
+      <%= check_box_tag :sms %> Prévenir les participants par SMS ?
+      <%= check_box_tag :mail %> Prévenir les participants par courriel ?
+    </div>
   <% elsif params[:action_name] == "Supprimer" %>
     <div class="col-sm-6">
+      <%= label_tag "Confirmation :" %><br>
       <%= check_box_tag :delete %> Suppression définitive de tous les cours sélectionnés ?
     </div>
   <% end %>

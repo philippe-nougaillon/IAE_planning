@@ -97,14 +97,32 @@ class CoursController < ApplicationController
         @cours.etat = params[:etat].to_i
         @cours.save
       end
-    elsif action_name == "Supprimer"
+    elsif action_name == "Supprimer" and !params[:delete].blank?
       ids.each do |id, state|
         Cour.find(id).destroy
       end
+    elsif action_name == "Exporter vers Excel"
+      require 'csv'
+
+      @csv_string = CSV.generate(col_sep:';', encoding:'iso-8859-1') do | csv |
+          csv << ['id','date debut', 'heure debut' 'date fin','heure fin', 'formation_id','formation','intervenant_id','intervenant','nom du cours', 'etat','duree','cours cree le', 'cours modifie le']
+      
+          ids.each do |id, state|
+            c = Cour.find(id)
+            csv << [c.id, c.debut, c.fin, c.formation_id, c.formation.nom_promo, c.intervenant_id, c.intervenant.nom_prenom,
+                    c.nom, c.etat, c.duree, c.created_at, c.updated_at]
+          end
+      end
+      request.format = 'csv'
     end 
 
-    flash[:notice] = "Action '#{action_name}' appliquée à #{params[:cours_id].count} cours."
-    redirect_to cours_path
+    respond_to do |format|
+      format.html do
+        flash[:notice] = "Action '#{action_name}' appliquée à #{params[:cours_id].count} cours."
+        redirect_to cours_path
+      end
+      format.csv
+    end
   end
 
   # GET /cours/1

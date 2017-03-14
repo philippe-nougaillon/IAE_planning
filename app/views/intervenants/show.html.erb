@@ -49,23 +49,17 @@
       <strong>Bureau</strong><br>
       <%= @intervenant.bureau %>
     </p>
-  </dir>  
-  <dir class="col-sm-4">
-
     <p>
       <strong>Profil LinkedIn</strong><br>
       <%= link_to_if @intervenant.linkedin_url, @intervenant.linkedin_url, @intervenant.linkedin_url, target:'_blank' %>
     </p>
-
+  </dir>  
+  <dir class="col-sm-4">
     <p>
-      <strong>Cours planifiés</strong><br>  
-      <%= link_to "#{@intervenant.total_cours}", cours_path(intervenant_id:@intervenant) %>
+      <strong>Formations</strong>
     </p>
+    <%= @intervenant.formations.pluck(:nom).uniq.join(', ') %>
 
-    <p>
-      <strong>Heures planifiées</strong><br>
-      <%= @intervenant.total_heures_de_cours %> h
-    </p>
   </dir>
   
 </div>

@@ -13,6 +13,7 @@ class Cour < ActiveRecord::Base
   #validate :la_fin_apres_le_debut
   validates :formation_id, :intervenant_id, :duree, presence: true
   validate :check_chevauchement, if: Proc.new {|cours| cours.salle_id }
+  validate :jour_fermeture
 
   enum etat: [:nouveau, :planifié, :reporté, :annulé, :a_réserver]
 
@@ -29,7 +30,7 @@ class Cour < ActiveRecord::Base
   end
   
   def self.actions
-    ["Changer de salle", "Changer d'état", "Supprimer"]
+    ["Changer de salle", "Changer d'état", "Exporter vers Excel", "Supprimer"]
   end
 
   # Simple_calendar attributes
@@ -99,9 +100,14 @@ class Cour < ActiveRecord::Base
 
       # si cours en chevauchement n'est pas le cours lui même (modif de cours)
       if cours.any? and !cours.where(id:self.id).any?  
-
         errors.add(:cours, 'en chevauchement dans la même salle')
       end
     end  
+
+    def jour_fermeture
+      if Fermeture.find_by(date:self.debut.to_date)
+        errors.add(:cours, 'sur une date de fermeture !')
+      end
+    end
 
 end

@@ -36,9 +36,7 @@
           <th>Nom/Prénom de l'intervenant</th>
           <th>Titre</th>
           <th>Spécialité</th>
-          <th>Courriel</th>
-          <th>Cours planifiés</th>
-          <th>Heures planifiées</th>
+          <th>Formations</th>
           <th colspan="2"></th>
         </tr>
       </thead>
@@ -53,19 +51,13 @@
           <tr>
             <td>
               <% unless intervenant.linkedin_photo.blank? %>
-                <%= link_to(image_tag(intervenant.linkedin_photo, class:"img-circle", size:'60x60'), intervenant) %>
+                <%= link_to(image_tag(intervenant.linkedin_photo, class:'img-circle', size:'60x60'), intervenant) %>
               <% end %>
             </td>
             <td><b><%= link_to intervenant.nom_prenom, intervenant %></b></td>
             <td><%= intervenant.titre1 %></td>
             <td><%= intervenant.spécialité %></td>
-            <td><%= intervenant.email %></td>
-            <th>
-              <%= link_to "#{intervenant.total_cours}", cours_path(intervenant_id:intervenant) %>
-            </th>
-            <td>
-              <%= link_to "#{intervenant.total_heures_de_cours} h", cours_path(intervenant_id:intervenant) %>
-            </td>
+            <td><%= intervenant.formations.pluck(:nom).uniq.join(', ') %></td>
             <td>
               <%= link_to edit_intervenant_path(intervenant), class: "btn btn-default" do %>
                 <i class="glyphicon glyphicon-pencil"></i>

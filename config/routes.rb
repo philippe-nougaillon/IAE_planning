@@ -12,6 +12,9 @@ Rails.application.routes.draw do
 
   get 'cours/index_slide'
 
+  post 'cours/action'
+  post 'cours/action_do'
+
   devise_for :users
   
   resources :documents

@@ -11,16 +11,16 @@ class ApplicationController < ActionController::Base
     def set_layout_variables
       @ctrl = params[:controller]
       @sitename ||= "IAE-Planning"
-      @sitename.concat(" v0.7e") 
+      @sitename.concat(" v0.8") 
     end
 
     def detect_device_format
       case request.user_agent
-          when /iPhone/i, /Android/i && /mobile/i, /Windows Phone/i
-            request.variant = :phone
-          else
-            request.variant = :desktop
-        end
+      when /iPhone/i, /Android/i && /mobile/i, /Windows Phone/i
+        request.variant = :phone
+      else
+        request.variant = :desktop
+      end
     end
 
 end

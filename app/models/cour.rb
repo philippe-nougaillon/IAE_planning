@@ -21,16 +21,16 @@ class Cour < ActiveRecord::Base
   # end
 
   def self.styles
-  	['label-info','label-success','label-warning','label-danger','label-primary']
+    ['label-info','label-success','label-warning','label-danger','label-primary']
   end
 
   def style
-	  Cour.styles[Cour.etats[self.etat]]
+    Cour.styles[Cour.etats[self.etat]]
   end
-	
-  #def duree
-  #	self.fin ? ((self.fin - self.debut) / 60) / 60  : 0
-  #end
+  
+  def self.actions
+    ["Changer de salle", "Changer d'état", "Supprimer"]
+  end
 
   # Simple_calendar attributes
   def start_time
@@ -80,6 +80,7 @@ class Cour < ActiveRecord::Base
     # calcul le % de réalisation du cours
     ((planning_date.to_f - self.debut.to_f) / (self.fin.to_f - self.debut.to_f) * 100).to_i
   end
+
 
   private
     def update_date_fin

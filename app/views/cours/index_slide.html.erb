@@ -1,7 +1,7 @@
 <script type="text/javascript">    
     setInterval(function() {
         window.location.reload();
-    }, 2*60000); 
+    }, 1*60000); 
 </script>
 <br>
 
@@ -17,6 +17,7 @@
             </td>
             <td>
               <h3><%= cours.formation.nom_promo %></h3>
+              <h4><%= link_to cours.nom_ou_ue, cours %></h4>
               <div class="progress">
                 <div class="progress-bar progress-bar-striped active" 
                      role="progressbar" aria-valuemin="0" aria-valuemax="100" 
@@ -26,20 +27,21 @@
             </td>
             <td>
               <h3>
-              <% unless cours.intervenant.linkedin_photo.blank? %>
-                <%= image_tag(cours.intervenant.linkedin_photo, class: "img-circle", size:'60x60') %>
-              <% end %>
-              <%= cours.intervenant.nom_prenom %></h3>
+                <% unless cours.intervenant.linkedin_photo.blank? %>
+                  <%= image_tag(cours.intervenant.linkedin_photo, class: "img-circle", size:'60x60') %>
+                <% end %>
+                <%= cours.intervenant.nom_prenom %>
+              </h3>
             </td>
-            <td style="vertical-align: middle">
-              <h3>
-                <span class="label <%= cours.style %>">
-                <%= cours.etat.humanize %></span>
-              <h3>
-            </td>
-            <td style="vertical-align: middle">
+            <td style="text-align: center;vertical-align: middle;">
               <% if cours.salle %>
-                <h3><%= cours.salle.nom %></h3>
+                <h2>
+                  <span class="label <%= cours.style %>">
+                    <%= cours.salle.nom %>
+                  </span>
+                </h2>
+              <% else %>
+                <h3><i class="glyphicon glyphicon-warning-sign"></i></h3>
               <% end %>
             </td>
           </tr>

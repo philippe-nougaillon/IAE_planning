@@ -68,6 +68,45 @@ class CoursController < ApplicationController
     @cours = Cour.where("(debut between ? and ?) and fin >= ?", limite_debut, limite_fin, @planning_date).order(:debut)
   end
 
+  def action
+    if params[:cours_id]
+      @action_ids = []
+      params[:cours_id].each do |id, state|
+        @action_ids << id
+      end
+    end
+  end
+
+  def action_do
+    action_name = params[:action_name]
+    ids = params[:cours_id]
+
+    if action_name == 'Changer de salle'
+      ids.each do |id, state|
+        @cours = Cour.find(id)
+        unless params[:salle_id].blank?
+          @cours.salle = Salle.find(params[:salle_id])
+        else
+          @cours.salle = nil
+        end
+        @cours.save
+      end
+    elsif action_name == "Changer d'état"
+      ids.each do |id, state|
+        @cours = Cour.find(id)
+        @cours.etat = params[:etat].to_i
+        @cours.save
+      end
+    elsif action_name == "Supprimer"
+      ids.each do |id, state|
+        Cour.find(id).destroy
+      end
+    end 
+
+    flash[:notice] = "Action '#{action_name}' appliquée à #{params[:cours_id].count} cours."
+    redirect_to cours_path
+  end
+
   # GET /cours/1
   # GET /cours/1.json
   def show

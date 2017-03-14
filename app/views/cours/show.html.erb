@@ -22,15 +22,10 @@
 </div>
 
 <h3>
-  <%= @cour.formation.nom_promo_etudiants %><br>
-  <%= @cour.nom %><br>
-  <%= @cour.ue %>
+  <%= @cour.formation.nom_promo %> -> 
+  <%= @cour. nom_ou_ue %>
 </h3>
 
-<p>
-  <strong>Début:</strong>
-  <%= l(@cour.debut, format: :long) %>
-</p>
 
 <p>
   <strong>Fin:</strong>
@@ -53,6 +48,11 @@
 </p>
 
 <p>
+  <strong>Etat:</strong>
+  <span class="label <%= @cour.style %>"><%= @cour.etat.humanize %></span>
+</p>
+
+<p>
   <strong>Salle:</strong>
   <% if @cour.salle %>
     <%= @cour.salle.nom %>
@@ -64,11 +64,6 @@
   <% end %>
 </p>
 
-<p>
-  <strong>Etat:</strong>
-  <span class="label <%= @cour.style %>"><%= @cour.etat.humanize %></span>
-</p>
-<br>
 
 <% if current_user.admin? %>
   <% if @cour.audits.any? %>

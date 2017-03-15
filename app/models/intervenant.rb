@@ -11,6 +11,8 @@ class Intervenant < ActiveRecord::Base
 	
 	default_scope { order(:nom) } 
 
+    mount_uploader :photo, AvatarUploader
+
 	def nom_prenom
 		self.prenom.blank? ? self.nom.upcase : "#{self.nom.upcase} #{self.prenom}" 
 	end

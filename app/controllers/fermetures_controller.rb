@@ -7,6 +7,7 @@ class FermeturesController < ApplicationController
   # GET /fermetures.json
   def index
     @fermetures = Fermeture.all
+    @fermetures = @fermetures.paginate(:page => params[:page], :per_page => 20)
   end
 
   # GET /fermetures/1

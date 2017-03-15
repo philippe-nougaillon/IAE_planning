@@ -18,7 +18,8 @@
       <%= f.text_field :prenom, label:"Prénom" %>
       <%= f.text_field :email %>
       <%= f.text_field :linkedin_url %>
-      <%= f.text_field :linkedin_photo %>
+      <%= f.file_field :photo %>
+
       <%= f.submit class: "btn btn-primary" %>
     </div>
     <div class="col-sm-5">

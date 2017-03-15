@@ -23,7 +23,7 @@
                 <span class="input-group-btn">
                   <%= submit_tag 'Filtrer', class:"btn btn-success form-control" %>
                 </span>
-            </div>
+              </div>
           </div>
 
           <div class="col-sm-2">
@@ -70,4 +70,5 @@
       <% end %>
     </tbody>
   </table>
+  <%= will_paginate @users, renderer: BootstrapPagination::Rails %>
 </div>

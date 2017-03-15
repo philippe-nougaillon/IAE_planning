@@ -28,9 +28,8 @@ class FormationsController < ApplicationController
     unless params[:promo].blank?
       @formations = @formations.where(promo:params[:promo])
     end
-
     @formations = @formations.order(:nom, :promo)
-
+    @formations = @formations.paginate(:page => params[:page], :per_page => 20)
   end
 
   # GET /formations/1

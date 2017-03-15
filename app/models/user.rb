@@ -10,5 +10,4 @@ class User < ActiveRecord::Base
 
   default_scope { order(:email) } 
 
-
 end

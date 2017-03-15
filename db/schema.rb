@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170314145433) do
+ActiveRecord::Schema.define(version: 20170315164657) do
 
   create_table "audits", force: :cascade do |t|
     t.integer  "auditable_id"
@@ -95,13 +95,13 @@ ActiveRecord::Schema.define(version: 20170314145433) do
     t.string   "prenom"
     t.string   "email"
     t.string   "linkedin_url"
-    t.string   "linkedin_photo"
     t.string   "titre1"
     t.string   "titre2"
     t.string   "spécialité"
     t.string   "téléphone_fixe"
     t.string   "téléphone_mobile"
     t.string   "bureau"
+    t.string   "photo"
   end
 
   create_table "salles", force: :cascade do |t|

@@ -16,15 +16,19 @@
         <th>Date</th>
         <th></th>
         <th></th>
+        <th></th>
       </tr>
     </thead>
 
     <tbody>
       <%= content_tag_for(:tr, @fermetures) do |fermeture| %>
+        <td><%= l(fermeture.date) %></td>
+
         <td><%= l(fermeture.date, format: :long) %></td>
         <td><%= link_to 'Modifier', edit_fermeture_path(fermeture) %></td>
         <td><%= link_to '[X]', fermeture, method: :delete, data: { confirm: 'Etes-vous certain(e)?' } %></td>
       <% end %>
     </tbody>
   </table>
+  <%= will_paginate @fermetures, renderer: BootstrapPagination::Rails %>
 </div>

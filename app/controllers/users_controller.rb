@@ -24,7 +24,7 @@ class UsersController < ApplicationController
     unless params[:admin].blank?
       @users = @users.where(admin:true)
     end
-
+    @users = @users.paginate(:page => params[:page], :per_page => 20)
   end
 
   # GET /users/1

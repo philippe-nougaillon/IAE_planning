@@ -53,6 +53,10 @@ class CoursController < ApplicationController
     if params[:filter] == 'upcoming'
       @cours = @cours.where("cours.debut >= ? ", Date.today)
     end
+
+    if params[:view] == 'list'
+      @cours = @cours.paginate(:page => params[:page], :per_page => 20)
+    end
   end
 
   def index_slide

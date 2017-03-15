@@ -220,3 +220,7 @@ fr:
       short: "%d %b %Hh%M"
       heures_min: "%H:%M"
     pm: pm
+  will_paginate:
+    previous_label: "Précédent"
+    next_label: "Suivant"
+    page_gap: "…"

@@ -16,7 +16,7 @@ class IntervenantsController < ApplicationController
     unless params[:nom].blank?
       @intervenants = @intervenants.where("nom like ? or prenom like ?", "%#{params[:nom]}%", "%#{params[:nom]}%" )
     end
-
+    @intervenants = @intervenants.paginate(:page => params[:page], :per_page => 10)
   end
 
   # GET /intervenants/1
@@ -81,6 +81,6 @@ class IntervenantsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def intervenant_params
-      params.require(:intervenant).permit(:nom, :prenom, :email, :linkedin_url, :linkedin_photo, :titre1, :titre2, :spécialité, :téléphone_fixe, :téléphone_mobile, :bureau)
+      params.require(:intervenant).permit(:nom, :prenom, :email, :linkedin_url, :titre1, :titre2, :spécialité, :téléphone_fixe, :téléphone_mobile, :bureau, :photo)
     end
 end

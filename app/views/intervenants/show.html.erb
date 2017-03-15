@@ -13,7 +13,7 @@
 </div>
 
 <p>
-  <%= image_tag( @intervenant.linkedin_photo, class: "img-circle", size:'150x150') %>
+  <%= image_tag(@intervenant.photo.url, class: "img-circle", size:'150x150') %>
 </p>
 
 <h2>
@@ -48,10 +48,6 @@
     <p>
       <strong>Bureau</strong><br>
       <%= @intervenant.bureau %>
-    </p>
-    <p>
-      <strong>Profil LinkedIn</strong><br>
-      <%= link_to_if @intervenant.linkedin_url, @intervenant.linkedin_url, @intervenant.linkedin_url, target:'_blank' %>
     </p>
   </dir>  
   <dir class="col-sm-4">

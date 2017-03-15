@@ -42,7 +42,7 @@
       </thead>
       <tfoot>
         <tr>
-          <% 7.times do %><th /><% end %>
+          <% 6.times do %><th /><% end %>
         </tr>
       </tfoot>
 
@@ -50,8 +50,8 @@
         <% @intervenants.includes(:cours).each do |intervenant| %>
           <tr>
             <td>
-              <% unless intervenant.linkedin_photo.blank? %>
-                <%= link_to(image_tag(intervenant.linkedin_photo, class:'img-circle', size:'60x60'), intervenant) %>
+              <% if intervenant.photo.url %>
+                <%= link_to(image_tag(intervenant.photo.url, class: "img-circle", size:'60x60'), intervenant) %>
               <% end %>
             </td>
             <td><b><%= link_to intervenant.nom_prenom, intervenant %></b></td>
@@ -72,5 +72,8 @@
         <% end %>
       </tbody>
     </table>
+    <%= will_paginate @intervenants, renderer: BootstrapPagination::Rails %>
   </div>
 <% end %>
+
+

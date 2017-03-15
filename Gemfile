@@ -32,16 +32,18 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'bootstrap-sass', '~> 3.2.0'
 gem 'autoprefixer-rails'
 gem 'bootstrap-generators', '~> 3.3.4'
-gem "simple_calendar", "~> 2.0"
+gem 'simple_calendar', '~> 2.0'
 gem 'bootstrap_form'
 gem 'devise', '3.4.1'
 gem 'devise-i18n'
-gem "audited", "~> 4.3"
+gem 'audited', '~> 4.3'
 gem 'rack-cors'
 gem 'carrierwave', '0.11.0'
 gem 'rmagick'
 gem 'capture_stdout'
-gem "rails-erd"
+gem 'rails-erd'
+gem 'will_paginate'
+gem 'will_paginate-bootstrap'
 
 #gem 'capture-output'
 

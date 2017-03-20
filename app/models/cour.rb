@@ -68,7 +68,7 @@ class Cour < ActiveRecord::Base
   end
 
   def photo_json
-    self.intervenant.linkedin_photo
+    self.intervenant.photo.path if self.intervenant.photo 
   end
 
   def formation_json

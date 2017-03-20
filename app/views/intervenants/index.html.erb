@@ -57,7 +57,7 @@
             <td><b><%= link_to intervenant.nom_prenom, intervenant %></b></td>
             <td><%= intervenant.titre1 %></td>
             <td><%= intervenant.spécialité %></td>
-            <td><%= intervenant.formations.pluck(:nom).uniq.join(', ') %></td>
+            <td><%= intervenant.formations.pluck(:nom).uniq.join(' | ') %></td>
             <td>
               <%= link_to edit_intervenant_path(intervenant), class: "btn btn-default" do %>
                 <i class="glyphicon glyphicon-pencil"></i>

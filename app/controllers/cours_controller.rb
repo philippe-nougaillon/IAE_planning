@@ -55,7 +55,7 @@ class CoursController < ApplicationController
     end
 
     if params[:view] == 'list'
-      @cours = @cours.paginate(:page => params[:page], :per_page => 20)
+      @cours = @cours.paginate(page:params[:page], per_page:20)
     end
   end
 

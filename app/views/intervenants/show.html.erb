@@ -29,7 +29,7 @@
       <%= @intervenant.titre2 %>
     </p>
     <p>
-      <i><%= "Spécialité: #{@intervenant.spécialité}" if @intervenant.spécialité %></i>
+      <i><%= "Spécialité: #{@intervenant.spécialité}" unless @intervenant.spécialité.blank? %></i>
     </p>
   </dir>
   <dir class="col-sm-4">
@@ -52,11 +52,26 @@
   </dir>  
   <dir class="col-sm-4">
     <p>
-      <strong>Formations</strong>
+      <strong><%= "Formation".pluralize(@intervenant.formations.count) %></strong>
     </p>
     <%= @intervenant.formations.pluck(:nom).uniq.join(', ') %>
-
   </dir>
-  
 </div>
+<br>
+
+<% if current_user.admin? %>
+  <% if @intervenant.audits.any? %>
+    <h3>Historique des modifications</h3>
+    <table class="table table-condensed">
+      <% @intervenant.audits.includes(:user).reverse.each do |audit| %>
+        <tr>
+          <td><%= l(audit.created_at, format: :short) %></td>
+          <td><%= audit.user.email if audit.user %></td>
+          <td><%= audit.action %></td>
+          <td><%= audit.audited_changes %></td>
+        </tr>  
+      <% end %>
+    </table>
+  <% end %>
+<% end %>
 

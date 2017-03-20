@@ -32,9 +32,10 @@
   
     <% if params[:view] == "list" %>
       <% current_date = "" %>
-      <% @cours.where("debut >= ?", Date.today)
+      <% @cours = @cours.where("debut >= ?", Date.today)
                .where(etat:[Cour.etats[:planifié],Cour.etats[:reporté],Cour.etats[:annulé]])
-               .each do |cours| %>
+               .paginate(page:params[:page], per_page:20) %>
+      <% @cours.each do |cours| %>
          <div class="row">
             <div class="col-xs-3">
               <% if cours.debut.to_date != current_date   %>
@@ -53,8 +54,8 @@
               <% end %>
             </div>
             <div class="col-xs-2">
-              <% if cours.intervenant.linkedin_photo %>
-                <%= image_tag( cours.intervenant.linkedin_photo, class: "img-circle", size:'45x45') %>
+              <% if cours.intervenant.photo.url %>
+                <%= image_tag(cours.intervenant.photo.url, class: "img-circle", size:'45x45') %>
               <% end %>
             </div>
             <div class="col-xs-5">
@@ -63,4 +64,6 @@
           </div>  
       <% end %>
     <% end %>
+    <%= will_paginate @cours, renderer: BootstrapPagination::Rails %>
+
 </div>

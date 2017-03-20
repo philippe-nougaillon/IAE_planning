@@ -4,8 +4,16 @@
 		"selected_items":
 		[
 			[
+				"fer",
+				"fermetures"
+			],
+			[
+				"for",
+				"formations"
+			],
+			[
 				"inter",
-				"intervenant_id"
+				"intervenants"
 			],
 			[
 				"form",
@@ -152,10 +160,6 @@
 				"document"
 			],
 			[
-				"for",
-				"formation_id"
-			],
-			[
 				"suc",
 				"succès"
 			],
@@ -291,7 +295,7 @@
 			"file": "/home/philnoug/Documents/IAE 201612",
 			"settings":
 			{
-				"buffer_size": 8281,
+				"buffer_size": 4815,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -309,7 +313,16 @@
 			"file": "Gemfile",
 			"settings":
 			{
-				"buffer_size": 1874,
+				"buffer_size": 1924,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/uploaders/avatar_uploader.rb",
+			"settings":
+			{
+				"buffer_size": 1511,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -327,7 +340,7 @@
 			"file": "config/locales/fr.yml",
 			"settings":
 			{
-				"buffer_size": 5712,
+				"buffer_size": 5805,
 				"encoding": "UTF-8",
 				"line_ending": "Unix",
 				"name": "---"
@@ -337,7 +350,7 @@
 			"file": "db/schema.rb",
 			"settings":
 			{
-				"buffer_size": 4552,
+				"buffer_size": 4543,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -382,7 +395,7 @@
 			"file": "app/controllers/application_controller.rb",
 			"settings":
 			{
-				"buffer_size": 713,
+				"buffer_size": 714,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -466,7 +479,7 @@
 			"file": "app/views/tools/import_intervenants.html.erb",
 			"settings":
 			{
-				"buffer_size": 1370,
+				"buffer_size": 1355,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -494,7 +507,7 @@
 			"file": "app/models/user.rb",
 			"settings":
 			{
-				"buffer_size": 349,
+				"buffer_size": 348,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -503,7 +516,7 @@
 			"file": "app/controllers/users_controller.rb",
 			"settings":
 			{
-				"buffer_size": 2342,
+				"buffer_size": 2411,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -512,7 +525,7 @@
 			"file": "app/views/users/index.html.erb",
 			"settings":
 			{
-				"buffer_size": 2399,
+				"buffer_size": 2469,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -582,7 +595,7 @@
 			"file": "app/controllers/formations_controller.rb",
 			"settings":
 			{
-				"buffer_size": 2823,
+				"buffer_size": 2901,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -591,7 +604,7 @@
 			"file": "app/views/formations/index.html.erb",
 			"settings":
 			{
-				"buffer_size": 3658,
+				"buffer_size": 3728,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -634,7 +647,7 @@
 			"file": "app/models/intervenant.rb",
 			"settings":
 			{
-				"buffer_size": 566,
+				"buffer_size": 609,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -643,7 +656,7 @@
 			"file": "app/controllers/intervenants_controller.rb",
 			"settings":
 			{
-				"buffer_size": 2447,
+				"buffer_size": 2521,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -652,7 +665,7 @@
 			"file": "app/views/intervenants/index.html.erb",
 			"settings":
 			{
-				"buffer_size": 2470,
+				"buffer_size": 2530,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -661,7 +674,7 @@
 			"file": "app/views/intervenants/_form.html.erb",
 			"settings":
 			{
-				"buffer_size": 1302,
+				"buffer_size": 1294,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -686,7 +699,7 @@
 			"file": "app/views/intervenants/show.html.erb",
 			"settings":
 			{
-				"buffer_size": 1552,
+				"buffer_size": 1365,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -764,7 +777,7 @@
 			"file": "app/controllers/fermetures_controller.rb",
 			"settings":
 			{
-				"buffer_size": 1967,
+				"buffer_size": 2047,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -773,7 +786,7 @@
 			"file": "app/views/fermetures/index.html.erb",
 			"settings":
 			{
-				"buffer_size": 845,
+				"buffer_size": 979,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -818,7 +831,7 @@
 			"file": "app/controllers/cours_controller.rb",
 			"settings":
 			{
-				"buffer_size": 5625,
+				"buffer_size": 5737,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -836,7 +849,7 @@
 			"file": "app/views/cours/index_slide.html.erb",
 			"settings":
 			{
-				"buffer_size": 1869,
+				"buffer_size": 1848,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -845,7 +858,7 @@
 			"file": "app/views/cours/index.html.erb",
 			"settings":
 			{
-				"buffer_size": 10785,
+				"buffer_size": 10791,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -1042,6 +1055,11 @@
 	},
 	"file_history":
 	[
+		"/var/www/html/index.html",
+		"/home/philnoug/RailsProjects/iae_site/public/index.html",
+		"/home/philnoug/RailsProjects/iae_site/app/views/layouts/application.html.erb",
+		"/home/philnoug/RailsProjects/iae/db/migrate/20170315164657_remove_linked_in_photo_to_intervenants.rb",
+		"/home/philnoug/RailsProjects/iae/db/migrate/20170315162106_add_avatar_to_intervenants.rb",
 		"/home/philnoug/RailsProjects/iae/app/views/cours/action_do.csv.erb",
 		"/home/philnoug/RailsProjects/iae/db/migrate/20170314085435_modify_duree_cours_to_small_decimal.rb",
 		"/home/philnoug/RailsProjects/iae/db/migrate/20170303144404_add_extra_fields_to_intervenants.rb",
@@ -1164,12 +1182,7 @@
 		"/home/phil/RailsProjects/lsf/app/views/chantiers/index.html.erb",
 		"/home/phil/RailsProjects/testaudit/app/models/user.rb",
 		"/home/phil/RailsProjects/testaudit/app/models/post.rb",
-		"/home/phil/RailsProjects/lsf/app/views/users/_form.html.erb",
-		"/usr/share/applications/sublime.desktop",
-		"/home/phil/RailsProjects/testaudit/Gemfile",
-		"/home/phil/RailsProjects/testaudit/app/models/concerns/MyConcernModule.rb",
-		"/home/phil/RailsProjects/testaudit/app/models/concerns/modelsconcerns.rb",
-		"/home/phil/RailsProjects/testaudit/app/models/Concerns/modelsconcerns.rb"
+		"/home/phil/RailsProjects/lsf/app/views/users/_form.html.erb"
 	],
 	"find":
 	{
@@ -1253,15 +1266,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 8281,
+						"buffer_size": 4815,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4007,
-								4007
+								4619,
+								4619
 							]
 						],
 						"settings":
@@ -1269,7 +1282,7 @@
 							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 2430.0,
+						"translation.y": 2250.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -1300,7 +1313,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 66,
+					"stack_index": 70,
 					"type": "text"
 				},
 				{
@@ -1309,15 +1322,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1874,
+						"buffer_size": 1924,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								950,
-								950
+								1186,
+								1186
 							]
 						],
 						"settings":
@@ -1325,14 +1338,44 @@
 							"syntax": "Packages/Ruby/Ruby.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 195.0,
+						"translation.y": 285.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 45,
+					"stack_index": 19,
 					"type": "text"
 				},
 				{
 					"buffer": 3,
+					"file": "app/uploaders/avatar_uploader.rb",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1511,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Ruby/Ruby.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 135.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 18,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
 					"file": "config/routes.rb",
 					"semi_transient": false,
 					"settings":
@@ -1358,24 +1401,24 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 32,
+					"stack_index": 46,
 					"type": "text"
 				},
 				{
-					"buffer": 4,
+					"buffer": 5,
 					"file": "config/locales/fr.yml",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5712,
+						"buffer_size": 5805,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1117,
-								1117
+								5804,
+								5804
 							]
 						],
 						"settings":
@@ -1386,19 +1429,19 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 525.0,
+						"translation.y": 2925.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 31,
+					"stack_index": 28,
 					"type": "text"
 				},
 				{
-					"buffer": 5,
+					"buffer": 6,
 					"file": "db/schema.rb",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4552,
+						"buffer_size": 4543,
 						"regions":
 						{
 						},
@@ -1419,11 +1462,11 @@
 						"translation.y": 315.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 35,
+					"stack_index": 49,
 					"type": "text"
 				},
 				{
-					"buffer": 6,
+					"buffer": 7,
 					"file": "config/initializers/devise.rb",
 					"semi_transient": false,
 					"settings":
@@ -1449,11 +1492,11 @@
 						"translation.y": 2070.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 44,
+					"stack_index": 56,
 					"type": "text"
 				},
 				{
-					"buffer": 7,
+					"buffer": 8,
 					"file": "config/application.rb",
 					"semi_transient": false,
 					"settings":
@@ -1479,11 +1522,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 47,
+					"stack_index": 57,
 					"type": "text"
 				},
 				{
-					"buffer": 8,
+					"buffer": 9,
 					"file": "app/assets/stylesheets/application.css.sass",
 					"semi_transient": false,
 					"settings":
@@ -1509,11 +1552,11 @@
 						"translation.y": 108.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 37,
+					"stack_index": 51,
 					"type": "text"
 				},
 				{
-					"buffer": 9,
+					"buffer": 10,
 					"file": "app/views/layouts/application.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -1539,16 +1582,16 @@
 						"translation.y": 1041.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 39,
+					"stack_index": 53,
 					"type": "text"
 				},
 				{
-					"buffer": 10,
+					"buffer": 11,
 					"file": "app/controllers/application_controller.rb",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 713,
+						"buffer_size": 714,
 						"regions":
 						{
 						},
@@ -1569,11 +1612,11 @@
 						"translation.y": 30.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 28,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
-					"buffer": 11,
+					"buffer": 12,
 					"file": "app/mailers/user_mailer.rb",
 					"semi_transient": false,
 					"settings":
@@ -1598,11 +1641,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 55,
+					"stack_index": 64,
 					"type": "text"
 				},
 				{
-					"buffer": 12,
+					"buffer": 13,
 					"file": "app/views/user_mailer/welcome_email.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -1628,11 +1671,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 54,
+					"stack_index": 63,
 					"type": "text"
 				},
 				{
-					"buffer": 13,
+					"buffer": 14,
 					"file": "app/mailers/application_mailer.rb",
 					"semi_transient": false,
 					"settings":
@@ -1657,11 +1700,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 38,
+					"stack_index": 52,
 					"type": "text"
 				},
 				{
-					"buffer": 14,
+					"buffer": 15,
 					"file": "app/controllers/tools_controller.rb",
 					"semi_transient": false,
 					"settings":
@@ -1698,11 +1741,11 @@
 						"translation.y": 162.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 29,
+					"stack_index": 44,
 					"type": "text"
 				},
 				{
-					"buffer": 15,
+					"buffer": 16,
 					"file": "app/views/tools/index.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -1727,11 +1770,11 @@
 						"translation.y": 450.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 30,
 					"type": "text"
 				},
 				{
-					"buffer": 16,
+					"buffer": 17,
 					"file": "app/views/tools/creation_cours.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -1757,11 +1800,11 @@
 						"translation.y": 585.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 30,
+					"stack_index": 45,
 					"type": "text"
 				},
 				{
-					"buffer": 17,
+					"buffer": 18,
 					"file": "app/views/tools/creation_cours_do.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -1786,11 +1829,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 51,
+					"stack_index": 60,
 					"type": "text"
 				},
 				{
-					"buffer": 18,
+					"buffer": 19,
 					"file": "app/views/tools/import_utilisateurs.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -1816,24 +1859,24 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 49,
+					"stack_index": 59,
 					"type": "text"
 				},
 				{
-					"buffer": 19,
+					"buffer": 20,
 					"file": "app/views/tools/import_intervenants.html.erb",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1370,
+						"buffer_size": 1355,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								516,
-								516
+								428,
+								428
 							]
 						],
 						"settings":
@@ -1846,11 +1889,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 42,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
-					"buffer": 20,
+					"buffer": 21,
 					"file": "app/views/tools/import_utilisateurs_do.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -1875,11 +1918,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 52,
+					"stack_index": 61,
 					"type": "text"
 				},
 				{
-					"buffer": 21,
+					"buffer": 22,
 					"file": "app/views/tools/import.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -1905,24 +1948,24 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 48,
+					"stack_index": 58,
 					"type": "text"
 				},
 				{
-					"buffer": 22,
+					"buffer": 23,
 					"file": "app/models/user.rb",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 349,
+						"buffer_size": 348,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								338,
-								338
+								344,
+								344
 							]
 						],
 						"settings":
@@ -1933,24 +1976,24 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 19,
+					"stack_index": 13,
 					"type": "text"
 				},
 				{
-					"buffer": 23,
+					"buffer": 24,
 					"file": "app/controllers/users_controller.rb",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2342,
+						"buffer_size": 2411,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								665,
-								665
+								742,
+								742
 							]
 						],
 						"settings":
@@ -1960,27 +2003,27 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 810.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 46,
+					"stack_index": 14,
 					"type": "text"
 				},
 				{
-					"buffer": 24,
+					"buffer": 25,
 					"file": "app/views/users/index.html.erb",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2399,
+						"buffer_size": 2469,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								313,
-								313
+								1372,
+								1372
 							]
 						],
 						"settings":
@@ -1990,14 +2033,14 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 585.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 56,
+					"stack_index": 22,
 					"type": "text"
 				},
 				{
-					"buffer": 25,
+					"buffer": 26,
 					"file": "app/views/users/_form.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -2023,11 +2066,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 57,
+					"stack_index": 15,
 					"type": "text"
 				},
 				{
-					"buffer": 26,
+					"buffer": 27,
 					"file": "app/views/users/edit.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -2051,11 +2094,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 78,
+					"stack_index": 80,
 					"type": "text"
 				},
 				{
-					"buffer": 27,
+					"buffer": 28,
 					"file": "app/views/users/show.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -2080,11 +2123,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 77,
+					"stack_index": 79,
 					"type": "text"
 				},
 				{
-					"buffer": 28,
+					"buffer": 29,
 					"file": "app/views/users/new.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -2108,11 +2151,11 @@
 						"translation.y": 135.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 53,
+					"stack_index": 62,
 					"type": "text"
 				},
 				{
-					"buffer": 29,
+					"buffer": 30,
 					"file": "app/views/devise/sessions/new.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -2138,11 +2181,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 50,
+					"stack_index": 24,
 					"type": "text"
 				},
 				{
-					"buffer": 30,
+					"buffer": 31,
 					"file": "app/models/unite.rb",
 					"semi_transient": false,
 					"settings":
@@ -2166,11 +2209,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 18,
+					"stack_index": 41,
 					"type": "text"
 				},
 				{
-					"buffer": 31,
+					"buffer": 32,
 					"file": "app/models/formation.rb",
 					"semi_transient": false,
 					"settings":
@@ -2195,24 +2238,24 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 12,
+					"stack_index": 39,
 					"type": "text"
 				},
 				{
-					"buffer": 32,
+					"buffer": 33,
 					"file": "app/controllers/formations_controller.rb",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2823,
+						"buffer_size": 2901,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2755,
-								2755
+								947,
+								947
 							]
 						],
 						"settings":
@@ -2222,27 +2265,27 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1230.0,
+						"translation.y": 135.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 65,
+					"stack_index": 25,
 					"type": "text"
 				},
 				{
-					"buffer": 33,
+					"buffer": 34,
 					"file": "app/views/formations/index.html.erb",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3658,
+						"buffer_size": 3728,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2594,
-								2594
+								3704,
+								3704
 							]
 						],
 						"settings":
@@ -2252,14 +2295,14 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 855.0,
+						"translation.y": 1035.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 25,
+					"stack_index": 23,
 					"type": "text"
 				},
 				{
-					"buffer": 34,
+					"buffer": 35,
 					"file": "app/views/formations/_form.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -2285,11 +2328,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 64,
+					"stack_index": 69,
 					"type": "text"
 				},
 				{
-					"buffer": 35,
+					"buffer": 36,
 					"file": "app/views/formations/edit.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -2313,11 +2356,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 71,
+					"stack_index": 74,
 					"type": "text"
 				},
 				{
-					"buffer": 36,
+					"buffer": 37,
 					"file": "app/views/formations/show.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -2343,11 +2386,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 63,
+					"stack_index": 68,
 					"type": "text"
 				},
 				{
-					"buffer": 37,
+					"buffer": 38,
 					"file": "app/views/formations/new.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -2371,24 +2414,24 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 20,
+					"stack_index": 42,
 					"type": "text"
 				},
 				{
-					"buffer": 38,
+					"buffer": 39,
 					"file": "app/models/intervenant.rb",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 566,
+						"buffer_size": 609,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								124,
-								124
+								268,
+								268
 							]
 						],
 						"settings":
@@ -2400,24 +2443,24 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 16,
+					"stack_index": 9,
 					"type": "text"
 				},
 				{
-					"buffer": 39,
+					"buffer": 40,
 					"file": "app/controllers/intervenants_controller.rb",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2447,
+						"buffer_size": 2521,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2435,
-								2435
+								2424,
+								2424
 							]
 						],
 						"settings":
@@ -2427,27 +2470,27 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 480.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 24,
+					"stack_index": 8,
 					"type": "text"
 				},
 				{
-					"buffer": 40,
+					"buffer": 41,
 					"file": "app/views/intervenants/index.html.erb",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2470,
+						"buffer_size": 2530,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1356,
-								1356
+								1597,
+								1597
 							]
 						],
 						"settings":
@@ -2460,24 +2503,24 @@
 						"translation.y": 630.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 15,
+					"stack_index": 7,
 					"type": "text"
 				},
 				{
-					"buffer": 41,
+					"buffer": 42,
 					"file": "app/views/intervenants/_form.html.erb",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1302,
+						"buffer_size": 1294,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1074,
-								1074
+								811,
+								811
 							]
 						],
 						"settings":
@@ -2490,11 +2533,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 43,
+					"stack_index": 11,
 					"type": "text"
 				},
 				{
-					"buffer": 42,
+					"buffer": 43,
 					"file": "app/views/intervenants/edit.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -2518,11 +2561,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 75,
+					"stack_index": 77,
 					"type": "text"
 				},
 				{
-					"buffer": 43,
+					"buffer": 44,
 					"file": "app/views/intervenants/new.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -2546,24 +2589,24 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 79,
+					"stack_index": 81,
 					"type": "text"
 				},
 				{
-					"buffer": 44,
+					"buffer": 45,
 					"file": "app/views/intervenants/show.html.erb",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1552,
+						"buffer_size": 1365,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1530,
-								1530
+								492,
+								492
 							]
 						],
 						"settings":
@@ -2573,14 +2616,14 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 495.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 17,
+					"stack_index": 10,
 					"type": "text"
 				},
 				{
-					"buffer": 45,
+					"buffer": 46,
 					"file": "app/models/salle.rb",
 					"semi_transient": false,
 					"settings":
@@ -2605,11 +2648,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 6,
+					"stack_index": 33,
 					"type": "text"
 				},
 				{
-					"buffer": 46,
+					"buffer": 47,
 					"file": "app/controllers/salles_controller.rb",
 					"semi_transient": false,
 					"settings":
@@ -2635,11 +2678,11 @@
 						"translation.y": 585.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 62,
+					"stack_index": 67,
 					"type": "text"
 				},
 				{
-					"buffer": 47,
+					"buffer": 48,
 					"file": "app/views/salles/index.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -2665,11 +2708,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 29,
 					"type": "text"
 				},
 				{
-					"buffer": 48,
+					"buffer": 49,
 					"file": "app/views/salles/_form.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -2695,11 +2738,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 10,
+					"stack_index": 37,
 					"type": "text"
 				},
 				{
-					"buffer": 49,
+					"buffer": 50,
 					"file": "app/views/salles/edit.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -2723,11 +2766,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 11,
+					"stack_index": 38,
 					"type": "text"
 				},
 				{
-					"buffer": 50,
+					"buffer": 51,
 					"file": "app/views/salles/show.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -2753,11 +2796,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 68,
+					"stack_index": 72,
 					"type": "text"
 				},
 				{
-					"buffer": 51,
+					"buffer": 52,
 					"file": "app/views/salles/new.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -2781,11 +2824,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 14,
+					"stack_index": 40,
 					"type": "text"
 				},
 				{
-					"buffer": 52,
+					"buffer": 53,
 					"file": "app/models/fermeture.rb",
 					"semi_transient": false,
 					"settings":
@@ -2809,24 +2852,24 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 32,
 					"type": "text"
 				},
 				{
-					"buffer": 53,
+					"buffer": 54,
 					"file": "app/controllers/fermetures_controller.rb",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1967,
+						"buffer_size": 2047,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								17,
-								17
+								309,
+								309
 							]
 						],
 						"settings":
@@ -2839,24 +2882,24 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 13,
+					"stack_index": 21,
 					"type": "text"
 				},
 				{
-					"buffer": 54,
+					"buffer": 55,
 					"file": "app/views/fermetures/index.html.erb",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 845,
+						"buffer_size": 979,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								278,
-								278
+								432,
+								432
 							]
 						],
 						"settings":
@@ -2869,11 +2912,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 20,
 					"type": "text"
 				},
 				{
-					"buffer": 55,
+					"buffer": 56,
 					"file": "app/views/fermetures/edit.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -2897,11 +2940,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 7,
+					"stack_index": 34,
 					"type": "text"
 				},
 				{
-					"buffer": 56,
+					"buffer": 57,
 					"file": "app/views/fermetures/new.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -2925,11 +2968,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 9,
+					"stack_index": 36,
 					"type": "text"
 				},
 				{
-					"buffer": 57,
+					"buffer": 58,
 					"file": "app/views/fermetures/_form.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -2955,11 +2998,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 8,
+					"stack_index": 35,
 					"type": "text"
 				},
 				{
-					"buffer": 58,
+					"buffer": 59,
 					"file": "app/models/cour.rb",
 					"semi_transient": false,
 					"settings":
@@ -2985,24 +3028,24 @@
 						"translation.y": 1080.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 31,
 					"type": "text"
 				},
 				{
-					"buffer": 59,
+					"buffer": 60,
 					"file": "app/controllers/cours_controller.rb",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5625,
+						"buffer_size": 5737,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2877,
-								2877
+								1449,
+								1449
 							]
 						],
 						"settings":
@@ -3012,14 +3055,14 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1254.0,
+						"translation.y": 354.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 21,
+					"stack_index": 26,
 					"type": "text"
 				},
 				{
-					"buffer": 60,
+					"buffer": 61,
 					"file": "app/views/layouts/slide.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -3042,27 +3085,27 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 180.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 27,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
-					"buffer": 61,
+					"buffer": 62,
 					"file": "app/views/cours/index_slide.html.erb",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1869,
+						"buffer_size": 1848,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1218,
-								1218
+								1105,
+								1105
 							]
 						],
 						"settings":
@@ -3072,27 +3115,27 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 90.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 23,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
-					"buffer": 62,
+					"buffer": 63,
 					"file": "app/views/cours/index.html.erb",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 10785,
+						"buffer_size": 10791,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								7260,
-								7260
+								8474,
+								8474
 							]
 						],
 						"settings":
@@ -3102,14 +3145,14 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 2538.0,
+						"translation.y": 2835.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 26,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
-					"buffer": 63,
+					"buffer": 64,
 					"file": "app/views/cours/action.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -3135,11 +3178,11 @@
 						"translation.y": 180.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 22,
+					"stack_index": 43,
 					"type": "text"
 				},
 				{
-					"buffer": 64,
+					"buffer": 65,
 					"file": "app/assets/javascripts/cours.coffee",
 					"semi_transient": false,
 					"settings":
@@ -3163,11 +3206,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 34,
+					"stack_index": 48,
 					"type": "text"
 				},
 				{
-					"buffer": 65,
+					"buffer": 66,
 					"file": "app/assets/javascripts/application.js",
 					"semi_transient": false,
 					"settings":
@@ -3191,11 +3234,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 33,
+					"stack_index": 47,
 					"type": "text"
 				},
 				{
-					"buffer": 66,
+					"buffer": 67,
 					"file": "app/views/cours/index.html+phone.erb",
 					"semi_transient": false,
 					"settings":
@@ -3221,11 +3264,11 @@
 						"translation.y": 450.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 40,
+					"stack_index": 54,
 					"type": "text"
 				},
 				{
-					"buffer": 67,
+					"buffer": 68,
 					"file": "app/views/simple_calendar/_month_calendar.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -3251,11 +3294,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 69,
+					"stack_index": 73,
 					"type": "text"
 				},
 				{
-					"buffer": 68,
+					"buffer": 69,
 					"file": "app/views/simple_calendar/_calendar.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -3281,11 +3324,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 41,
+					"stack_index": 55,
 					"type": "text"
 				},
 				{
-					"buffer": 69,
+					"buffer": 70,
 					"file": "app/views/simple_calendar/_week_calendar.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -3311,11 +3354,11 @@
 						"translation.y": 135.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 61,
+					"stack_index": 66,
 					"type": "text"
 				},
 				{
-					"buffer": 70,
+					"buffer": 71,
 					"file": "app/views/cours/_form.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -3341,11 +3384,11 @@
 						"translation.y": 225.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 67,
+					"stack_index": 71,
 					"type": "text"
 				},
 				{
-					"buffer": 71,
+					"buffer": 72,
 					"file": "app/views/cours/show.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -3371,11 +3414,11 @@
 						"translation.y": 450.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 36,
+					"stack_index": 50,
 					"type": "text"
 				},
 				{
-					"buffer": 72,
+					"buffer": 73,
 					"file": "app/views/cours/edit.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -3399,11 +3442,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 80,
+					"stack_index": 27,
 					"type": "text"
 				},
 				{
-					"buffer": 73,
+					"buffer": 74,
 					"file": "app/views/cours/new.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -3427,11 +3470,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 76,
+					"stack_index": 78,
 					"type": "text"
 				},
 				{
-					"buffer": 74,
+					"buffer": 75,
 					"file": "app/models/document.rb",
 					"semi_transient": false,
 					"settings":
@@ -3443,8 +3486,8 @@
 						"selection":
 						[
 							[
-								222,
-								222
+								90,
+								90
 							]
 						],
 						"settings":
@@ -3455,11 +3498,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 70,
+					"stack_index": 16,
 					"type": "text"
 				},
 				{
-					"buffer": 75,
+					"buffer": 76,
 					"file": "app/controllers/documents_controller.rb",
 					"semi_transient": false,
 					"settings":
@@ -3482,14 +3525,14 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 270.0,
+						"translation.y": 1170.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 72,
+					"stack_index": 12,
 					"type": "text"
 				},
 				{
-					"buffer": 76,
+					"buffer": 77,
 					"file": "app/views/documents/index.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -3515,11 +3558,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 58,
+					"stack_index": 6,
 					"type": "text"
 				},
 				{
-					"buffer": 77,
+					"buffer": 78,
 					"file": "app/views/documents/edit.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -3543,11 +3586,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 73,
+					"stack_index": 75,
 					"type": "text"
 				},
 				{
-					"buffer": 78,
+					"buffer": 79,
 					"file": "app/views/documents/show.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -3573,11 +3616,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 59,
+					"stack_index": 65,
 					"type": "text"
 				},
 				{
-					"buffer": 79,
+					"buffer": 80,
 					"file": "app/views/documents/_form.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -3589,8 +3632,8 @@
 						"selection":
 						[
 							[
-								1446,
-								1446
+								1865,
+								1865
 							]
 						],
 						"settings":
@@ -3600,14 +3643,14 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 90.0,
+						"translation.y": 225.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 60,
+					"stack_index": 17,
 					"type": "text"
 				},
 				{
-					"buffer": 80,
+					"buffer": 81,
 					"file": "app/views/documents/new.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -3631,7 +3674,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 74,
+					"stack_index": 76,
 					"type": "text"
 				}
 			]

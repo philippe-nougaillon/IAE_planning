@@ -96,10 +96,13 @@ class CoursController < ApplicationController
         @cours.save
       end
     elsif action_name == "Changer d'état"
+      
       ids.each do |id, state|
         @cours = Cour.find(id)
         @cours.etat = params[:etat].to_i
-        @cours.save
+        
+        # envoyer de mail par défaut (after_validation:true) sauf si envoyer email pas choché
+        @cours.save(validate:params[:email].present?)
       end
     elsif action_name == "Supprimer" and !params[:delete].blank?
       ids.each do |id, state|

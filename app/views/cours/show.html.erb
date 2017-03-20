@@ -48,11 +48,6 @@
 </p>
 
 <p>
-  <strong>Etat:</strong>
-  <span class="label <%= @cour.style %>"><%= @cour.etat.humanize %></span>
-</p>
-
-<p>
   <strong>Salle:</strong>
   <% if @cour.salle %>
     <%= @cour.salle.nom %>
@@ -64,6 +59,10 @@
   <% end %>
 </p>
 
+<p>
+  <strong>Etat:</strong>
+  <span class="label <%= @cour.style %>"><%= @cour.etat.humanize %></span>
+</p>
 
 <% if current_user.admin? %>
   <% if @cour.audits.any? %>

@@ -13,52 +13,63 @@
   <h2>
     <%= @formation.nom %> <%= "(#{@formation.abrg})" if @formation.abrg %>
   </h2>
-
 </div>
 
 <dl class="dl-horizontal"></dl>
 
-<p>
-  <strong>Promo:</strong>
-  <%= @formation.promo %>
-</p>
+<dir class="row">
+  <dir class="col-sm-6">
+    <p>
+      <strong>Promo:</strong>
+      <%= @formation.promo %>
+    </p>
 
-<p>
-  <strong>Diplôme:</strong>
-  <%= @formation.diplome %>
-</p>
+    <p>
+      <strong>Diplôme:</strong>
+      <%= @formation.diplome %>
+    </p>
 
-<p>
-  <strong>Domaine:</strong>
-  <%= @formation.domaine %>
-</p>
+    <p>
+      <strong>Domaine:</strong>
+      <%= @formation.domaine %>
+    </p>
 
-<p>
-  <strong>Apprentissage:</strong>
-  <%= @formation.apprentissage ? "Oui" : "Non" %>
-</p>
+    <p>
+      <strong>Apprentissage:</strong>
+      <%= @formation.apprentissage ? "Oui" : "Non" %>
+    </p>
 
-<p>
-  <strong>Nbr étudiants:</strong>
-  <%= @formation.nbr_etudiants %>
-</p>
- 
-<p>
-  <strong>Nbr d'heures prévues:</strong>
-  <%= @formation.nbr_heures %>
-  (Planifiées:
-  <%= link_to @formation.cours.planifié.collect {|c| c.duree }.sum, cours_path(formation_id:@formation, etat:1)  %>)
-</p>
+    <p>
+      <strong>Chargée de formation:</strong>
+      <%= @formation.user.email if @formation.user %>
+    </p>
+  </dir>
 
-<p>
-  <strong>Nbr d'utilisateurs associés:</strong>
-  <%= link_to @formation.users.count, users_path(formation_id: @formation.id) %>
-</p>
+  <dir class="col-sm-6">
+    <p>
+      <strong>Nbr étudiants prévus:</strong>
+      <%= @formation.nbr_etudiants %>
+    </p>
+     
+    <p>
+      <strong>Nbr d'heures prévues:</strong>
+      <%= @formation.nbr_heures %>
+      (Planifiées:
+      <%= link_to @formation.cours.planifié.collect {|c| c.duree }.sum, cours_path(formation_id:@formation, etat:1)  %>)
+    </p>
 
-<p>
-  <strong>Mémo:</strong>
-  <%= @formation.memo %>
-</p>
+    <p>
+      <strong>Nbr d'utilisateurs associés:</strong>
+      <%= link_to @formation.users.count, users_path(formation_id: @formation.id) %>
+    </p>
+
+    <p>
+      <strong>Mémo:</strong>
+      <%= @formation.memo %>
+    </p>
+  </dir>
+</dir>
+
 
 <h3>Unités d'Enseignement</h3>
 <div class="table-responsive">

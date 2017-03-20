@@ -8,14 +8,16 @@ class Cour < ActiveRecord::Base
   belongs_to :intervenant
   belongs_to :salle
 
-  before_validation :update_date_fin
-
   #validate :la_fin_apres_le_debut
   validates :formation_id, :intervenant_id, :duree, presence: true
   validate :check_chevauchement, if: Proc.new {|cours| cours.salle_id }
   validate :jour_fermeture
 
   enum etat: [:nouveau, :planifié, :reporté, :annulé, :a_réserver]
+
+  before_validation :update_date_fin
+  
+  after_validation :call_notifier
 
   # before_validation(on: :create) do
   #     self.user = RequestStore.store[:current_user]
@@ -88,6 +90,22 @@ class Cour < ActiveRecord::Base
       fin = eval("self.debut + self.duree.hour")
       self.fin = fin if self.fin != fin
     end
+
+    def call_notifier
+      # envoyer un nmail si le cours à changé d'état vers annulé ou reporté
+      if self.changes.include?('etat') and (self.etat == 'annulé' or self.etat == 'reporté') 
+        # logger.debug "[DEBUG] etat modifié: #{self.etat_was} => #{self.etat}"
+
+        # envoyer notification à la chargée de formation
+        UserMailer.cours_changed(self, self.formation.user.email).deliver_now
+
+        # envoyer à tous les étudiants 
+        self.formation.users.each do | user |
+          UserMailer.cours_changed(self, user.email).deliver_now
+        end
+
+      end
+    end  
 
     def la_fin_apres_le_debut
       errors.add(:debut, "du cours ne peut pas être après la fin !") if self.debut > self.fin

@@ -41,8 +41,8 @@
     </div>
     <div class="col-sm-6">
       <%= label_tag "Notification" %><br>
+      <%= check_box_tag :email, 1, true %> Prévenir les participants par courriel ?
       <%= check_box_tag :sms %> Prévenir les participants par SMS ?
-      <%= check_box_tag :mail %> Prévenir les participants par courriel ?
     </div>
   <% elsif params[:action_name] == "Supprimer" %>
     <div class="col-sm-6">

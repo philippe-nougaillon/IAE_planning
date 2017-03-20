@@ -9,6 +9,8 @@ class Formation < ActiveRecord::Base
 	has_many :unites
 	accepts_nested_attributes_for :unites, allow_destroy: true, reject_if: lambda {|attributes| attributes['num'].blank?}
 
+	belongs_to :user
+
 	validates :nom, :promo, :nbr_etudiants, :nbr_heures, presence: true
 	validates :nom, uniqueness: {scope: :promo}
 	

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170315164657) do
+ActiveRecord::Schema.define(version: 20170320120826) do
 
   create_table "audits", force: :cascade do |t|
     t.integer  "auditable_id"
@@ -86,7 +86,10 @@ ActiveRecord::Schema.define(version: 20170315164657) do
     t.integer  "nbr_etudiants", default: 0
     t.integer  "nbr_heures"
     t.string   "abrg"
+    t.integer  "user_id"
   end
+
+  add_index "formations", ["user_id"], name: "index_formations_on_user_id"
 
   create_table "intervenants", force: :cascade do |t|
     t.string   "nom"

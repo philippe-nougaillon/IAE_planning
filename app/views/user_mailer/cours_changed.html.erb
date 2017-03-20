@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Votre cours du <%= l(@cours.debut, format: :long) %> vient d'être modifié</h1>
+    <p>
+      Il vient d'être <b><%= @cours.etat %></b>
+    </p>
+    <p>
+      Pour vous connecter au planning, veuillez suivre ce lien: <%= cours_url %>.
+    </p>
+  </body>
+</html>

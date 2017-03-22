@@ -23,7 +23,7 @@
         <%= f.text_field :diplome, label:"Diplôme" %>
         <%= f.text_field :domaine %>
         <%= f.check_box :apprentissage, label:"Apprentissage ?" %>
-        <%= f.collection_select :user_id, User.where(admin:true), :id, :email, {include_blank: true, label:"Chargée de formation"} %>
+        <%= f.collection_select :user_id, User.where(admin:true), :id, :email, {include_blank: true, label:"Gestionnaire de formation"} %>
         <%= f.number_field :nbr_etudiants, label:"Nombre d'étudiants prévus" %>
         <%= f.number_field :nbr_heures, label:"Nombre d'heures prévues" %>
         <%= f.text_area :memo, label:"Mémo" %>

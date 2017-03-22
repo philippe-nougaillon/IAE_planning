@@ -29,9 +29,32 @@ class FermeturesController < ApplicationController
   def create
     @fermeture = Fermeture.new(fermeture_params)
 
+    if params[:date_fin].present?
+      if params[:date_fin] != @fermeture.date
+        @start_date = Date.civil(params[:fermeture]["date(1i)"].to_i,
+                                 params[:fermeture]["date(2i)"].to_i,
+                                 params[:fermeture]["date(3i)"].to_i)
+
+        @end_date = Date.civil(params[:date_fin]["date(1i)"].to_i,
+                               params[:date_fin]["date(2i)"].to_i,
+                               params[:date_fin]["date(3i)"].to_i)
+
+        # éviter le premier jour de fermeture (@fermeture.save plus loin)
+        current_date = @start_date + 1.day
+        @ndays = (@end_date - @start_date).to_i
+
+        @ndays.times do
+          f = Fermeture.create(date:current_date)
+          # logger.debug "[DEBUG] #{f.inspect}"
+          current_date = current_date + 1.day
+        end
+
+      end
+    end
+
     respond_to do |format|
       if @fermeture.save
-        format.html { redirect_to fermetures_url, notice: 'Jour de fermeture ajouté' }
+        format.html { redirect_to fermetures_url, notice: 'Jour(s) de fermeture ajouté(s)' }
         format.json { render :show, status: :created, location: @fermeture }
       else
         format.html { render :new }

@@ -15,15 +15,32 @@
 <dl class="dl-horizontal">
 </dl>
 
+
 <p>
-	Formation:
+	<strong>Nom:</strong>
+	<%= @user.nom %>
+</p>
+<p>
+	<strong>Prénom:</strong>
+	<%= @user.prénom %>
+</p>
+
+<p>
+	<strong>Mobile:</strong>
+	<%= @user.mobile %>
+</p>
+
+
+<p>
+	<strong>Formation:</strong>
 	<%= @user.formation.nom_promo if @user.formation %>
 </p>
 
 <p>
-	Administrateur: 
+	<strong>Administrateur:</strong> 
 	<%= @user.admin? ? "Oui" : 'Non' %>
 </p>
+<br>
 
 <% unless @user.sign_in_count.zero? %>
 	<p>

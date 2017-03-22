@@ -68,7 +68,9 @@ class Cour < ActiveRecord::Base
   end
 
   def photo_json
-    self.intervenant.photo.url if self.intervenant.photo 
+    if self.intervenant.photo 
+      self.intervenant.photo.url
+    end 
   end
 
   def formation_json
@@ -113,12 +115,14 @@ class Cour < ActiveRecord::Base
 
     def check_chevauchement
       # si il y a dejà des cours dans la même salle et à la même date
-      cours = Cour.where("salle_id = ? AND (debut BETWEEN ? AND ?) OR (fin BETWEEN ? AND ?)", 
+      cours = Cour.where("salle_id = ? AND ((debut BETWEEN ? AND ?) OR (fin BETWEEN ? AND ?))", 
                       self.salle_id, self.debut, self.fin, self.debut, self.fin)
 
       # si cours en chevauchement n'est pas le cours lui même (modif de cours)
-      if cours.any? and !cours.where(id:self.id).any?  
-        errors.add(:cours, 'en chevauchement dans la même salle')
+      cours = cours.where.not(id:self.id)
+
+      if cours.any?
+        errors.add(:cours, "en chevauchement dans la même salle (#{cours.pluck(:id).join(',')})")
       end
     end  
 

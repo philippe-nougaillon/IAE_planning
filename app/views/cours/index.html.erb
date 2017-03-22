@@ -229,13 +229,13 @@
                       <% if cours.salle %>
                         <%= cours.salle.nom %>
                         <% if cours.manque_de_places? %>
-                          <i class="glyphicon glyphicon-warning-sign" 
+                          <i class="glyphicon glyphicon-warning-sign glyph-custom-alert" 
                               title="Salle trop petite. Manque <%= cours.formation.nbr_etudiants - cours.salle.places %> place(s)">
                           </i>
                         <% end %>
                       <% else %>
                         <% if cours.planifié? %>
-                          <i class="glyphicon glyphicon-warning-sign" title="Salle à réserver !">
+                          <i class="glyphicon glyphicon-warning-sign glyph-custom-warning" title="Salle à réserver !">
                         <% end %>
                       <% end %>
                     </td>

@@ -24,7 +24,6 @@ class ToolsController < ApplicationController
 
 		CSV.foreach(file_with_path, headers:true, col_sep:';', quote_char:'"', encoding:'iso-8859-1:UTF-8') do |row|
 			index += 1
-			puts "Ligne ##{index}"
 
 			# Date;Heure début;Heure fin;Durée;UE;Intervenant;Intitulé
 			
@@ -45,12 +44,13 @@ class ToolsController < ApplicationController
 			cours.duree = ((cours.fin - cours.debut) / 3600).round
 
 			if cours.valid? 
-				puts "COURS VALIDE => #{cours.changes}" if cours.new_record?
-				puts "UPDATE =>#{cours.attributes}" unless cours.new_record?
+				#puts "COURS VALIDE => #{cours.changes}" if cours.new_record?
+				#puts "UPDATE =>#{cours.attributes}" unless cours.new_record?
 				#puts "Durée: #{cours.duree.to_f}"
 				cours.save if params[:save] == 'true'
 	        	@importes += 1
 			else
+				puts "Ligne ##{index}"
 				puts "COURS INVALIDE !! Erreur => #{cours.errors.messages} | Source: #{row}"
 				puts
 				puts cours.changes
@@ -96,17 +96,17 @@ class ToolsController < ApplicationController
 
 		CSV.foreach(file_with_path, headers:true, col_sep:';', quote_char:'"', encoding:'iso-8859-1:UTF-8') do |row|
 			index += 1
-			puts "Ligne ##{index}"
 
-			intervenant = Intervenant.new(nom:row['nom'], prenom:row['prénom'], email:row['email'], linkedin_url:row['linkedin_url'], linkedin_photo:row['linkedin_photo'], titre1:row['titre1'], titre1:row['titre2'],
+			intervenant = Intervenant.new(nom:row['nom'], prenom:row['prénom'], email:row['email'], linkedin_url:row['linkedin_url'], titre1:row['titre1'], titre1:row['titre2'],
 				spécialité:row['spécialité'], téléphone_fixe:row['téléphone_fixe'], téléphone_mobile:row['téléphone_mobile'],
 				bureau:row['bureau'])
 							
 			if intervenant.valid? 
-				puts "Intervenant VALIDE => #{intervenant.changes}"
+				#puts "Intervenant VALIDE => #{intervenant.changes}"
 				intervenant.save if params[:save] == 'true'
 	        	@importes += 1
 			else
+				puts "Ligne ##{index}"
 				puts "!! Intervenant INVALIDE !! Erreur => #{intervenant.errors.messages} | Source: #{row}"
 				puts
 				puts intervenant.changes
@@ -152,18 +152,19 @@ class ToolsController < ApplicationController
 
 		CSV.foreach(file_with_path, headers:true, col_sep:';', quote_char:'"', encoding:'iso-8859-1:UTF-8') do |row|
 			index += 1
-			puts "Ligne ##{index}"
 
 			generated_password = Devise.friendly_token.first(8)
-			user = User.new(email:row['email'], password:generated_password, formation_id:params[:formation_id])
+			user = User.new(email:row['email'], nom:row['nom'], prénom:row['prénom'], mobile:row['mobile'], 
+							password:generated_password, formation_id:params[:formation_id])
 
 			UserMailer.welcome_email(user, generated_password).deliver if params[:save] == 'true'
 			
 			if user.valid? 
-				puts "user VALIDE => #{user.changes}"
+				#puts "user VALIDE => #{user.changes}"
 				user.save if params[:save] == 'true'
 	        	@importes += 1
 			else
+				puts "Ligne ##{index}"
 				puts "!! user INVALIDE !! Erreur => #{user.errors.messages} | Source: #{row}"
 				puts
 				puts user.changes

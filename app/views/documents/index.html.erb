@@ -72,8 +72,8 @@
               <%= link_to image_tag(document.fichier.url(:thumb), height:80, alt:' '), document %>
             </td>
             <td>
-              <% if document.intervenant.linkedin_photo %>
-                <%= link_to(image_tag(document.intervenant.linkedin_photo, class: "img-circle", size:'45x45'), document.intervenant) %>
+              <% if document.intervenant.photo %>
+                <%= link_to(image_tag(document.intervenant.photo_url, class: "img-circle", size:'45x45'), document.intervenant) %>
               <% end %>
             </td>
             <td>

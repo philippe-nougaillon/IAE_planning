@@ -53,18 +53,18 @@ class ToolsController < ApplicationController
 				puts "Ligne ##{index}"
 				puts "COURS INVALIDE !! Erreur => #{cours.errors.messages} | Source: #{row}"
 				puts
-				puts cours.changes
+				# puts cours.changes
 				@errors += 1
 			end
-			puts "- -" * 80
+			puts "- -" * 40
 			puts
 		end
 	  	puts "----------- Les modifications n'ont pas été enregistrées ! ---------------" unless params[:save] == 'true'
 	  	puts
 
-		puts "=" * 80
+		puts "=" * 40
 		puts "Lignes importées: #{@importes} | Lignes ignorées: #{@errors}"
-		puts "=" * 80
+		puts "=" * 40
       end
 
       # save output            
@@ -109,18 +109,18 @@ class ToolsController < ApplicationController
 				puts "Ligne ##{index}"
 				puts "!! Intervenant INVALIDE !! Erreur => #{intervenant.errors.messages} | Source: #{row}"
 				puts
-				puts intervenant.changes
+				# puts intervenant.changes
 				@errors += 1
 			end
-			puts "- -" * 80
+			puts "- -" * 40
 			puts
 		end
 	  	puts "----------- Les modifications n'ont pas été enregistrées ! ---------------" unless params[:save] == 'true'
 	  	puts
 
-		puts "=" * 80
+		puts "=" * 40
 		puts "Lignes importées: #{@importes} | Lignes ignorées: #{@errors}"
-		puts "=" * 80
+		puts "=" * 40
       end
 
       # save output            
@@ -167,18 +167,18 @@ class ToolsController < ApplicationController
 				puts "Ligne ##{index}"
 				puts "!! user INVALIDE !! Erreur => #{user.errors.messages} | Source: #{row}"
 				puts
-				puts user.changes
+				# puts user.changes
 				@errors += 1
 			end
-			puts "- -" * 80
+			puts "- -" * 40
 			puts
 		end
 	  	puts "----------- Les modifications n'ont pas été enregistrées ! ---------------" unless params[:save] == 'true'
 	  	puts
 
-		puts "=" * 80
+		puts "=" * 40
 		puts "Lignes importées: #{@importes} | Lignes ignorées: #{@errors}"
-		puts "=" * 80
+		puts "=" * 40
       end
 
       # save output            
@@ -241,9 +241,9 @@ class ToolsController < ApplicationController
 	  		current_date = current_date + 1.day
 	  	end
 	  	puts
-		puts "=" * 80
+		puts "=" * 40
 	  	puts "Création termninée | #{@cours_créés} créneaux_créés | #{@erreurs} erreurs"
-		puts "=" * 80
+		puts "=" * 40
 	  	puts
 	  	puts "----------- Les modifications n'ont pas été enregistrées ---------------" unless params[:save] == 'true'
 	end  	

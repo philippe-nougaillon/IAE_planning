@@ -41,6 +41,8 @@
   <table class="table table-striped table-hover">
     <thead>
       <tr>
+        <th>Nom</th>
+        <th>Prénom</th>
         <th>Courriel</th>
         <th>Formation</th>
         <th>Administrateur ?</th>
@@ -56,7 +58,9 @@
 
     <tbody>
       <%= content_tag_for(:tr, @users) do |user| %>
-        <td><%= link_to user.email, user %></td>
+        <td><%= link_to user.nom, user %></td>
+        <td><%= user.prénom %></td>
+        <td><%= user.email %></td>
         <td><%= link_to user.formation.nom, user.formation if user.formation %></td>
         <td><%= user.admin? ? "Oui" : '' %></td>
         <td>

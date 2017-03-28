@@ -5,3 +5,4 @@
 $ ->
   $('#check_all').click -> 
     $('.check_all').attr "checked", @.checked
+  $('[data-toggle="tooltip"]').tooltip()

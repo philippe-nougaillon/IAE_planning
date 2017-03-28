@@ -3,17 +3,17 @@
 one:
   debut: 2016-12-08 10:38:38
   fin: 2016-12-08 10:38:38
-  formation_id: 
-  intervenant_id: 
-  salle_id: 
+  formation_id: 1
+  intervenant_id: 1 
+  salle_id: 1
   ue: MyString
   nom: MyString
 
 two:
   debut: 2016-12-08 10:38:38
   fin: 2016-12-08 10:38:38
-  formation_id: 
-  intervenant_id: 
-  salle_id: 
+  formation_id: 1 
+  intervenant_id: 1 
+  salle_id: 1
   ue: MyString
   nom: MyString

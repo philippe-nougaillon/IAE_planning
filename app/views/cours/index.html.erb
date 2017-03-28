@@ -82,6 +82,15 @@
             <%= radio_button_tag :view, "calendar_rooms", (params[:view]=='calendar_rooms'), onchange:'this.form.submit()' %>
             Salles 
           </div>
+
+          <div class="col-sm-2">
+            <%= label_tag "Afficher" %>
+            <br> 
+            <%= radio_button_tag :paginate, "pages",  (params[:paginate]=='pages'), onchange:'this.form.submit()' %>
+            Pages 
+            <%= radio_button_tag :paginate, "all", (params[:paginate]=='all'), onchange:'this.form.submit()' %>
+            Tout 
+          </div>
         </div>
       </div>  
     <% end %>
@@ -213,7 +222,7 @@
                     <td><%= link_to cours.formation.nom_promo, cours.formation %></td>
                     <td>
                       <% if cours.intervenant.photo.url %>
-                        <%= link_to(image_tag(cours.intervenant.photo.url, class: "img-circle", size:'60x60'), cours.intervenant) %>
+                        <%= link_to(image_tag(cours.intervenant.photo.url, class: "img-circle", size:'45x45'), cours.intervenant) %>
                       <% end %>
                     </td>
                     <td>
@@ -230,12 +239,17 @@
                         <%= cours.salle.nom %>
                         <% if cours.manque_de_places? %>
                           <i class="glyphicon glyphicon-warning-sign glyph-custom-alert" 
-                              title="Salle trop petite. Manque <%= cours.formation.nbr_etudiants - cours.salle.places %> place(s)">
+                              data-toggle="tooltip" data-placement="bottom"
+                              title="Salle trop petite ! (Manque <%= cours.formation.nbr_etudiants - cours.salle.places %> 
+                              place.s)">
+
                           </i>
                         <% end %>
                       <% else %>
                         <% if cours.planifié? %>
-                          <i class="glyphicon glyphicon-warning-sign glyph-custom-warning" title="Salle à réserver !">
+                          <i class="glyphicon glyphicon-warning-sign glyph-custom-warning" 
+                             data-toggle="tooltip" data-placement="top"
+                             title="Cours planifié mais pas de salle réservée !">
                         <% end %>
                       <% end %>
                     </td>
@@ -265,7 +279,9 @@
           </table>
         </div>
 
-        <%= will_paginate @cours, renderer: BootstrapPagination::Rails %>
+        <% if params[:paginate] == 'pages' %>
+          <%= will_paginate @cours, renderer: BootstrapPagination::Rails %>
+        <% end %>
 
         <span style="float:right;margin-bottom:15px">
           <small>Action:</small>

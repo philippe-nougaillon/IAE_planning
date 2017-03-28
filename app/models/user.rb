@@ -1,3 +1,5 @@
+# Encoding: UTF-8
+
 class User < ActiveRecord::Base
   audited
 
@@ -6,8 +8,10 @@ class User < ActiveRecord::Base
   devise :database_authenticatable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  belongs_to :formation       
+  belongs_to :formation   
 
-  default_scope { order(:email) } 
+  validates :nom, :prénom, presence:true    
+
+  default_scope { order(:nom, :prénom) } 
 
 end

@@ -60,14 +60,14 @@
             <li class="<%= (@ctrl=='cours' ? 'active' : '') %>">
               <%= link_to cours_path do %>
                 <span class="glyphicon glyphicon-calendar"></span>
-                Planning des cours
+                  Planning des cours
               <% end %>
             </li>
             <% if current_user.try(:admin?) %>
               <li class="<%= (@ctrl=='formations' ? 'active' : '') %>">
                 <%= link_to formations_path do %>
                   <span class="glyphicon glyphicon-education"></span>
-                  Formations
+                    Formations
                 <% end %>
               </li>
               <li class="<%= (@ctrl=='intervenants' ? 'active' : '') %>">
@@ -85,7 +85,7 @@
             <% unless user_signed_in? %>
               <li><a href="/users/sign_in"><span class="glyphicon glyphicon-log-in"></span> Connexion</a></li>
             <% else %>
-              <%= link_to current_user.email, current_user %>
+              <%= link_to "#{current_user.email.split('@').first} #{current_user.admin? ? "(admin)" : '' }", current_user %>
               |
               <% if current_user.admin? %>
                 <%= link_to tools_index_path do %>

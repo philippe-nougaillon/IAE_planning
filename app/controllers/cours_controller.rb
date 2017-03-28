@@ -49,13 +49,14 @@ class CoursController < ApplicationController
 
     params[:view]   ||= 'list'
     params[:filter] ||= 'upcoming'
+    params[:paginate] ||= 'pages'
 
     if params[:filter] == 'upcoming'
       @cours = @cours.where("cours.debut >= ? ", Date.today)
     end
 
-    if params[:view] == 'list'
-      @cours = @cours.paginate(page:params[:page], per_page:20)
+    if params[:view] == 'list' and params[:paginate] == 'pages'
+      @cours = @cours.paginate(page:params[:page], per_page:10)
     end
   end
 
@@ -112,11 +113,11 @@ class CoursController < ApplicationController
       require 'csv'
 
       @csv_string = CSV.generate(col_sep:';', encoding:'iso-8859-1') do | csv |
-          csv << ['id','date debut', 'heure debut' 'date fin','heure fin', 'formation_id','formation','intervenant_id','intervenant','nom du cours', 'etat','duree','cours cree le', 'cours modifie le']
+          csv << ['id','date debut', 'heure debut', 'date fin','heure fin', 'formation_id','formation','intervenant_id','intervenant','nom du cours', 'etat','duree','cours cree le', 'cours modifie le']
       
           ids.each do |id, state|
             c = Cour.find(id)
-            csv << [c.id, c.debut, c.fin, c.formation_id, c.formation.nom_promo, c.intervenant_id, c.intervenant.nom_prenom,
+            csv << [c.id, c.debut.to_date.to_s, c.debut.to_s(:time), c.fin.to_date.to_s, c.fin.to_s(:time), c.formation_id, c.formation.nom_promo, c.intervenant_id, c.intervenant.nom_prenom,
                     c.nom, c.etat, c.duree, c.created_at, c.updated_at]
           end
       end

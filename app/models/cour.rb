@@ -16,6 +16,7 @@ class Cour < ActiveRecord::Base
   enum etat: [:nouveau, :planifié, :reporté, :annulé, :a_réserver]
 
   before_validation :update_date_fin
+  before_validation :sunday_morning_praise_the_dawning
   
   after_validation :call_notifier
 
@@ -92,6 +93,13 @@ class Cour < ActiveRecord::Base
       fin = eval("self.debut + self.duree.hour")
       self.fin = fin if self.fin != fin
     end
+
+    def sunday_morning_praise_the_dawning
+      if self.debut.wday == 0
+        errors.add(:cours, "ne peut pas avoir lieu un dimanche !")
+      end
+    end
+
 
     def call_notifier
       # envoyer un nmail si le cours à changé d'état vers annulé ou reporté

@@ -9,7 +9,7 @@ class Intervenant < ActiveRecord::Base
 	validates :nom, :prenom, :email, presence: true
 	validates :nom, uniqueness: true
 	
-	default_scope { order(:nom) } 
+	default_scope { order(:nom, :prenom) } 
 
     mount_uploader :photo, AvatarUploader
 

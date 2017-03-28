@@ -30,7 +30,7 @@ module Iae
       end
     end
     
-    config.web_console.development_only = false
+    # config.web_console.development_only = false
       
   end
 end

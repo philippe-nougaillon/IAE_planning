@@ -100,7 +100,6 @@ class Cour < ActiveRecord::Base
       end
     end
 
-
     def call_notifier
       # envoyer un nmail si le cours à changé d'état vers annulé ou reporté
       if self.changes.include?('etat') and (self.etat == 'annulé' or self.etat == 'reporté') 
@@ -127,10 +126,10 @@ class Cour < ActiveRecord::Base
                       self.salle_id, self.debut, self.fin, self.debut, self.fin)
 
       # si cours en chevauchement n'est pas le cours lui même (modif de cours)
-      cours = cours.where.not(id:self.id)
+      cours = cours.where.not(id:self.id).where.not(fin:self.debut).where.not(debut:self.fin)
 
       if cours.any?
-        errors.add(:cours, "en chevauchement dans la même salle (#{cours.pluck(:id).join(',')})")
+        errors.add(:cours, "en chevauchement dans la même salle avec le cours ##{cours.pluck(:id).join(',')}")
       end
     end  
 

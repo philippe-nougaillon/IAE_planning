@@ -4,15 +4,14 @@
 
   <div class="form-group">
 
-    <div class="col-xs-3">
       <div class="field">
         <%= f.label :email %><br />
-        <%= f.email_field :email, autofocus: true, class: "form-control"  %>
+        <%= f.email_field :email, autofocus: true  %>
       </div>
 
       <div class="field">
         <%= f.label :password %><br />
-        <%= f.password_field :password, autocomplete: "off", class: "form-control" %>
+        <%= f.password_field :password, autocomplete: "off" %>
       </div>
 
       <% if devise_mapping.rememberable? %>
@@ -28,7 +27,6 @@
       </div>
 
       <%= render "devise/shared/links" %>
-    </div>
   </div>
 <% end %>
 

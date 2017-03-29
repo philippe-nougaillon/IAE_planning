@@ -97,7 +97,6 @@ class CoursController < ApplicationController
         @cours.save
       end
     elsif action_name == "Changer d'état"
-      
       ids.each do |id, state|
         @cours = Cour.find(id)
         @cours.etat = params[:etat].to_i
@@ -117,8 +116,7 @@ class CoursController < ApplicationController
       
           ids.each do |id, state|
             c = Cour.find(id)
-            csv << [c.id, c.debut.to_date.to_s, c.debut.to_s(:time), c.fin.to_date.to_s, c.fin.to_s(:time), c.formation_id, c.formation.nom_promo, c.intervenant_id, c.intervenant.nom_prenom,
-                    c.nom, c.etat, c.duree, c.created_at, c.updated_at]
+            csv << [c.id, c.debut.to_date.to_s, c.debut.to_s(:time), c.fin.to_date.to_s, c.fin.to_s(:time), c.formation_id, c.formation.nom_promo, c.intervenant_id, c.intervenant.nom_prenom, c.nom, c.etat, c.duree, c.created_at, c.updated_at]
           end
       end
       request.format = 'csv'
@@ -129,7 +127,11 @@ class CoursController < ApplicationController
         flash[:notice] = "Action '#{action_name}' appliquée à #{params[:cours_id].count} cours."
         redirect_to cours_path
       end
-      format.csv
+      format.csv do
+        filename = "export_cours"
+        response.headers['Content-Disposition'] = 'attachment; filename="' + filename + '.csv"'
+        render "cours/action_do.csv.erb"
+      end
     end
   end
 

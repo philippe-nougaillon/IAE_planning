@@ -1,6 +1,8 @@
 # ENCODING: UTF-8
 
 class CoursController < ApplicationController
+  include ActionView::Helpers::NumberHelper
+  
   before_action :set_cour, only: [:show, :edit, :update, :destroy]
   
   layout :define_layout
@@ -56,7 +58,7 @@ class CoursController < ApplicationController
     end
 
     if params[:view] == 'list' and params[:paginate] == 'pages'
-      @cours = @cours.paginate(page:params[:page], per_page:10)
+      @cours = @cours.paginate(page:params[:page], per_page:20)
     end
   end
 
@@ -116,7 +118,9 @@ class CoursController < ApplicationController
       
           ids.each do |id, state|
             c = Cour.find(id)
-            csv << [c.id, c.debut.to_date.to_s, c.debut.to_s(:time), c.fin.to_date.to_s, c.fin.to_s(:time), c.formation_id, c.formation.nom_promo, c.intervenant_id, c.intervenant.nom_prenom, c.nom, c.etat, c.duree, c.created_at, c.updated_at]
+            csv << [c.id, c.debut.to_date.to_s, c.debut.to_s(:time), c.fin.to_date.to_s, c.fin.to_s(:time), 
+              c.formation_id, c.formation.nom_promo, c.intervenant_id, c.intervenant.nom_prenom, c.nom, c.etat, 
+              number_with_delimiter(c.duree, separator: ","), c.created_at, c.updated_at]
           end
       end
       request.format = 'csv'
@@ -128,7 +132,7 @@ class CoursController < ApplicationController
         redirect_to cours_path
       end
       format.csv do
-        filename = "export_cours"
+        filename = "Export_Cours_#{Date.today.to_s}"
         response.headers['Content-Disposition'] = 'attachment; filename="' + filename + '.csv"'
         render "cours/action_do.csv.erb"
       end

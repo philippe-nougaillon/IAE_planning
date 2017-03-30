@@ -29,7 +29,7 @@ class ToolsController < ApplicationController
 			
 			intervenant = nil
 			if row['Intervenant']
-				nom = row['Intervenant'].split(' ').first
+				nom = row['Intervenant'].strip.split(' ').first
 				intervenant = Intervenant.where("nom like ?", "%#{nom}%").first
 			end
 
@@ -97,7 +97,7 @@ class ToolsController < ApplicationController
 		CSV.foreach(file_with_path, headers:true, col_sep:';', quote_char:'"', encoding:'iso-8859-1:UTF-8') do |row|
 			index += 1
 
-			intervenant = Intervenant.new(nom:row['nom'], prenom:row['prénom'], email:row['email'], linkedin_url:row['linkedin_url'], titre1:row['titre1'], titre1:row['titre2'],
+			intervenant = Intervenant.new(nom:row['nom'].strip, prenom:row['prénom'].strip, email:row['email'], linkedin_url:row['linkedin_url'], titre1:row['titre1'], titre1:row['titre2'],
 				spécialité:row['spécialité'], téléphone_fixe:row['téléphone_fixe'], téléphone_mobile:row['téléphone_mobile'],
 				bureau:row['bureau'])
 							
@@ -154,7 +154,7 @@ class ToolsController < ApplicationController
 			index += 1
 
 			generated_password = Devise.friendly_token.first(8)
-			user = User.new(email:row['email'], nom:row['nom'], prénom:row['prénom'], mobile:row['mobile'], 
+			user = User.new(email:row['email'], nom:row['nom'].strip, prénom:row['prénom'].strip, mobile:row['mobile'], 
 							password:generated_password, formation_id:params[:formation_id])
 
 			UserMailer.welcome_email(user, generated_password).deliver if params[:save] == 'true'

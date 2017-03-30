@@ -13,8 +13,8 @@ class UsersController < ApplicationController
   def index
     @users = User.order(:admin, :email)
 
-    unless params[:courriel].blank?
-      @users = @users.where("email like ?", "%#{params[:courriel]}%" )
+    unless params[:search].blank?
+      @users = @users.where("nom like ? or prénom like ? or email like ?", "%#{params[:search]}%", "%#{params[:search]}%", "%#{params[:search]}%"  )
     end
 
     unless params[:formation_id].blank?

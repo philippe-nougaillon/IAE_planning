@@ -13,12 +13,11 @@
   			<% @cours = Cour.find(id) %>
         
   			<li class="list-group-item">
-  				<%= check_box_tag "[cours_id][#{@cours.id}]", true, true %> |
-  				<%= l(@cours.debut.to_date) %> |
+  				<%= check_box_tag "[cours_id][#{@cours.id}]", true, true %>
+  				<%= l(@cours.debut.to_date) %>
           <%= "#{l(@cours.debut, format: :heures_min)}-#{l(@cours.fin, format: :heures_min)}" %> |
           <%= @cours.formation.nom_promo %> |
           <%= @cours.intervenant.nom_prenom %> |
-          <%= @cours.nom_ou_ue[0..40] %> |
           <span class="label <%= @cours.style %>"><%= @cours.etat.humanize %></span> |
           <%= "Salle: #{@cours.salle.nom}" if @cours.salle %>
   			</li>
@@ -52,8 +51,6 @@
   <% end %>
 
   <div class="col-sm-12">
-    <br>
     <%= submit_tag 'Appliquer', class:"btn btn-success" %>
   </div>
-
 <% end %>

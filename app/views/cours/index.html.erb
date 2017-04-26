@@ -43,7 +43,7 @@
         <div class="row">
           <div class="col-sm-2">
             <%= label_tag "Date" %>    
-            <%= text_field_tag :date, params[:date], type:'date', onchange:'this.form.submit()', class:"form-control" %>
+            <%= text_field_tag :start_date, params[:start_date], type:'date', onchange:'this.form.submit()', class:"form-control" %>
           </div>
 
           <div class="col-sm-1">
@@ -96,7 +96,7 @@
     <% end %>
 </div>
 
-<% if params[:view] == "calendar_month" %>
+<% if params[:view] == "calendar_month" and !params[:start_date].blank? %>
   <div class="row">
     <div class="col-md-12">
       <%= month_calendar events: @cours do |date, meetings| %>
@@ -119,7 +119,7 @@
     </div>
   </div>
 
-<% elsif params[:view] == "calendar_week" %>
+<% elsif params[:view] == "calendar_week" and !params[:start_date].blank? %>
   <% @week_selector_visible = true %>
 
   <div class="row">
@@ -144,7 +144,7 @@
     </div>
   </div>
 
-<% elsif params[:view] == "calendar_rooms" %>
+<% elsif params[:view] == "calendar_rooms" and !params[:start_date].blank? %>
   <% @week_selector_visible = true %>
   
   <div class="row">
@@ -291,5 +291,7 @@
 
       <% end %>
     <% end %>
+<% else %>
+  Veuillez choisir une date !
 <% end %>
 

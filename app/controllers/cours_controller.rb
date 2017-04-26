@@ -20,10 +20,10 @@ class CoursController < ApplicationController
   def index
     @cours = Cour.includes(:formation, :intervenant, :salle).order(:debut)
 
-    unless params[:date].blank?
-      @date = params[:date].to_date
-      @cours = @cours.where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 1.day)
-    end
+    # unless params[:date].blank?
+    #   @date = params[:date].to_date
+    #   @cours = @cours.where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 1.day)
+    # end
 
     if current_user.formation 
       params[:formation_id] = current_user.formation_id

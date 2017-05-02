@@ -83,14 +83,16 @@
             Salles 
           </div>
 
-          <div class="col-sm-2">
-            <%= label_tag "Afficher" %>
-            <br> 
-            <%= radio_button_tag :paginate, "pages",  (params[:paginate]=='pages'), onchange:'this.form.submit()' %>
-            Pages 
-            <%= radio_button_tag :paginate, "all", (params[:paginate]=='all'), onchange:'this.form.submit()' %>
-            Tout 
-          </div>
+          <% if params[:view] == 'list' %>
+            <div class="col-sm-2">
+              <%= label_tag "Afficher" %>
+              <br> 
+              <%= radio_button_tag :paginate, "pages",  (params[:paginate]=='pages'), onchange:'this.form.submit()' %>
+              Pages 
+              <%= radio_button_tag :paginate, "all", (params[:paginate]=='all'), onchange:'this.form.submit()' %>
+              Tout 
+            </div>
+          <% end %>
         </div>
       </div>  
     <% end %>

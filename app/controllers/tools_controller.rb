@@ -26,6 +26,9 @@ class ToolsController < ApplicationController
 			index += 1
 
 			# Date;Heure début;Heure fin;Durée;UE;Intervenant;Intitulé
+
+			# passe si pas de valur dans la date
+			next unless row['Date']
 			
 			intervenant = nil
 			if row['Intervenant']
@@ -157,7 +160,7 @@ class ToolsController < ApplicationController
 			user = User.new(email:row['email'], nom:row['nom'].strip, prénom:row['prénom'].strip, mobile:row['mobile'], 
 							password:generated_password, formation_id:params[:formation_id])
 
-			UserMailer.welcome_email(user, generated_password).deliver if params[:save] == 'true'
+			# UserMailer.welcome_email(user, generated_password).deliver if params[:save] == 'true'
 			
 			if user.valid? 
 				#puts "user VALIDE => #{user.changes}"

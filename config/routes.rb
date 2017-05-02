@@ -11,7 +11,8 @@ Rails.application.routes.draw do
   get 'tools/import_utilisateurs'
   post 'tools/import_utilisateurs_do'
 
-  get 'cours/index_slide'
+  get 'cours/index_slide' # à supprimer 
+  get 'cours/planning' => "cours#index_slide"
 
   post 'cours/action'
   post 'cours/action_do'

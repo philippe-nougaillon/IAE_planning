@@ -18,11 +18,18 @@ class CoursController < ApplicationController
   # GET /cours
   # GET /cours.json
   def index
+
+    params[:view]   ||= 'list'
+    params[:filter] ||= 'upcoming'
+    params[:paginate] ||= 'pages'
+
     @cours = Cour.includes(:formation, :intervenant, :salle).order(:debut)
 
-    unless params[:start_date].blank?
-      @date = params[:start_date].to_date
-      @cours = @cours.where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 1.day)
+    unless params[:start_date].blank? 
+      if params[:view] == 'list'
+        @date = Date.parse(params[:start_date])
+        @cours = @cours.where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 1.day)
+      end  
     end
 
     if current_user.formation 
@@ -49,10 +56,6 @@ class CoursController < ApplicationController
       @cours = @cours.where(etat:params[:etat])
     end
 
-    params[:view]   ||= 'list'
-    params[:filter] ||= 'upcoming'
-    params[:paginate] ||= 'pages'
-
     if params[:filter] == 'upcoming'
       @cours = @cours.where("cours.debut >= ? ", Date.today)
     end
@@ -73,6 +76,14 @@ class CoursController < ApplicationController
     limite_debut = @planning_date - 4.hour
     limite_fin = (@planning_date.beginning_of_day) + 1.day  
     @cours = Cour.where("(debut between ? and ?) and fin >= ?", limite_debut, limite_fin, @planning_date).order(:debut)
+
+    unless params[:formation_id].blank?
+      @cours = @cours.where(formation_id:params[:formation_id])
+    end
+
+    unless params[:intervenant_id].blank?
+      @cours = @cours.where(intervenant_id:params[:intervenant_id])
+    end
   end
 
   def action

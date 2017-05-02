@@ -5,15 +5,43 @@
 </script>
 
 <div class="container-fluid">
+
   <h4>
     <button type="button" class="btn btn-default btn-sm">
-      <%= link_to '<', cours_index_slide_path(planning_date:@planning_date - 1.day) %>
+      <%= link_to '<', cours_planning_path(planning_date:@planning_date - 1.day) %>
     </button>
+
     <%= l(@planning_date.to_date, format: :long) %>
+
     <button type="button" class="btn btn-default btn-sm">
-      <%= link_to '>', cours_index_slide_path(planning_date:@planning_date + 1.day) %>
+      <%= link_to '>', cours_planning_path(planning_date:@planning_date + 1.day) %>
     </button>
   </h4>
+
+  <%= form_tag request.path, method: :get do %>
+    <%= hidden_field_tag :planning_date, @planning_date %>
+
+    <div class="form-group">
+      <div class="row">
+        <div class="col-sm-6">
+            <%= label_tag "Formation" %>    
+            <%= select_tag :formation_id, 
+                  options_from_collection_for_select(Formation.all, :id, :nom_promo, params[:formation_id]), include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
+        </div>
+        <div class="col-sm-5">
+            <%= label_tag "Intervenant" %>    
+            <div class="input-group">
+                <%= select_tag :intervenant_id, 
+                  options_from_collection_for_select(Intervenant.all, :id, :nom_prenom, params[:intervenant_id]), 
+                    include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
+              <span class="input-group-btn">
+                <%= submit_tag 'Filtrer', class:"btn btn-success" %>
+              </span>
+            </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
 
   <% if @cours.any? %>
     <% @cours.includes(:formation, :intervenant, :salle).each do | cours | %>
@@ -36,16 +64,17 @@
       
       <% if cours.progress_bar_pct(@planning_date) > 0 %>  
         <br>
-        <div class="progress" style="width: 85%">
+        <div class="progress" style="width: 100%">
           <div class="progress-bar progress-bar-striped active" 
-               role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="<%= cours.progress_bar_pct(@planning_date) %> " 
+               role="progressbar" aria-valuemin="0" aria-valuemax="100" 
+               aria-valuenow="<%= cours.progress_bar_pct(@planning_date) %> " 
                style="width:<%= cours.progress_bar_pct(@planning_date) %>%">
           </div>
         </div>
       <% end %>
     <% end %>
+    <hr>
   <% end %>
-  <hr>
 </div>
 
 

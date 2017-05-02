@@ -9,6 +9,8 @@ class Intervenant < ActiveRecord::Base
 	validates :nom, :prenom, :email, presence: true
 	validates :nom, uniqueness: true
 	
+  	enum status: [:cev, :permanent]
+
 	default_scope { order(:nom, :prenom) } 
 
     mount_uploader :photo, AvatarUploader
@@ -21,12 +23,12 @@ class Intervenant < ActiveRecord::Base
 		self.cours.where(etat:Cour.etats[:planifié]).count
 	end
 
-	def total_heures_de_cours
-		sum = 0.0
-		self.cours.where(etat:Cour.etats[:planifié]).each do | c |
-			sum += c.duree
-		end
-		return sum
-	end
+	# def total_heures_de_cours
+	# 	sum = 0.0
+	# 	self.cours.where(etat:Cour.etats[:planifié]).each do | c |
+	# 		sum += c.duree
+	# 	end
+	# 	return sum
+	# end
 
 end

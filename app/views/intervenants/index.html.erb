@@ -35,13 +35,16 @@
           <th />
           <th>Nom/Prénom</th>
           <th>Titre</th>
+          <th>Status</th>
           <th>Spécialité</th>
           <th>Formations</th>
           <th colspan="2"></th>
         </tr>
       </thead>
       <tfoot>
-          <% 6.times do %><th /><% end %>
+        <tr>
+          <% 7.times do %><th /><% end %>
+        </tr>
       </tfoot>
 
       <tbody>
@@ -54,6 +57,7 @@
             </td>
             <td><b><%= link_to intervenant.nom_prenom, intervenant %></b></td>
             <td><%= intervenant.titre1 %></td>
+            <td><%= intervenant.status.humanize %></td>
             <td><%= intervenant.spécialité %></td>
             <td><%= intervenant.formations.pluck(:nom).uniq.join(' | ') %></td>
             <td>

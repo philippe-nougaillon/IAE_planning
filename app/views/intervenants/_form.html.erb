@@ -12,7 +12,7 @@
     </div>
   <% end %>
 
-  <dir class="row">
+  <div class="row">
     <div class="col-sm-5">
       <%= f.text_field :nom %>
       <%= f.text_field :prenom, label:"Prénom" %>
@@ -25,15 +25,21 @@
     <div class="col-sm-5">
       <%= f.text_field :titre1 %>
       <%= f.text_field :titre2 %>
+      
+      <div class="form-group">
+        <%= f.select(:status, Intervenant.statuses.keys.to_a) %>
+      </div>
+
       <%= f.text_field :spécialité %>
-        <div class="col-sm-6">
-          <%= f.text_field :téléphone_fixe %>
-        </div>
-        <div class="col-sm-6">
-          <%= f.text_field :téléphone_mobile %>
-        </div>
+      <div class="col-sm-6">
+        <%= f.text_field :téléphone_fixe %>
+      </div>
+      <div class="col-sm-6">
+        <%= f.text_field :téléphone_mobile %>
+      </div>
       <%= f.text_field :bureau %>
-    </div>       
-  </dir>
+    </div>   
+
+  </div>
 
 <% end %>

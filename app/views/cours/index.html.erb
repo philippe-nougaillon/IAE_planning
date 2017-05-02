@@ -64,7 +64,7 @@
           <div class="col-sm-2">
             <%= label_tag "Cours" %>
             <br> 
-            <%= radio_button_tag :filter, "upcoming",  (params[:filter]=='upcoming'), onchange:'this.form.submit()' %>
+            <%= radio_button_tag :filter, "upcoming", (params[:filter]=='upcoming'), onchange:'this.form.submit()' %>
             A venir 
             <%= radio_button_tag :filter, "all", (params[:filter]=='all'), onchange:'this.form.submit()' %>
             Tous 
@@ -73,7 +73,7 @@
           <div class="col-sm-3">
             <%= label_tag "Vue" %>
             <br> 
-            <%= radio_button_tag :view, "list",  (params[:view]=='list'), onchange:'this.form.submit()' %>
+            <%= radio_button_tag :view, "list", (params[:view]=='list'), onchange:'this.form.submit()' %>
             Liste 
             <%= radio_button_tag :view, "calendar_week", (params[:view]=='calendar_week'), onchange:'this.form.submit()' %>
             Semaine 
@@ -87,7 +87,7 @@
             <div class="col-sm-2">
               <%= label_tag "Afficher" %>
               <br> 
-              <%= radio_button_tag :paginate, "pages",  (params[:paginate]=='pages'), onchange:'this.form.submit()' %>
+              <%= radio_button_tag :paginate, "pages", (params[:paginate]=='pages'), onchange:'this.form.submit()' %>
               Pages 
               <%= radio_button_tag :paginate, "all", (params[:paginate]=='all'), onchange:'this.form.submit()' %>
               Tout 
@@ -269,7 +269,13 @@
               <tfoot>
                 <tr>
                   <th /><th /><th />
-                  <th />
+                  <% if params[:paginate] == 'all' %>
+                      <th class="pull-right">
+                        <%= number_with_precision(@cours.sum(:duree), precision: 1) %>h
+                      </th>
+                  <% else %>
+                    <th></th>  
+                  <% end %>
                   <% 6.times do %><th /><% end %>
                   <% if current_user.try(:admin?) %>
                     <th />

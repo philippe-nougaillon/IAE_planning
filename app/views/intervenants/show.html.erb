@@ -31,6 +31,9 @@
     <p>
       <i><%= "Spécialité: #{@intervenant.spécialité}" unless @intervenant.spécialité.blank? %></i>
     </p>
+    <p>
+      <%= "Status: #{@intervenant.status.humanize}" if @intervenant.status %>
+    </p>
   </dir>
   <dir class="col-sm-4">
     <p>

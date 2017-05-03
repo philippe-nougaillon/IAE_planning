@@ -13,10 +13,15 @@
   <%= form_tag request.path, method: :get do %>
     <div class="form-group">
       <div class="row">
-        <div class="col-sm-4">
+        <div class="col-sm-3">
           <%= label_tag :nom, "Nom/Prénom" %>    
-          <div class="input-group">
           <%= text_field_tag :nom, params[:nom], include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
+        </div>
+        <div class="col-sm-3">
+          <%= label_tag :status, "Statut" %>
+          <div class="input-group">
+            <%= select_tag :status, options_for_select(Intervenant.statuses, params[:status]), include_blank:true,
+                  class:"form-control", onchange:'this.form.submit()' %>
             <span class="input-group-btn">
               <%= submit_tag 'Filtrer', class:"btn btn-success" %>
             </span>
@@ -32,8 +37,7 @@
     <table class="table table-hover table-striped">
       <thead>
         <tr>
-          <th />
-          <th>Nom/Prénom</th>
+          <th colspan="2">Nom/Prénom Intervenant</th>
           <th>Titre</th>
           <th>Status</th>
           <th>Spécialité</th>
@@ -57,7 +61,7 @@
             </td>
             <td><b><%= link_to intervenant.nom_prenom, intervenant %></b></td>
             <td><%= intervenant.titre1 %></td>
-            <td><%= intervenant.status.humanize %></td>
+            <td><%= intervenant.status.humanize if intervenant.status %></td>
             <td><%= intervenant.spécialité %></td>
             <td><%= intervenant.formations.pluck(:nom).uniq.join(' | ') %></td>
             <td>

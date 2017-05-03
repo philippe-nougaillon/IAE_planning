@@ -19,7 +19,7 @@ class SallesController < ApplicationController
 
     unless params[:date].blank?
       @date = params[:date].to_date
-      @salles = @salles.joins(:cours).where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 1.day)
+      @salles = @salles.joins(:cours).where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 1.day).uniq
     end
 
     unless params[:libre].blank? 

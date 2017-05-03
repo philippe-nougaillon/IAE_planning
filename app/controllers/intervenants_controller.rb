@@ -16,7 +16,13 @@ class IntervenantsController < ApplicationController
     unless params[:nom].blank?
       @intervenants = @intervenants.where("nom like ? or prenom like ?", "%#{params[:nom]}%", "%#{params[:nom]}%" )
     end
+
+    unless params[:status].blank?
+      @intervenants = @intervenants.where("status = ?", params[:status])
+    end
+
     @intervenants = @intervenants.paginate(:page => params[:page], :per_page => 10)
+
   end
 
   # GET /intervenants/1

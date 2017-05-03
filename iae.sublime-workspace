@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"inter",
+				"intervenant"
+			],
+			[
+				"st",
+				"status"
+			],
+			[
 				"wi",
 				"width"
 			],
@@ -30,10 +38,6 @@
 			[
 				"forma",
 				"formation"
-			],
-			[
-				"inter",
-				"intervenants"
 			],
 			[
 				"form",
@@ -300,13 +304,10 @@
 	"buffers":
 	[
 		{
-			"contents": "IAE 201612\n\n20161208 \n- app models (cours, formations, intervenants, salles)\n- app scaffold\n- bootstrap\nTemps: 1j\n\n20161209\n- calendar\n- saisie cours suivant\n- design\nTemps: 1j\n\n20161215\n- audited\n- authentification\n- design\nTemps: 1j\n\n20161216\n- Démo IAE (Dominique, Barbara)\n- modif droits admin\n- Salles filtre date\n- Salles libre à une date\nTemps: 1j\n\n20161219 10-13h 14h-17h 18-19h30\n- ajout model Unite (UE)\n- saisie Master Asso jusqu'à juillet 2017\nTemps: 1j\n\n20161220 10-13h 14-15h 17h30-19h\n- Utilisateur formation_id\n- design buttons\n- vue cours mobile\nTemps: 5.5h\n\n20161221 12-14h\n- vue mobile design\nTemps: 2h\n\n20161222 6h30-7h30 10-12h 15-16h\n- user form_\n- users filter\n- debug\n- envoi lien local pour démo à Barbara, Dominique, Philippe\n- timezone\n- v0.1\nTemps: 4 h\n\n20170103 17h30-19h\n- debut cours ne peut pas être > à la fin\n- alerte si plus d'étudiants que de place dans la salle \n- nom formateur affiché en MAJ\n- v0.1a\nTemps: 1.5h\n\n20170104 9h30-11h30\n- erreur en français\n- champs obligatoires\n- saisie de la durée d'un cours à la place de date de fin\n- v0.2\nTemps: 2h\n\n20170105 8h30-9h30\n- Photo intervenant\n- v0.2b\nTemps: 1h\n\n20170110 18h30-19h30\n- formation; UE- temps de cours, lien vers UE\n- formation: affichage total heures planifiées\n- Utilisateurs, recherche admins\n- v0.2c\nTemps: 1h\n\n20170112 13-18h\n- recherche framework mobile: IONIC !\n- maquette liste des cours\nTemps: 5h\n\n20170113 13-16h30\n- Maquette ionic\nTemps: 3.5h\n\n20170114 11h30-12h30 14h-17h30 \n- checkbox \"voir les cours à venir\" cochée par défaut\n- favicon\n- Documents !\n- icones\nTemps: 4.5h\n\n20170117 13-15h\n- Document: pdf cover !\n- v0.3a\nTemps: 2h\n\n20170123 Réunion IAE 10h-12h\n- la saisie de cours répétitifs \n- prévoir la saisie par les profs d'une demande de réservation, valdiée par N.Vasnick\nTemps: 2h\n\n20170124 10h-14h\n- import cours CSV\n- v0.4\nTemps: 4h\n\nTOTAL: 5j + 38h = 5.5j = 10.5j -------------------------------------------------\n\n\n\n20170202 14h30-17h Réunion BP\nTemps: 2.5h\n\n20170214 12h-15h \n- Formation, ajouter le nombre d'heures prévues\n- Cours, vue planning, ajouter la fin du cours et la salle\n- Ajout d'un cours, faire une liste déroulante pour l'UE\n- Afficher la liste des salles libres, mix entre vue cours par semaine et liste des salles libres (une page par semaine, jour en X et Salle en Y )\n- Ajouter un état \"demande de réservation\"\n- Afficher une alerte si le cours planifié n'a pas de salle\nTemps: 3h\n\n20170215 10h30-18h30   BP\n- Planning salle, version condensée !\n- Alerte si chevauchement de cours sur une même salle (s'il débute pendant un cours existant) \n- Formation UE.num doit être 'UE#' et non pas un entier\n- Ajout de la durée du cours dans la bdd en non plus en tant que champs calculé\n- Outils: Ajout de cours en automatique, d'une date à une autre, sans la notion de salle\n- Task: cours:update_duree\n- v0.6a\n- Formation abr. (visible dans le planning des salles)\n- v0.6b\nTemps: 1j\n\n20170216 10h30-18h30  BP\n- debug chevauchement \n- before validation :update_date_fin\n- démo à Stéphane\n- v0.6c\n- import intervenants\n- import utilisateurs\n- rails g devise:i18n:views\n-- Importation des utilisateurs avec création du mot de passe et envoi de mail\n- v0.7\nTemps: 1j\n\n20170217 14h30-15h30\n- logo + redesign nav bar\nTemps: 1h\n\n20170221 10-12h 14h30-16h30\n- App Mobile: passage de Ionic 1 à Ionic 2\n- about page\n- cours page (search bar)\n- people page\nTemps: 4h\n\n20170221 9-11h 14h-16h 17h30-18h30\n- modification création de créneaux\n- V 0.7b\n- modif import cours\n- test import csv barbara\n- modif formulaire login\n- V 0.7c\n- import_cours: maj si déjà un cours à la même heure\n- V 0.7d\nTemps: 5h\n\n\nTOTAL: 2j + 15.5 = 4j --------------------------------------------------------------------\n\n\ncour.model validates uniqueness debut, formation_id\n\n20170303 9h30-12h 13h-16h30 BP\n- vue slide pour les grands écrans de l'accueil => liste des cours à T -4 heures jusqu'à minuit\n- intervenants extra fields\n- v0.7e\nTemps: 6h\n\n20170308 15h-17h\n- appel planning_slide sur date: http://localhost:3000/cours/index_slide?planning_date=20170315T150000\nTemps: 2h\n\n20170314 9h30-17h00 BP\n- Cours/Menu action pour manipulation groupée de cours (changement de salle, supression, modification de status)\n- Export Excel\n- brief avec Barbara\n- v0.8\n- gestion des jours de fermetures\n- v0.8a\nTemps: 1j\n\n20170315 11h30-12h30 17h-18h30\n- pagination Cours, Formations, Intervenants, Users, Fermetures \n- Intégration photo intervenant\n- v0.8a\nTemps: 2.5h\n\n20170316 11h30 16h30\n- benchmark iae => poitier !\n- test template wheather app\n- site mockup\nTemps: 5h\n\n20170317 13h-15h30\n- site mockup finish\nTemps: 2.5h\n\n20170320 11h-12h 13h-15h\n- debug retrait portrait linkedin sur vue mobile\n- pagination\n- affichage historique modifications intervenants, users, formations\n- v0.8b\n- envoi de mail si changement d'état d'un cours\n- v0.8c\nTemps: 3h\n\n20170322 10h-13h BP\n- point avec Barbara\n- pb avec chevauchement de cours (test self)\n- glyph-custom-alert warning\n- jours de fermetures, ajouter la création de jours sur une période \n- import des utilisateurs, ajouter le nom, prénom, phone (ne pas oublier de le mentionner sur la page d'import)\n- ajouter nom & prénom & phone à users\n- bug cours/case à cocher\n- pb création de formation\n- v0.8d\nTemps: 3h\n\n20170328 19h-20h\n- corrections suite au retours de Barbara\n- modif export Excel (colonnes)\n- liste des cours, affichage par pages ou en totalité\n- Cours ne peut pas avoir lieu un dimanche !\n- Intervenants: liste avec nom, prénom\n- v0.8e\nTemps: 1h\n\n20170328 15h-16h \n- point téléphonique avec Barbara\n- import intervenant, supprimer blanc devant et derrire \n- export Excel, remplacer les . par des ,\nTemps: 1h\n\nTOTAL 1j + 26h = 5j ---------------------------------------------------------------\n\nDEVIS: 20j arrondis à 18j | Devis envoyé le 4/04\n\n\n\n\n\n20170406 11h-12h\n- nouveau logo\n- ajustement bannière\n- création fav icons\nTemps: 1h\n\n20170426 15h-17h\n- debug vue cours, sync entre start_date & calendrier semaine & mois\n- vue mobile pour index-slide\nTemps: 2h\n\n\n20170502 BP 10h30 \n- préparation Réunion \"showcase\"\n- ajout filtre formation/formateur sur index/slide\n- http://localhost:3000/cours/planning => cours/index_slide\n- v0.9a\n\n\n! pb de format us quand changement de période dans la vur planning semaine/mois\najouter un test pour qu'un prof ne soit deux fois dans un cours à la même heure\najouter un calcul de la somme des durées \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nServer iae-paris\niae-paris.philnoug.com\n\nsftp: sftp.dc0.gpaas.net\nIdentifiant : 8398066\n8CroixJarry\n\n\n",
 			"file": "/home/philnoug/Documents/IAE 201612",
-			"file_size": 6484,
-			"file_write_time": 131381975165359767,
 			"settings":
 			{
-				"buffer_size": 6538,
+				"buffer_size": 6682,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -361,7 +362,7 @@
 			"file": "db/schema.rb",
 			"settings":
 			{
-				"buffer_size": 4644,
+				"buffer_size": 4668,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -676,7 +677,7 @@
 			"file": "app/models/intervenant.rb",
 			"settings":
 			{
-				"buffer_size": 618,
+				"buffer_size": 668,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -685,19 +686,17 @@
 			"file": "app/controllers/intervenants_controller.rb",
 			"settings":
 			{
-				"buffer_size": 2521,
+				"buffer_size": 2530,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"contents": "<div class=\"page-header\">\n  <%= link_to new_intervenant_path, class: 'btn btn-primary' do %>\n    <span class=\"glyphicon glyphicon-plus\"></span>\n    Intervenant\n  <% end %>\n  <h1>\n    <span class=\"glyphicon glyphicon-user\"></span>\n    Liste des intervenants\n  </h1>\n</div>\n\n<div class='container-fluid'>\n  <%= form_tag request.path, method: :get do %>\n    <div class=\"form-group\">\n      <div class=\"row\">\n        <div class=\"col-sm-4\">\n          <%= label_tag :nom, \"Nom/Prénom\" %>    \n          <div class=\"input-group\">\n          <%= text_field_tag :nom, params[:nom], include_blank:true, onchange:'this.form.submit()', class:\"form-control\" %>\n            <span class=\"input-group-btn\">\n              <%= submit_tag 'Filtrer', class:\"btn btn-success\" %>\n            </span>\n          </div>\n        </div>\n      </div>\n    </div>  \n  <% end %>\n</div>\n\n<% if @intervenants.any? %>\n  <div class=\"table-responsive\">\n    <table class=\"table table-hover table-striped\">\n      <thead>\n        <tr>\n          <th />\n          <th>Nom/Prénom</th>\n          <th>Titre</th>\n          <th>Spécialité</th>\n          <th>Formations</th>\n          <th colspan=\"2\"></th>\n        </tr>\n      </thead>\n      <tfoot>\n        <tr>\n          <% 6.times do %><th /><% end %>\n        </tr>\n      </tfoot>\n\n      <tbody>\n        <% @intervenants.includes(:cours).each do |intervenant| %>\n          <tr>\n            <td>\n              <% if intervenant.photo.url %>\n                <%= link_to(image_tag(intervenant.photo.url, class: \"img-circle\", size:'45x45'), intervenant) %>\n              <% end %>\n            </td>\n            <td><b><%= link_to intervenant.nom_prenom, intervenant %></b></td>\n            <td><%= intervenant.titre1 %></td>\n            <td><%= intervenant.spécialité %></td>\n            <td><%= intervenant.formations.pluck(:nom).uniq.join(' | ') %></td>\n            <td>\n              <%= link_to edit_intervenant_path(intervenant), class: \"btn btn-default\" do %>\n                <i class=\"glyphicon glyphicon-pencil\"></i>\n              <% end %>\n              <% unless intervenant.cours.any? %> \n                <%= link_to(intervenant, method: :delete, data:{confirm: 'Confirmez-vous ?'}, class: \"btn btn-default\") do %>\n                  <i class=\"glyphicon glyphicon-remove\"></i>\n                <% end %>\n              <% end %>\n            </td>\n          </tr>\n        <% end %>\n      </tbody>\n    </table>\n    <%= will_paginate @intervenants, renderer: BootstrapPagination::Rails %>\n  </div>\n<% end %>\n\n\n",
 			"file": "app/views/intervenants/index.html.erb",
-			"file_size": 2493,
-			"file_write_time": 131381924210766450,
 			"settings":
 			{
-				"buffer_size": 2514,
+				"buffer_size": 2596,
+				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
@@ -705,7 +704,7 @@
 			"file": "app/views/intervenants/_form.html.erb",
 			"settings":
 			{
-				"buffer_size": 1294,
+				"buffer_size": 1396,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -877,13 +876,11 @@
 			}
 		},
 		{
-			"contents": "<div class=\"page-header\">\n  <% if current_user.try(:admin?) %>\n    <%= link_to new_cour_path, class: 'btn btn-primary' do %>\n      <span class=\"glyphicon glyphicon-plus\"></span>\n      Cours\n    <% end %>\n  <% end %>\n  <h1>\n    <span class=\"glyphicon glyphicon-calendar\"></span>\n    Planning des cours\n  </h1>\n</div>\n\n<div class='container-fluid'>\n    <%= form_tag request.path, method: :get do %>\n      <div class=\"form-group\">\n        <div class=\"row\">\n          <div class=\"col-sm-5\">\n              <%= label_tag \"Formation\" %>    \n              <%= select_tag :formation_id, \n                    options_from_collection_for_select(Formation.all, :id, :nom_promo, params[:formation_id]), include_blank:true, onchange:'this.form.submit()', class:\"form-control\", \n                        disabled:(current_user.formation) %>\n          </div>\n          <div class=\"col-sm-2\">\n              <%= label_tag :ue, \"UE\" %>   \n              <%= select_tag :ue, \n                    options_from_collection_for_select(Unite.where(formation_id:params[:formation_id]).order(:num), :num, :num_nom, params[:ue]), \n                        include_blank: true, onchange:'this.form.submit()', class: \"form-control\" %>\n          </div>\n          <div class=\"col-sm-4\">\n              <%= label_tag \"Intervenant\" %>    \n              <div class=\"input-group\">\n              <%= select_tag :intervenant_id, \n                    options_from_collection_for_select(Intervenant.all, :id, :nom_prenom, params[:intervenant_id]), \n                      include_blank:true, onchange:'this.form.submit()', class:\"form-control\" %>\n                <span class=\"input-group-btn\">\n                  <%= submit_tag 'Filtrer', class:\"btn btn-success\" %>\n                </span>\n              </div>\n          </div>\n        </div>\n    \n        <div class=\"row\">\n          <div class=\"col-sm-2\">\n            <%= label_tag \"Date\" %>    \n            <%= text_field_tag :start_date, params[:start_date], type:'date', onchange:'this.form.submit()', class:\"form-control\" %>\n          </div>\n\n          <div class=\"col-sm-1\">\n              <%= label_tag \"Salle\" %>    \n              <%= select_tag :salle_id, \n                      options_from_collection_for_select(Salle.order(:nom), :id, :nom, params[:salle_id]), \n                        include_blank:true, onchange:'this.form.submit()', class:\"form-control\" %>\n          </div>\n\n          <% if current_user.try(:admin?) %>\n            <div class=\"col-sm-2\">\n              <%= label_tag :etat, \"Etat\" %>\n              <%= select_tag :etat, options_for_select(Cour.etats, params[:etat]), include_blank:true,\n                      class:\"form-control\", onchange:'this.form.submit()' %>\n            </div>\n          <% end %>\n\n          <div class=\"col-sm-2\">\n            <%= label_tag \"Cours\" %>\n            <br> \n            <%= radio_button_tag :filter, \"upcoming\", (params[:filter]=='upcoming'), onchange:'this.form.submit()' %>\n            A venir \n            <%= radio_button_tag :filter, \"all\", (params[:filter]=='all'), onchange:'this.form.submit()' %>\n            Tous \n          </div>\n\n          <div class=\"col-sm-3\">\n            <%= label_tag \"Vue\" %>\n            <br> \n            <%= radio_button_tag :view, \"list\", (params[:view]=='list'), onchange:'this.form.submit()' %>\n            Liste \n            <%= radio_button_tag :view, \"calendar_week\", (params[:view]=='calendar_week'), onchange:'this.form.submit()' %>\n            Semaine \n            <%= radio_button_tag :view, \"calendar_month\", (params[:view]=='calendar_month'), onchange:'this.form.submit()' %>\n            Mois \n            <%= radio_button_tag :view, \"calendar_rooms\", (params[:view]=='calendar_rooms'), onchange:'this.form.submit()' %>\n            Salles \n          </div>\n\n          <% if params[:view] == 'list' %>\n            <div class=\"col-sm-2\">\n              <%= label_tag \"Afficher\" %>\n              <br> \n              <%= radio_button_tag :paginate, \"pages\", (params[:paginate]=='pages'), onchange:'this.form.submit()' %>\n              Pages \n              <%= radio_button_tag :paginate, \"all\", (params[:paginate]=='all'), onchange:'this.form.submit()' %>\n              Tout \n            </div>\n          <% end %>\n        </div>\n      </div>  \n    <% end %>\n</div>\n\n<% if params[:view] == \"calendar_month\" and !params[:start_date].blank? %>\n  <div class=\"row\">\n    <div class=\"col-md-12\">\n      <%= month_calendar events: @cours do |date, meetings| %>\n        <span class=\"calendar_day\">\n          <%= date.day %>\n        </span>\n\n        <% meetings.each do |meeting| %>\n          <div class=\"meeting\">\n            <b>\n              <%= \"#{l(meeting.debut, format: :heures_min)}-#{l(meeting.fin, format: :heures_min)}\" %>\n              <%= \"(#{meeting.salle.nom})\" if meeting.salle %>  \n            </b>\n            <br>\n            <%= link_to meeting.formation.nom, meeting %> / \n            <%= link_to meeting.intervenant.nom_prenom, meeting %>\n          </div>\n        <% end %>\n      <% end %>\n    </div>\n  </div>\n\n<% elsif params[:view] == \"calendar_week\" and !params[:start_date].blank? %>\n  <% @week_selector_visible = true %>\n\n  <div class=\"row\">\n    <div class=\"col-md-12\">\n      <%= week_calendar events: @cours do |date, meetings| %>\n        <span class=\"calendar_day\">\n          <%= date.day %>\n        </span>\n\n        <% meetings.each do |meeting| %>\n          <div class=\"meeting\">\n            <b>\n              <%= \"#{l(meeting.debut, format: :heures_min)}-#{l(meeting.fin, format: :heures_min)}\" %>\n              <%= \"(#{meeting.salle.nom})\" if meeting.salle %>  \n            </b>\n            <br>\n            <%= link_to meeting.formation.nom, meeting %> / \n            <%= link_to meeting.intervenant.nom_prenom, url_for(params.merge(intervenant_id:meeting.intervenant_id)) %>\n          </div>\n        <% end %>\n      <% end %>\n    </div>\n  </div>\n\n<% elsif params[:view] == \"calendar_rooms\" and !params[:start_date].blank? %>\n  <% @week_selector_visible = true %>\n  \n  <div class=\"row\">\n    <div class=\"col-md-12\">\n      <% Salle.all.each do |salle_id| %>\n        <% @salle = Salle.find(salle_id) %> \n        <%= week_calendar events: @cours.where(salle_id:@salle.id), salle_id:@salle.id do |date, meetings| %>\n          <span class=\"calendar_day\">\n            <%= date.day %>\n          </span>\n\n          <% meetings.each do |meeting| %>\n            <div class=\"meeting\">\n              <b>\n                <%= \"#{l(meeting.debut, format: :heures_min)}-#{l(meeting.fin, format: :heures_min)}\" %>\n              </b>\n              <br>\n              <% if meeting.formation.abrg %>\n                <%= link_to meeting.formation.abrg, meeting, title:meeting.formation.nom %>\n              <% else %>\n                <%= link_to meeting.formation.nom, meeting %>\n              <% end %>\n            </div>\n          <% end %>\n        <% end %>\n      <% end %>\n    </div>\n  </div>\n\n<% elsif params[:view] == \"list\" %>\n  <% if @cours.any? %>\n\n    <%= form_tag cours_action_path, name:'action' do %>\n        <div class=\"table-responsive\">\n          <table class=\"table table-hover table-striped table-condensed\">\n            <thead>\n              <tr>\n                <th><%= check_box_tag \"check_all\", false %></th>\n                <th>Date</th>\n                <th>Heure</th>\n                <th>Durée</th>\n                <th>Formation</th>\n                <th colspan=\"2\">Intervenant</th>\n                <th>Intitulé cours</th>\n                <th>Etat</th>\n                <th>Salle</th>\n                <% if current_user.try(:admin?) %>\n                  <th />\n                <% end %>\n              </tr>\n            </thead>\n\n            <% if @cours.any? %>\n              <tbody>\n                <% current_date = \"\" %>\n                <% @cours.includes(:formation, :intervenant, :salle).each do | cours | %>\n                  <tr>\n                    <td><%= check_box_tag \"[cours_id][#{cours.id}]\",nil ,false ,class:'check_all' %></td>\n                    <td>\n                      <% if cours.debut.to_date != current_date %>\n                        <b><%= l(cours.debut.to_date, format: :long) %></b> \n                        <% current_date = cours.debut.to_date %>\n                      <% end %>  \n                    </td>\n                    <td>\n                      <b>\n                        <%= \"#{l(cours.debut, format: :heures_min)}-#{l(cours.fin, format: :heures_min)}\" %>\n                      </b>\n                    </td>\n                    <td>\n                      <span class=\"pull-right\">\n                        <%= number_with_precision(cours.duree, precision: 1) %>h\n                      </span>\n                    </td>\n                    <td><%= link_to cours.formation.nom_promo, cours.formation %></td>\n                    <td>\n                      <% if cours.intervenant.photo.url %>\n                        <%= link_to(image_tag(cours.intervenant.photo.url, class: \"img-circle\", size:'45x45'), cours.intervenant) %>\n                      <% end %>\n                    </td>\n                    <td>\n                      <%= link_to cours.intervenant.nom_prenom, cours.intervenant %>\n                    </td>\n                    <td>\n                      <%= link_to cours.nom_ou_ue, cours %>\n                    </td>\n                    <td>\n                      <span class=\"label <%= cours.style %>\"><%= cours.etat.humanize %></span>\n                    </td>\n                    <td>\n                      <% if cours.salle %>\n                        <%= cours.salle.nom %>\n                        <% if cours.manque_de_places? %>\n                          <i class=\"glyphicon glyphicon-warning-sign glyph-custom-alert\" \n                              data-toggle=\"tooltip\" data-placement=\"bottom\"\n                              title=\"Salle trop petite ! (Manque <%= cours.formation.nbr_etudiants - cours.salle.places %> \n                              place.s)\">\n                          </i>\n                        <% end %>\n                      <% else %>\n                        <% if cours.planifié? %>\n                          <i class=\"glyphicon glyphicon-warning-sign glyph-custom-warning\" \n                             data-toggle=\"tooltip\" data-placement=\"top\"\n                             title=\"Cours planifié mais pas de salle réservée !\">\n                        <% end %>\n                      <% end %>\n                    </td>\n\n                    <% if current_user.try(:admin?) %>\n                      <td>\n                        <%= link_to cour_path(cours), class:\"btn btn-default\" do %>\n                          <i class=\"glyphicon glyphicon-pencil\"></i>\n                        <% end %>\n                      </td>\n                    <% end %>\n                  </tr>\n                <% end %>\n              </tbody>\n\n              <tfoot>\n                <tr>\n                  <th /><th /><th />\n                  <th />\n                  <% 6.times do %><th /><% end %>\n                  <% if current_user.try(:admin?) %>\n                    <th />\n                  <% end %>\n                </tr>\n              </tfoot>\n            <% end %>\n          </table>\n        </div>\n\n        <% if params[:paginate] == 'pages' %>\n          <%= will_paginate @cours, renderer: BootstrapPagination::Rails %>\n        <% end %>\n\n        <span style=\"float:right;margin-bottom:15px\">\n          <small>Action:</small>\n          <%= hidden_field_tag \"tag_selected\", params[:tag_filter] %>\n          <%= select_tag \"action_name\", options_for_select(Cour.actions), include_blank:true %>\n          <%= submit_tag 'Go' %>\n        </span>\n\n      <% end %>\n    <% end %>\n<% else %>\n  Veuillez choisir une date !\n<% end %>\n\n",
 			"file": "app/views/cours/index.html.erb",
-			"file_size": 11742,
-			"file_write_time": 131381921436324350,
 			"settings":
 			{
-				"buffer_size": 11733,
+				"buffer_size": 12013,
+				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
@@ -1132,6 +1129,7 @@
 	},
 	"file_history":
 	[
+		"/home/philnoug/RailsProjects/iae/db/migrate/20170502152840_add_statut_to_intervenant.rb",
 		"/home/philnoug/RailsProjects/iae/app/assets/javascripts/application.js",
 		"/home/philnoug/RailsProjects/iae/app/assets/javascripts/cours.coffee",
 		"/home/philnoug/RailsProjects/iae/db/migrate/20170322111356_add_extra_fields_to_user.rb",
@@ -1258,8 +1256,7 @@
 		"/home/phil/RailsProjects/lsf/app/models/localization.rb",
 		"/home/phil/RailsProjects/lsf/.gitignore",
 		"/home/phil/RailsProjects/lsf/app/models/user.rb",
-		"/home/phil/RailsProjects/lsf/app/controllers/chantiers_controller.rb",
-		"/home/phil/RailsProjects/lsf/app/views/chantiers/index.html.erb"
+		"/home/phil/RailsProjects/lsf/app/controllers/chantiers_controller.rb"
 	],
 	"find":
 	{
@@ -1335,7 +1332,7 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 43,
 			"sheets":
 			[
 				{
@@ -1344,15 +1341,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 6538,
+						"buffer_size": 6682,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								6395,
-								6395
+								6540,
+								6540
 							]
 						],
 						"settings":
@@ -1360,10 +1357,10 @@
 							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 3855.0,
+						"translation.y": 3930.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 7,
 					"type": "text"
 				},
 				{
@@ -1391,7 +1388,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 22,
+					"stack_index": 25,
 					"type": "text"
 				},
 				{
@@ -1419,7 +1416,7 @@
 						"translation.y": 257.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 24,
+					"stack_index": 27,
 					"type": "text"
 				},
 				{
@@ -1449,7 +1446,7 @@
 						"translation.y": 77.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 41,
+					"stack_index": 42,
 					"type": "text"
 				},
 				{
@@ -1479,7 +1476,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 10,
+					"stack_index": 15,
 					"type": "text"
 				},
 				{
@@ -1510,7 +1507,7 @@
 						"translation.y": 2880.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 18,
+					"stack_index": 22,
 					"type": "text"
 				},
 				{
@@ -1519,7 +1516,7 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4644,
+						"buffer_size": 4668,
 						"regions":
 						{
 						},
@@ -1570,7 +1567,7 @@
 						"translation.y": 1035.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 15,
+					"stack_index": 20,
 					"type": "text"
 				},
 				{
@@ -1600,7 +1597,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 23,
+					"stack_index": 26,
 					"type": "text"
 				},
 				{
@@ -1630,7 +1627,7 @@
 						"translation.y": 810.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 29,
+					"stack_index": 32,
 					"type": "text"
 				},
 				{
@@ -1660,7 +1657,7 @@
 						"translation.y": 213.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 26,
+					"stack_index": 29,
 					"type": "text"
 				},
 				{
@@ -1690,7 +1687,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 12,
 					"type": "text"
 				},
 				{
@@ -1811,7 +1808,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 14,
+					"stack_index": 19,
 					"type": "text"
 				},
 				{
@@ -1881,7 +1878,7 @@
 						"translation.y": 2160.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 9,
 					"type": "text"
 				},
 				{
@@ -1910,7 +1907,7 @@
 						"translation.y": 675.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 19,
+					"stack_index": 23,
 					"type": "text"
 				},
 				{
@@ -1999,7 +1996,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 11,
 					"type": "text"
 				},
 				{
@@ -2116,7 +2113,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 32,
+					"stack_index": 33,
 					"type": "text"
 				},
 				{
@@ -2146,7 +2143,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 8,
+					"stack_index": 13,
 					"type": "text"
 				},
 				{
@@ -2176,7 +2173,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 27,
+					"stack_index": 30,
 					"type": "text"
 				},
 				{
@@ -2206,7 +2203,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 33,
+					"stack_index": 34,
 					"type": "text"
 				},
 				{
@@ -2263,7 +2260,7 @@
 						"translation.y": 360.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 43,
+					"stack_index": 44,
 					"type": "text"
 				},
 				{
@@ -2321,7 +2318,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 16,
+					"stack_index": 21,
 					"type": "text"
 				},
 				{
@@ -2438,7 +2435,7 @@
 						"translation.y": 923.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 25,
+					"stack_index": 28,
 					"type": "text"
 				},
 				{
@@ -2468,7 +2465,7 @@
 						"translation.y": 135.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 47,
+					"stack_index": 48,
 					"type": "text"
 				},
 				{
@@ -2563,15 +2560,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 618,
+						"buffer_size": 668,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								247,
-								247
+								213,
+								213
 							]
 						],
 						"settings":
@@ -2583,7 +2580,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 31,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
@@ -2592,15 +2589,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2521,
+						"buffer_size": 2530,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2424,
-								2424
+								2526,
+								2526
 							]
 						],
 						"settings":
@@ -2610,10 +2607,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 855.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 30,
+					"stack_index": 6,
 					"type": "text"
 				},
 				{
@@ -2622,15 +2619,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2514,
+						"buffer_size": 2596,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1213,
-								1213
+								1789,
+								1789
 							]
 						],
 						"settings":
@@ -2640,10 +2637,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 360.0,
+						"translation.y": 405.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 6,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
@@ -2652,15 +2649,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1294,
+						"buffer_size": 1396,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								811,
-								811
+								997,
+								997
 							]
 						],
 						"settings":
@@ -2673,7 +2670,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 48,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
@@ -2759,7 +2756,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 36,
+					"stack_index": 37,
 					"type": "text"
 				},
 				{
@@ -3022,7 +3019,7 @@
 						"translation.y": 315.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 44,
+					"stack_index": 45,
 					"type": "text"
 				},
 				{
@@ -3052,7 +3049,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 46,
+					"stack_index": 47,
 					"type": "text"
 				},
 				{
@@ -3138,7 +3135,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 45,
+					"stack_index": 46,
 					"type": "text"
 				},
 				{
@@ -3154,8 +3151,8 @@
 						"selection":
 						[
 							[
-								3384,
-								3384
+								403,
+								403
 							]
 						],
 						"settings":
@@ -3165,10 +3162,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 767.0,
+						"translation.y": 77.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 17,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
@@ -3196,7 +3193,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 34,
+					"stack_index": 35,
 					"type": "text"
 				},
 				{
@@ -3226,7 +3223,7 @@
 						"translation.y": 270.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 10,
 					"type": "text"
 				},
 				{
@@ -3235,15 +3232,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 11733,
+						"buffer_size": 12013,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2881,
-								2881
+								10971,
+								10971
 							]
 						],
 						"settings":
@@ -3253,10 +3250,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 135.0,
+						"translation.y": 3240.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 7,
+					"stack_index": 8,
 					"type": "text"
 				},
 				{
@@ -3286,7 +3283,7 @@
 						"translation.y": 135.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 20,
+					"stack_index": 24,
 					"type": "text"
 				},
 				{
@@ -3316,7 +3313,7 @@
 						"translation.y": 90.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 13,
+					"stack_index": 18,
 					"type": "text"
 				},
 				{
@@ -3346,7 +3343,7 @@
 						"translation.y": 32.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 11,
+					"stack_index": 16,
 					"type": "text"
 				},
 				{
@@ -3376,7 +3373,7 @@
 						"translation.y": 135.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 9,
+					"stack_index": 14,
 					"type": "text"
 				},
 				{
@@ -3406,7 +3403,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 12,
+					"stack_index": 17,
 					"type": "text"
 				},
 				{
@@ -3436,7 +3433,7 @@
 						"translation.y": 315.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 28,
+					"stack_index": 31,
 					"type": "text"
 				},
 				{
@@ -3542,8 +3539,8 @@
 						"selection":
 						[
 							[
-								1148,
-								1148
+								2368,
+								2368
 							]
 						],
 						"settings":
@@ -3553,10 +3550,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 585.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 21,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
@@ -3730,7 +3727,7 @@
 						"translation.y": 855.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 35,
+					"stack_index": 36,
 					"type": "text"
 				},
 				{
@@ -3846,7 +3843,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 42,
+					"stack_index": 43,
 					"type": "text"
 				},
 				{
@@ -3874,7 +3871,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 40,
+					"stack_index": 41,
 					"type": "text"
 				},
 				{
@@ -3902,7 +3899,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 38,
+					"stack_index": 39,
 					"type": "text"
 				},
 				{
@@ -3930,7 +3927,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 37,
+					"stack_index": 38,
 					"type": "text"
 				},
 				{
@@ -3960,7 +3957,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 39,
+					"stack_index": 40,
 					"type": "text"
 				}
 			]

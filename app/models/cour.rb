@@ -87,6 +87,16 @@ class Cour < ActiveRecord::Base
     ((planning_date.to_f - self.debut.to_f) / (self.fin.to_f - self.debut.to_f) * 100).to_i
   end
 
+  def range
+    range = []
+    (self.debut.to_datetime.to_i .. self.fin.to_datetime.to_i).step(1.hour) do |date|
+      range << Time.at(date).utc.hour
+    end
+    #range.pop # delete last element
+
+    return range
+  end
+
 
   private
     def update_date_fin

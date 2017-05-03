@@ -32,7 +32,7 @@
 
           <% unless params[:date].blank? %>
             <div class="col-sm-3">
-              <%= label_tag :libre, "Afficher que les salles libres ?" %>
+              <%= label_tag :libre, "Que les salles libres ?" %>
               <br>    
               <%= check_box_tag :libre, 1, params[:libre], 
                     onchange:'this.form.submit()', class:"form-control" %>
@@ -51,15 +51,16 @@
         <th>Nom</th>
         <th>Places</th>
         <th>Cours</th>
+        <th>Créneaux horaires occupés</th>
+        <th>08h-09h-10h-11h-12h-13h-14h-15h-16h-17h-18h-19h-20h-21h-22h</th>
         <th colspan="2"></th>
       </tr>
     </thead>
     <tfoot>
       <tr>
-        <% 4.times do %><th /><% end %>
+        <% 6.times do %><th /><% end %>
       </tr>
     </tfoot>
-
 
     <tbody>
       <% @salles.each do |salle| %>
@@ -73,6 +74,23 @@
           <td><b><%= salle.nom %></b></td>
           <td><%= salle.places %></td>
           <td><%= link_to @cours.count, cours_path(date:@date, salle_id:salle.id) %></td>
+          <td>
+            <% if @cours.count > 0 and @date %>
+              <% range = [] %>
+              <% @cours.each do | cours | %>
+                  <% range += cours.range %>
+              <% end %>
+              <%= range.sort.uniq.join('-') %>
+            <% end %>
+          </td>
+
+          <td>
+            <% if range %>
+              <% map = [8,9,10,11,12,13,14,15,16,17,18,19,20,21,22].map {|i| range.include?(i) ? '.O.' : '__' } %>
+              <b><%= map.join(' - ') %></b>
+            <% end %>
+          </td>
+
           <td>
             <%= link_to edit_salle_path(salle), class: "btn btn-default" do %>
               <i class="glyphicon glyphicon-pencil"></i>

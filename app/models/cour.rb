@@ -8,8 +8,8 @@ class Cour < ActiveRecord::Base
   belongs_to :intervenant
   belongs_to :salle
 
-  #validate :la_fin_apres_le_debut
   validates :formation_id, :intervenant_id, :duree, presence: true
+  validate :check_chevauchement_intervenant
   validate :check_chevauchement, if: Proc.new {|cours| cours.salle_id }
   validate :jour_fermeture
 
@@ -19,10 +19,6 @@ class Cour < ActiveRecord::Base
   before_validation :sunday_morning_praise_the_dawning
   
   after_validation :call_notifier
-
-  # before_validation(on: :create) do
-  #     self.user = RequestStore.store[:current_user]
-  # end
 
   def self.styles
     ['label-info','label-success','label-warning','label-danger','label-primary']
@@ -92,7 +88,6 @@ class Cour < ActiveRecord::Base
     (self.debut.to_datetime.to_i .. self.fin.to_datetime.to_i).step(1.hour) do |date|
       range << Time.at(date).utc.hour
     end
-    #range.pop # delete last element
 
     return range
   end
@@ -104,7 +99,7 @@ class Cour < ActiveRecord::Base
       self.fin = fin if self.fin != fin
     end
 
-    def sunday_morning_praise_the_dawning
+    def sunday_morning_praise_the_dawning # :)
       if self.debut.wday == 0
         errors.add(:cours, "ne peut pas avoir lieu un dimanche !")
       end
@@ -131,15 +126,28 @@ class Cour < ActiveRecord::Base
     end  
 
     def check_chevauchement
-      # si il y a dejà des cours dans la même salle et à la même date
+      # s'il y a dejà des cours dans la même salle et à la même date
       cours = Cour.where("salle_id = ? AND ((debut BETWEEN ? AND ?) OR (fin BETWEEN ? AND ?))", 
-                      self.salle_id, self.debut, self.fin, self.debut, self.fin)
+                          self.salle_id, self.debut, self.fin, self.debut, self.fin)
 
       # si cours en chevauchement n'est pas le cours lui même (modif de cours)
       cours = cours.where.not(id:self.id).where.not(fin:self.debut).where.not(debut:self.fin)
 
       if cours.any?
-        errors.add(:cours, "en chevauchement dans la même salle avec le cours ##{cours.pluck(:id).join(',')}")
+        errors.add(:cours, "en chevauchement (période, salle) avec le cours ##{cours.pluck(:id).join(',')}")
+      end
+    end  
+
+    def check_chevauchement_intervenant
+      # s'il y a dejà des cours dans la même salle et à la même date
+      cours = Cour.where("intervenant_id = ? AND ((debut BETWEEN ? AND ?) OR (fin BETWEEN ? AND ?))", 
+                          self.intervenant_id, self.debut, self.fin, self.debut, self.fin)
+
+      # si cours en chevauchement n'est pas le cours lui même (modif de cours)
+      cours = cours.where.not(id:self.id).where.not(fin:self.debut).where.not(debut:self.fin)
+
+      if cours.any?
+        errors.add(:cours, "en chevauchement (période, intervenant) avec le cours ##{cours.pluck(:id).join(',')}")
       end
     end  
 

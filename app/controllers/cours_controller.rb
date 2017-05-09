@@ -25,11 +25,19 @@ class CoursController < ApplicationController
 
     @cours = Cour.includes(:formation, :intervenant, :salle).order(:debut)
 
+    unless params[:semaine].blank?
+      params[:start_date] = Date.commercial(Date.today.year, params[:semaine].to_i, 1).to_s
+    end
+
     unless params[:start_date].blank? 
-      if params[:view] == 'list'
-        @date = Date.parse(params[:start_date])
+      @date = Date.parse(params[:start_date])
+
+      #if params[:view] == 'list'
+      if params[:semaine]      
+        @cours = @cours.where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 7.day)
+      else
         @cours = @cours.where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 1.day)
-      end  
+      end 
     end
 
     if current_user.formation 
@@ -44,9 +52,9 @@ class CoursController < ApplicationController
       @cours = @cours.where(intervenant_id:params[:intervenant_id])
     end
 
-    unless params[:salle_id].blank?
-      @cours = @cours.where(salle_id:params[:salle_id])
-    end
+    # unless params[:salle_id].blank?
+    #   @cours = @cours.where(salle_id:params[:salle_id])
+    # end
 
     unless params[:ue].blank?
       @cours = @cours.where(ue:params[:ue])
@@ -195,7 +203,7 @@ class CoursController < ApplicationController
   def update
     respond_to do |format|
       if @cour.update(cour_params)
-        format.html { redirect_to @cour, notice: 'Cours modifié avec succès.' }
+        format.html { redirect_to cours_url, notice: 'Cours modifié avec succès.' }
         format.json { render :show, status: :ok, location: @cour }
       else
         format.html { render :edit }

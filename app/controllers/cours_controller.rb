@@ -25,19 +25,17 @@ class CoursController < ApplicationController
 
     @cours = Cour.includes(:formation, :intervenant, :salle).order(:debut)
 
-    unless params[:semaine].blank?
-      params[:start_date] = Date.commercial(Date.today.year, params[:semaine].to_i, 1).to_s
-    end
-
     unless params[:start_date].blank? 
       @date = Date.parse(params[:start_date])
-
-      if params[:semaine]      
-        @cours = @cours.where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 7.day)
-      else
-        @cours = @cours.where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 1.day)
-      end 
+      params[:semaine] = @date.cweek if params[:semaine] != @date.cweek 
+      @cours = @cours.where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 7.day)
     end
+
+    # unless params[:semaine].blank?      
+    #   @date = Date.commercial(Date.today.year, params[:semaine].to_i, 1)
+    #   params[:start_date] = @date.to_s if params[:start_date] != @date.to_s 
+    #   @cours = @cours.where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 7.day)
+    # end
 
     if current_user.formation 
       params[:formation_id] = current_user.formation_id

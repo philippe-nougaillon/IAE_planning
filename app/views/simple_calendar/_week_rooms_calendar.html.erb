@@ -7,7 +7,7 @@
           <td />
           <% date_range.slice(0, 7).each do |day| %>
             <% unless day.sunday? %>
-              <th><%= l(day, format: :short) %> </th>
+              <th><%= l(day, format: :short) %></th>
             <% end %>
           <% end %>
         </tr>

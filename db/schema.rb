@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170502152840) do
+ActiveRecord::Schema.define(version: 20170509155004) do
 
   create_table "audits", force: :cascade do |t|
     t.integer  "auditable_id"
@@ -87,6 +87,7 @@ ActiveRecord::Schema.define(version: 20170502152840) do
     t.integer  "nbr_heures"
     t.string   "abrg"
     t.integer  "user_id"
+    t.string   "color"
   end
 
   add_index "formations", ["user_id"], name: "index_formations_on_user_id"

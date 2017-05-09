@@ -54,6 +54,7 @@
         <tr>
           <th>Nom</th>
           <th>Abr.</th>
+          <th>Couleur</th>
           <th>Diplôme</th>
           <th>Promotion</th>
           <th>Domaine</th>
@@ -67,7 +68,7 @@
 
       <tfoot>
         <tr>
-          <% 6.times do %><th><% end %>
+          <% 7.times do %><th><% end %>
           <th><span class="pull-right"><%= @formations.sum(:nbr_etudiants) %></span></th>
           <% if current_user.try(:admin?) %>
             <th /><th />
@@ -80,6 +81,9 @@
           <tr>
             <td><%= link_to formation.nom, formation  %></td>
             <td><%= formation.abrg %></td>
+            <td> 
+              <span style="background-color:<%= formation.color %>;padding-left: 50px;"></span>
+            </td>
             <td><%= formation.diplome %></td>
             <td><%= formation.promo %></td>
             <td><%= formation.domaine %></td>

@@ -186,6 +186,7 @@
                 <th>Date</th>
                 <th>Heure</th>
                 <th>Durée</th>
+                <th></th>
                 <th>Formation</th>
                 <th colspan="2">Intervenant</th>
                 <th>Intitulé cours</th>
@@ -219,7 +220,11 @@
                         <%= number_with_precision(cours.duree, precision: 1) %>h
                       </span>
                     </td>
+                    <td> 
+                      <span style="background-color:<%= cours.formation.color %>;padding-left: 7px;"></span>
+                    </td>
                     <td><%= link_to cours.formation.nom_promo, cours.formation %></td>
+
                     <td>
                       <% if cours.intervenant.photo.url %>
                         <%= link_to(image_tag(cours.intervenant.photo.url, class: "img-circle", size:'45x45'), cours.intervenant) %>

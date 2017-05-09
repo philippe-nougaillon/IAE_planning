@@ -20,6 +20,11 @@
 <dir class="row">
   <dir class="col-sm-6">
     <p>
+      <strong>Abr. :</strong>
+      <%= @formation.abrg %>
+    </p>
+
+    <p>
       <strong>Promo:</strong>
       <%= @formation.promo %>
     </p>
@@ -39,13 +44,14 @@
       <%= @formation.apprentissage ? "Oui" : "Non" %>
     </p>
 
+  </dir>
+
+  <dir class="col-sm-6">
     <p>
       <strong>Chargée de formation:</strong>
       <%= @formation.user.email if @formation.user %>
     </p>
-  </dir>
 
-  <dir class="col-sm-6">
     <p>
       <strong>Nbr étudiants prévus:</strong>
       <%= @formation.nbr_etudiants %>
@@ -62,6 +68,7 @@
       <strong>Nbr d'utilisateurs associés:</strong>
       <%= link_to @formation.users.count, users_path(formation_id: @formation.id) %>
     </p>
+
 
     <p>
       <strong>Mémo:</strong>

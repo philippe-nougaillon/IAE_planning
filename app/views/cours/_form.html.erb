@@ -47,7 +47,7 @@
 
   <div class="form-group lg-2">
     <%= f.label :ue, "UE", class:"control-label col-sm-2" %>
-    <div class="col-sm-1">
+    <div class="col-sm-2">
       <%= select_tag :ue, options_for_select(['UE1','UE2','UE3','UE4','UE5','UE6','UE7','UE8','UE9'], @cour.ue), 
                             include_blank:true, class:"form-control" %>
     </div>
@@ -55,8 +55,8 @@
 
   <div class="form-group">
     <%= f.label :nom, class:"control-label col-sm-2" %>
-    <div class="col-sm-6">
-      <%= f.text_field :nom, class:"form-control" %>
+    <div class="col-sm-5">
+      <%= f.text_field :nom, class:"form-control", placeholder:"Nom du cours (si vide; sera remplacé par le nom de l'UE)" %>
     </div>
   </div>
 

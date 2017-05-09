@@ -21,7 +21,7 @@ class Cour < ActiveRecord::Base
   after_validation :call_notifier
 
   def self.styles
-    ['label-info','label-success','label-warning','label-danger','label-primary']
+    ['label-info','label-success','label-danger','label-danger','label-warning']
   end
 
   def style
@@ -111,7 +111,9 @@ class Cour < ActiveRecord::Base
         # logger.debug "[DEBUG] etat modifié: #{self.etat_was} => #{self.etat}"
 
         # envoyer notification à la chargée de formation
-        UserMailer.cours_changed(self, self.formation.user.email).deliver_now
+        if self.formation.user
+          UserMailer.cours_changed(self, self.formation.user.email).deliver_now
+        end
 
         # envoyer à tous les étudiants 
         self.formation.users.each do | user |

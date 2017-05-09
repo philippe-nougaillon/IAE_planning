@@ -32,7 +32,6 @@ class CoursController < ApplicationController
     unless params[:start_date].blank? 
       @date = Date.parse(params[:start_date])
 
-      #if params[:view] == 'list'
       if params[:semaine]      
         @cours = @cours.where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 7.day)
       else

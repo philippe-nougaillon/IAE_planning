@@ -1,5 +1,4 @@
 <div class="simple-calendar">
-
   <table class="table">
     <% if @week_selector_visible %>
       <% @week_selector_visible = false %>
@@ -8,7 +7,7 @@
           <td />
           <% date_range.slice(0, 7).each do |day| %>
             <% unless day.sunday? %>
-              <th><%= t('date.abbr_day_names')[day.wday] %> <%= l(day) %> </th>
+              <th><%= l(day, format: :short) %> </th>
             <% end %>
           <% end %>
         </tr>
@@ -20,13 +19,12 @@
         <tr>
           <% if defined? @week_selector_visible and @salle %>
             <td>
-              <h4><%= @salle.nom %></h4>
+              <h4 id=<%= @salle.nom %>><%= @salle.nom %></h4>
             </td>
           <% end %>
           
           <% week.each do |day| %>
             <% unless day.sunday? %>
-
               <%= content_tag :td, class: calendar.td_classes_for(day) do %>
                 <% if defined?(Haml) && respond_to?(:block_is_haml?) && block_is_haml?(block) %>
                   <% capture_haml(day, sorted_events.fetch(day, []), &block) %>

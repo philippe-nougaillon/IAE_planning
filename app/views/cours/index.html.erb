@@ -173,7 +173,7 @@
       <% end %>
     </div>
   </div>
-
+  
 <% elsif params[:view] == "list" %>
   <% if @cours.any? %>
 
@@ -236,7 +236,7 @@
                     </td>
                     <td>
                       <% if cours.salle %>
-                        <%= cours.salle.nom %>
+                        <%= link_to cours.salle.nom, cours_url(semaine:cours.debut.to_date.cweek, view:'calendar_rooms', anchor:cours.salle.nom), target: :_blank %>
                         <% if cours.manque_de_places? %>
                           <i class="glyphicon glyphicon-warning-sign glyph-custom-alert" 
                               data-toggle="tooltip" data-placement="bottom"
@@ -298,6 +298,6 @@
       <% end %>
     <% end %>
 <% else %>
-  Veuillez choisir une date !
+  <i><b>Veuillez choisir une date...</b></i>
 <% end %>
 

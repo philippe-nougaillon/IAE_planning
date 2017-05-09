@@ -3,11 +3,19 @@
         window.location.reload();
     }, 1*60000); 
 </script>
-<br>
+<br><br><br>
 
 <% if @cours.any? %>
   <table class="table table-striped table-bordered">
     <% if @cours.any? %>
+      <tfoot>
+        <thead>
+          <th>Heure</th>
+          <th>Formation</th>
+          <th>Intervenant</th>
+          <th>Salle</th>
+        </thead>
+      </tfoot>
       <tbody>
         <% @cours.includes(:formation, :intervenant, :salle).each do | cours | %>
           <tr>

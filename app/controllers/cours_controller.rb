@@ -65,6 +65,8 @@ class CoursController < ApplicationController
       @cours = @cours.where("cours.debut >= ? ", Date.today)
     end
 
+    @all_cours = @cours
+
     if params[:view] == 'list' and params[:paginate] == 'pages'
       @cours = @cours.paginate(page:params[:page], per_page:20)
     end

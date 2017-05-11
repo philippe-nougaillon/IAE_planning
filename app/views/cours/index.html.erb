@@ -272,14 +272,14 @@
               <tfoot>
                 <tr>
                   <th /><th /><th />
-                  <% if params[:paginate] == 'all' %>
+                  <% if params[:paginate] == 'all' or @cours.total_pages == @cours.current_page %>
                       <th class="pull-right">
-                        <%= number_with_precision(@cours.sum(:duree), precision: 1) %>h
+                        <%= number_with_precision(@all_cours.sum(:duree), precision: 1) %>h
                       </th>
                   <% else %>
                     <th></th>  
                   <% end %>
-                  <% 6.times do %><th /><% end %>
+                  <% 7.times do %><th /><% end %>
                   <% if current_user.try(:admin?) %>
                     <th />
                   <% end %>
@@ -290,6 +290,10 @@
         </div>
 
         <% if params[:paginate] == 'pages' %>
+          <div class="page_info">
+            <%= page_entries_info @cours, model:Cour %>
+          </div>
+
           <%= will_paginate @cours, renderer: BootstrapPagination::Rails %>
         <% end %>
 
@@ -297,7 +301,7 @@
           <small>Action:</small>
           <%= hidden_field_tag "tag_selected", params[:tag_filter] %>
           <%= select_tag "action_name", options_for_select(Cour.actions), include_blank:true %>
-          <%= submit_tag 'Go' %>
+          <%= submit_tag 'Go', class: 'btn btn-sm btn-success' %>
         </span>
 
       <% end %>

@@ -7,7 +7,20 @@ class FermeturesController < ApplicationController
   # GET /fermetures.json
   def index
     @fermetures = Fermeture.all
-    @fermetures = @fermetures.paginate(:page => params[:page], :per_page => 20)
+
+    if !params[:date_debut].blank? and params[:date_fin].blank? 
+      @date = params[:date_debut].to_date
+      @fermetures = @fermetures.where("fermetures.date = DATE(?)", @date)
+    else
+      unless params[:date_debut].blank? and params[:date_fin].blank? 
+        @date = params[:date_debut].to_date
+        @date_fin = params[:date_fin].to_date
+        @fermetures = @fermetures.where("fermetures.date BETWEEN DATE(?) AND DATE(?)", @date, @date_fin)
+      end
+    end
+
+    @fermetures = @fermetures.paginate(page:params[:page], per_page:10)
+
   end
 
   # GET /fermetures/1

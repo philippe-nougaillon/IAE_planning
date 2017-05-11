@@ -74,5 +74,12 @@
       <% end %>
     </tbody>
   </table>
+
+  <div class="page_info">
+    <%= page_entries_info @users %>
+  </div>
+
   <%= will_paginate @users, renderer: BootstrapPagination::Rails %>
 </div>
+<br>
+

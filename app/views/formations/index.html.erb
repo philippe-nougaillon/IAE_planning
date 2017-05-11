@@ -107,7 +107,10 @@
         <% end %>
       </tbody>
     </table>
-    <%= will_paginate @cours, renderer: BootstrapPagination::Rails %>
+    <div class="page_info">
+      <%= page_entries_info @formations %>
+    </div>
+    <%= will_paginate @formations, renderer: BootstrapPagination::Rails %>
   </div>
 <% end %>
 <br>

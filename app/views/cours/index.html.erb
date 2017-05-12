@@ -204,16 +204,17 @@
                 <% @cours.includes(:formation, :intervenant, :salle).each do | cours | %>
                   <tr>
                     <td><%= check_box_tag "[cours_id][#{cours.id}]",nil ,false ,class:'check_all' %></td>
-                    <td>
+                    <td style="width:220px" class="text-center">
                       <% if cours.debut.to_date != current_date %>
                         <b><%= l(cours.debut.to_date, format: :long) %></b> 
                         <% current_date = cours.debut.to_date %>
+                      <% else %>
+                        |
                       <% end %>  
                     </td>
-                    <td>
-                      <b>
-                        <%= "#{l(cours.debut, format: :heures_min)}-#{l(cours.fin, format: :heures_min)}" %>
-                      </b>
+                    <td style="width:100px">
+                      <b><%= l(cours.debut, format: :heures_min) %></b>
+                      <%= "- #{l(cours.fin, format: :heures_min)}" %>
                     </td>
                     <td>
                       <span class="pull-right">

@@ -55,7 +55,7 @@ class Cour < ActiveRecord::Base
         if ue = self.formation.unites.find_by(num:self.ue) 
           "#{self.ue}:#{ue.nom}"
         else
-          "UE pas trouvée => #{self.ue}"
+          "UE = #{self.ue} ?"
         end
       else
         self.nom

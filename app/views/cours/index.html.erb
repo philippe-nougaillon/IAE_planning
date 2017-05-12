@@ -179,7 +179,7 @@
 
     <%= form_tag cours_action_path, name:'action' do %>
         <div class="table-responsive">
-          <table class="table table-hover table-striped table-condensed">
+          <table class="table table-hover">
             <thead>
               <tr>
                 <th><%= check_box_tag "check_all", false %></th>
@@ -202,24 +202,23 @@
               <tbody>
                 <% current_date = "" %>
                 <% @cours.includes(:formation, :intervenant, :salle).each do | cours | %>
+                  <% if cours.debut.to_date != current_date %>
+                    <tr class="active"><th></th><th colspan="12">
+                      <b><%= l(cours.debut.to_date, format: :long).humanize %></b> 
+                    </th></tr>
+                    <% current_date = cours.debut.to_date %>
+                  <% end %>  
+                  
                   <tr>
                     <td><%= check_box_tag "[cours_id][#{cours.id}]",nil ,false ,class:'check_all' %></td>
-                    <td style="width:220px" class="text-center">
-                      <% if cours.debut.to_date != current_date %>
-                        <b><%= l(cours.debut.to_date, format: :long) %></b> 
-                        <% current_date = cours.debut.to_date %>
-                      <% else %>
-                        |
-                      <% end %>  
-                    </td>
-                    <td style="width:100px">
-                      <b><%= l(cours.debut, format: :heures_min) %></b>
-                      <%= "- #{l(cours.fin, format: :heures_min)}" %>
+                    <td style="width:150px" class="text-center">
                     </td>
                     <td>
-                      <span class="pull-right">
-                        <%= number_with_precision(cours.duree, precision: 1) %>h
-                      </span>
+                      <b><%= l(cours.debut, format: :heures_min) %></b><br> 
+                      <%= l(cours.fin, format: :heures_min) %>
+                    </td>
+                    <td>
+                      <%= number_with_precision(cours.duree, precision: 1) %>h
                     </td>
                     <td> 
                       <span style="background-color:<%= cours.formation.color %>;padding-left: 7px;"></span>

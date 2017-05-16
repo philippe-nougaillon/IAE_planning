@@ -50,7 +50,7 @@
               <%= label_tag "Semaine" %>    
               <%= select_tag :semaine, 
                       options_for_select((1..52), params[:semaine]), 
-                        include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
+                        include_blank:true, onchange:'this.form.submit()', class:"form-control", disabled:true %>
           </div>
 
           <% if current_user.try(:admin?) %>
@@ -154,7 +154,8 @@
       <% Salle.all.each do |salle_id| %>
         <% @salle = Salle.find(salle_id) %> 
         <%= calendar partial: 'simple_calendar/week_rooms_calendar', 
-                     events: @cours.where(salle_id:@salle.id), salle_id:@salle.id, number_of_days: 6 do |date, meetings| %>
+                     events: @cours.where(salle_id:@salle.id), salle_id:@salle.id, 
+                     number_of_days: 6 do |date, meetings| %>
 
           <% meetings.each do |meeting| %>
             <div class="meeting">
@@ -163,7 +164,7 @@
               </b>
               <br>
               <% if meeting.formation.abrg %>
-                <%= link_to meeting.formation.abrg, meeting, title:meeting.formation.nom %>
+                <%= link_to meeting.formation.abrg, edit_cour_path(meeting), title:meeting.formation.nom %>
               <% else %>
                 <%= link_to meeting.formation.nom, meeting %>
               <% end %>

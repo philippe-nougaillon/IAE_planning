@@ -30,7 +30,7 @@ class Cour < ActiveRecord::Base
   end
   
   def self.actions
-    ["Changer de salle", "Changer d'état", "Exporter vers Excel", "Supprimer"]
+    ["Changer de salle", "Changer d'état", "Exporter vers Excel", "Exporter vers iCalendar", "Supprimer"]
   end
 
   # Simple_calendar attributes

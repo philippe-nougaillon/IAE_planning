@@ -19,7 +19,8 @@ class CoursController < ApplicationController
   # GET /cours.json
   def index
 
-    params[:view]   ||= 'list'
+    params[:view] ||= 'list'
+    params[:view] = 'calendar_rooms' if current_user.email == "wachnick.iae@univ-paris1.fr"
     params[:filter] ||= 'upcoming'
     params[:paginate] ||= 'pages'
 
@@ -27,7 +28,7 @@ class CoursController < ApplicationController
 
     if params[:view] == "calendar_rooms" and params[:start_date].blank? 
       @date = Date.today.beginning_of_week(start_day = :monday)
-      params[:start_date] = l(@date)
+      params[:start_date] = @date.to_s
     end
 
     unless params[:start_date].blank? 
@@ -77,6 +78,11 @@ class CoursController < ApplicationController
     if params[:view] == 'list' and params[:paginate] == 'pages'
       @cours = @cours.paginate(page:params[:page], per_page:20)
     end
+
+    if params[:view] == "calendar_rooms"
+      @cours = @cours.planifié
+    end
+
   end
 
   def index_slide
@@ -156,6 +162,25 @@ class CoursController < ApplicationController
           end
       end
       request.format = 'csv'
+
+    elsif action_name == "Exporter vers iCalendar"
+      require 'icalendar'
+
+      @calendar = Icalendar::Calendar.new
+      ids.each do |id, state|
+        cours = Cour.find(id)
+      
+        event = Icalendar::Event.new
+        event.dtstart = cours.debut.strftime("%Y%m%dT%H%M%S")
+        event.dtend = cours.fin.strftime("%Y%m%dT%H%M%S")
+        event.summary = cours.formation.nom
+        event.description = cours.nom
+        event.location = "BioPark"
+        @calendar.add_event(event)
+      end  
+      @calendar.publish
+
+      request.format = 'ics'
     end 
 
     respond_to do |format|
@@ -163,10 +188,18 @@ class CoursController < ApplicationController
         flash[:notice] = "Action '#{action_name}' appliquée à #{params[:cours_id].count} cours."
         redirect_to cours_path
       end
+
       format.csv do
         filename = "Export_Cours_#{Date.today.to_s}"
         response.headers['Content-Disposition'] = 'attachment; filename="' + filename + '.csv"'
         render "cours/action_do.csv.erb"
+      end
+
+      format.ics do
+        filename = "Export_iCalendar_#{Date.today.to_s}"
+        response.headers['Content-Disposition'] = 'attachment; filename="' + filename + '.ics"'
+        headers['Content-Type'] = "text/calendar; charset=UTF-8"
+        render text:@calendar.to_ical
       end
     end
   end

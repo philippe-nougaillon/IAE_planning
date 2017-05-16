@@ -297,13 +297,17 @@
           <%= will_paginate @cours, renderer: BootstrapPagination::Rails %>
         <% end %>
 
-        <span style="float:right;margin-bottom:15px">
+        <div class="col-sm-3 pull-right">
           <small>Action:</small>
-          <%= hidden_field_tag "tag_selected", params[:tag_filter] %>
-          <%= select_tag "action_name", options_for_select(Cour.actions), include_blank:true %>
-          <%= submit_tag 'Go', class: 'btn btn-sm btn-success' %>
-        </span>
-
+          <div class="input-group">
+            <%= select_tag "action_name", options_for_select(Cour.actions), include_blank:true, class:"form-control" %>
+            <div class="input-group-btn">
+              <%= submit_tag 'Go', class: 'btn btn-sm btn-success' %>
+            </div>
+          </div>
+          <br><br>
+        </div>
+        
       <% end %>
     <% end %>
 <% else %>

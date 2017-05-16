@@ -37,6 +37,11 @@ class CoursController < ApplicationController
     #   @cours = @cours.where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 7.day)
     # end
 
+    if params[:start_date].blank? and !params[:semaine].blank?
+      params[:semaine] = nil
+      flash[:alert] = "Veuillez choisir une date"
+    end
+
     if current_user.formation 
       params[:formation_id] = current_user.formation_id
     end
@@ -48,10 +53,6 @@ class CoursController < ApplicationController
     unless params[:intervenant_id].blank?
       @cours = @cours.where(intervenant_id:params[:intervenant_id])
     end
-
-    # unless params[:salle_id].blank?
-    #   @cours = @cours.where(salle_id:params[:salle_id])
-    # end
 
     unless params[:ue].blank?
       @cours = @cours.where(ue:params[:ue])
@@ -79,7 +80,7 @@ class CoursController < ApplicationController
       @planning_date = DateTime.now 
     end
 
-    # affichier tous les cours du jour à heure H-4 jusqu'à minuit
+    # afficher tous les cours du jour à heure H-4 jusqu'à minuit
     limite_debut = @planning_date - 4.hour
     limite_fin = (@planning_date.beginning_of_day) + 1.day  
     @cours = Cour.where("(debut between ? and ?) and fin >= ?", limite_debut, limite_fin, @planning_date).order(:debut)
@@ -116,6 +117,7 @@ class CoursController < ApplicationController
         end
         @cours.save
       end
+
     elsif action_name == "Changer d'état"
       ids.each do |id, state|
         @cours = Cour.find(id)
@@ -124,10 +126,16 @@ class CoursController < ApplicationController
         # envoyer de mail par défaut (after_validation:true) sauf si envoyer email pas choché
         @cours.save(validate:params[:email].present?)
       end
-    elsif action_name == "Supprimer" and !params[:delete].blank?
+
+    elsif action_name == "Supprimer" and !params[:delete].blank?      
       ids.each do |id, state|
-        Cour.find(id).destroy
+        cours = Cour.find(id)
+        # supprimer que si c'est le créateur qui le demande !
+        if current_user.id == cours.audits.first.user_id
+          cours.destroy
+        end
       end
+      
     elsif action_name == "Exporter vers Excel"
       require 'csv'
 

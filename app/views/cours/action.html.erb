@@ -19,7 +19,8 @@
           <%= @cours.formation.nom_promo %> |
           <%= @cours.intervenant.nom_prenom %> |
           <span class="label <%= @cours.style %>"><%= @cours.etat.humanize %></span> |
-          <%= "Salle: #{@cours.salle.nom}" if @cours.salle %>
+          <%= "Salle: #{@cours.salle.nom} |" if @cours.salle %>
+          <%= "Créé par #{User.find(@cours.audits.first.user_id).email}" %>
   			</li>
       <% end %>
   	</ul>
@@ -47,6 +48,9 @@
     <div class="col-sm-6">
       <%= label_tag "Confirmation :" %><br>
       <%= check_box_tag :delete %> Suppression définitive de tous les cours sélectionnés ?
+      <br>
+      <i>Les cours ne seront supprimés que si c'est leur créateur qui le demande !</i>
+      <br><br>
     </div>
   <% end %>
 

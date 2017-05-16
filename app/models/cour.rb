@@ -55,7 +55,7 @@ class Cour < ActiveRecord::Base
         if ue = self.formation.unites.find_by(num:self.ue) 
           "#{self.ue}:#{ue.nom}"
         else
-          "UE = #{self.ue} ?"
+          "UE #{self.ue} ?"
         end
       else
         self.nom
@@ -120,8 +120,11 @@ class Cour < ActiveRecord::Base
         self.formation.users.each do | user |
           UserMailer.cours_changed(self, user.email).deliver_now
         end
-
       end
+
+      if self.changes.include?('etat') and (self.etat == 'à_réserver') 
+          UserMailer.cours_changed(self, "wachnick.iae@univ-paris1.fr").deliver_now
+      end 
     end  
 
     def la_fin_apres_le_debut

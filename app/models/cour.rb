@@ -96,8 +96,10 @@ class Cour < ActiveRecord::Base
 
   private
     def update_date_fin
-      fin = eval("self.debut + self.duree.hour")
-      self.fin = fin if self.fin != fin
+      if self.debut and self.duree
+        fin = eval("self.debut + self.duree.hour")
+        self.fin = fin if self.fin != fin
+      end
     end
 
     def sunday_morning_praise_the_dawning # :)
@@ -115,6 +117,9 @@ class Cour < ActiveRecord::Base
         if self.formation.user
           UserMailer.cours_changed(self, self.formation.user.email).deliver_now
         end
+
+        # Envoyer à Pascal
+        UserMailer.cours_changed(self, "wachnick.iae@univ-paris1.fr").deliver_now
 
         # envoyer à tous les étudiants 
         self.formation.users.each do | user |

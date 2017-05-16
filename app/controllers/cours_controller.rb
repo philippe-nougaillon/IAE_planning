@@ -25,6 +25,11 @@ class CoursController < ApplicationController
 
     @cours = Cour.includes(:formation, :intervenant, :salle).order(:debut)
 
+    if params[:view] == "calendar_rooms" and params[:start_date].blank? 
+      @date = Date.today.beginning_of_week(start_day = :monday)
+      params[:start_date] = l(@date)
+    end
+
     unless params[:start_date].blank? 
       @date = Date.parse(params[:start_date])
       params[:semaine] = @date.cweek if params[:semaine] != @date.cweek 
@@ -65,6 +70,7 @@ class CoursController < ApplicationController
     if params[:filter] == 'upcoming'
       @cours = @cours.where("cours.debut >= ? ", Date.today)
     end
+
 
     @all_cours = @cours
 
@@ -135,7 +141,7 @@ class CoursController < ApplicationController
           cours.destroy
         end
       end
-      
+
     elsif action_name == "Exporter vers Excel"
       require 'csv'
 

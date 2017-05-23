@@ -139,7 +139,7 @@ class ToolsController < ApplicationController
   end
 
   def import_utilisateurs_do
-    if params[:upload] and !params[:formation_id].blank?
+    if params[:upload]
     	
       # Enregistre le fichier localement
       file_with_path = Rails.root.join('public', 'tmp', params[:upload].original_filename)
@@ -156,11 +156,11 @@ class ToolsController < ApplicationController
 		CSV.foreach(file_with_path, headers:true, col_sep:';', quote_char:'"', encoding:'iso-8859-1:UTF-8') do |row|
 			index += 1
 
-			generated_password = Devise.friendly_token.first(8)
+			generated_password = Devise.friendly_token.first(12)
 			user = User.new(email:row['email'], nom:row['nom'].strip, prénom:row['prénom'].strip, mobile:row['mobile'], 
 							password:generated_password, formation_id:params[:formation_id])
 
-			# UserMailer.welcome_email(user, generated_password).deliver if params[:save] == 'true'
+			UserMailer.welcome_email(user, generated_password).deliver if params[:save] == 'true'
 			
 			if user.valid? 
 				#puts "user VALIDE => #{user.changes}"

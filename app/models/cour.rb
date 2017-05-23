@@ -51,14 +51,15 @@ class Cour < ActiveRecord::Base
 
   def nom_ou_ue
     begin
+      ue = self.formation.unites.find_by(num:self.ue.upcase)
       if self.nom.blank?
-        if ue = self.formation.unites.find_by(num:self.ue) 
-          "#{self.ue}:#{ue.nom}"
+        if ue 
+          "#{self.ue}: #{ue.nom}"
         else
           "UE #{self.ue} ?"
         end
       else
-        self.nom
+        "#{self.ue}: #{self.nom}"
       end
     rescue Exception => e 
       "erreur => #{e}"

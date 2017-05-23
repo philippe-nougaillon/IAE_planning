@@ -47,9 +47,12 @@
 
   <div class="form-group lg-2">
     <%= f.label :ue, "UE", class:"control-label col-sm-2" %>
-    <div class="col-sm-2">
-      <%= select_tag :ue, options_for_select(['UE1','UE2','UE3','UE4','UE5','UE6','UE7','UE8','UE9'], @cour.ue), 
+    <div class="col-sm-1">
+      <%= f.text_field :ue, class:"form-control", placeholder:"UE#" %>
+
+<!--       <%= select_tag :ue, options_for_select(['UE1','UE2','UE3','UE4','UE5','UE6','UE7','UE8','UE9'], @cour.ue), 
                             include_blank:true, class:"form-control" %>
+ -->    
     </div>
   </div>
 

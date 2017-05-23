@@ -175,7 +175,7 @@ class CoursController < ApplicationController
         event.dtend = cours.fin.strftime("%Y%m%dT%H%M%S")
         event.summary = cours.formation.nom
         event.description = cours.nom
-        event.location = "BioPark"
+        event.location = "BioPark #{cours.salle.nom if cours.salle}"
         @calendar.add_event(event)
       end  
       @calendar.publish

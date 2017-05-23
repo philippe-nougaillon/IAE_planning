@@ -40,12 +40,12 @@ class FormationsController < ApplicationController
   # GET /formations/new
   def new
     @formation = Formation.new
-    2.times { @formation.unites.build}
+    5.times { @formation.unites.build}
   end
 
   # GET /formations/1/edit
   def edit
-    2.times { @formation.unites.build}
+    5.times { @formation.unites.build}
   end
 
   # POST /formations

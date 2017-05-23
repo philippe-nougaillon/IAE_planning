@@ -30,3 +30,8 @@
   </div>
 <% end %>
 
+<% if request.ssl? %>
+  <%= image_tag("GANDI_SSL_logo_A_std_fr.png") %>
+<% else %>
+  Veuillez utiliser la <%= link_to "connexion sécurisée", "https://iae-planning.philnoug.com" %>
+<% end %>

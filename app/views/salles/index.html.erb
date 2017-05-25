@@ -51,14 +51,13 @@
         <th>Nom</th>
         <th>Places</th>
         <th>Cours</th>
-        <th>Créneaux horaires occupés</th>
-        <th>08h-09h-10h-11h-12h-13h-14h-15h-16h-17h-18h-19h-20h-21h-22h</th>
+        <% Cour.etendue_horaire.map do |i| %><th><%= i %>h</th><% end %>
         <th colspan="2"></th>
       </tr>
     </thead>
     <tfoot>
       <tr>
-        <% 6.times do %><th /><% end %>
+        <% 19.times do %><th /><% end %>
       </tr>
     </tfoot>
 
@@ -73,23 +72,23 @@
         <tr>
           <td><b><%= salle.nom %></b></td>
           <td><%= salle.places %></td>
-          <td><%= link_to @cours.count, cours_path(date:@date, salle_id:salle.id) %></td>
-          <td>
-            <% if @cours.count > 0 and @date %>
-              <% range = [] %>
-              <% @cours.each do | cours | %>
-                  <% range += cours.range %>
-              <% end %>
-              <%= range.sort.uniq.join('-') %>
-            <% end %>
-          </td>
+          <td><%= link_to @cours.count, cours_path(start_date:@date, salle_id:salle.id, filter:'all') %></td>
 
-          <td>
-            <% if range %>
-              <% map = [8,9,10,11,12,13,14,15,16,17,18,19,20,21,22].map {|i| range.include?(i) ? '.O.' : '__' } %>
-              <b><%= map.join(' - ') %></b>
+          <% if @cours.count > 0 and @date %>
+            <% range = [] %>
+            <% @cours.each do | cours | %>
+              <% range += cours.range %>
             <% end %>
-          </td>
+
+            <% map = Cour.etendue_horaire.map {|i| range.include?(i) ? 'red' : 'lightgreen' } %>
+            <% map.each do |color| %>
+              <td>
+                <span style="background-color:<%= color %>;padding-left: 15px;"></span>
+              </td>
+            <% end %>
+          <% else %>
+            <% 15.times do %><td /><% end %>
+          <% end %>
 
           <td>
             <%= link_to edit_salle_path(salle), class: "btn btn-default" do %>

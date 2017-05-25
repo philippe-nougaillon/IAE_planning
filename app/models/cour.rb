@@ -33,6 +33,10 @@ class Cour < ActiveRecord::Base
     ["Changer de salle", "Changer d'état", "Exporter vers Excel", "Exporter vers iCalendar", "Supprimer"]
   end
 
+  def self.etendue_horaire
+    [8,9,10,11,12,13,14,15,16,17,18,19,20,21,22]
+  end
+
   # Simple_calendar attributes
   def start_time
     self.debut.to_datetime 
@@ -51,15 +55,19 @@ class Cour < ActiveRecord::Base
 
   def nom_ou_ue
     begin
-      ue = self.formation.unites.find_by(num:self.ue.upcase)
-      if self.nom.blank?
-        if ue 
-          "#{self.ue}: #{ue.nom}"
+      if self.ue
+        ue = self.formation.unites.find_by(num:self.ue.upcase)
+        if self.nom.blank?
+          if ue 
+            "#{self.ue}: #{ue.nom}"
+          else
+            "UE #{self.ue} ?"
+          end
         else
-          "UE #{self.ue} ?"
+          "#{self.ue}: #{self.nom}"
         end
       else
-        "#{self.ue}: #{self.nom}"
+        "???"  
       end
     rescue Exception => e 
       "erreur => #{e}"
@@ -86,12 +94,14 @@ class Cour < ActiveRecord::Base
   end
 
   def range
+    # retourne l'étendue d'un cours sous la forme d'une suite d'heures. Ex: 8 9 pour un cours de 8 à 10h
     range = []
-    (self.debut.to_datetime.to_i .. self.fin.to_datetime.to_i).step(1.hour) do |date|
-      range << Time.at(date).utc.hour
+    (self.debut.to_datetime.to_i .. self.fin.to_datetime.to_i).step(1.hour) do |hour|
+      # range << Time.at(hour).utc.hour => ajoute 2 heures !
+      range << Time.at(hour).hour
     end
 
-    return range
+    return range[0..-2] # enlève le dernier créneau horaire
   end
 
 

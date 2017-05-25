@@ -13,6 +13,8 @@ class SallesController < ApplicationController
   def index
     @salles = Salle.order(:nom)
 
+    params[:date] ||= Date.today
+
     unless params[:salle_id].blank?
       @salles = @salles.where(id:params[:salle_id])
     end

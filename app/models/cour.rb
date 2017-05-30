@@ -13,16 +13,16 @@ class Cour < ActiveRecord::Base
   validate :check_chevauchement, if: Proc.new {|cours| cours.salle_id }
   validate :jour_fermeture
 
-  enum etat: [:nouveau, :planifié, :reporté, :annulé, :à_réserver]
-
   before_validation :update_date_fin
   before_validation :sunday_morning_praise_the_dawning
 
   before_save :change_etat_si_salle   
   after_validation :call_notifier
 
+  enum etat: [:nouveau, :à_réserver, :planifié, :reporté, :annulé, :réalisé]
+  
   def self.styles
-    ['label-info','label-success','label-danger','label-danger','label-warning']
+    ['label-info','label-warning','label-success','label-danger','label-danger','label-default']
   end
 
   def style

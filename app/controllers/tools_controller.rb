@@ -1,6 +1,8 @@
 # ENCODING: UTF-8
 
-class ToolsController < ApplicationController
+class ToolsController < ApplicationController  
+  include ActionView::Helpers::NumberHelper
+
   require 'csv'
   require 'capture_stdout'
 
@@ -250,6 +252,49 @@ class ToolsController < ApplicationController
 	  	puts
 	  	puts "----------- Les modifications n'ont pas été enregistrées ---------------" unless params[:save] == 'true'
 	end  	
+  end
+
+  def export
+  end
+
+  def export_do
+	@cours = Cour.includes(:formation, :intervenant, :salle).order(:debut)
+
+    unless params[:start_date].blank? and params[:end_date].blank? 
+      @start_date = Date.parse(params[:start_date])
+      @end_date = Date.parse(params[:end_date])
+
+      @cours = @cours.where("cours.debut BETWEEN DATE(?) AND DATE(?)", @start_date, @end_date)
+    end
+
+    unless params[:formation_id].blank?
+      @cours = @cours.where(formation_id:params[:formation_id])
+    end
+
+    unless params[:intervenant_id].blank?
+      @cours = @cours.where(intervenant_id:params[:intervenant_id])
+    end
+
+    unless params[:etat].blank?
+      @cours = @cours.where(etat:params[:etat])
+    end
+
+    require 'csv'
+
+  	@csv_string = CSV.generate(col_sep:';', encoding:'iso-8859-1') do | csv |
+      csv << ['id','date debut', 'heure debut', 'date fin','heure fin', 'formation_id','formation','intervenant_id','intervenant','nom du cours', 'etat','duree','cours cree le', 'cours modifie le']
+      
+      @cours.each do |c|
+        csv << [c.id, c.debut.to_date.to_s, c.debut.to_s(:time), c.fin.to_date.to_s, c.fin.to_s(:time), 
+	          c.formation_id, c.formation.nom_promo, c.intervenant_id, c.intervenant.nom_prenom, c.nom, c.etat, 
+    	      number_with_delimiter(c.duree, separator: ","), c.created_at, c.updated_at]
+      end
+    end
+    
+    filename = "Export_Cours_#{Date.today.to_s}"
+    response.headers['Content-Disposition'] = 'attachment; filename="' + filename + '.csv"'
+    render "export_do.csv.erb"
+
   end
 
 end

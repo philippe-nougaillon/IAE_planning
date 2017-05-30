@@ -21,13 +21,15 @@
                     options_from_collection_for_select(Formation.all, :id, :nom_promo, params[:formation_id]), include_blank:true, onchange:'this.form.submit()', class:"form-control", 
                         disabled:(current_user.formation) %>
           </div>
-          <div class="col-sm-2">
+
+<!--           <div class="col-sm-2">
               <%= label_tag :ue, "UE" %>   
               <%= select_tag :ue, 
                     options_from_collection_for_select(Unite.where(formation_id:params[:formation_id]).order(:num), :num, :num_nom, params[:ue]), 
                         include_blank: true, onchange:'this.form.submit()', class: "form-control" %>
           </div>
-          <div class="col-sm-4">
+ -->
+          <div class="col-sm-5">
               <%= label_tag "Intervenant" %>    
               <div class="input-group">
               <%= select_tag :intervenant_id, 
@@ -47,10 +49,10 @@
           </div>
 
           <div class="col-sm-1">
-              <%= label_tag "Semaine" %>    
-              <%= select_tag :semaine, 
-                      options_for_select((1..52), params[:semaine]), 
-                        include_blank:true, onchange:'this.form.submit()', class:"form-control", disabled:true %>
+            <%= label_tag "Semaine" %>    
+            <%= select_tag :semaine, 
+                    options_for_select((1..52), params[:semaine]), 
+                      include_blank:true, onchange:'this.form.submit()', class:"form-control", disabled:true %>
           </div>
 
           <% if current_user.try(:admin?) %>

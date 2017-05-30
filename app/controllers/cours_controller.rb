@@ -60,9 +60,9 @@ class CoursController < ApplicationController
       @cours = @cours.where(intervenant_id:params[:intervenant_id])
     end
 
-    unless params[:ue].blank?
-      @cours = @cours.where(ue:params[:ue])
-    end
+    # unless params[:ue].blank?
+    #   @cours = @cours.where(ue:params[:ue])
+    # end
 
     unless params[:etat].blank?
       @cours = @cours.where(etat:params[:etat])

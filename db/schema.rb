@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170509155004) do
+ActiveRecord::Schema.define(version: 20170530093942) do
 
   create_table "audits", force: :cascade do |t|
     t.integer  "auditable_id"
@@ -50,6 +50,8 @@ ActiveRecord::Schema.define(version: 20170509155004) do
     t.decimal  "duree",          precision: 4, scale: 2, default: 0.0
   end
 
+  add_index "cours", ["debut"], name: "index_cours_on_debut"
+  add_index "cours", ["etat"], name: "index_cours_on_etat"
   add_index "cours", ["formation_id"], name: "index_cours_on_formation_id"
   add_index "cours", ["intervenant_id"], name: "index_cours_on_intervenant_id"
   add_index "cours", ["salle_id"], name: "index_cours_on_salle_id"
@@ -73,6 +75,8 @@ ActiveRecord::Schema.define(version: 20170509155004) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  add_index "fermetures", ["date"], name: "index_fermetures_on_date"
 
   create_table "formations", force: :cascade do |t|
     t.string   "nom"
@@ -125,6 +129,7 @@ ActiveRecord::Schema.define(version: 20170509155004) do
   end
 
   add_index "unites", ["formation_id"], name: "index_unites_on_formation_id"
+  add_index "unites", ["num"], name: "index_unites_on_num"
 
 # Could not dump table "users" because of following NoMethodError
 #   undefined method `[]' for nil:NilClass

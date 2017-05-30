@@ -9,6 +9,35 @@
 <dir class="row">
 	<div class="col-sm-4">
 		<ul>
+		  	<li>
+				<span class="glyphicon glyphicon-blackboard"></span>
+				<%= link_to "Salles", salles_path %>
+			</li>
+			<br>
+
+			<li>
+				<span class="glyphicon glyphicon-user"></span>
+				<%= link_to "Utilisateurs", users_path %>
+			</li>
+			<br>
+
+			<li>
+				<span class="glyphicon glyphicon-lock"></span>
+				<%= link_to "Jours de fermeture", fermetures_path %>
+			</li>
+			<br>
+
+			<li>
+				<span class="glyphicon glyphicon-calendar"></span>
+				<%= link_to "Réservation de créneaux horaires", tools_creation_cours_path %>
+			</li>
+			<br>
+
+		</ul>
+	</div>
+	
+	<div class="col-sm-4">
+		<ul>
 			<li>
 				<span class="glyphicon glyphicon-download-alt"></span>
 				<%= link_to "Import de cours", tools_import_path %>
@@ -28,12 +57,6 @@
 			<br>
 
 			<li>
-				<span class="glyphicon glyphicon-calendar"></span>
-				<%= link_to "Réservation de créneaux horaires", tools_creation_cours_path %>
-			</li>
-			<br>
-
-			<li>
 				<span class="glyphicon glyphicon-export"></span>
 				<%= link_to "Export de cours", tools_export_path %>
 			</li>
@@ -41,34 +64,6 @@
 		</ul>
 	</div>
 
-	<div class="col-sm-4">
-		<ul>
-			<li>
-				<span class="glyphicon glyphicon-user"></span>
-				<%= link_to "Utilisateurs", users_path %>
-			</li>
-			<br>
-
-		  	<li>
-				<span class="glyphicon glyphicon-blackboard"></span>
-				<%= link_to "Salles", salles_path %>
-			</li>
-			<br>
-
-			<li>
-				<span class="glyphicon glyphicon-book"></span>
-				<%= link_to "Documents", documents_path %>
-			</li>
-			<br>
-
-			<li>
-				<span class="glyphicon glyphicon-lock"></span>
-				<%= link_to "Jours de fermeture", fermetures_path %>
-			</li>
-			<br>
-		</ul>
-	</div>
-	
 	<div class="col-sm-4">
 		<li>
 			<span class="glyphicon glyphicon-calendar"></span>

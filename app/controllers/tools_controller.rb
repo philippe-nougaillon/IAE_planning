@@ -162,6 +162,8 @@ class ToolsController < ApplicationController
 			user = User.new(email:row['email'], nom:row['nom'].strip, prénom:row['prénom'].strip, mobile:row['mobile'], 
 							password:generated_password, formation_id:params[:formation_id])
 
+			user.admin = true if row['admin?'] == 'admin'
+			
 			UserMailer.welcome_email(user, generated_password).deliver if params[:save] == 'true'
 			
 			if user.valid? 

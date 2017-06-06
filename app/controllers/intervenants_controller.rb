@@ -28,6 +28,7 @@ class IntervenantsController < ApplicationController
   # GET /intervenants/1
   # GET /intervenants/1.json
   def show
+    @formations = @intervenant.formations.uniq
   end
 
   # GET /intervenants/new

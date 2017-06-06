@@ -21,7 +21,7 @@
 </h2>
 
 <div class="row">
-  <dir class="col-sm-4">
+  <div class="col-sm-4">
     <p>
       <b><%= @intervenant.titre1 %></b>
     </p>
@@ -34,8 +34,18 @@
     <p>
       <%= "Statut: #{@intervenant.status.humanize}" if @intervenant.status %>
     </p>
-  </dir>
-  <dir class="col-sm-4">
+  </div>
+
+  <div class="col-sm-4">
+    <p>
+      <strong><%= "Formation".pluralize(@formations.count) %> <%= "dispensée".pluralize(@formations.count) %></strong>
+    </p>
+    <% @formations.each do | formation | %>
+      <%= link_to formation.nom, formation %><br>
+    <% end %>
+  </div>  
+
+  <div class="col-sm-4">
     <p>
       <strong>Fixe</strong><br>
       <%= @intervenant.téléphone_fixe %>
@@ -52,13 +62,7 @@
       <strong>Bureau</strong><br>
       <%= @intervenant.bureau %>
     </p>
-  </dir>  
-  <dir class="col-sm-4">
-    <p>
-      <strong><%= "Formation".pluralize(@intervenant.formations.pluck(:nom).uniq.count) %></strong>
-    </p>
-    <%= @intervenant.formations.pluck(:nom).uniq.join(' | ') %>
-  </dir>
+  </div>
 </div>
 <br>
 

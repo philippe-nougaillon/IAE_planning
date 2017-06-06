@@ -65,18 +65,20 @@
 	</div>
 
 	<div class="col-sm-4">
-		<li>
-			<span class="glyphicon glyphicon-calendar"></span>
-			<%= link_to "Vue Afficheur", cours_index_slide_path %>
-		</li>
-		<br>
+		<ul>
+			<li>
+				<span class="glyphicon glyphicon-calendar"></span>
+				<%= link_to "Vue Afficheur", cours_index_slide_path %>
+			</li>
+			<br>
 
-		<li>
-			<span class="glyphicon glyphicon-calendar"></span>
-			<%= link_to "Vue Afficheur (2017-03-15 11:00)", 
-				cours_index_slide_path(planning_date:"20170315T110000") %>
-		</li>
-		<br>
-		
+			<li>
+				<span class="glyphicon glyphicon-calendar"></span>
+				<%= link_to "Vue Afficheur (2017-03-15 11:00)", 
+					cours_index_slide_path(planning_date:"20170315T110000") %>
+			</li>
+			<br>
+		</ul>
 	</div>
+
 </dir>

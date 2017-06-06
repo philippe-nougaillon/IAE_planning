@@ -18,9 +18,7 @@ class CoursController < ApplicationController
   # GET /cours
   # GET /cours.json
   def index
-
     params[:view] ||= 'list'
-    params[:view] = 'calendar_rooms' if current_user.email == "wachnick.iae@univ-paris1.fr"
     params[:filter] ||= 'upcoming'
     params[:paginate] ||= 'pages'
 

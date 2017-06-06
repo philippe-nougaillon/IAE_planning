@@ -58,7 +58,7 @@
         <ul class="nav navbar-nav">
           <% if user_signed_in? %>
             <li class="<%= (@ctrl=='cours' ? 'active' : '') %>">
-              <%= link_to cours_path do %>
+              <%= link_to cours_path(@cours_params) do %>
                 <span class="glyphicon glyphicon-calendar"></span>
                   Planning des cours
               <% end %>

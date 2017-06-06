@@ -129,7 +129,7 @@ class Cour < ActiveRecord::Base
           UserMailer.cours_changed(self, self.formation.user.email).deliver_now
         end
 
-        # Envoyer à Pascal
+        # Envoyer un mail à Pascal
         UserMailer.cours_changed(self, "wachnick.iae@univ-paris1.fr").deliver_now
 
         # envoyer à tous les étudiants 

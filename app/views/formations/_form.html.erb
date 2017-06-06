@@ -34,6 +34,19 @@
         <%= f.collection_select :user_id, User.where(admin:true), :id, :email, {include_blank: true, label:"Gestionnaire de formation"} %>
         <%= f.number_field :nbr_etudiants, label:"Nombre d'étudiants prévus" %>
         <%= f.number_field :nbr_heures, label:"Nombre d'heures prévues" %>
+
+        <div class="row">
+          <div class="col-sm-4">
+            <%= f.text_field :Forfait_HETD, label:"Forfait HETD" %>
+          </div>
+          <div class="col-sm-4">
+            <%= f.text_field :Taux_TD, label:"Taux TD" %>
+          </div>
+          <div class="col-sm-4">
+            <%= f.text_field :Code_Analytique, label:"Code Analytique" %>
+          </div>
+        </div>  
+
         <%= f.text_area :memo, label:"Mémo" %>
         <%= f.submit class: "btn btn-primary" %>
       </div>

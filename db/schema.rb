@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170530093942) do
+ActiveRecord::Schema.define(version: 20170606155923) do
 
   create_table "audits", force: :cascade do |t|
     t.integer  "auditable_id"
@@ -84,14 +84,17 @@ ActiveRecord::Schema.define(version: 20170530093942) do
     t.string   "diplome"
     t.string   "domaine"
     t.boolean  "apprentissage"
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
     t.string   "memo"
-    t.integer  "nbr_etudiants", default: 0
+    t.integer  "nbr_etudiants",   default: 0
     t.integer  "nbr_heures"
     t.string   "abrg"
     t.integer  "user_id"
     t.string   "color"
+    t.string   "Forfait_HETD"
+    t.string   "Taux_TD"
+    t.string   "Code_Analytique"
   end
 
   add_index "formations", ["user_id"], name: "index_formations_on_user_id"

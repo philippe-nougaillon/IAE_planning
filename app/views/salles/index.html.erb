@@ -50,7 +50,7 @@
       <tr>
         <th>Nom salle</th>
         <th>Nbr places</th>
-        <th>Cours planifiés</th>
+        <th>Cours confirmés</th>
         <% Cour.etendue_horaire.map do |i| %><th><%= i %>h</th><% end %>
         <th colspan="2"></th>
       </tr>
@@ -64,7 +64,7 @@
     <tbody>
       <% @salles.each do |salle| %>
         <% if @date %>
-          <% @cours = Cour.planifié.where("salle_id = ? AND cours.debut BETWEEN DATE(?) AND DATE(?)", salle.id, @date, @date + 1.day) %>
+          <% @cours = Cour.confirmé.where("salle_id = ? AND cours.debut BETWEEN DATE(?) AND DATE(?)", salle.id, @date, @date + 1.day) %>
         <% else %>
           <% @cours = salle.cours %>
         <% end %>
@@ -72,7 +72,9 @@
         <tr>
           <td><b><%= salle.nom %></b></td>
           <td><%= salle.places %></td>
-          <td><%= link_to @cours.count, cours_path(start_date:@date, salle_id:salle.id, filter:'all') %></td>
+          <td><%= link_to @cours.count, 
+                    cours_path(start_date:@date, salle_id:salle.id, filter:'all', etat:Cour.etats[:confirmé]) %>
+          </td>
 
           <% if @cours.count > 0 and @date %>
             <% range = [] %>

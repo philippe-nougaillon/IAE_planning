@@ -327,6 +327,8 @@
         <% end %>
         
       <% end %>
+    <% else %>
+      Aucun résultats à afficher... <%= link_to "Essayer en affichant tous les cours", url_for(params.merge(filter:'all')) %>
     <% end %>
 <% else %>
   <i><b>Veuillez choisir une date...</b></i>

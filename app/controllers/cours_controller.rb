@@ -55,7 +55,8 @@ class CoursController < ApplicationController
     end
 
     unless params[:intervenant_id].blank?
-      @cours = @cours.where(intervenant_id:params[:intervenant_id])
+      @cours = @cours.where("intervenant_id = ? OR intervenant_binome_id = ?", 
+                              params[:intervenant_id],params[:intervenant_id])
     end
 
     # unless params[:ue].blank?

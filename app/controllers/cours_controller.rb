@@ -154,7 +154,7 @@ class CoursController < ApplicationController
     elsif action_name == "Exporter vers Excel"
       require 'csv'
 
-      @csv_string = CSV.generate(col_sep:';', encoding:'iso-8859-1') do | csv |
+      @csv_string = CSV.generate(col_sep:';', encoding:'UTF-8') do | csv |
           csv << ['id','date debut', 'heure debut', 'date fin','heure fin', 'formation_id','formation','intervenant_id','intervenant','nom du cours', 'etat','duree', 'Forfait_HETD', 'Taux_TD', 'Code_Analytique', 'cours cree le', 'cours modifie le']
       
           ids.each do |id, state|

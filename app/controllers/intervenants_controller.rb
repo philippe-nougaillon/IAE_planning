@@ -88,6 +88,6 @@ class IntervenantsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def intervenant_params
-      params.require(:intervenant).permit(:nom, :prenom, :email, :linkedin_url, :titre1, :titre2, :spécialité, :téléphone_fixe, :téléphone_mobile, :bureau, :photo, :status)
+      params.require(:intervenant).permit(:nom, :prenom, :email, :linkedin_url, :titre1, :titre2, :spécialité, :téléphone_fixe, :téléphone_mobile, :bureau, :photo, :status, :remise_dossier_srh, :adresse, :cp, :ville)
     end
 end

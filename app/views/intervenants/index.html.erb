@@ -20,7 +20,8 @@
         <div class="col-sm-3">
           <%= label_tag :status, "Statut" %>
           <div class="input-group">
-            <%= select_tag :status, options_for_select(Intervenant.statuses, params[:status]), include_blank:true,
+            <%= select_tag :status, options_for_select(Intervenant.statuses, 
+                  params[:status]), include_blank:true,
                   class:"form-control", onchange:'this.form.submit()' %>
             <span class="input-group-btn">
               <%= submit_tag 'Filtrer', class:"btn btn-success" %>
@@ -42,6 +43,7 @@
           <th>Statut</th>
           <th>Spécialité</th>
           <th>Formations dispensées</th>
+          <th>Date SRH</th>
           <th colspan="2"></th>
         </tr>
       </thead>
@@ -64,6 +66,7 @@
             <td><%= intervenant.status.humanize if intervenant.status %></td>
             <td><%= intervenant.spécialité %></td>
             <td><%= intervenant.formations.pluck(:nom).uniq.join(' | ') %></td>
+            <td><%= l(intervenant.remise_dossier_srh.to_date) if intervenant.remise_dossier_srh %></td>
             <td>
               <%= link_to edit_intervenant_path(intervenant), class: "btn btn-default" do %>
                 <i class="glyphicon glyphicon-pencil"></i>

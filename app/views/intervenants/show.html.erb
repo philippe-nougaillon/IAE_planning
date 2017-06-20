@@ -21,7 +21,7 @@
 </h2>
 
 <div class="row">
-  <div class="col-sm-4">
+  <div class="col-sm-6">
     <p>
       <b><%= @intervenant.titre1 %></b>
     </p>
@@ -34,18 +34,21 @@
     <p>
       <%= "Statut: #{@intervenant.status.humanize}" if @intervenant.status %>
     </p>
-  </div>
+    <br>
 
-  <div class="col-sm-4">
     <p>
       <strong><%= "Formation".pluralize(@formations.count) %> <%= "dispensée".pluralize(@formations.count) %></strong>
     </p>
-    <% @formations.each do | formation | %>
-      <%= link_to formation.nom, formation %><br>
-    <% end %>
-  </div>  
 
-  <div class="col-sm-4">
+    <% @formations.each do | formation | %>
+      <%= link_to formation.nom, formation %>
+      (<%= formation.cours.where(etat:Cour.etats[:planifié], intervenant_id:@intervenant.id).sum(:duree) %> 
+      heures planifiées)
+      <br>
+    <% end %>
+  </div>
+
+  <div class="col-sm-3">
     <p>
       <strong>Fixe</strong><br>
       <%= @intervenant.téléphone_fixe %>
@@ -63,6 +66,22 @@
       <%= @intervenant.bureau %>
     </p>
   </div>
+
+  <div class="col-sm-3">
+    <p>
+      <strong>Date remise dossier SRH</strong><br>
+      <%= l(@intervenant.remise_dossier_srh.to_date) if @intervenant.remise_dossier_srh %>
+    </p>
+    <p>
+      <strong>Adresse</strong><br>
+      <%= @intervenant.adresse %>
+    </p>
+    <p>
+      <strong>Ville</strong><br>
+      <%= @intervenant.cp %> <%= @intervenant.ville %>
+    </p>
+  </div>
+
 </div>
 <br>
 

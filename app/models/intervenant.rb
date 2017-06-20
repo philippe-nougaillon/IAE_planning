@@ -9,7 +9,7 @@ class Intervenant < ActiveRecord::Base
 	validates :nom, :prenom, :email, presence: true
 	validates :nom, uniqueness: true, case_sensitive: false
 	
-  	enum status: [:cev, :permanent]
+  	enum status: [:CEV, :Permanent]
 
 	default_scope { order(:nom, :prenom) } 
 
@@ -20,7 +20,7 @@ class Intervenant < ActiveRecord::Base
 	end
 
 	def total_cours
-		self.cours.where(etat:Cour.etats[:planifié]).count
+		self.cours.where(etat:Cour.etats[:confirmé]).count
 	end
 
 	# def total_heures_de_cours

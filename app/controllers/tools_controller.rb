@@ -219,6 +219,8 @@ class ToolsController < ApplicationController
   	current_date = @start_date
   	@ndays = (@end_date - @start_date).to_i + 1
 	duree = params[:duree]
+	salle_id = params[:salle_id]
+	nom_cours = params[:nom]
 
   	@cours_créés = @erreurs = 0
 
@@ -232,9 +234,7 @@ class ToolsController < ApplicationController
 
 		  		fin = eval("debut + #{duree}.hour")
 
-		  		new_cours = Cour.new(debut:debut.utc, fin:fin, duree:duree, formation_id:params[:formation_id], intervenant_id:params[:intervenant_id])
-
-		  		#puts "#{debut} | #{fin} | #{new_cours.debut}"
+		  		new_cours = Cour.new(debut:debut.utc, fin:fin, duree:duree, formation_id:params[:formation_id], intervenant_id:params[:intervenant_id], nom:nom_cours, salle_id:salle_id)
 
 		  		if new_cours.valid?
 		  			new_cours.save if params[:save] == 'true'
@@ -242,7 +242,7 @@ class ToolsController < ApplicationController
 			  		puts "[Création OK] #{I18n.l(new_cours.debut, format: :long)}-#{I18n.l(new_cours.fin, format: :heures_min)}  "
 	  			else
 	  				@erreurs += 1
-			  		puts "[Erreur!] #{I18n.l(new_cours.debut, format: :long)}-#{I18n.l(new_cours.fin, format: :heures_min)}  "
+			  		puts "[Erreur!] #{I18n.l(new_cours.debut, format: :long)}-#{I18n.l(new_cours.fin, format: :heures_min)}  | #{new_cours.errors.messages}"
 	  			end
 	  		end
 	  		current_date = current_date + 1.day

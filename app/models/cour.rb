@@ -62,19 +62,14 @@ class Cour < ActiveRecord::Base
 
   def nom_ou_ue
     begin
-      if self.ue
-        ue = self.formation.unites.find_by(num:self.ue.upcase)
-        if self.nom.blank?
-          if ue 
-            "#{self.ue}: #{ue.nom}"
-          else
-            "UE #{self.ue} ?"
-          end
-        else
-          "#{self.ue}: #{self.nom}"
-        end
-      else
-        "???"  
+      if self.nom.blank?           
+        unless self.ue.blank?
+          if ue = self.formation.unites.find_by(num:self.ue.upcase)
+            ue.num_nom
+          end        
+        end  
+      else 
+        self.nom       
       end
     rescue Exception => e 
       "erreur => #{e}"
@@ -187,9 +182,9 @@ class Cour < ActiveRecord::Base
     end
 
     def change_etat_si_salle
-      if self.etat == 'à_réserver' and (self.salle_id_was == nil and self.salle_id != nil)
-        self.etat = 'confirmé'
-        errors.add(:cours, 'état changé !')
+      if (self.etat == 'à_réserver' or self.etat == 'confirmé') and (self.salle_id_was == nil and self.salle_id != nil)
+          self.etat = 'confirmé'
+          errors.add(:cours, 'état changé !')
       end   
     end
 end

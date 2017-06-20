@@ -166,7 +166,7 @@
               </b>
               <br>
               <% if meeting.formation.abrg %>
-                <%= link_to meeting.formation.abrg, edit_cour_path(meeting), title:meeting.formation.nom %>
+                <%= link_to meeting.formation.abrg, edit_cour_path(meeting), title:meeting.nom %>
               <% else %>
                 <%= link_to meeting.formation.nom, meeting %>
               <% end %>
@@ -237,7 +237,7 @@
                       <%= link_to cours.intervenant.nom_prenom, cours.intervenant %>
                       <% if cours.intervenant_binome %>
                         <%= link_to cours.intervenant_binome.nom_prenom, cours.intervenant_binome %>
-                    <% end %>
+                      <% end %>
                     </td>
                     <td>
                       <% if cours.ue %>

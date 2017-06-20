@@ -19,27 +19,36 @@
       <%= f.text_field :email %>
       <%= f.text_field :linkedin_url %>
       <%= f.file_field :photo %>
-
-      <%= f.submit class: "btn btn-primary" %>
-    </div>
-    <div class="col-sm-5">
       <%= f.text_field :titre1 %>
       <%= f.text_field :titre2 %>
-      
+      <%= f.text_field :spécialité %>
+    </div>
+
+    <div class="col-sm-5">
       <div class="form-group">
         <%= f.select(:status, Intervenant.statuses.keys.to_a) %>
       </div>
+      <%= f.date_field :remise_dossier_srh %>
+      <%= f.text_field :bureau %>
 
-      <%= f.text_field :spécialité %>
       <div class="col-sm-6">
         <%= f.text_field :téléphone_fixe %>
       </div>
       <div class="col-sm-6">
         <%= f.text_field :téléphone_mobile %>
       </div>
-      <%= f.text_field :bureau %>
-    </div>   
+      <%= f.text_field :adresse %>
+      
+      <div class="col-sm-3">
+        <%= f.text_field :cp %>
+      </div> 
+      <div class="col-sm-9">
+        <%= f.text_field :ville %>
+      </div>
+      
+      <%= f.submit class: "btn btn-primary" %>
 
+    </div>   
   </div>
 
 <% end %>

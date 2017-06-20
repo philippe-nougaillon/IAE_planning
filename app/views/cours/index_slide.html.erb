@@ -17,7 +17,7 @@
         </thead>
       </tfoot>
       <tbody>
-        <% @cours.planifié.includes(:formation, :intervenant, :salle).each do | cours | %>
+        <% @cours.confirmé.includes(:formation, :intervenant, :salle).each do | cours | %>
           <tr>
             <td>
               <h3><%= l(cours.debut, format: :heures_min) %></h3>
@@ -39,6 +39,9 @@
                   <%= image_tag(cours.intervenant.photo.url, class: "img-circle", size:'80x80') %>
                 <% end %>
                 <%= cours.intervenant.nom_prenom %>
+                <% if cours.intervenant_binome %>
+                    / <%= cours.intervenant_binome.nom_prenom %>
+                <% end %>
               </h3>
             </td>
             <td style="text-align: center;vertical-align: middle;">

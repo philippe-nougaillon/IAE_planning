@@ -33,8 +33,9 @@
     <% if params[:view] == "list" %>
       <% current_date = "" %>
       <% @cours = @cours.where("debut >= ?", Date.today)
-               .where(etat:[Cour.etats[:planifié],Cour.etats[:reporté],Cour.etats[:annulé]])
+               .where(etat:[Cour.etats[:confirmé], Cour.etats[:reporté], Cour.etats[:annulé]])
                .paginate(page:params[:page], per_page:20) %>
+
       <% @cours.each do |cours| %>
          <div class="row">
             <div class="col-xs-3">
@@ -47,7 +48,7 @@
 
             <div class="col-xs-2">
               <%= "#{l(cours.debut, format: :heures_min)}-#{l(cours.fin, format: :heures_min)}" %>
-              <% unless cours.planifié? %>
+              <% unless cours.confirmé? %>
                 <span class="label <%= cours.style %>"><%= cours.etat.humanize %></span>
               <% else %>
                 <%= "(#{cours.salle.nom})" if cours.salle %>  
@@ -65,5 +66,4 @@
       <% end %>
     <% end %>
     <%= will_paginate @cours, renderer: BootstrapPagination::Rails %>
-
 </div>

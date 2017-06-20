@@ -19,6 +19,9 @@
             <%= "#{l(@cours.debut, format: :heures_min)}-#{l(@cours.fin, format: :heures_min)}" %> |
             <%= @cours.formation.nom_promo %> |
             <%= @cours.intervenant.nom_prenom %> |
+            <% if @cours.intervenant_binome %>
+              <%= @cours.intervenant_binome.nom_prenom %> |
+            <% end %>
             <span class="label <%= @cours.style %>"><%= @cours.etat.humanize %></span> |
             <%= "Salle: #{@cours.salle.nom} |" if @cours.salle %>
             <%= "Créé par #{User.find(@cours.audits.first.user_id).email}" %>

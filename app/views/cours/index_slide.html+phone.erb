@@ -58,9 +58,12 @@
         <% end %>
       </h4>
 
-      <b><%= cours.formation.nom_promo %></b>
+      <b><%= cours.formation.nom_promo %></b> :
       <%= cours.nom_ou_ue %><br>
       <%= cours.intervenant.nom_prenom %><br>
+      <% if cours.intervenant_binome %>
+        <%= cours.intervenant_binome.nom_prenom %>
+      <% end %>
       
       <% if cours.progress_bar_pct(@planning_date) > 0 %>  
         <br>

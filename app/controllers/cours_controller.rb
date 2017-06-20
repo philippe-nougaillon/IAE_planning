@@ -159,10 +159,18 @@ class CoursController < ApplicationController
       
           ids.each do |id, state|
             c = Cour.find(id)
-            csv << [c.id, c.debut.to_date.to_s, c.debut.to_s(:time), c.fin.to_date.to_s, c.fin.to_s(:time), 
+            fields_to_export = [c.id, c.debut.to_date.to_s, c.debut.to_s(:time), c.fin.to_date.to_s, c.fin.to_s(:time), 
               c.formation_id, c.formation.nom_promo, c.intervenant_id, c.intervenant.nom_prenom, c.nom, c.etat, 
               number_with_delimiter(c.duree, separator: ","), c.formation.Forfait_HETD, c.formation.Taux_TD, 
               c.formation.Code_Analytique, c.created_at, c.updated_at]
+            
+            csv << fields_to_export
+            
+            if c.intervenant_binome
+              fields_to_export[7] = c.intervenant_binome_id
+              fields_to_export[8] = c.intervenant_binome.nom_prenom 
+              csv << fields_to_export
+            end  
           end
       end
       request.format = 'csv'

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170606155923) do
+ActiveRecord::Schema.define(version: 20170620091957) do
 
   create_table "audits", force: :cascade do |t|
     t.integer  "auditable_id"
@@ -44,10 +44,11 @@ ActiveRecord::Schema.define(version: 20170606155923) do
     t.integer  "salle_id"
     t.string   "ue"
     t.string   "nom"
-    t.datetime "created_at",                                           null: false
-    t.datetime "updated_at",                                           null: false
-    t.integer  "etat",                                   default: 0
-    t.decimal  "duree",          precision: 4, scale: 2, default: 0.0
+    t.datetime "created_at",                                                  null: false
+    t.datetime "updated_at",                                                  null: false
+    t.integer  "etat",                                          default: 0
+    t.decimal  "duree",                 precision: 4, scale: 2, default: 0.0
+    t.integer  "intervenant_binome_id"
   end
 
   add_index "cours", ["debut"], name: "index_cours_on_debut"

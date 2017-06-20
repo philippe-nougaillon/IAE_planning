@@ -192,7 +192,7 @@
                 <th></th>
                 <th>Formation</th>
                 <th colspan="2">Intervenant</th>
-                <th>Intitulé cours</th>
+                <th colspan="2">Intitulé cours</th>
                 <th>Etat</th>
                 <th>Salle</th>
                 <% if current_user.try(:admin?) %>
@@ -235,7 +235,19 @@
                     </td>
                     <td>
                       <%= link_to cours.intervenant.nom_prenom, cours.intervenant %>
+                      <% if cours.intervenant_binome %>
+                        <%= link_to cours.intervenant_binome.nom_prenom, cours.intervenant_binome %>
+                    <% end %>
                     </td>
+                    <td>
+                      <% if cours.ue %>
+                        <% if cours.ue[2].to_i > 0 and cours.ue[2].to_i < 20 %>   
+                          <span style="background-color:<%= Cour.ue_styles[cours.ue[2].to_i - 1] %>;padding-left: 7px;">
+                          </span>
+                        <% end %>
+                      <% end %>
+                    </td>
+
                     <td>
                       <%= link_to cours.nom_ou_ue, cours %>
                     </td>
@@ -253,10 +265,10 @@
                           </i>
                         <% end %>
                       <% else %>
-                        <% if cours.planifié? %>
+                        <% if cours.confirmé? %>
                           <i class="glyphicon glyphicon-warning-sign glyph-custom-warning" 
                              data-toggle="tooltip" data-placement="top"
-                             title="Cours planifié mais pas de salle réservée !">
+                             title="Cours confirmé mais pas de salle réservée !">
                         <% end %>
                       <% end %>
                     </td>

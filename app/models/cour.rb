@@ -6,6 +6,8 @@ class Cour < ActiveRecord::Base
 
   belongs_to :formation
   belongs_to :intervenant
+  belongs_to :intervenant_binome, class_name: :Intervenant, foreign_key: :intervenant_binome_id 
+
   belongs_to :salle
 
   validates :formation_id, :intervenant_id, :duree, presence: true
@@ -19,7 +21,7 @@ class Cour < ActiveRecord::Base
   before_save :change_etat_si_salle   
   after_validation :call_notifier
 
-  enum etat: [:nouveau, :à_réserver, :planifié, :reporté, :annulé, :réalisé]
+  enum etat: [:planifié, :à_réserver, :confirmé, :reporté, :annulé, :réalisé]
   
   def self.styles
     ['label-info','label-warning','label-success','label-danger','label-danger','label-default']
@@ -37,10 +39,15 @@ class Cour < ActiveRecord::Base
     [8,9,10,11,12,13,14,15,16,17,18,19,20,21,22]
   end
 
+  def self.ue_styles
+    ['#D4D8D1','#A8A8A1','#AA9A66','#B74934','#577492','#67655D','#332C2F','#432C2F','#732C2F','#932C2F']
+  end
+
   # Simple_calendar attributes
   def start_time
     self.debut.to_datetime 
   end
+
   def end_time
     self.fin.to_datetime
   end
@@ -181,7 +188,7 @@ class Cour < ActiveRecord::Base
 
     def change_etat_si_salle
       if self.etat == 'à_réserver' and (self.salle_id_was == nil and self.salle_id != nil)
-        self.etat = 'planifié'
+        self.etat = 'confirmé'
         errors.add(:cours, 'état changé !')
       end   
     end

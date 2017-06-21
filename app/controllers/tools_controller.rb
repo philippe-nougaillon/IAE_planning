@@ -287,9 +287,19 @@ class ToolsController < ApplicationController
       csv << ['id','date debut', 'heure debut', 'date fin','heure fin', 'formation_id','formation','intervenant_id','intervenant','nom du cours', 'etat','duree','cours cree le', 'cours modifie le']
       
       @cours.each do |c|
-        csv << [c.id, c.debut.to_date.to_s, c.debut.to_s(:time), c.fin.to_date.to_s, c.fin.to_s(:time), 
-	          c.formation_id, c.formation.nom_promo, c.intervenant_id, c.intervenant.nom_prenom, c.nom, c.etat, 
-    	      number_with_delimiter(c.duree, separator: ","), c.created_at, c.updated_at]
+        fields_to_export = [c.id, c.debut.to_date.to_s, c.debut.to_s(:time), c.fin.to_date.to_s, c.fin.to_s(:time), 
+          c.formation_id, c.formation.nom_promo, c.intervenant_id, c.intervenant.nom_prenom, c.nom, c.etat, 
+          number_with_delimiter(c.duree, separator: ","), c.formation.Forfait_HETD, c.formation.Taux_TD, 
+          c.formation.Code_Analytique, c.created_at, c.updated_at]
+        
+        csv << fields_to_export
+
+        # exporter le binome sauf si l'utilisateur ne veut que les cours d'un intervenant 
+        if c.intervenant_binome and !params[:intervenant_id]
+          fields_to_export[7] = c.intervenant_binome_id
+          fields_to_export[8] = c.intervenant_binome.nom_prenom 
+          csv << fields_to_export
+        end  
       end
     end
     

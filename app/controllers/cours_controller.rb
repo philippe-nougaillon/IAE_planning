@@ -166,7 +166,8 @@ class CoursController < ApplicationController
             
             csv << fields_to_export
             
-            if c.intervenant_binome
+            # exporter le binome sauf si l'utilisateur ne veut que les cours d'un intervenant 
+            if c.intervenant_binome and !params[:intervenant_id]
               fields_to_export[7] = c.intervenant_binome_id
               fields_to_export[8] = c.intervenant_binome.nom_prenom 
               csv << fields_to_export

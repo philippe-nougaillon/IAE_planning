@@ -27,7 +27,6 @@ class SallesController < ApplicationController
     unless params[:libre].blank? 
       @salles = Salle.all - @salles.joins(:cours).where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 1.day)
     end
-    @salles = @salles.paginate(page:params[:page], per_page:15)
 
   end
 

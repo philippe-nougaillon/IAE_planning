@@ -4,6 +4,34 @@
 		"selected_items":
 		[
 			[
+				"in",
+				"intervenant"
+			],
+			[
+				"te",
+				"text_field"
+			],
+			[
+				"inter",
+				"intervenant_binome_id"
+			],
+			[
+				"int",
+				"intervenant_binome_id"
+			],
+			[
+				"ur",
+				"url_for"
+			],
+			[
+				"for",
+				"foreign_key"
+			],
+			[
+				"class",
+				"class_name"
+			],
+			[
 				"fot",
 				"Forfait_HETD"
 			],
@@ -88,10 +116,6 @@
 				"background-color"
 			],
 			[
-				"for",
-				"formation"
-			],
-			[
 				"t",
 				"thead\tTag"
 			],
@@ -102,10 +126,6 @@
 			[
 				"ra",
 				"range"
-			],
-			[
-				"inter",
-				"intervenant"
 			],
 			[
 				"wi",
@@ -146,10 +166,6 @@
 			[
 				"ti",
 				"titre1"
-			],
-			[
-				"in",
-				"intervenant"
 			],
 			[
 				"lii",
@@ -368,10 +384,13 @@
 	"buffers":
 	[
 		{
+			"contents": "IAE 201704\n\n20170406 11h-12h\n- nouveau logo\n- ajustement bannière\n- création fav icons\nTemps: 1h\n\n20170426 15h-17h\n- debug vue cours, sync entre start_date & calendrier semaine & mois\n- vue mobile pour index-slide\nTemps: 2h\n\n20170502 BP 10h30 18h\n- préparation Réunion \"showcase\"\n- ajout filtre formation/formateur sur index/slide\n- http://localhost:3000/cours/planning => cours/index_slide\n- v0.9a\n- ajouter un calcul de la somme des durées \nTemps: 1j\n\n20170503 10h-12h30\nIntervenants: \n- ajouter statut: CEV ou Permanent\nCours:\n- ! pb de format us quand changement de période dans la vue planning semaine/mois ==> pas de pb avec Chrome\nSalles\n- Consultation libre à une date => afficher les horaires libres \n- ajouter un test pour qu'un prof ne soit deux fois dans un cours à la même heure\nv0.9c\nTemps: 2.5h\n\n20170509 10-13h30 14h30-18h30 Pascal.W\n- Démo à Pascal\n- corrections:\n-- Cours, affichage semaine, premier jour dimanche !\n--Cours, allonger UE\n--Cours, couleur à planifier = orange\n--Formation: show, afficher ABR. \n-v0.9d\nVue Salle:\n-- pouvoir saisir le n° de semaine \n-- pb avec le dimanche!\n-- afficher le jour et le mois dans l'entête (en abr.)\nliste des cours:\n-- btn modifier => aller directement dans le formulaire\n-- btn enregistrer => passer à la liste des cours directement\n-- liste des cours, si click sur salle, afficher une deuxieme fenetre avec la vue salle \n-- vue slide, afficher l'entete des colonnes et pb de marge-top \n-- formation.couleur\n-v0.9f\nTemps: 1j\n\n20170511 13h30-15h30\nCours\n- modification de cours, si etat = à_réserver & salle = nulle alors etat= plannifié \n- somme des durées de cours même si en page (sur la dernière)\nPagination\n- afficher toutes les infos\nFermetures\n- ajouter un champs de recherche (date)\nv0.9g\nTemps: 2h\n\n20170516 10h-18h\n- Suppression: ne peut être fait que par le propriétaire du cours\n- Envoyer UN mail à pascal si des cours passés en état \"à_réserver\" (notification)\n- Utilisateurs: historique de toutes ses modifications\n- si cours annulé ou reporté, Pascal en copie du mail\n- Cours, si salle => date = premier jour de la semaine (date du jour)\n- Export des cours vers iCalendar\n- si pascal => afficher en mode salle par défaut\nv0.9h\nTemps: 1j\n\n20170523 10-18h\n- SSL https://iae-planning.philnoug.com !\n- import des utilisateurs, formation pas obligatoire\n- Cynthia & Claire\n- mot de passe long généré automatiquement et envoi de login/mot de passe \n- Saisir les code UE comme UE#\n- afficher le code de l'UE même si intitulé de cours présent\nv0.9i\nTemps 1j\n\n20170525 Caen\n- debug Salle.index \n- affichage des créneaux\nTemps: 1j\n\n20170530 BP 10h30-12h30 13h-19h30h\n- Ajouter un état 'réalisé' pour noter que le \"service\" a bien été réalisé par l'intervenant\n- Outils: Export CSV des cours d'une date à une autre, filtres idem index cours\n- ajout d'index (cours.debut, cours.etat, fermetures.date, unites.num)\nv1.0\n- import des utilisateurs, admin?\n- démo à Stéphane & Cécilia\n- test Virtualia (pb de connexion TSE?) win XP client TSE 2015...\nTemps: 1j\n\n20170606 10h-18h30\n- Vue salles forcée si Pascal clique sur le menu Planning\n- améliorations vue Intervenants\n- tests import avec Claire\n- Formation: ajouter Forfait_HETD, Taux_TD, Code_Analytique ( ajouter dans l'export des cours )\nv1.0c\nTemps: 1j\n\n20170620 \n- Vue Sophie, Claire, Pascal\n- ajout Cours.binôme\n- ajout couleurs UE\n- changement des noms d'état de cours en planifié, confirmé\n- export excel avec binôme \nv1.0f\n- Login: étendre champs email\n\nCréation de créneaux:\n- minutes de 15 en 15\n- allonger la durée jusqu'à \n- ajouter le nom du cours\n- ajouter la salle\n\nIntervenants:\n- ajouter le nombre d'heures planifiés (+ date de la 1ere intervention)\n- ajouter date remise dossier SRH\n- pouvoir exporter en CSV les intervenants\n- adresse postale\n\n\n\n\nA FAIRE:\n\nIntervenants & cours\n- l'intervenant IAE peut être dans plusieurs salles au même moment:\n (ajouter checkbox \"boublon autorisé ?\" ) ou test si nom intervenant like %IAE%\n\n- index sur intervenant_binome_id\n\n\n\n\n\nAffichage Salle\n- bouton + en face du jours et de l'heure\n\nEmail:\n- modification de cours, ajouter les détails\n\n\nListe de salles: bug si coche 'que les libres'\n\n\nSuppression de cours, permettre si moi\nmessages si tentative de suppression et pas créateur\n\n\n\npour lister les index de toutes les tables:\n\n- ActiveRecord::Base.connection.tables.each {|t| puts ActiveRecord::Base.connection.indexes(t).inspect}\n\nCAEN:\n- voir FCA manager\n\n\nRSI:\n- Inventaire, ajouter un colonne 'Responsable' pour noter le resp sécurité par application\n- Carnet d'accueil \n- Mémoire photocopieur ?\n\n\n\nRH: \n- intervenants en archive (retraite, sortie)\n- position: en activité, en détachement, mise à disposition,  \n- populations stable: Personel AENS(6), ITRF(22), Contractuel(35), Enseignants (12 profs, 18 maître de conf, 7 PAST) 47, \n Corps, Grade, Fonction\n- Carrière\n\n320 vacataires => CV, RIB, Statut (interface avec Win-Paye)\n\nActes de gestion administrative (ex: changement de classe => produire un arrêté en PDF signé par le directeur) \n\nIntervenants, ajouter une gestion de documents (RIB, CV, Engagement, Contrat) ?\n\n\n\n\n\n\n\nServer iae-paris\niae-paris.philnoug.com\n\nsftp: sftp.dc0.gpaas.net\nIdentifiant : 8398066\n8CroixJarry\n\n\n",
 			"file": "/home/philnoug/Documents/IAE 201704",
+			"file_size": 5289,
+			"file_write_time": 131424481096111296,
 			"settings":
 			{
-				"buffer_size": 4598,
+				"buffer_size": 5211,
 				"encoding": "UTF-8",
 				"line_ending": "Unix",
 				"name": "IAE 201704"
@@ -409,7 +428,7 @@
 			"file": "db/schema.rb",
 			"settings":
 			{
-				"buffer_size": 5034,
+				"buffer_size": 5209,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -471,7 +490,7 @@
 			"file": "app/controllers/application_controller.rb",
 			"settings":
 			{
-				"buffer_size": 955,
+				"buffer_size": 954,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -518,7 +537,7 @@
 			"file": "app/controllers/tools_controller.rb",
 			"settings":
 			{
-				"buffer_size": 9750,
+				"buffer_size": 9816,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -558,6 +577,15 @@
 				"encoding": "UTF-8",
 				"line_ending": "Unix",
 				"name": "<%= @start_date %>"
+			}
+		},
+		{
+			"file": "app/views/tools/creation_cours.html.erb",
+			"settings":
+			{
+				"buffer_size": 2977,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
 			}
 		},
 		{
@@ -662,7 +690,7 @@
 			"file": "app/views/devise/sessions/new.html.erb",
 			"settings":
 			{
-				"buffer_size": 971,
+				"buffer_size": 835,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -680,7 +708,7 @@
 			"file": "app/models/formation.rb",
 			"settings":
 			{
-				"buffer_size": 744,
+				"buffer_size": 736,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -724,7 +752,7 @@
 			"file": "app/views/formations/show.html.erb",
 			"settings":
 			{
-				"buffer_size": 3991,
+				"buffer_size": 4011,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -750,7 +778,7 @@
 			"file": "app/controllers/intervenants_controller.rb",
 			"settings":
 			{
-				"buffer_size": 2695,
+				"buffer_size": 2739,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -759,7 +787,7 @@
 			"file": "app/views/intervenants/index.html.erb",
 			"settings":
 			{
-				"buffer_size": 2999,
+				"buffer_size": 3150,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -768,7 +796,7 @@
 			"file": "app/views/intervenants/_form.html.erb",
 			"settings":
 			{
-				"buffer_size": 1396,
+				"buffer_size": 1636,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -793,7 +821,7 @@
 			"file": "app/views/intervenants/show.html.erb",
 			"settings":
 			{
-				"buffer_size": 2112,
+				"buffer_size": 2613,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -820,7 +848,7 @@
 			"file": "app/views/salles/index.html.erb",
 			"settings":
 			{
-				"buffer_size": 3614,
+				"buffer_size": 3674,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -916,7 +944,7 @@
 			"file": "app/models/cour.rb",
 			"settings":
 			{
-				"buffer_size": 5473,
+				"buffer_size": 5662,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -933,7 +961,7 @@
 			"file": "app/controllers/cours_controller.rb",
 			"settings":
 			{
-				"buffer_size": 8568,
+				"buffer_size": 9010,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -942,7 +970,7 @@
 			"file": "app/views/cours/index.html.erb",
 			"settings":
 			{
-				"buffer_size": 12707,
+				"buffer_size": 13435,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -960,7 +988,7 @@
 			"file": "app/views/cours/index_slide.html.erb",
 			"settings":
 			{
-				"buffer_size": 2018,
+				"buffer_size": 2159,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -978,7 +1006,7 @@
 			"file": "app/views/cours/index_slide.html+phone.erb",
 			"settings":
 			{
-				"buffer_size": 2716,
+				"buffer_size": 2825,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -987,7 +1015,7 @@
 			"file": "app/views/cours/index.html+phone.erb",
 			"settings":
 			{
-				"buffer_size": 3018,
+				"buffer_size": 3020,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -996,7 +1024,7 @@
 			"file": "app/views/cours/action.html.erb",
 			"settings":
 			{
-				"buffer_size": 2274,
+				"buffer_size": 2412,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -1031,7 +1059,7 @@
 			"file": "app/views/cours/_form.html.erb",
 			"settings":
 			{
-				"buffer_size": 3107,
+				"buffer_size": 3357,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -1192,6 +1220,8 @@
 	},
 	"file_history":
 	[
+		"/home/philnoug/RailsProjects/iae/db/migrate/20170620160029_add_extra_fields_to_intervenant.rb",
+		"/home/philnoug/RailsProjects/iae/db/migrate/20170620091957_add_binome_to_cours.rb",
 		"/home/philnoug/RailsProjects/iae/db/migrate/20170606155923_add_taux_to_formations.rb",
 		"/home/philnoug/RailsProjects/iae/db/migrate/20170530093942_add_some_index.rb",
 		"/home/philnoug/Documents/Ethereum",
@@ -1317,9 +1347,7 @@
 		"/home/phil/RailsProjects/lsf2/app/assets/stylesheets/interventions.css.scss",
 		"/home/phil/RailsProjects/lsf2/app/views/interventions/_form.html.erb",
 		"/home/phil/RailsProjects/lsf2/app/assets/javascripts/interventions.js.coffee",
-		"/home/phil/RailsProjects/opencantine/app/assets/javascripts/familles.js.coffee",
-		"/home/phil/RailsProjects/testaudit/app/models/concerns/myconcernmodule.rb",
-		"/home/phil/RailsProjects/lsf/app/views/controles/checklist2.xls.erb"
+		"/home/phil/RailsProjects/opencantine/app/assets/javascripts/familles.js.coffee"
 	],
 	"find":
 	{
@@ -1337,6 +1365,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"nouveau",
+			"planifié",
 			"where",
 			"update_date_fin",
 			"60",
@@ -1398,7 +1428,7 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 11,
 			"sheets":
 			[
 				{
@@ -1407,15 +1437,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4598,
+						"buffer_size": 5211,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4145,
-								4145
+								3778,
+								3778
 							]
 						],
 						"settings":
@@ -1424,10 +1454,10 @@
 							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 1665.0,
+						"translation.y": 1517.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
@@ -1455,7 +1485,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 28,
+					"stack_index": 44,
 					"type": "text"
 				},
 				{
@@ -1485,7 +1515,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 25,
+					"stack_index": 42,
 					"type": "text"
 				},
 				{
@@ -1513,10 +1543,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 315.0,
+						"translation.y": 360.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 41,
+					"stack_index": 10,
 					"type": "text"
 				},
 				{
@@ -1525,7 +1555,7 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5034,
+						"buffer_size": 5209,
 						"regions":
 						{
 						},
@@ -1546,7 +1576,7 @@
 						"translation.y": 765.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 32,
+					"stack_index": 45,
 					"type": "text"
 				},
 				{
@@ -1576,7 +1606,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 45,
+					"stack_index": 55,
 					"type": "text"
 				},
 				{
@@ -1604,7 +1634,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 44,
+					"stack_index": 54,
 					"type": "text"
 				},
 				{
@@ -1634,7 +1664,7 @@
 						"translation.y": 900.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 37,
+					"stack_index": 49,
 					"type": "text"
 				},
 				{
@@ -1664,7 +1694,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 53,
+					"stack_index": 58,
 					"type": "text"
 				},
 				{
@@ -1694,7 +1724,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 54,
+					"stack_index": 59,
 					"type": "text"
 				},
 				{
@@ -1721,10 +1751,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 585.0,
+						"translation.y": 225.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 9,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
@@ -1733,15 +1763,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 955,
+						"buffer_size": 954,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								476,
-								476
+								475,
+								475
 							]
 						],
 						"settings":
@@ -1754,7 +1784,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
@@ -1785,7 +1815,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 18,
+					"stack_index": 39,
 					"type": "text"
 				},
 				{
@@ -1815,7 +1845,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 7,
+					"stack_index": 36,
 					"type": "text"
 				},
 				{
@@ -1845,7 +1875,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 27,
+					"stack_index": 43,
 					"type": "text"
 				},
 				{
@@ -1874,7 +1904,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 76,
+					"stack_index": 78,
 					"type": "text"
 				},
 				{
@@ -1883,7 +1913,7 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 9750,
+						"buffer_size": 9816,
 						"regions":
 						{
 							"bookmarks":
@@ -1903,8 +1933,8 @@
 						"selection":
 						[
 							[
-								895,
-								895
+								7915,
+								7915
 							]
 						],
 						"settings":
@@ -1912,10 +1942,10 @@
 							"syntax": "Packages/Ruby/Ruby.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 3302.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 8,
+					"stack_index": 16,
 					"type": "text"
 				},
 				{
@@ -1944,7 +1974,7 @@
 						"translation.y": 450.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 13,
+					"stack_index": 37,
 					"type": "text"
 				},
 				{
@@ -1974,7 +2004,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 19,
+					"stack_index": 40,
 					"type": "text"
 				},
 				{
@@ -2002,7 +2032,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 20,
+					"stack_index": 41,
 					"type": "text"
 				},
 				{
@@ -2031,11 +2061,41 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 78,
+					"stack_index": 19,
 					"type": "text"
 				},
 				{
 					"buffer": 21,
+					"file": "app/views/tools/creation_cours.html.erb",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2977,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2276,
+								2276
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Rails/HTML (Rails).sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 585.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 17,
+					"type": "text"
+				},
+				{
+					"buffer": 22,
 					"file": "app/views/tools/import_utilisateurs.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -2061,11 +2121,11 @@
 						"translation.y": 135.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 38,
+					"stack_index": 50,
 					"type": "text"
 				},
 				{
-					"buffer": 22,
+					"buffer": 23,
 					"file": "app/views/tools/import_intervenants.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -2091,11 +2151,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 68,
+					"stack_index": 70,
 					"type": "text"
 				},
 				{
-					"buffer": 23,
+					"buffer": 24,
 					"file": "app/views/tools/import_utilisateurs_do.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -2120,11 +2180,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 79,
+					"stack_index": 80,
 					"type": "text"
 				},
 				{
-					"buffer": 24,
+					"buffer": 25,
 					"file": "app/views/tools/import.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -2150,11 +2210,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 77,
+					"stack_index": 79,
 					"type": "text"
 				},
 				{
-					"buffer": 25,
+					"buffer": 26,
 					"file": "app/models/user.rb",
 					"semi_transient": false,
 					"settings":
@@ -2178,11 +2238,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 17,
+					"stack_index": 25,
 					"type": "text"
 				},
 				{
-					"buffer": 26,
+					"buffer": 27,
 					"file": "app/controllers/users_controller.rb",
 					"semi_transient": false,
 					"settings":
@@ -2208,11 +2268,11 @@
 						"translation.y": 45.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 43,
+					"stack_index": 53,
 					"type": "text"
 				},
 				{
-					"buffer": 27,
+					"buffer": 28,
 					"file": "app/views/users/index.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -2238,11 +2298,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 16,
+					"stack_index": 38,
 					"type": "text"
 				},
 				{
-					"buffer": 28,
+					"buffer": 29,
 					"file": "app/views/users/_form.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -2254,8 +2314,8 @@
 						"selection":
 						[
 							[
-								747,
-								747
+								643,
+								643
 							]
 						],
 						"settings":
@@ -2268,11 +2328,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 59,
+					"stack_index": 22,
 					"type": "text"
 				},
 				{
-					"buffer": 29,
+					"buffer": 30,
 					"file": "app/views/users/edit.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -2296,11 +2356,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 87,
+					"stack_index": 88,
 					"type": "text"
 				},
 				{
-					"buffer": 30,
+					"buffer": 31,
 					"file": "app/views/users/show.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -2325,11 +2385,11 @@
 						"translation.y": 675.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 42,
+					"stack_index": 52,
 					"type": "text"
 				},
 				{
-					"buffer": 31,
+					"buffer": 32,
 					"file": "app/views/users/new.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -2353,24 +2413,24 @@
 						"translation.y": 135.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 80,
+					"stack_index": 81,
 					"type": "text"
 				},
 				{
-					"buffer": 32,
+					"buffer": 33,
 					"file": "app/views/devise/sessions/new.html.erb",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 971,
+						"buffer_size": 835,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								787,
-								787
+								624,
+								624
 							]
 						],
 						"settings":
@@ -2383,11 +2443,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 39,
+					"stack_index": 20,
 					"type": "text"
 				},
 				{
-					"buffer": 33,
+					"buffer": 34,
 					"file": "app/models/unite.rb",
 					"semi_transient": false,
 					"settings":
@@ -2399,8 +2459,8 @@
 						"selection":
 						[
 							[
-								58,
-								58
+								65,
+								65
 							]
 						],
 						"settings":
@@ -2411,24 +2471,24 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 31,
+					"stack_index": 15,
 					"type": "text"
 				},
 				{
-					"buffer": 34,
+					"buffer": 35,
 					"file": "app/models/formation.rb",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 744,
+						"buffer_size": 736,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								344,
-								344
+								362,
+								362
 							]
 						],
 						"settings":
@@ -2440,11 +2500,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 51,
+					"stack_index": 6,
 					"type": "text"
 				},
 				{
-					"buffer": 35,
+					"buffer": 36,
 					"file": "app/controllers/formations_controller.rb",
 					"semi_transient": false,
 					"settings":
@@ -2470,11 +2530,11 @@
 						"translation.y": 1140.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 35,
 					"type": "text"
 				},
 				{
-					"buffer": 36,
+					"buffer": 37,
 					"file": "app/views/formations/index.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -2500,11 +2560,11 @@
 						"translation.y": 1373.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 50,
+					"stack_index": 57,
 					"type": "text"
 				},
 				{
-					"buffer": 37,
+					"buffer": 38,
 					"file": "app/views/formations/_form.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -2516,8 +2576,8 @@
 						"selection":
 						[
 							[
-								1737,
-								1737
+								651,
+								651
 							]
 						],
 						"settings":
@@ -2527,14 +2587,14 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 225.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 21,
 					"type": "text"
 				},
 				{
-					"buffer": 38,
+					"buffer": 39,
 					"file": "app/views/formations/edit.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -2558,24 +2618,24 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 83,
+					"stack_index": 84,
 					"type": "text"
 				},
 				{
-					"buffer": 39,
+					"buffer": 40,
 					"file": "app/views/formations/show.html.erb",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3991,
+						"buffer_size": 4011,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								768,
-								768
+								1631,
+								1631
 							]
 						],
 						"settings":
@@ -2585,14 +2645,14 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 167.0,
+						"translation.y": 572.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 46,
+					"stack_index": 26,
 					"type": "text"
 				},
 				{
-					"buffer": 40,
+					"buffer": 41,
 					"file": "app/views/formations/new.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -2616,11 +2676,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 75,
+					"stack_index": 77,
 					"type": "text"
 				},
 				{
-					"buffer": 41,
+					"buffer": 42,
 					"file": "app/models/intervenant.rb",
 					"semi_transient": false,
 					"settings":
@@ -2632,8 +2692,8 @@
 						"selection":
 						[
 							[
-								225,
-								225
+								523,
+								523
 							]
 						],
 						"settings":
@@ -2645,24 +2705,24 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
-					"buffer": 42,
+					"buffer": 43,
 					"file": "app/controllers/intervenants_controller.rb",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2695,
+						"buffer_size": 2739,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								868,
-								868
+								2702,
+								2702
 							]
 						],
 						"settings":
@@ -2672,37 +2732,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 11,
-					"type": "text"
-				},
-				{
-					"buffer": 43,
-					"file": "app/views/intervenants/index.html.erb",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2999,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								811,
-								811
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Rails/HTML (Rails).tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 945.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 12,
@@ -2710,19 +2740,19 @@
 				},
 				{
 					"buffer": 44,
-					"file": "app/views/intervenants/_form.html.erb",
+					"file": "app/views/intervenants/index.html.erb",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1396,
+						"buffer_size": 3150,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								997,
-								997
+								2363,
+								2363
 							]
 						],
 						"settings":
@@ -2732,14 +2762,44 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 630.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 58,
+					"stack_index": 9,
 					"type": "text"
 				},
 				{
 					"buffer": 45,
+					"file": "app/views/intervenants/_form.html.erb",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1636,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1554,
+								1554
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Rails/HTML (Rails).tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 137.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
+					"type": "text"
+				},
+				{
+					"buffer": 46,
 					"file": "app/views/intervenants/edit.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -2763,11 +2823,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 85,
+					"stack_index": 86,
 					"type": "text"
 				},
 				{
-					"buffer": 46,
+					"buffer": 47,
 					"file": "app/views/intervenants/new.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -2791,24 +2851,24 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 88,
+					"stack_index": 89,
 					"type": "text"
 				},
 				{
-					"buffer": 47,
+					"buffer": 48,
 					"file": "app/views/intervenants/show.html.erb",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2112,
+						"buffer_size": 2613,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2112,
-								2112
+								1050,
+								1050
 							]
 						],
 						"settings":
@@ -2818,14 +2878,14 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 225.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 10,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
-					"buffer": 48,
+					"buffer": 49,
 					"file": "app/models/salle.rb",
 					"semi_transient": false,
 					"settings":
@@ -2850,11 +2910,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 35,
+					"stack_index": 47,
 					"type": "text"
 				},
 				{
-					"buffer": 49,
+					"buffer": 50,
 					"file": "app/controllers/salles_controller.rb",
 					"semi_transient": false,
 					"settings":
@@ -2880,24 +2940,24 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 29,
+					"stack_index": 11,
 					"type": "text"
 				},
 				{
-					"buffer": 50,
+					"buffer": 51,
 					"file": "app/views/salles/index.html.erb",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3614,
+						"buffer_size": 3674,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1742,
-								1742
+								2498,
+								2498
 							]
 						],
 						"settings":
@@ -2907,14 +2967,14 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 540.0,
+						"translation.y": 900.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 26,
+					"stack_index": 34,
 					"type": "text"
 				},
 				{
-					"buffer": 51,
+					"buffer": 52,
 					"file": "app/views/salles/_form.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -2940,11 +3000,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 56,
+					"stack_index": 61,
 					"type": "text"
 				},
 				{
-					"buffer": 52,
+					"buffer": 53,
 					"file": "app/views/salles/edit.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -2968,11 +3028,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 67,
+					"stack_index": 32,
 					"type": "text"
 				},
 				{
-					"buffer": 53,
+					"buffer": 54,
 					"file": "app/views/salles/show.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -2998,11 +3058,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 82,
+					"stack_index": 83,
 					"type": "text"
 				},
 				{
-					"buffer": 54,
+					"buffer": 55,
 					"file": "app/views/salles/new.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -3026,11 +3086,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 74,
+					"stack_index": 76,
 					"type": "text"
 				},
 				{
-					"buffer": 55,
+					"buffer": 56,
 					"file": "app/models/fermeture.rb",
 					"semi_transient": false,
 					"settings":
@@ -3054,11 +3114,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 49,
+					"stack_index": 56,
 					"type": "text"
 				},
 				{
-					"buffer": 56,
+					"buffer": 57,
 					"file": "app/controllers/fermetures_controller.rb",
 					"semi_transient": false,
 					"settings":
@@ -3084,11 +3144,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 33,
+					"stack_index": 46,
 					"type": "text"
 				},
 				{
-					"buffer": 57,
+					"buffer": 58,
 					"file": "app/views/fermetures/index.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -3111,14 +3171,14 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 450.0,
+						"translation.y": 90.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 48,
+					"stack_index": 13,
 					"type": "text"
 				},
 				{
-					"buffer": 58,
+					"buffer": 59,
 					"file": "app/views/fermetures/edit.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -3142,11 +3202,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 72,
+					"stack_index": 74,
 					"type": "text"
 				},
 				{
-					"buffer": 59,
+					"buffer": 60,
 					"file": "app/views/fermetures/new.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -3170,11 +3230,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 73,
+					"stack_index": 75,
 					"type": "text"
 				},
 				{
-					"buffer": 60,
+					"buffer": 61,
 					"file": "app/views/fermetures/_form.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -3200,24 +3260,24 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 65,
+					"stack_index": 68,
 					"type": "text"
 				},
 				{
-					"buffer": 61,
+					"buffer": 62,
 					"file": "app/models/cour.rb",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5473,
+						"buffer_size": 5662,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3284,
-								3284
+								1730,
+								1730
 							]
 						],
 						"settings":
@@ -3227,14 +3287,14 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1643.0,
+						"translation.y": 135.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 6,
+					"stack_index": 7,
 					"type": "text"
 				},
 				{
-					"buffer": 62,
+					"buffer": 63,
 					"file": "app/assets/javascripts/cours.coffee",
 					"semi_transient": false,
 					"settings":
@@ -3258,24 +3318,24 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 40,
+					"stack_index": 51,
 					"type": "text"
 				},
 				{
-					"buffer": 63,
+					"buffer": 64,
 					"file": "app/controllers/cours_controller.rb",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 8568,
+						"buffer_size": 9010,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								5065,
-								5065
+								4471,
+								4471
 							]
 						],
 						"settings":
@@ -3285,27 +3345,27 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 2115.0,
+						"translation.y": 2070.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 3,
 					"type": "text"
 				},
 				{
-					"buffer": 64,
+					"buffer": 65,
 					"file": "app/views/cours/index.html.erb",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 12707,
+						"buffer_size": 13435,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2719,
-								2719
+								6709,
+								6709
 							]
 						],
 						"settings":
@@ -3315,14 +3375,14 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 360.0,
+						"translation.y": 2145.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 24,
+					"stack_index": 14,
 					"type": "text"
 				},
 				{
-					"buffer": 65,
+					"buffer": 66,
 					"file": "app/views/layouts/slide.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -3345,27 +3405,27 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 135.0,
+						"translation.y": 225.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 30,
+					"stack_index": 31,
 					"type": "text"
 				},
 				{
-					"buffer": 66,
+					"buffer": 67,
 					"file": "app/views/cours/index_slide.html.erb",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2018,
+						"buffer_size": 2159,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								453,
-								453
+								452,
+								452
 							]
 						],
 						"settings":
@@ -3375,14 +3435,14 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 270.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 14,
+					"stack_index": 30,
 					"type": "text"
 				},
 				{
-					"buffer": 67,
+					"buffer": 68,
 					"file": "app/views/layouts/slide.html+phone.erb",
 					"semi_transient": false,
 					"settings":
@@ -3408,24 +3468,24 @@
 						"translation.y": 32.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 15,
+					"stack_index": 29,
 					"type": "text"
 				},
 				{
-					"buffer": 68,
+					"buffer": 69,
 					"file": "app/views/cours/index_slide.html+phone.erb",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2716,
+						"buffer_size": 2825,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								980,
-								980
+								2120,
+								2120
 							]
 						],
 						"settings":
@@ -3435,27 +3495,27 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 135.0,
+						"translation.y": 630.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 23,
+					"stack_index": 28,
 					"type": "text"
 				},
 				{
-					"buffer": 69,
+					"buffer": 70,
 					"file": "app/views/cours/index.html+phone.erb",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3018,
+						"buffer_size": 3020,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1529,
-								1529
+								3013,
+								3013
 							]
 						],
 						"settings":
@@ -3468,24 +3528,24 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 22,
+					"stack_index": 27,
 					"type": "text"
 				},
 				{
-					"buffer": 70,
+					"buffer": 71,
 					"file": "app/views/cours/action.html.erb",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2274,
+						"buffer_size": 2412,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								259,
-								259
+								780,
+								780
 							]
 						],
 						"settings":
@@ -3498,11 +3558,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 21,
+					"stack_index": 33,
 					"type": "text"
 				},
 				{
-					"buffer": 71,
+					"buffer": 72,
 					"file": "app/views/simple_calendar/_week_rooms_calendar.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -3528,11 +3588,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 47,
+					"stack_index": 24,
 					"type": "text"
 				},
 				{
-					"buffer": 72,
+					"buffer": 73,
 					"file": "app/views/simple_calendar/_week_calendar.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -3558,11 +3618,11 @@
 						"translation.y": 180.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 52,
+					"stack_index": 23,
 					"type": "text"
 				},
 				{
-					"buffer": 73,
+					"buffer": 74,
 					"file": "app/views/simple_calendar/_month_calendar.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -3588,24 +3648,24 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 55,
+					"stack_index": 60,
 					"type": "text"
 				},
 				{
-					"buffer": 74,
+					"buffer": 75,
 					"file": "app/views/cours/_form.html.erb",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3107,
+						"buffer_size": 3357,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1843,
-								1843
+								3015,
+								3015
 							]
 						],
 						"settings":
@@ -3615,14 +3675,14 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 405.0,
+						"translation.y": 720.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 34,
+					"stack_index": 18,
 					"type": "text"
 				},
 				{
-					"buffer": 75,
+					"buffer": 76,
 					"file": "app/views/cours/show.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -3648,11 +3708,11 @@
 						"translation.y": 540.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 57,
+					"stack_index": 62,
 					"type": "text"
 				},
 				{
-					"buffer": 76,
+					"buffer": 77,
 					"file": "app/views/cours/edit.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -3676,11 +3736,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 71,
+					"stack_index": 73,
 					"type": "text"
 				},
 				{
-					"buffer": 77,
+					"buffer": 78,
 					"file": "app/views/cours/new.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -3704,11 +3764,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 86,
+					"stack_index": 87,
 					"type": "text"
 				},
 				{
-					"buffer": 78,
+					"buffer": 79,
 					"file": "app/models/document.rb",
 					"semi_transient": false,
 					"settings":
@@ -3732,11 +3792,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 69,
+					"stack_index": 71,
 					"type": "text"
 				},
 				{
-					"buffer": 79,
+					"buffer": 80,
 					"file": "app/controllers/documents_controller.rb",
 					"semi_transient": false,
 					"settings":
@@ -3762,11 +3822,11 @@
 						"translation.y": 846.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 66,
+					"stack_index": 69,
 					"type": "text"
 				},
 				{
-					"buffer": 80,
+					"buffer": 81,
 					"file": "app/views/documents/index.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -3792,11 +3852,11 @@
 						"translation.y": 855.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 60,
+					"stack_index": 63,
 					"type": "text"
 				},
 				{
-					"buffer": 81,
+					"buffer": 82,
 					"file": "app/views/documents/edit.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -3820,11 +3880,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 84,
+					"stack_index": 85,
 					"type": "text"
 				},
 				{
-					"buffer": 82,
+					"buffer": 83,
 					"file": "app/views/documents/show.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -3850,11 +3910,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 81,
+					"stack_index": 82,
 					"type": "text"
 				},
 				{
-					"buffer": 83,
+					"buffer": 84,
 					"file": "app/views/documents/_form.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -3880,11 +3940,11 @@
 						"translation.y": 225.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 70,
+					"stack_index": 72,
 					"type": "text"
 				},
 				{
-					"buffer": 84,
+					"buffer": 85,
 					"file": "app/views/documents/new.html.erb",
 					"semi_transient": false,
 					"settings":
@@ -3908,11 +3968,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 64,
+					"stack_index": 67,
 					"type": "text"
 				},
 				{
-					"buffer": 85,
+					"buffer": 86,
 					"file": "test/models/intervenant_test.rb",
 					"semi_transient": false,
 					"settings":
@@ -3936,11 +3996,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 36,
+					"stack_index": 48,
 					"type": "text"
 				},
 				{
-					"buffer": 86,
+					"buffer": 87,
 					"file": "test/models/cour_test.rb",
 					"semi_transient": false,
 					"settings":
@@ -3964,11 +4024,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 62,
+					"stack_index": 65,
 					"type": "text"
 				},
 				{
-					"buffer": 87,
+					"buffer": 88,
 					"file": "test/models/fermeture_test.rb",
 					"semi_transient": false,
 					"settings":
@@ -3992,11 +4052,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 61,
+					"stack_index": 64,
 					"type": "text"
 				},
 				{
-					"buffer": 88,
+					"buffer": 89,
 					"file": "test/fixtures/cours.yml",
 					"semi_transient": false,
 					"settings":
@@ -4022,7 +4082,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 63,
+					"stack_index": 66,
 					"type": "text"
 				}
 			]

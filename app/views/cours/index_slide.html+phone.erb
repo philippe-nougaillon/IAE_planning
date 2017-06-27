@@ -3,20 +3,9 @@
         window.location.reload();
     }, 1*60000); 
 </script>
+<br><br>
 
 <div class="container-fluid">
-
-  <h4>
-    <button type="button" class="btn btn-default btn-sm">
-      <%= link_to '<', cours_planning_path(planning_date:@planning_date - 1.day) %>
-    </button>
-
-    <%= l(@planning_date.to_date, format: :long) %>
-
-    <button type="button" class="btn btn-default btn-sm">
-      <%= link_to '>', cours_planning_path(planning_date:@planning_date + 1.day) %>
-    </button>
-  </h4>
 
   <%= form_tag request.path, method: :get do %>
     <%= hidden_field_tag :planning_date, @planning_date %>
@@ -24,10 +13,25 @@
     <div class="form-group">
       <div class="row">
         <div class="col-sm-6">
+          <h4>
+            <button class="btn btn-default btn-sm">
+              <%= link_to '<', cours_planning_path(planning_date:(@planning_date - 1.day)) %>
+            </button>
+
+            <%= l(@planning_date.to_date, format: :long) %>
+
+            <button class="btn btn-default btn-sm">
+              <%= link_to '>', cours_planning_path(planning_date:(@planning_date + 1.day)) %>
+            </button>
+          </h4>
+        </div>
+
+        <div class="col-sm-6">
             <%= label_tag "Formation" %>    
             <%= select_tag :formation_id, 
                   options_from_collection_for_select(Formation.all, :id, :nom_promo, params[:formation_id]), include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
         </div>
+
         <div class="col-sm-5">
             <%= label_tag "Intervenant" %>    
             <div class="input-group">
@@ -58,12 +62,12 @@
         <% end %>
       </h4>
 
-      <b><%= cours.formation.nom_promo %></b> :
-      <%= cours.nom_ou_ue %><br>
+      <b><%= cours.formation.nom_promo %></b><br>
       <%= cours.intervenant.nom_prenom %><br>
       <% if cours.intervenant_binome %>
         <%= cours.intervenant_binome.nom_prenom %>
       <% end %>
+      <i><%= cours.nom_ou_ue %></i><br>
       
       <% if cours.progress_bar_pct(@planning_date) > 0 %>  
         <br>

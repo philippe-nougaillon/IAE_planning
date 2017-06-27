@@ -59,10 +59,6 @@ class CoursController < ApplicationController
                               params[:intervenant_id],params[:intervenant_id])
     end
 
-    # unless params[:ue].blank?
-    #   @cours = @cours.where(ue:params[:ue])
-    # end
-
     unless params[:etat].blank?
       @cours = @cours.where(etat:params[:etat])
     end
@@ -98,7 +94,7 @@ class CoursController < ApplicationController
     # afficher tous les cours du jour à heure H-4 jusqu'à minuit
     limite_debut = @planning_date - 4.hour
     limite_fin = (@planning_date.beginning_of_day) + 1.day  
-    @cours = Cour.where("(debut between ? and ?) and fin >= ?", limite_debut, limite_fin, @planning_date).order(:debut)
+    @cours = Cour.confirmé.where("(debut between ? and ?) and fin >= ?", limite_debut, limite_fin, @planning_date).order(:debut)
 
     unless params[:formation_id].blank?
       @cours = @cours.where(formation_id:params[:formation_id])

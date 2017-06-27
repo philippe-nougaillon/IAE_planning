@@ -11,12 +11,12 @@ class ApplicationController < ActionController::Base
     def set_layout_variables
       @ctrl = params[:controller]
       @sitename ||= "IAE-Planning"
-      @sitename.concat(" v1.1b") 
+      @sitename.concat(" v1.1c") 
 
       # force la vue des cours en planning semaine si c'est pascal wachnick
       if current_user
         @cours_params = {}
-        @cours_params[:view] = 'calendar_rooms' if current_user.email == "wachnick.iae@univ-paris1.fr"
+        #@cours_params[:view] = 'calendar_rooms' if current_user.email == "wachnick.iae@univ-paris1.fr"
       end  
     end
 

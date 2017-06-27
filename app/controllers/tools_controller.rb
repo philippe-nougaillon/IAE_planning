@@ -99,15 +99,15 @@ class ToolsController < ApplicationController
 
 	  	index = 0
 
-		CSV.foreach(file_with_path, headers:true, col_sep:';', quote_char:'"', encoding:'iso-8859-1:UTF-8') do |row|
+		CSV.foreach(file_with_path, headers:true, col_sep:';', encoding:'iso-8859-1:UTF-8') do |row|
 			index += 1
 
-			intervenant = Intervenant.new(nom:row['nom'].strip, prenom:row['prénom'].strip, email:row['email'], linkedin_url:row['linkedin_url'], titre1:row['titre1'], titre1:row['titre2'],
+			intervenant = Intervenant.new(nom:row['nom'].strip, prenom:row['prénom'].strip, email:row['email'], linkedin_url:row['linkedin_url'], titre1:row["titre1"], titre2:row["titre2"],status:row["status"],
 				spécialité:row['spécialité'], téléphone_fixe:row['téléphone_fixe'], téléphone_mobile:row['téléphone_mobile'],
 				bureau:row['bureau'])
 							
 			if intervenant.valid? 
-				#puts "Intervenant VALIDE => #{intervenant.changes}"
+				puts "Intervenant VALIDE => #{intervenant.changes}"
 				intervenant.save if params[:save] == 'true'
 	        	@importes += 1
 			else

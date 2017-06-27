@@ -71,6 +71,7 @@
         <tr>
           <% 5.times do %><th><% end %>
           <th><span class="pull-right"><%= @formations.sum(:nbr_etudiants) %></span></th>
+          <th /><th /><th />
           <% if current_user.try(:admin?) %>
             <th /><th />
           <% end %>  

@@ -17,8 +17,6 @@
       <%= f.text_field :nom %>
       <%= f.text_field :prenom, label:"Prénom" %>
       <%= f.text_field :email %>
-      <%= f.text_field :linkedin_url %>
-      <%= f.file_field :photo %>
       <%= f.text_field :titre1 %>
       <%= f.text_field :titre2 %>
       <%= f.text_field :spécialité %>
@@ -28,8 +26,13 @@
       <div class="form-group">
         <%= f.select(:status, Intervenant.statuses.keys.to_a) %>
       </div>
-      <%= f.date_field :remise_dossier_srh %>
-      <%= f.text_field :bureau %>
+
+      <div class="col-sm-6">
+        <%= f.text_field :bureau %>
+      </div>
+      <div class="col-sm-6">
+        <%= f.date_field :remise_dossier_srh, label:"Date remise dossier SRH" %>
+      </div>
 
       <div class="col-sm-6">
         <%= f.text_field :téléphone_fixe %>
@@ -45,7 +48,9 @@
       <div class="col-sm-9">
         <%= f.text_field :ville %>
       </div>
-      
+      <%= f.text_field :linkedin_url, label:"Profil LinkedIn", placeholder:'URL du profil public' %>
+      <%= f.file_field :photo %>
+
       <%= f.submit class: "btn btn-primary" %>
 
     </div>   

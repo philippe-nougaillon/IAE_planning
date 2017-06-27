@@ -53,12 +53,14 @@
     <table class="table table-hover table-striped">
       <thead>
         <tr>
-          <th>Nom</th>
+          <th colspan="2">Nom de la formation</th>
           <th>Promotion</th>
           <th>Abr.</th>
-          <th>Couleur</th>
           <th>UE</th>
           <th>Etudiants</th>
+          <th>Cours planifiés</th>
+          <th>Cours confirmés</th>
+          <th>Cours réalisés</th>
           <% if current_user.try(:admin?) %>
             <th colspan="2"></th>
           <% end %>  
@@ -78,14 +80,21 @@
       <tbody>
         <% @formations.includes(:unites).each do |formation| %>
           <tr>
+            <td><span style="background-color:<%= formation.color %>;padding-left: 7px;"></span></td>
             <td><%= link_to formation.nom, formation  %></td>
             <td><%= formation.promo %></td>
             <td><%= formation.abrg %></td>
-            <td> 
-              <span style="background-color:<%= formation.color %>;padding-left: 50px;"></span>
-            </td>
             <td><span class="pull-right"><%= formation.unites.count %></span></td>
             <td><span class="pull-right"><%= formation.nbr_etudiants %></span></td>
+            <td><span class="pull-right">
+              <%= link_to formation.cours.planifié.count, cours_path(formation_id:formation, etat:Cour.etats[:planifié], filter:'all') %>
+            </span></td>
+            <td><span class="pull-right">
+              <%= link_to formation.cours.confirmé.count, cours_path(formation_id:formation, etat:Cour.etats[:confirmé], filter:'all') %>
+            </span></td>
+            <td><span class="pull-right">
+              <%= link_to formation.cours.réalisé.count, cours_path(formation_id:formation, etat:Cour.etats[:réalisé], filter:'all') %>
+            </span></td>
             <% if current_user.admin? %>
               <td>
                 <%= link_to edit_formation_path(formation), class: "btn btn-default" do %>

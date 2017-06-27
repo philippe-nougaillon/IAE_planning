@@ -309,4 +309,25 @@ class ToolsController < ApplicationController
 
   end
 
+  def export_intervenants
+  end
+
+  def export_intervenants_do
+    require 'csv'
+
+  	@csv_string = CSV.generate(col_sep:';', encoding:'iso-8859-1') do | csv |
+      csv << ["id", "nom","prenom", "email", "status", "remise_dossier_srh", "linkedin_url", "titre1", "titre2", "spécialité", "téléphone_fixe", "téléphone_mobile", "bureau", "adresse", "cp", "ville",'cree le', 'modifie le' ]
+      
+      Intervenant.all.each do |c|
+        fields_to_export = [c.id, c.nom, c.prenom, c.email, c.status, c.remise_dossier_srh, c.linkedin_url, c.titre1, c.titre2, c.spécialité, c.téléphone_fixe, c.téléphone_mobile, c.bureau, c.adresse, c.cp, c.ville, c.created_at, c.updated_at]
+        
+        csv << fields_to_export
+      end
+    end
+    
+    filename = "Export_Intervenants_#{Date.today.to_s}"
+    response.headers['Content-Disposition'] = 'attachment; filename="' + filename + '.csv"'
+    render "export_intervenants_do.csv.erb"
+  end
+
 end

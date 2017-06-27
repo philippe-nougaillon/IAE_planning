@@ -90,7 +90,7 @@ class CoursController < ApplicationController
 
   def index_slide
     if params[:planning_date]
-      @planning_date = DateTime.parse(params[:planning_date] + "+0100")
+      @planning_date = DateTime.parse(params[:planning_date] + "+0200")
     else
       @planning_date = DateTime.now 
     end

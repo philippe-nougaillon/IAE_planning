@@ -41,9 +41,12 @@
     </p>
 
     <% @formations.each do | formation | %>
-      <%= link_to formation.nom, formation %>
-      (<%= formation.cours.where(etat:Cour.etats[:planifié], intervenant_id:@intervenant.id).sum(:duree) %> 
-      heures planifiées)
+      <%= link_to formation.nom, cours_path(formation_id:formation, intervenant_id:@intervenant, filter:'all') %>
+
+      <% cours = formation.cours.where(etat:Cour.etats[:planifié], intervenant_id:@intervenant).order(:debut) %>
+      <% if cours.any? %>
+        (<%= cours.sum(:duree) %>h planifiées, premier cours le: <%= l(cours.first.debut, format: :short) %> )
+      <% end %>
       <br>
     <% end %>
   </div>

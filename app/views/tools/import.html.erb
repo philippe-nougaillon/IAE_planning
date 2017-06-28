@@ -14,8 +14,8 @@
           <b>Date;Heure début;Heure fin;UE;Intervenant;Intitulé</b>
       </li>
       <li>Ce fichier doit être au format CSV, Encodage=Unicode UTF-8, Séparateur=Point-virgule, Noms colonnes=Première ligne</li>
-      <li>Exemple de fichier conforme : <%= link_to "exemple_import_cours.csv", "/exemple_import_cours.csv" %></li>
       <li>Si, pour une même formation, un cours existe déjà à la même heure; il sera mis à jour sinon il sera créé.</li>
+      <li>Exemple de fichier conforme : <%= link_to "exemple_import_cours.csv", "/exemple_import_cours.csv" %></li>
     </ul>
   </div>
 
@@ -33,6 +33,16 @@
     <%= file_field_tag 'upload', accept: 'text/csv' %>
   </div>
   <br>
+
+  <div class="field">
+    <b>Ignorer les tests de validation</b> <br>
+    <%= label :skip_validation, "Oui", :value => "true" %>
+    <%= radio_button_tag :skip_validation, true %>
+    <%= label :skip_validation, "Non", :value => "false" %>
+    <%= radio_button_tag :skip_validation, false, :checked => true %>
+    <i>Choisissez 'Oui' pour ignorer les tests de chevauchements si cet import a pour but la modification de cours déjà existants</i><br />
+  </div>
+  <br>
   
   <div class="field">
     <b>Enregistrer les changements ?</b> <br>
@@ -40,7 +50,7 @@
     <%= radio_button_tag :save, true %>
     <%= label :save, "Non", :value => "false" %>
     <%= radio_button_tag :save, false, :checked => true %>
-    <br><i>Choisissez 'Non' pour tester votre import car <b>il est irréversible !</b></i><br />
+    <i>Choisissez 'Non' pour tester votre import car <b>il est irréversible !</b></i><br />
   </div>
   <br>
   
@@ -48,3 +58,4 @@
     <%= submit_tag "Lancer l'import", class: "btn btn-primary"%>
   </div>
 <% end %>
+<br>

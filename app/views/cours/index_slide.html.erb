@@ -26,12 +26,14 @@
             <td>
               <h3><%= cours.formation.nom_promo %></h3>
               <h4><%= link_to cours.nom_ou_ue, cours %></h4>
-              <div class="progress">
-                <div class="progress-bar progress-bar-striped active" 
-                     role="progressbar" aria-valuemin="0" aria-valuemax="100" 
-                     style="width:<%= cours.progress_bar_pct(@planning_date) %>%">
+              <% if cours.progress_bar_pct(@planning_date) > 0 %>
+                <div class="progress">
+                  <div class="progress-bar progress-bar-striped active" 
+                       role="progressbar" aria-valuemin="0" aria-valuemax="100" 
+                       style="width:<%= cours.progress_bar_pct(@planning_date) %>%">
+                  </div>
                 </div>
-              </div>
+              <% end %>
             </td>
             <td style="vertical-align: middle;">
               <h3>
@@ -61,6 +63,20 @@
     <% end %>
   </table>
 <% end %>
+<br><br>
 
-Màj: <%= l(DateTime.now) %>
+<small>
+  Màj: <%= l(DateTime.now) %><br>
+  
+  <button class="btn btn-link btn-sm">
+    <%= link_to '<', cours_planning_path(planning_date:(@planning_date - 1.day)) %>
+  </button>
+
+  <%= l(@planning_date.to_date, format: :short) %>
+
+  <button class="btn btn-link btn-sm">
+    <%= link_to '>', cours_planning_path(planning_date:(@planning_date + 1.day)) %>
+  </button>
+</small>
+
 

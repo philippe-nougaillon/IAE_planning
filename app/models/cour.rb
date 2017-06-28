@@ -158,7 +158,7 @@ class Cour < ActiveRecord::Base
       cours = cours.where.not(id:self.id).where.not(fin:self.debut).where.not(debut:self.fin)
 
       if cours.any?
-        errors.add(:cours, "en chevauchement (période, salle) avec le cours ##{cours.pluck(:id).join(',')}")
+        errors.add(:cours, "en chevauchement (période, salle) avec le(s) cours ##{cours.pluck(:id).join(',')}")
       end
     end  
 
@@ -171,7 +171,7 @@ class Cour < ActiveRecord::Base
       cours = cours.where.not(id:self.id).where.not(fin:self.debut).where.not(debut:self.fin)
 
       if cours.any?
-        errors.add(:cours, "en chevauchement (période, intervenant) avec le cours ##{cours.pluck(:id).join(',')}")
+        errors.add(:cours, "en chevauchement (période, intervenant) avec le(s) cours ##{cours.pluck(:id).join(',')}")
       end
     end  
 

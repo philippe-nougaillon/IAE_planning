@@ -1,29 +1,38 @@
-<h2><%= t('.sign_in') %></h2>
+<h2>
+  <%= t('.sign_in') %>
+  <% if request.ssl? %>
+    <%= link_to image_tag("GANDI_SSL_logo_A_std_fr.png"), "https://www.gandi.net/ssl/secured/iae-planning.philnoug.com/457644/c18f03e905", target: "_new" %>
+  <% end %>  
+</h2>
 
-<%= bootstrap_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+<% if request.ssl? or request.domain == 'localhost' %>
+  <%= bootstrap_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+    <div class="form-group">
+      <div class="row">
+        <div class="col-sm-3">
+          <%= f.email_field :email, autofocus: true  %>
+          <%= f.password_field :password, autocomplete: "off" %>
+          <% if devise_mapping.rememberable? %>
+              <%= f.check_box :remember_me %>
+          <% end %>
+          <br>
+          <div class="actions">
+            <%= f.submit t('.sign_in'), class: "btn btn-primary" %>
+          </div>
 
-  <div class="form-group">
-    <div class="row">
-      <div class="col-sm-3">
-        <%= f.email_field :email, autofocus: true  %>
-        <%= f.password_field :password, autocomplete: "off" %>
-        <% if devise_mapping.rememberable? %>
-            <%= f.check_box :remember_me %>
-        <% end %>
-        <br>
-        <div class="actions">
-          <%= f.submit t('.sign_in'), class: "btn btn-primary" %>
+          <%= render "devise/shared/links" %>
         </div>
-
-        <%= render "devise/shared/links" %>
       </div>
-    </div>
 
-  </div>
+    </div>
+  <% end %>
 <% end %>
 
 <% if request.ssl? %>
-  <%= image_tag("GANDI_SSL_logo_A_std_fr.png") %>
+  <p>
+    Voir le <%= link_to "planning des cours du jour","/cours/planning" %>
+  </p>
 <% else %>
   Veuillez utiliser la <%= link_to "connexion sécurisée", "https://iae-planning.philnoug.com" %>
 <% end %>
+

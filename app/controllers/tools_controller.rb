@@ -20,56 +20,56 @@ class ToolsController < ApplicationController
 
       # capture output
       @stream = capture_stdout do
-	  	@importes = @errors = 0	
+  	  	@importes = @errors = 0	
 
-	  	index = 0
+  	  	index = 0
 
-		CSV.foreach(file_with_path, headers:true, col_sep:';', quote_char:'"', encoding:'iso-8859-1:UTF-8') do |row|
-			index += 1
+    		CSV.foreach(file_with_path, headers:true, col_sep:';', quote_char:'"', encoding:'iso-8859-1:UTF-8') do |row|
+    			index += 1
 
-			# Date;Heure début;Heure fin;Durée;UE;Intervenant;Intitulé
+    			# Date;Heure début;Heure fin;Durée;UE;Intervenant;Intitulé
 
-			# passe si pas de valur dans la date
-			next unless row['Date']
-			
-			intervenant = nil
-			if row['Intervenant']
-				nom = row['Intervenant'].strip.split(' ').first
-				intervenant = Intervenant.where("nom like ?", "%#{nom}%").first
-			end
+    			# passe si pas de valur dans la date
+    			next unless row['Date']
+    			
+    			intervenant = nil
+    			if row['Intervenant']
+    				nom = row['Intervenant'].strip.split(' ').first
+    				intervenant = Intervenant.where("nom like ?", "%#{nom}%").first
+    			end
 
-			debut = Time.parse(row['Date'] + " " + row['Heure début'])
-			fin   = Time.parse(row['Date'] + " " + row['Heure fin'])
+    			debut = Time.parse(row['Date'] + " " + row['Heure début'])
+    			fin   = Time.parse(row['Date'] + " " + row['Heure fin'])
 
-			cours = Cour.where(debut:debut, formation_id: params[:formation_id]).first_or_initialize 
-			cours.fin = fin
-			cours.ue = row['UE']
-			cours.intervenant = intervenant
-			cours.nom = row['Intitulé']
-			cours.duree = ((cours.fin - cours.debut) / 3600).round
+    			cours = Cour.where(debut:debut, formation_id: params[:formation_id]).first_or_initialize 
+    			cours.fin = fin
+    			cours.ue = row['UE']
+    			cours.intervenant = intervenant
+    			cours.nom = row['Intitulé']
+    			cours.duree = ((cours.fin - cours.debut) / 3600).round
 
-			if cours.valid? 
-				#puts "COURS VALIDE => #{cours.changes}" if cours.new_record?
-				#puts "UPDATE =>#{cours.attributes}" unless cours.new_record?
-				#puts "Durée: #{cours.duree.to_f}"
-				cours.save if params[:save] == 'true'
-	        	@importes += 1
-			else
-				puts "Ligne ##{index}"
-				puts "COURS INVALIDE !! Erreur => #{cours.errors.messages} | Source: #{row}"
-				puts
-				# puts cours.changes
-				@errors += 1
-			end
-			puts "- -" * 40
-			puts
-		end
-	  	puts "----------- Les modifications n'ont pas été enregistrées ! ---------------" unless params[:save] == 'true'
-	  	puts
+    			if cours.valid? 
+    				#puts "COURS VALIDE => #{cours.changes}" if cours.new_record?
+    				#puts "UPDATE =>#{cours.attributes}" unless cours.new_record?
+    				#puts "Durée: #{cours.duree.to_f}"
+    				cours.save if params[:save] == 'true'
+    	        	@importes += 1
+    			else
+    				puts "Ligne ##{index}"
+    				puts "COURS INVALIDE !! Erreur => #{cours.errors.messages} | Source: #{row}"
+    				puts
+    				# puts cours.changes
+    				@errors += 1
+    			end
+    			puts "- -" * 40
+    			puts
+    		end
+  	  	puts "----------- Les modifications n'ont pas été enregistrées ! ---------------" unless params[:save] == 'true'
+  	  	puts
 
-		puts "=" * 40
-		puts "Lignes importées: #{@importes} | Lignes ignorées: #{@errors}"
-		puts "=" * 40
+    		puts "=" * 40
+  	   	puts "Lignes importées: #{@importes} | Lignes ignorées: #{@errors}"
+  	 	  puts "=" * 40
       end
 
       # save output            
@@ -95,37 +95,56 @@ class ToolsController < ApplicationController
 
       # capture output
       @stream = capture_stdout do
-	  	@importes = @errors = 0	
+  	  	@importes = @modifies = @errors = 0	
 
-	  	index = 0
+  	  	index = 0
 
-		CSV.foreach(file_with_path, headers:true, col_sep:';', encoding:'iso-8859-1:UTF-8') do |row|
-			index += 1
+    		CSV.foreach(file_with_path, headers:true, col_sep:';', encoding:'iso-8859-1:UTF-8') do |row|
+    			index += 1
 
-			intervenant = Intervenant.new(nom:row['nom'].strip, prenom:row['prénom'].strip, email:row['email'], linkedin_url:row['linkedin_url'], titre1:row["titre1"], titre2:row["titre2"],status:row["status"],
-				spécialité:row['spécialité'], téléphone_fixe:row['téléphone_fixe'], téléphone_mobile:row['téléphone_mobile'],
-				bureau:row['bureau'])
-							
-			if intervenant.valid? 
-				puts "Intervenant VALIDE => #{intervenant.changes}"
-				intervenant.save if params[:save] == 'true'
-	        	@importes += 1
-			else
-				puts "Ligne ##{index}"
-				puts "!! Intervenant INVALIDE !! Erreur => #{intervenant.errors.messages} | Source: #{row}"
-				puts
-				# puts intervenant.changes
-				@errors += 1
-			end
-			puts "- -" * 40
-			puts
-		end
-	  	puts "----------- Les modifications n'ont pas été enregistrées ! ---------------" unless params[:save] == 'true'
-	  	puts
+          intervenant = Intervenant.where("lower(nom) = ? AND email = ?", row['nom'].strip.downcase, row['email']).first_or_initialize(nom:row['nom'].strip.upcase, prenom:row['prénom'].strip, email:row['email'], linkedin_url:row['linkedin_url'], titre1:row['titre1'], titre2:row['titre2'],status:row['status'], spécialité:row['spécialité'], téléphone_fixe:row['téléphone_fixe'], téléphone_mobile:row['téléphone_mobile'], bureau:row['bureau'])
 
-		puts "=" * 40
-		puts "Lignes importées: #{@importes} | Lignes ignorées: #{@errors}"
-		puts "=" * 40
+          unless intervenant.new_record? 
+            intervenant.prenom = row['prénom'].strip
+            intervenant.email = row['email']
+            intervenant.linkedin_url = row['linkedin_url']
+            intervenant.titre1 = row['titre1']
+            intervenant.titre2 = row['titre2']
+            intervenant.status = row['status']
+            intervenant.spécialité = row['spécialité']
+            intervenant.téléphone_fixe = row['téléphone_fixe']
+            intervenant.téléphone_mobile = row['téléphone_mobile']
+            intervenant.bureau = row['bureau']
+            if intervenant.changes.any?
+              puts "Intervenant '#{intervenant.nom}' MODIFIE => #{intervenant.changes}" 
+              puts
+              @modifies += 1
+            end
+          end
+
+    			if intervenant.valid? 
+            if intervenant.changes.any? and intervenant.new_record?
+    				  puts "Intervenant '#{intervenant.nom}' AJOUTE => #{intervenant.changes}"
+              puts
+              @importes += 1
+            end
+  				  intervenant.save if params[:save] == 'true'
+    			else
+            puts "Ligne ##{index}"
+            puts "!! Intervenant INVALIDE !! Erreur => #{intervenant.errors.messages} | Source: #{row}"
+            puts
+            # puts intervenant.changes
+            puts "- -" * 40
+            puts
+    				@errors += 1
+          end
+    		end
+    	  puts "----------- Les modifications n'ont pas été enregistrées ! ---------------" unless params[:save] == 'true'
+    	  puts
+
+    		puts "=" * 70
+    		puts "Lignes traitées: #{index} | Lignes importées: #{@importes} | Lignes modifiées: #{@modifies} | Lignes ignorées: #{@errors}"
+    		puts "=" * 70
       end
 
       # save output            

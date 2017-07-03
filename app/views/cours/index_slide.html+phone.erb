@@ -14,15 +14,13 @@
       <div class="row">
         <div class="col-sm-6">
           <h4>
-            <button class="btn btn-default btn-sm">
-              <%= link_to '<', cours_planning_path(planning_date:(@planning_date - 1.day)) %>
-            </button>
-
+            <%= link_to '<<', cours_planning_path(planning_date:(@planning_date - 1.month)), class:"btn btn-default btn-sm"  %>
+            <%= link_to '<', cours_planning_path(planning_date:(@planning_date - 1.day)), class:"btn btn-default btn-sm" %>
+            
             <%= l(@planning_date.to_date, format: :long) %>
 
-            <button class="btn btn-default btn-sm">
-              <%= link_to '>', cours_planning_path(planning_date:(@planning_date + 1.day)) %>
-            </button>
+            <%= link_to '>', cours_planning_path(planning_date:(@planning_date + 1.day)), class:"btn btn-default btn-sm" %>
+            <%= link_to '>>', cours_planning_path(planning_date:(@planning_date + 1.month)), class:"btn btn-default btn-sm" %>
           </h4>
         </div>
 

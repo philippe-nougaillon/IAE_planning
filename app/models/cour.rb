@@ -10,7 +10,7 @@ class Cour < ActiveRecord::Base
 
   belongs_to :salle
 
-  validates :formation_id, :intervenant_id, :duree, presence: true
+  validates :debut, :formation_id, :intervenant_id, :duree, presence: true
   validate :check_chevauchement_intervenant
   validate :check_chevauchement, if: Proc.new {|cours| cours.salle_id }
   validate :jour_fermeture

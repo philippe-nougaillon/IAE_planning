@@ -22,13 +22,6 @@
                         disabled:(current_user.formation) %>
           </div>
 
-<!--           <div class="col-sm-2">
-              <%= label_tag :ue, "UE" %>   
-              <%= select_tag :ue, 
-                    options_from_collection_for_select(Unite.where(formation_id:params[:formation_id]).order(:num), :num, :num_nom, params[:ue]), 
-                        include_blank: true, onchange:'this.form.submit()', class: "form-control" %>
-          </div>
- -->
           <div class="col-sm-5">
               <%= label_tag "Intervenant" %>    
               <div class="input-group">
@@ -159,6 +152,8 @@
                      events: @cours.where(salle_id:@salle.id), salle_id:@salle.id, 
                      number_of_days: 6 do |date, meetings| %>
 
+          <%= link_to "+", new_cour_path(debut:date, salle_id:@salle.id, etat:2, from:'planning_salles'), class:"btn btn-default btn-sm" %>
+
           <% meetings.each do |meeting| %>
             <div class="meeting">
               <b>
@@ -166,12 +161,13 @@
               </b>
               <br>
               <% if meeting.formation.abrg %>
-                <%= link_to meeting.formation.abrg, edit_cour_path(meeting), title:meeting.nom %>
+                <%= link_to meeting.formation.abrg, edit_cour_path(meeting, from:'planning_salles'), title:meeting.nom %>
               <% else %>
                 <%= link_to meeting.formation.nom, meeting %>
               <% end %>
             </div>
           <% end %>
+
         <% end %>
       <% end %>
     </div>

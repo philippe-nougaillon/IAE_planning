@@ -17,7 +17,7 @@
         </thead>
       </tfoot>
       <tbody>
-        <% @cours.confirmé.includes(:formation, :intervenant, :salle).each do | cours | %>
+        <% @cours.each do | cours | %>
           <tr>
             <td>
               <h3><%= l(cours.debut, format: :heures_min) %></h3>

@@ -24,8 +24,13 @@ class CoursController < ApplicationController
 
     @cours = Cour.includes(:formation, :intervenant, :salle).order(:debut)
 
-    if params[:view] == "calendar_rooms" and params[:start_date].blank? 
-      @date = Date.today.beginning_of_week(start_day = :monday)
+    if params[:view] == "calendar_rooms" 
+      # Se positionner sur le premier jour de la semaine 
+      if params[:start_date].blank? 
+        @date = Date.today.beginning_of_week(start_day = :monday)
+      else
+        @date = Date.parse(params[:start_date]).beginning_of_week(start_day = :monday)
+      end
       params[:start_date] = @date.to_s
     end
 
@@ -43,7 +48,7 @@ class CoursController < ApplicationController
 
     if params[:start_date].blank? and !params[:semaine].blank?
       params[:semaine] = nil
-      flash[:alert] = "Veuillez choisir une date"
+      flash[:alert] = "Veuillez choisir une date svp..."
     end
 
     if current_user.formation 
@@ -103,6 +108,8 @@ class CoursController < ApplicationController
     unless params[:intervenant_id].blank?
       @cours = @cours.where(intervenant_id:params[:intervenant_id])
     end
+
+    @cours = @cours.includes(:formation, :intervenant, :salle)
   end
 
   def action
@@ -222,9 +229,12 @@ class CoursController < ApplicationController
   def new
     @cour = Cour.new
     @cour.formation_id = params[:formation_id]
-    @cour.debut = params[:fin] 
+    # @cour.debut = params[:fin] 
+    @cour.debut = params[:debut] if params[:debut]
     @cour.intervenant_id = params[:intervenant_id]
     @cour.ue = params[:ue]
+    @cour.salle_id = params[:salle_id]
+    @cour.etat = params[:etat].to_i
   end
 
   # GET /cours/1/edit
@@ -241,6 +251,8 @@ class CoursController < ApplicationController
         format.html do
           if params[:create_and_add]  
             redirect_to new_cour_path(debut:@cour.debut, fin:@cour.fin, formation_id:@cour.formation_id, intervenant_id:@cour.intervenant_id, ue:@cour.ue), notice: 'Cours ajouté avec succès.'
+          elsif params[:from] == 'planning_salles'
+            redirect_to cours_path(view:"calendar_rooms", start_date:@cour.debut)
           else
             redirect_to @cour, notice: 'Cours ajouté avec succès.'
           end 
@@ -258,7 +270,13 @@ class CoursController < ApplicationController
   def update
     respond_to do |format|
       if @cour.update(cour_params)
-        format.html { redirect_to cours_url, notice: 'Cours modifié avec succès.' }
+        format.html do
+          if params[:from] == 'planning_salles'
+            redirect_to cours_path(view:"calendar_rooms", start_date:@cour.debut)
+          else
+            redirect_to cours_url, notice: 'Cours modifié avec succès.'
+          end
+        end
         format.json { render :show, status: :ok, location: @cour }
       else
         format.html { render :edit }

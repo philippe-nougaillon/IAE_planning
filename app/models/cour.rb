@@ -126,22 +126,23 @@ class Cour < ActiveRecord::Base
       if self.changes.include?('etat') and (self.etat == 'annulé' or self.etat == 'reporté') 
         # logger.debug "[DEBUG] etat modifié: #{self.etat_was} => #{self.etat}"
 
-        # envoyer notification à la chargée de formation
+        # envoyer notification au chargé de formation
         if self.formation.user
           UserMailer.cours_changed(self, self.formation.user.email).deliver_now
         end
 
-        # Envoyer un mail à Pascal
+        # envoyer un mail à Pascal pour info
         UserMailer.cours_changed(self, "wachnick.iae@univ-paris1.fr").deliver_now
 
         # envoyer à tous les étudiants 
-        self.formation.users.each do | user |
-          UserMailer.cours_changed(self, user.email).deliver_now
-        end
+        #self.formation.users.each do | user |
+        #  UserMailer.cours_changed(self, user.email).deliver_now
+        #end
       end
 
+      # envoyer un mail à Pascal pour faire la réservation de cours
       if self.changes.include?('etat') and (self.etat == 'à_réserver') 
-          UserMailer.cours_changed(self, "wachnick.iae@univ-paris1.fr").deliver_now
+        UserMailer.cours_changed(self, "wachnick.iae@univ-paris1.fr").deliver_now
       end 
     end  
 
@@ -182,7 +183,7 @@ class Cour < ActiveRecord::Base
     end
 
     def change_etat_si_salle
-      if (self.etat == 'à_réserver' or self.etat == 'confirmé') and (self.salle_id_was == nil and self.salle_id != nil)
+      if (self.etat == 'planifié' or self.etat == 'à_réserver' or self.etat == 'confirmé') and (self.salle_id_was == nil and self.salle_id != nil)
           self.etat = 'confirmé'
           errors.add(:cours, 'état changé !')
       end   

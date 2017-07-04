@@ -84,7 +84,7 @@ class CoursController < ApplicationController
     end
 
     if params[:view] == "calendar_rooms"
-      @cours = @cours.confirmé
+      @cours = @cours.where(etat: Cour.etats.values_at(:à_réserver, :confirmé, :annulé, :reporté))
     end
 
   end
@@ -149,7 +149,7 @@ class CoursController < ApplicationController
       ids.each do |id, state|
         cours = Cour.find(id)
         # supprimer que si c'est le créateur qui le demande !
-        if current_user.id == cours.audits.first.user_id
+        if current_user.id == cours.audits.last.user_id
           cours.destroy
         end
       end

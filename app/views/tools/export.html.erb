@@ -6,6 +6,10 @@
 </div>
 <div>
   <h3>Cette fonction permet la création d'un fichier CSV à partir des cours sélectionnés ci-dessous</h3>
+  <p>
+    Pour ouvrir ce fichier dans Excel, utilisez dans le menu "Données" la fonction "A partir du texte", puis choisir Délimité et Origine du fichier : 65001 Unicode UTF-8, puis choisir le séparateur "point-virgule"
+  </p>
+
 </div>
 
 <%= form_tag({action: "export_do", method: :post}) do %>

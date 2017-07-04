@@ -11,7 +11,7 @@ class UserMailer < ApplicationMailer
 
   def cours_changed(cours, email)
   	@cours = cours
-  	mail(to: email , subject: "Cours modifié")
+  	mail(to: email , subject: "[PLANNING] L'état du cours #{cours.formation.nom}/#{cours.nom_ou_ue} a été modifié")
   end
 
 end

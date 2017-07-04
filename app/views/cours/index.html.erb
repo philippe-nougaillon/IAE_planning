@@ -70,12 +70,12 @@
             <br> 
             <%= radio_button_tag :view, "list", (params[:view]=='list'), onchange:'this.form.submit()' %>
             Liste 
+            <%= radio_button_tag :view, "calendar_rooms", (params[:view]=='calendar_rooms'), onchange:'this.form.submit()' %>
+            Salles 
             <%= radio_button_tag :view, "calendar_week", (params[:view]=='calendar_week'), onchange:'this.form.submit()' %>
             Semaine 
             <%= radio_button_tag :view, "calendar_month", (params[:view]=='calendar_month'), onchange:'this.form.submit()' %>
             Mois 
-            <%= radio_button_tag :view, "calendar_rooms", (params[:view]=='calendar_rooms'), onchange:'this.form.submit()' %>
-            Salles 
           </div>
 
           <% if params[:view] == 'list' %>
@@ -146,6 +146,29 @@
   
   <div class="row">
     <div class="col-md-12">
+        <%= calendar partial: 'simple_calendar/week_rooms_calendar', 
+                     events: @cours.where(salle_id:nil), salle_id:0, 
+                     number_of_days: 6 do |date, meetings| %>
+
+          <% meetings.each do |meeting| %>
+              <span class="label <%= meeting.style %>"><%= meeting.etat.humanize %></span><br>
+              <b>
+                <%= "#{l(meeting.debut, format: :heures_min)}-#{l(meeting.fin, format: :heures_min)}" %>
+              </b>
+              <br>
+              <% if meeting.formation.abrg %>
+                <%= link_to meeting.formation.abrg, edit_cour_path(meeting, from:'planning_salles'), title:meeting.nom %>
+              <% else %>
+                <%= link_to meeting.formation.nom, meeting %>
+              <% end %>
+          <% end %>
+        <% end %>
+    </div>
+  </div>
+  
+
+  <div class="row">
+    <div class="col-md-12">
       <% Salle.all.each do |salle_id| %>
         <% @salle = Salle.find(salle_id) %> 
         <%= calendar partial: 'simple_calendar/week_rooms_calendar', 
@@ -156,6 +179,7 @@
 
           <% meetings.each do |meeting| %>
             <div class="meeting">
+              <span class="label <%= meeting.style %>"><%= meeting.etat.humanize %></span><br>
               <b>
                 <%= "#{l(meeting.debut, format: :heures_min)}-#{l(meeting.fin, format: :heures_min)}" %>
               </b>

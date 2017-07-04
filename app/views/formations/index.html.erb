@@ -55,12 +55,13 @@
         <tr>
           <th colspan="2">Nom de la formation</th>
           <th>Promotion</th>
+          <th>Gestionnaire</th>
           <th>Abr.</th>
           <th>UE</th>
           <th>Etudiants</th>
           <th>Cours planifiés</th>
-          <th>Cours confirmés</th>
-          <th>Cours réalisés</th>
+          <th>Confirmés</th>
+          <th>Réalisés</th>
           <% if current_user.try(:admin?) %>
             <th colspan="2"></th>
           <% end %>  
@@ -69,8 +70,8 @@
 
       <tfoot>
         <tr>
-          <% 5.times do %><th><% end %>
-          <th><span class="pull-right"><%= @formations.sum(:nbr_etudiants) %></span></th>
+          <% 6.times do %><th><% end %>
+          <th><%= @formations.sum(:nbr_etudiants) %></th>
           <th /><th /><th />
           <% if current_user.try(:admin?) %>
             <th /><th />
@@ -84,18 +85,19 @@
             <td><span style="background-color:<%= formation.color %>;padding-left: 7px;"></span></td>
             <td><%= link_to formation.nom, formation  %></td>
             <td><%= formation.promo %></td>
+            <td><%= formation.user.nom if formation.user %></td>
             <td><%= formation.abrg %></td>
-            <td><span class="pull-right"><%= formation.unites.count %></span></td>
-            <td><span class="pull-right"><%= formation.nbr_etudiants %></span></td>
-            <td><span class="pull-right">
+            <td><%= formation.unites.count %></td>
+            <td><%= formation.nbr_etudiants %></td>
+            <td>
               <%= link_to formation.cours.planifié.count, cours_path(formation_id:formation, etat:Cour.etats[:planifié], filter:'all') %>
-            </span></td>
-            <td><span class="pull-right">
+            </td>
+            <td>
               <%= link_to formation.cours.confirmé.count, cours_path(formation_id:formation, etat:Cour.etats[:confirmé], filter:'all') %>
-            </span></td>
-            <td><span class="pull-right">
+            </td>
+            <td>
               <%= link_to formation.cours.réalisé.count, cours_path(formation_id:formation, etat:Cour.etats[:réalisé], filter:'all') %>
-            </span></td>
+            </td>
             <% if current_user.admin? %>
               <td>
                 <%= link_to edit_formation_path(formation), class: "btn btn-default" do %>

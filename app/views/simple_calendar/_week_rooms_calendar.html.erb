@@ -17,11 +17,13 @@
     <tbody>
       <% date_range.each_slice(7) do |week| %>
         <tr>
-          <% if defined? @week_selector_visible and @salle %>
-            <td>
+          <td>
+            <% if @salle %>
               <h4 id=<%= @salle.nom %>><%= @salle.nom %></h4>
-            </td>
-          <% end %>
+            <% else %>
+              A RESERVER
+            <% end %>
+          </td>
           
           <% week.each do |day| %>
             <% unless day.sunday? %>

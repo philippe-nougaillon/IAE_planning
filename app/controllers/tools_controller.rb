@@ -22,7 +22,7 @@ class ToolsController < ApplicationController
       @stream = capture_stdout do
         @importes = @errors = 0 
 
-        index = 0
+        index = 1
 
         CSV.foreach(file_with_path, headers:true, col_sep:';', quote_char:'"', encoding:'iso-8859-1:UTF-8') do |row|
           index += 1
@@ -36,6 +36,7 @@ class ToolsController < ApplicationController
           if row['Intervenant']
             nom = row['Intervenant'].strip.split(' ').first
             intervenant = Intervenant.where("nom like ?", "%#{nom}%").first
+            # first or create 
           end
 
           debut = Time.parse(row['Date'] + " " + row['Heure début'])
@@ -61,7 +62,7 @@ class ToolsController < ApplicationController
             # puts cours.changes
             @errors += 1
           end
-          puts "- -" * 40
+          # puts "- -" * 40
           puts
         end
         puts "----------- Les modifications n'ont pas été enregistrées ! ---------------" unless params[:save] == 'true'
@@ -98,7 +99,7 @@ class ToolsController < ApplicationController
       @stream = capture_stdout do
   	  	@importes = @modifies = @errors = 0	
 
-  	  	index = 0
+  	  	index = 1
 
     		CSV.foreach(file_with_path, headers:true, col_sep:';', encoding:'iso-8859-1:UTF-8') do |row|
     			index += 1
@@ -111,7 +112,7 @@ class ToolsController < ApplicationController
           intervenant.linkedin_url = row['linkedin_url']
           intervenant.titre1 = row['titre1']
           intervenant.titre2 = row['titre2']
-          intervenant.status = row['status']
+          intervenant.status = row['statut']
           intervenant.spécialité = row['spécialité']
           intervenant.téléphone_fixe = row['téléphone_fixe']
           intervenant.téléphone_mobile = row['téléphone_mobile']
@@ -282,7 +283,7 @@ class ToolsController < ApplicationController
   end
 
   def export_do
-	@cours = Cour.includes(:formation, :intervenant, :salle).order(:debut)
+	  @cours = Cour.includes(:formation, :intervenant, :salle).order(:debut)
 
     unless params[:start_date].blank? and params[:end_date].blank? 
       @start_date = Date.parse(params[:start_date])
@@ -337,7 +338,7 @@ class ToolsController < ApplicationController
   def export_intervenants_do
     require 'csv'
 
-  	@csv_string = CSV.generate(col_sep:';', encoding:'iso-8859-1') do | csv |
+  	@csv_string = CSV.generate(col_sep:';', encoding:'UTF-8') do | csv |
       csv << ["id", "nom","prenom", "email", "status", "remise_dossier_srh", "linkedin_url", "titre1", "titre2", "spécialité", "téléphone_fixe", "téléphone_mobile", "bureau", "adresse", "cp", "ville",'cree le', 'modifie le' ]
       
       Intervenant.all.each do |c|

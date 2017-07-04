@@ -65,8 +65,11 @@
     <p>
       <strong>Nbr d'heures prévues:</strong>
       <%= @formation.nbr_heures %>
-      (Planifiées:
-      <%= link_to @formation.cours.planifié.collect {|c| c.duree }.sum, cours_path(formation_id:@formation, etat:Cour.etats[:planifié])  %>)
+      (
+        Planifiées:
+        <%= link_to @formation.cours.planifié.collect {|c| c.duree }.sum, 
+        cours_path(formation_id:@formation, etat:Cour.etats[:planifié])  %>
+      )
     </p>
 
     <p>

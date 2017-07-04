@@ -20,7 +20,7 @@
   <div class="form-group">
     <%= f.label :debut, "Début", class:"control-label col-sm-2" %>
     <div class="col-sm-6">
-      <%= f.datetime_select :debut, minute_step:15, class:"form-control" %>
+      <%= f.datetime_select :debut, minute_step:15, start_hour: 8, end_hour: 22, class:"form-control" %>
     </div>
   </div>
 

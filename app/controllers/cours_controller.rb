@@ -22,6 +22,12 @@ class CoursController < ApplicationController
     params[:filter] ||= 'upcoming'
     params[:paginate] ||= 'pages'
 
+    if params[:commit] == 'Raz filtre'
+      session[:formation_id] = params[:formation_id] = nil
+      redirect_to cours_path
+    end
+    params[:formation_id] ||= session[:formation_id]
+
     @cours = Cour.includes(:formation, :intervenant, :salle).order(:debut)
 
     if params[:view] == "calendar_rooms" 
@@ -86,6 +92,8 @@ class CoursController < ApplicationController
     if params[:view] == "calendar_rooms"
       @cours = @cours.where(etat: Cour.etats.values_at(:à_réserver, :confirmé, :annulé, :reporté))
     end
+
+    session[:formation_id] = params[:formation_id]
 
   end
 

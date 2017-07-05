@@ -29,14 +29,19 @@ class ToolsController < ApplicationController
 
           # Date;Heure début;Heure fin;Durée;UE;Intervenant;Intitulé
 
-          # passe si pas de valur dans la date
+          # passe si pas de valeur dans le champs date
           next unless row['Date']
           
           intervenant = nil
           if row['Intervenant']
             nom = row['Intervenant'].strip.split(' ').first
-            intervenant = Intervenant.where("nom like ?", "%#{nom}%").first
-            # first or create 
+            intervenant = Intervenant.where(nom:nom).first_or_initialize
+            if intervenant.new_record?
+              puts "Intervenant #{intervenant.nom} sera créé. Ne pas tenir compte du message intervenant_id doit être rempli."
+              intervenant.prenom = row['Intervenant'].strip.split(' ').last
+              intervenant.email = "?"
+              intervenant.save if params[:save] == 'true'
+            end
           end
 
           debut = Time.parse(row['Date'] + " " + row['Heure début'])
@@ -54,7 +59,7 @@ class ToolsController < ApplicationController
             #puts "UPDATE =>#{cours.attributes}" unless cours.new_record?
             #puts "Durée: #{cours.duree.to_f}"
             cours.save if params[:save] == 'true'
-                @importes += 1
+            @importes += 1
           else
             puts "Ligne ##{index}"
             puts "COURS INVALIDE !! Erreur => #{cours.errors.messages} | Source: #{row}"

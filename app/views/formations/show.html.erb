@@ -104,7 +104,7 @@
           <td><%= unite.nom %></td>
           <td><%= @formation.cours.where(ue:unite.num).count %></td>
           <td>
-            <% total = @formation.cours.where(ue:unite.num).collect {|c| c.duree }.sum %>
+            <%= total = @formation.cours.where(ue:unite.num).collect {|c| c.duree }.sum %>
           </td>
           <% total_ue += total %>
       <% end %>

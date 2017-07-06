@@ -16,7 +16,6 @@ class ApplicationController < ActionController::Base
       # force la vue des cours en planning semaine si c'est pascal wachnick
       if current_user
         @cours_params = {}
-        #@cours_params[:view] = 'calendar_rooms' if current_user.email == "wachnick.iae@univ-paris1.fr"
       end  
     end
 

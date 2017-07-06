@@ -13,34 +13,27 @@
     <div class="form-group">
       <div class="row">
         <div class="col-sm-6">
-          <h4>
-            <%= link_to '<<', cours_planning_path(planning_date:(@planning_date - 1.month)), class:"btn btn-default btn-sm"  %>
-            <%= link_to '<', cours_planning_path(planning_date:(@planning_date - 1.day)), class:"btn btn-default btn-sm" %>
-            
-            <%= l(@planning_date.to_date, format: :long) %>
+          <%= label_tag "Date" %>  
+          <h5>
+            <%= link_to '<<', cours_planning_path(planning_date:(@planning_date - 1.month)), class:"btn btn-default btn-xs" %>
+            <%= link_to '<', cours_planning_path(planning_date:(@planning_date - 1.day)), class:"btn btn-default btn-xs" %>
 
-            <%= link_to '>', cours_planning_path(planning_date:(@planning_date + 1.day)), class:"btn btn-default btn-sm" %>
-            <%= link_to '>>', cours_planning_path(planning_date:(@planning_date + 1.month)), class:"btn btn-default btn-sm" %>
-          </h4>
+            <%= l(@planning_date.to_date, format: :long) %>
+            
+            <%= link_to '>', cours_planning_path(planning_date:(@planning_date + 1.day)), class:"btn btn-default btn-xs" %>
+            <%= link_to '>>', cours_planning_path(planning_date:(@planning_date + 1.month)), class:"btn btn-default btn-xs" %>
+          </h5>
         </div>
 
         <div class="col-sm-6">
-            <%= label_tag "Formation" %>    
+          <%= label_tag "Formation" %>    
+          <div class="input-group">
             <%= select_tag :formation_id, 
                   options_from_collection_for_select(Formation.all, :id, :nom_promo, params[:formation_id]), include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
-        </div>
-
-        <div class="col-sm-5">
-            <%= label_tag "Intervenant" %>    
-            <div class="input-group">
-                <%= select_tag :intervenant_id, 
-                  options_from_collection_for_select(Intervenant.all, :id, :nom_prenom, params[:intervenant_id]), 
-                    include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
-              <span class="input-group-btn">
-                <%= submit_tag 'Filtrer', class:"btn btn-success" %>
-              </span>
-            </div>
-        </div>
+            <span class="input-group-btn">
+              <%= submit_tag 'Filtrer', class:"btn btn-success" %>
+            </span>
+          </div>
       </div>
     </div>
   <% end %>

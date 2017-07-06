@@ -26,6 +26,13 @@
           </div>
 
           <div class="col-sm-2">
+            <%= label_tag :apprentissage, "Apprentissage ?" %>
+            <br>    
+            <%= check_box_tag :apprentissage, 1, params[:apprentissage], 
+                  onchange:'this.form.submit()', class:"form-control" %>
+          </div>
+
+          <div class="col-sm-2">
             <%= label_tag "Diplôme" %>    
             <div class="input-group">
               <%= select_tag :diplome, 
@@ -37,10 +44,12 @@
           </div>
 
           <div class="col-sm-2">
-            <%= label_tag :apprentissage, "Apprentissage ?" %>
-            <br>    
-            <%= check_box_tag :apprentissage, 1, params[:apprentissage], 
-                  onchange:'this.form.submit()', class:"form-control" %>
+              <%= label_tag "Afficher" %>
+              <br> 
+              <%= radio_button_tag :paginate, "pages", (params[:paginate]=='pages'), onchange:'this.form.submit()' %>
+              Pages 
+              <%= radio_button_tag :paginate, "all", (params[:paginate]=='all'), onchange:'this.form.submit()' %>
+              Tout 
           </div>
           
         </div>
@@ -71,7 +80,11 @@
       <tfoot>
         <tr>
           <% 6.times do %><th><% end %>
-          <th><%= @formations.sum(:nbr_etudiants) %></th>
+          <th>
+            <% if params[:paginate] == 'all' or @formations.total_pages == @formations.current_page %>
+              <%= @all_formations.sum(:nbr_etudiants) %>
+            <% end %>
+          </th>
           <th /><th /><th />
           <% if current_user.try(:admin?) %>
             <th /><th />
@@ -116,10 +129,12 @@
         <% end %>
       </tbody>
     </table>
-    <div class="page_info">
-      <%= page_entries_info @formations %>
-    </div>
-    <%= will_paginate @formations, renderer: BootstrapPagination::Rails %>
+    <% if params[:paginate] == 'pages' %>
+      <div class="page_info">
+        <%= page_entries_info @formations %>
+      </div>
+      <%= will_paginate @formations, renderer: BootstrapPagination::Rails %>
+    <% end %>  
   </div>
 <% end %>
 <br>

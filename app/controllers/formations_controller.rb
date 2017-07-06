@@ -11,6 +11,8 @@ class FormationsController < ApplicationController
   # GET /formations
   # GET /formations.json
   def index
+    params[:paginate] ||= 'pages'
+
     @formations = Formation.all
 
     unless params[:nom].blank?
@@ -29,7 +31,11 @@ class FormationsController < ApplicationController
       @formations = @formations.where(promo:params[:promo])
     end
     @formations = @formations.order(:nom, :promo)
-    @formations = @formations.paginate(:page => params[:page], :per_page => 20)
+    
+    @all_formations = @formations
+    if params[:paginate] == 'pages'
+       @formations = @formations.paginate(page:params[:page], per_page:20)
+    end
   end
 
   # GET /formations/1

@@ -99,13 +99,15 @@
     </thead>
 
     <tbody>
-      <% total_ue = 0.0 %>
+      <% total_ue = total = 0.0 %>
       <%= content_tag_for(:tr, @formation.unites) do | unite | %>
           <td><%= link_to unite.num, cours_path(formation_id:@formation, ue:unite.num) %></td>
           <td><%= unite.nom %></td>
-          <td><%= @formation.cours.where(ue:unite.num).count %></td>
-          <td><%= @formation.cours.where(ue:unite.num).collect {|c| c.duree }.sum %></td>
-          <% total_ue += @formation.cours.where(ue:unite.num).collect {|c| c.duree }.sum %>
+          <td><%= @formation.cours.where("ue like ?", "#{unite.num}%").count %></td>
+          <td>
+            <%= total = @formation.cours.where("ue like ?", "#{unite.num}%").collect {|c| c.duree }.sum %>
+          </td>
+          <% total_ue += total %>
       <% end %>
     </tbody>
 

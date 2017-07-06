@@ -44,8 +44,9 @@ class ToolsController < ApplicationController
             end
           end
 
-          debut = Time.parse(row['Date'] + " " + row['Heure début'])
-          fin   = Time.parse(row['Date'] + " " + row['Heure fin'])
+          jour = Date.parse(row['Date'])
+          debut = Time.parse(jour.to_s + " " + row['Heure début'])
+          fin   = Time.parse(jour.to_s + " " + row['Heure fin'])
 
           cours = Cour.where(debut:debut, formation_id: params[:formation_id]).first_or_initialize 
           cours.fin = fin
@@ -76,7 +77,6 @@ class ToolsController < ApplicationController
         puts "=" * 40
         puts "Lignes importées: #{@importes} | Lignes ignorées: #{@errors}"
         puts "=" * 40
-
       end
 
       # save output            
@@ -179,41 +179,41 @@ class ToolsController < ApplicationController
 
       # capture output
       @stream = capture_stdout do
-	  	@importes = @errors = 0	
+        @importes = @errors = 0	
 
-	  	index = 0
+        index = 0
 
-		CSV.foreach(file_with_path, headers:true, col_sep:';', quote_char:'"', encoding:'iso-8859-1:UTF-8') do |row|
-			index += 1
+        CSV.foreach(file_with_path, headers:true, col_sep:';', quote_char:'"', encoding:'iso-8859-1:UTF-8') do |row|
+          index += 1
 
-			generated_password = Devise.friendly_token.first(12)
-			user = User.new(email:row['email'], nom:row['nom'].strip, prénom:row['prénom'].strip, mobile:row['mobile'], 
-							password:generated_password, formation_id:params[:formation_id])
+          generated_password = Devise.friendly_token.first(12)
+          user = User.new(email:row['email'], nom:row['nom'].strip, prénom:row['prénom'].strip, mobile:row['mobile'], 
+                  password:generated_password, formation_id:params[:formation_id])
 
-			user.admin = true if row['admin?'] == 'admin'
-			
-			UserMailer.welcome_email(user, generated_password).deliver if params[:save] == 'true'
-			
-			if user.valid? 
-				#puts "user VALIDE => #{user.changes}"
-				user.save if params[:save] == 'true'
-	        	@importes += 1
-			else
-				puts "Ligne ##{index}"
-				puts "!! user INVALIDE !! Erreur => #{user.errors.messages} | Source: #{row}"
-				puts
-				# puts user.changes
-				@errors += 1
-			end
-			puts "- -" * 40
-			puts
-		end
-	  	puts "----------- Les modifications n'ont pas été enregistrées ! ---------------" unless params[:save] == 'true'
-	  	puts
+          user.admin = true if row['admin?'] == 'admin'
+          
+          UserMailer.welcome_email(user, generated_password).deliver if params[:save] == 'true'
+          
+          if user.valid? 
+            #puts "user VALIDE => #{user.changes}"
+            user.save if params[:save] == 'true'
+                @importes += 1
+          else
+            puts "Ligne ##{index}"
+            puts "!! user INVALIDE !! Erreur => #{user.errors.messages} | Source: #{row}"
+            puts
+            # puts user.changes
+            @errors += 1
+          end
+          puts "- -" * 40
+          puts
+        end
+        puts "----------- Les modifications n'ont pas été enregistrées ! ---------------" unless params[:save] == 'true'
+        puts
 
-		puts "=" * 40
-		puts "Lignes importées: #{@importes} | Lignes ignorées: #{@errors}"
-		puts "=" * 40
+        puts "=" * 40
+        puts "Lignes importées: #{@importes} | Lignes ignorées: #{@errors}"
+        puts "=" * 40
       end
 
       # save output            
@@ -236,19 +236,19 @@ class ToolsController < ApplicationController
       return
     end 
 
-	@start_date = Date.civil(params[:cours]["start_date(1i)"].to_i,
+	  @start_date = Date.civil(params[:cours]["start_date(1i)"].to_i,
                          	 params[:cours]["start_date(2i)"].to_i,
                          	 params[:cours]["start_date(3i)"].to_i)
 
-	@end_date = Date.civil(params[:cours]["end_date(1i)"].to_i,
+	  @end_date = Date.civil(params[:cours]["end_date(1i)"].to_i,
                            params[:cours]["end_date(2i)"].to_i,
                            params[:cours]["end_date(3i)"].to_i)
 
   	current_date = @start_date
   	@ndays = (@end_date - @start_date).to_i + 1
-	duree = params[:duree]
-	salle_id = params[:salle_id]
-	nom_cours = params[:nom]
+	  duree = params[:duree]
+	  salle_id = params[:salle_id]
+	  nom_cours = params[:nom]
 
   	@cours_créés = @erreurs = 0
 
@@ -311,7 +311,7 @@ class ToolsController < ApplicationController
 
     require 'csv'
 
-  	@csv_string = CSV.generate(col_sep:';', encoding:'iso-8859-1') do | csv |
+  	@csv_string = CSV.generate(col_sep:';', encoding:'UTF-8') do | csv |
       csv << ['id','date debut', 'heure debut', 'date fin','heure fin', 'formation_id','formation','intervenant_id','intervenant','nom du cours', 'etat','duree','cours cree le', 'cours modifie le']
       
       @cours.each do |c|

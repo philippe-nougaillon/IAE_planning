@@ -14,6 +14,8 @@ Rails.application.routes.draw do
   post 'tools/export_do'
   get 'tools/export_intervenants'
   post 'tools/export_intervenants_do'
+  get 'tools/swap_intervenant'
+  post 'tools/swap_intervenant_do'
 
   get 'cours/index_slide' # à supprimer 
   get 'cours/planning' => "cours#index_slide"

@@ -225,6 +225,41 @@ class ToolsController < ApplicationController
     end  
   end
 
+  def swap_intervenant
+  end
+
+  def swap_intervenant_do
+    
+    unless params[:intervenant_from_id].blank? and params[:intervenant_to_id].blank?
+    	
+      # capture output
+      @stream = capture_stdout do
+        @importes = @errors = 0	
+
+        @cours = Cour.where(intervenant_id:params[:intervenant_from_id])
+
+        puts "#{@cours.count} cours à modifier"
+
+        if (@cours.any? and params[:save] == 'true') 
+          @cours.update_all(intervenant_id:params[:intervenant_to_id])
+          puts "les cours ont été modifiés !"
+        end 
+        
+        puts 
+        puts "----------- Les modifications n'ont pas été enregistrées ! ---------------" unless params[:save] == 'true'
+        puts
+
+        puts "=" * 40
+        puts "Lignes importées: #{@importes} | Lignes ignorées: #{@errors}"
+        puts "=" * 40
+      end
+
+    else
+      flash[:alert] = "Manque les intervenants afin de lancer la modification !"
+      redirect_to action: 'swap_intervenant'
+    end  
+
+  end
 
   def creation_cours
   end

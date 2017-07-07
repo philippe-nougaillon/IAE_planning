@@ -18,7 +18,7 @@
             <%= link_to '<<', cours_planning_path(planning_date:(@planning_date - 1.month)), class:"btn btn-default btn-xs" %>
             <%= link_to '<', cours_planning_path(planning_date:(@planning_date - 1.day)), class:"btn btn-default btn-xs" %>
 
-            <%= l(@planning_date.to_date, format: :long) %>
+            <%= l(@planning_date.to_date, format: :long).humanize %>
             
             <%= link_to '>', cours_planning_path(planning_date:(@planning_date + 1.day)), class:"btn btn-default btn-xs" %>
             <%= link_to '>>', cours_planning_path(planning_date:(@planning_date + 1.month)), class:"btn btn-default btn-xs" %>
@@ -29,7 +29,7 @@
           <%= label_tag "Formation" %>    
           <div class="input-group">
             <%= select_tag :formation_id, 
-                  options_from_collection_for_select(Formation.all, :id, :nom_promo, params[:formation_id]), include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
+                  options_from_collection_for_select(@cours.collect{|c| c.formation}.uniq, :id, :nom_promo, params[:formation_id]), include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
             <span class="input-group-btn">
               <%= submit_tag 'Filtrer', class:"btn btn-success" %>
             </span>
@@ -45,11 +45,9 @@
         <%= l(cours.debut, format: :heures_min) %> -
         <%= l(cours.fin, format: :heures_min) %>
         <% if cours.salle %>
-            <span class="label <%= cours.style %>">
-              <%= cours.salle.nom %>
-            </span>
-        <% else %>
-          <i class="glyphicon glyphicon-warning-sign"></i>
+          <span class="label <%= cours.style %>">
+            <%= cours.salle.nom %>
+          </span>
         <% end %>
       </h4>
 

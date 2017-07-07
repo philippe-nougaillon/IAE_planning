@@ -54,11 +54,12 @@
       <b><%= cours.formation.nom_promo %></b><br>
       <%= cours.intervenant.nom_prenom %><br>
       <% if cours.intervenant_binome %>
+        <br>
         <%= cours.intervenant_binome.nom_prenom %>
       <% end %>
       <i><%= cours.nom_ou_ue %></i><br>
       
-      <% if cours.progress_bar_pct(@planning_date) > 0 %>  
+      <% if (cours.debut.to_date == Date.today && cours.progress_bar_pct(@planning_date) > 0) %>  
         <br>
         <div class="progress" style="width: 100%">
           <div class="progress-bar progress-bar-striped active" 

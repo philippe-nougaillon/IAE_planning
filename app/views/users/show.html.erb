@@ -63,14 +63,14 @@
   <% if Audited.audit_class.any? %>
     <h3>Historique des modifications</h3>
     <table class="table table-condensed table-striped">
-    <thead>
-    	<th>ID</th>
-    	<th style="width:100px">Date</th>
-    	<th>Table</th>
-    	<th>Action</th>
-    	<th>Changes</th>
-    </thead>
-      <% Audited.audit_class.where(user_id:@user.id).reverse.each do |audit| %>
+			<thead>
+				<th>ID</th>
+				<th style="width:100px">Date</th>
+				<th>Table</th>
+				<th>Action</th>
+				<th>Changes</th>
+			</thead>
+      <% @audits.each do |audit| %>
         <tr>
           <td><%= audit.id %></td>
           <td><%= l(audit.created_at, format: :short) %></td>
@@ -79,12 +79,17 @@
           <td>
 	          <% begin %>
 		         <%= audit.try(:audited_changes) %>
-		      <% rescue %>
-		      	 ???
-		      <% end %>
+		      	<% rescue %>
+		      		 ???
+		      	<% end %>
           </td>
         </tr>  
       <% end %>
     </table>
+		 <div class="page_info">
+        <%= page_entries_info  @audits %>
+    	</div>
+
+      <%= will_paginate @audits, renderer: BootstrapPagination::Rails %>
   <% end %>
 <% end %>

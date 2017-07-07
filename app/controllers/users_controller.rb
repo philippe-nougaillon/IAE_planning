@@ -24,13 +24,15 @@ class UsersController < ApplicationController
     unless params[:admin].blank?
       @users = @users.where(admin:true)
     end
-    
-    @users = @users.paginate(:page => params[:page], :per_page => 20)
+
+    @users = @users.paginate(page:params[:page], per_page:20)
   end
 
   # GET /users/1
   # GET /users/1.json
   def show
+    @audits = Audited.audit_class.where(user_id:@user.id).order("id DESC")
+    @audits = @audits.paginate(page:params[:page], per_page:20)
   end
 
   # GET /users/new

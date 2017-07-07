@@ -34,7 +34,7 @@ class ToolsController < ApplicationController
           
           intervenant = nil
           if row['Intervenant']
-            nom = row['Intervenant'].strip.split(' ').first
+            nom = row['Intervenant'].strip.split(' ').first.upcase
             intervenant = Intervenant.where(nom:nom).first_or_initialize
             if intervenant.new_record?
               puts "Intervenant #{intervenant.nom} sera créé. Ne pas tenir compte du message intervenant_id doit être rempli."

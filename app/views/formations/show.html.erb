@@ -103,7 +103,7 @@
         <% cours = @formation.cours.where(ue:unite.num) %>
         <td><%= link_to unite.num, cours_path(formation_id:@formation, ue:unite.num) %></td>
         <td><%= unite.nom %></td>
-        <td><%= cours.count %></td>
+        <td><%= link_to cours.count, cours_path(formation_id:@formation, ue:unite.num, filter:'all') %></td>
         <td><%= total = cours.sum(:duree) %></td>
         <% total_ue += total %>
       <% end %>

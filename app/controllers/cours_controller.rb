@@ -78,10 +78,13 @@ class CoursController < ApplicationController
       @cours = @cours.where(salle_id:params[:salle_id])      
     end
 
+    unless params[:ue].blank?
+      @cours = @cours.where(ue:params[:ue])
+    end
+
     if params[:filter] == 'upcoming'
       @cours = @cours.where("cours.debut >= ? ", Date.today)
     end
-
 
     @all_cours = @cours
 

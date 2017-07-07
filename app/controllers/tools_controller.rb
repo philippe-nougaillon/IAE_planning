@@ -50,7 +50,7 @@ class ToolsController < ApplicationController
 
           cours = Cour.where(debut:debut, formation_id: params[:formation_id]).first_or_initialize 
           cours.fin = fin
-          cours.ue = row['UE']
+          cours.ue = row['UE'].strip
           cours.intervenant = intervenant
           cours.nom = row['Intitulé']
           cours.duree = ((cours.fin - cours.debut) / 3600).round

@@ -67,7 +67,7 @@
       <%= @formation.nbr_heures %>
       (
         Planifiées:
-        <%= link_to @formation.cours.planifié.collect {|c| c.duree }.sum, 
+        <%= link_to @formation.cours.planifié.sum(:duree), 
         cours_path(formation_id:@formation, etat:Cour.etats[:planifié])  %>
       )
     </p>
@@ -85,7 +85,7 @@
 </dir>
 
 
-<h3>Unités d'Enseignements</h3>
+<h3>Unités d'enseignements</h3>
 <div class="table-responsive">
   <table class="table table-striped table-hover">
     <thead>
@@ -100,13 +100,12 @@
     <tbody>
       <% total_ue = total = 0.0 %>
       <%= content_tag_for(:tr, @formation.unites) do | unite | %>
-          <td><%= link_to unite.num, cours_path(formation_id:@formation, ue:unite.num) %></td>
-          <td><%= unite.nom %></td>
-          <td><%= @formation.cours.where(ue:unite.num).count %></td>
-          <td>
-            <%= total = @formation.cours.where(ue:unite.num).collect {|c| c.duree }.sum %>
-          </td>
-          <% total_ue += total %>
+        <% cours = @formation.cours.where(ue:unite.num) %>
+        <td><%= link_to unite.num, cours_path(formation_id:@formation, ue:unite.num) %></td>
+        <td><%= unite.nom %></td>
+        <td><%= cours.count %></td>
+        <td><%= total = cours.sum(:duree) %></td>
+        <% total_ue += total %>
       <% end %>
     </tbody>
 

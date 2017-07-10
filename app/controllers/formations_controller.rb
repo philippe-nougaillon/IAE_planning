@@ -51,6 +51,7 @@ class FormationsController < ApplicationController
 
   # GET /formations/1/edit
   def edit
+    2.times { @formation.unites.build }
   end
 
   # POST /formations

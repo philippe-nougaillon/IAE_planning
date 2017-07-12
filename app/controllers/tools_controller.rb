@@ -44,21 +44,24 @@ class ToolsController < ApplicationController
             end
           end
 
-          jour = Date.parse(row['Date'])
-          debut = Time.parse(jour.to_s + " " + row['Heure début'])
-          fin   = Time.parse(jour.to_s + " " + row['Heure fin'])
+          debut = Time.parse(row['Date'] + " " + row['Heure début'])
+          fin   = Time.parse(row['Date'] + " " + row['Heure fin'])
 
-          cours = Cour.where(debut:debut, formation_id: params[:formation_id]).first_or_initialize 
+          #cours = Cour.where(debut:debut, formation_id: params[:formation_id]).first_or_initialize 
+          cours = Cour.new(debut:debut, formation_id:params[:formation_id])
           cours.fin = fin
           cours.ue = row['UE'].strip if row['UE']
           cours.intervenant = intervenant
           cours.nom = row['Intitulé']
-          cours.duree = ((cours.fin - cours.debut) / 3600).round
-
+          # puts "Durée 1: #{cours.duree.to_f}"
+          
+          cours.duree = ((cours.fin - cours.debut) / 3600)
+          # puts "Durée 2: #{cours.duree.to_f}"
+          
           if cours.valid? 
             #puts "COURS VALIDE => #{cours.changes}" if cours.new_record?
             #puts "UPDATE =>#{cours.attributes}" unless cours.new_record?
-            #puts "Durée: #{cours.duree.to_f}"
+            #puts "Durée3: #{cours.duree.to_f}"
             cours.save if params[:save] == 'true'
             @importes += 1
           else

@@ -22,7 +22,7 @@
     <div class="col-sm-4">
       <%= label_tag "Formation" %>    
       <%= select_tag :formation_id, 
-            options_from_collection_for_select(Formation.select {|f| f.cours.count == 0 }, :id, :nom_promo, params[:formation_id]), 
+            options_from_collection_for_select(Formation.all, :id, :nom_promo, params[:formation_id]), 
               class:"form-control", include_blank:true %>
     </div>
   </div>

@@ -76,6 +76,7 @@ class Cour < ActiveRecord::Base
     end
   end
 
+  # render json methods:
   def photo_json
     if self.intervenant.photo 
       self.intervenant.photo.url
@@ -83,11 +84,23 @@ class Cour < ActiveRecord::Base
   end
 
   def formation_json
-    self.formation.nom
+    self.formation.nom_promo
+  end
+
+  def intervenant_json
+    self.intervenant.nom_prenom
   end
 
   def salle_json
     self.salle.nom if self.salle
+  end
+
+  def duree_json
+    (self.fin - self.debut).to_f / 60
+  end
+
+  def matiere_json
+    self.nom_ou_ue
   end
 
   def progress_bar_pct(planning_date)

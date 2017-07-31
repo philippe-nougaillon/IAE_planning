@@ -15,13 +15,13 @@
         <div class="col-sm-6">
           <%= label_tag "Date" %>  
           <h5>
-            <%= link_to '<<', cours_planning_path(planning_date:(@planning_date - 1.month)), class:"btn btn-default btn-xs" %>
-            <%= link_to '<', cours_planning_path(planning_date:(@planning_date - 1.day)), class:"btn btn-default btn-xs" %>
+            <%= link_to '<<', cours_planning_path(planning_date:(@planning_date - 1.month)), class:"btn btn-default btn-sm" %>
+            <%= link_to '<',  cours_planning_path(planning_date:(@planning_date - 1.day)), class:"btn btn-default btn-sm" %>
 
-            <%= l(@planning_date.to_date, format: :long).humanize %>
+            <%= l(@planning_date.to_date, format: :short).humanize %>
             
-            <%= link_to '>', cours_planning_path(planning_date:(@planning_date + 1.day)), class:"btn btn-default btn-xs" %>
-            <%= link_to '>>', cours_planning_path(planning_date:(@planning_date + 1.month)), class:"btn btn-default btn-xs" %>
+            <%= link_to '>',  cours_planning_path(planning_date:(@planning_date + 1.day)), class:"btn btn-default btn-sm" %>
+            <%= link_to '>>', cours_planning_path(planning_date:(@planning_date + 1.month)), class:"btn btn-default btn-sm" %>
           </h5>
         </div>
 
@@ -42,13 +42,15 @@
     <% @cours.includes(:formation, :intervenant, :salle).each do | cours | %>
       <hr>
       <h4>
-        <%= l(cours.debut, format: :heures_min) %> -
-        <%= l(cours.fin, format: :heures_min) %>
-        <% if cours.salle %>
-          <span class="label <%= cours.style %>">
-            <%= cours.salle.nom %>
-          </span>
-        <% end %>
+        <%= l(cours.debut, format: :heures_min) %>
+        <small>- <%= l(cours.fin, format: :heures_min) %></small>
+        <div class="pull-right">
+          <% if cours.salle %>
+            <span class="label <%= cours.style %>">
+              <%= cours.salle.nom %>
+            </span>
+          <% end %>
+        </div>
       </h4>
 
       <b><%= cours.formation.nom_promo %></b><br>

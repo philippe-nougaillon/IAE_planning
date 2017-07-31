@@ -101,16 +101,20 @@ class CoursController < ApplicationController
   end
 
   def index_slide
+    @cours = Cour.where(etat: Cour.etats.values_at(:planifié, :confirmé))
+    
     if params[:planning_date]
-      @planning_date = DateTime.parse(params[:planning_date] + "+0200")
+      # Afficher tous les cours du jours
+      # @planning_date = DateTime.parse(params[:planning_date] + "+0200")
+      @planning_date = Date.parse(params[:planning_date])
+      @cours = @cours.where("debut like ?", @planning_date.to_s + "%").order(:debut)
     else
+      # afficher tous les cours du jour à heure H-4 jusqu'à minuit
       @planning_date = DateTime.now 
+      limite_debut = @planning_date - 4.hour
+      limite_fin = (@planning_date.beginning_of_day) + 1.day  
+      @cours = @cours.where("(debut between ? and ?) and fin >= ?", limite_debut, limite_fin, @planning_date).order(:debut)
     end
-
-    # afficher tous les cours du jour à heure H-4 jusqu'à minuit
-    limite_debut = @planning_date - 4.hour
-    limite_fin = (@planning_date.beginning_of_day) + 1.day  
-    @cours = Cour.confirmé.where("(debut between ? and ?) and fin >= ?", limite_debut, limite_fin, @planning_date).order(:debut)
 
     unless params[:formation_id].blank?
       @cours = @cours.where(formation_id:params[:formation_id])
@@ -157,11 +161,14 @@ class CoursController < ApplicationController
       end
 
     elsif action_name == "Supprimer" and !params[:delete].blank?      
+      # supprimer ce cours que si c'est son créateur qui le demande !
       ids.each do |id, state|
         cours = Cour.find(id)
-        # supprimer que si c'est le créateur qui le demande !
         if current_user.id == cours.audits.last.user_id
           cours.destroy
+        else 
+          flash[:error] = "Vous ne pouvez pas supprimer ce cours (##{cours.id}) ! Opération annulée"
+          next
         end
       end
 
@@ -212,7 +219,9 @@ class CoursController < ApplicationController
 
     respond_to do |format|
       format.html do
-        flash[:notice] = "Action '#{action_name}' appliquée à #{params[:cours_id].count} cours."
+        unless flash[:error]
+          flash[:notice] = "Action '#{action_name}' appliquée à #{params[:cours_id].count} cours."
+        end
         redirect_to cours_path
       end
 

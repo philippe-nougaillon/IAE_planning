@@ -4,9 +4,9 @@ class IntervenantsController < ApplicationController
   before_action :set_intervenant, only: [:show, :edit, :update, :destroy]
 
   # check if logged and admin  
-  before_filter do 
-    redirect_to new_user_session_path unless current_user && current_user.admin?
-  end
+  # before_filter do 
+  #   redirect_to new_user_session_path unless current_user && current_user.admin?
+  # end
 
   # GET /intervenants
   # GET /intervenants.json

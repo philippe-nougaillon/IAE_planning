@@ -54,13 +54,13 @@
       <%= label_tag "Confirmation :" %><br>
       <%= check_box_tag :delete %> Suppression définitive de tous les cours sélectionnés ?
       <br>
-      <i>Les cours ne seront supprimés que si c'est leur créateur qui le demande !</i>
+      <i>Les cours ne peuvent être supprimés que par leur créateur ou un administrateur</i>
       <br><br>
     </div>
   <% end %>
 
+
   <div class="col-sm-12">
-    <br>
     <%= submit_tag 'Appliquer', class:"btn btn-success" %>
   </div>
 <% end %>

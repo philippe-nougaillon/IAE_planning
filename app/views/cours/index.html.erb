@@ -1,9 +1,7 @@
 <div class="page-header">
-  <% if current_user.try(:admin?) %>
-    <%= link_to new_cour_path, class: 'btn btn-primary' do %>
-      <span class="glyphicon glyphicon-plus"></span>
-      Cours
-    <% end %>
+  <%= link_to new_cour_path, class: 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-plus"></span>
+    Cours
   <% end %>
   <h1>
     <span class="glyphicon glyphicon-calendar"></span>
@@ -49,13 +47,11 @@
                       include_blank:true, onchange:'this.form.submit()', class:"form-control", disabled:true %>
           </div>
 
-          <% if current_user.try(:admin?) %>
-            <div class="col-sm-2">
-              <%= label_tag :etat, "Etat" %>
-              <%= select_tag :etat, options_for_select(Cour.etats, params[:etat]), include_blank:true,
-                      class:"form-control", onchange:'this.form.submit()' %>
-            </div>
-          <% end %>
+          <div class="col-sm-2">
+            <%= label_tag :etat, "Etat" %>
+            <%= select_tag :etat, options_for_select(Cour.etats, params[:etat]), include_blank:true,
+                    class:"form-control", onchange:'this.form.submit()' %>
+          </div>
 
           <div class="col-sm-2">
             <%= label_tag "Cours" %>
@@ -215,9 +211,7 @@
                 <th colspan="2">Intitulé cours</th>
                 <th>Etat</th>
                 <th>Salle</th>
-                <% if current_user.try(:admin?) %>
-                  <th />
-                <% end %>
+                <th />
               </tr>
             </thead>
 
@@ -294,13 +288,11 @@
                       <% end %>
                     </td>
 
-                    <% if current_user.try(:admin?) %>
-                      <td>
-                        <%= link_to edit_cour_path(cours), class:"btn btn-default" do %>
-                          <i class="glyphicon glyphicon-pencil"></i>
-                        <% end %>
-                      </td>
-                    <% end %>
+                    <td>
+                      <%= link_to edit_cour_path(cours), class:"btn btn-default" do %>
+                        <i class="glyphicon glyphicon-pencil"></i>
+                      <% end %>
+                    </td>
                   </tr>
                 <% end %>
               </tbody>
@@ -315,10 +307,7 @@
                   <% else %>
                     <th></th>  
                   <% end %>
-                  <% 7.times do %><th /><% end %>
-                  <% if current_user.try(:admin?) %>
-                    <th />
-                  <% end %>
+                  <% 9.times do %><th /><% end %>
                 </tr>
               </tfoot>
             <% end %>
@@ -334,18 +323,16 @@
         <% end %>
 
 
-        <% if current_user.admin? %>
-          <div class="col-sm-3 pull-right">
-            <small>Action:</small>
-            <div class="input-group">
-              <%= select_tag "action_name", options_for_select(Cour.actions), include_blank:true, class:"form-control" %>
-              <div class="input-group-btn">
-                <%= submit_tag 'Go', class: 'btn btn-sm btn-success' %>
-              </div>
+        <div class="col-sm-3 pull-right">
+          <small>Action:</small>
+          <div class="input-group">
+            <%= select_tag "action_name", options_for_select(Cour.actions), include_blank:true, class:"form-control" %>
+            <div class="input-group-btn">
+              <%= submit_tag 'Go', class: 'btn btn-sm btn-success' %>
             </div>
-            <br><br>
           </div>
-        <% end %>
+          <br><br>
+        </div>
         
       <% end %>
     <% else %>

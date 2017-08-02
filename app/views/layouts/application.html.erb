@@ -63,20 +63,18 @@
                   Planning des cours
               <% end %>
             </li>
-            <% if current_user.try(:admin?) %>
-              <li class="<%= (@ctrl=='formations' ? 'active' : '') %>">
-                <%= link_to formations_path do %>
-                  <span class="glyphicon glyphicon-education"></span>
-                    Formations
-                <% end %>
-              </li>
-              <li class="<%= (@ctrl=='intervenants' ? 'active' : '') %>">
-                <%= link_to intervenants_path do %>
-                  <span class="glyphicon glyphicon-user"></span>
-                    Intervenants
-                <% end %>
-              </li>
-            <% end %>
+            <li class="<%= (@ctrl=='formations' ? 'active' : '') %>">
+              <%= link_to formations_path do %>
+                <span class="glyphicon glyphicon-education"></span>
+                  Formations
+              <% end %>
+            </li>
+            <li class="<%= (@ctrl=='intervenants' ? 'active' : '') %>">
+              <%= link_to intervenants_path do %>
+                <span class="glyphicon glyphicon-user"></span>
+                  Intervenants
+              <% end %>
+            </li>
           <% end %>
         </ul>
 
@@ -85,15 +83,13 @@
             <% unless user_signed_in? %>
               <li><a href="/users/sign_in"><span class="glyphicon glyphicon-log-in"></span> Connexion</a></li>
             <% else %>
-              <%= link_to "#{current_user.email.split('@').first} #{current_user.admin? ? "(admin)" : '' }", current_user %>
+              <%= "#{current_user.email.split('@').first} #{current_user.admin? ? "(admin)" : '' }" %>
               |
-              <% if current_user.admin? %>
-                <%= link_to tools_index_path do %>
-                  <span class="glyphicon glyphicon-wrench"></span>
-                  Outils
-                <% end %>
-                |
+              <%= link_to tools_index_path do %>
+                <span class="glyphicon glyphicon-wrench"></span>
+                Outils
               <% end %>
+              |
               <%= link_to "/users/sign_out", method: :delete do %> 
                 <span class="glyphicon glyphicon-log-out"></span> Déconnexion
               <% end %>

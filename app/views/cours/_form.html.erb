@@ -26,31 +26,31 @@
 
   <div class="form-group">
     <%= f.label "Durée (h)", class:"control-label col-sm-2" %>
-    <div class="col-sm-1">
-      <%= f.select :duree, 
+    <div class="col-sm-2">
+      <%= f.select(:duree, 
               options_for_select(['0.5','1.0','1.5','2.0','2.5','3.0','3.5','4.0'], @cour.duree.to_s), 
-              include_blank:true, class:"form-control" %>
+              {include_blank:true}, class:"form-control") %>
     </div>
   </div>
   
   <div class="form-group">
     <%= f.label :formation_id, class:"control-label col-sm-2" %>
-    <div class="col-sm-6">
-      <%= f.collection_select(:formation_id, Formation.all, :id, :nom_promo, {include_blank: true}) %>
+    <div class="col-sm-5">
+      <%= f.collection_select(:formation_id, Formation.all, :id, :nom_promo, {include_blank: true}, class:"form-control") %>
     </div>
   </div>
 
   <div class="form-group">
     <%= f.label :intervenant_id, class:"control-label col-sm-2" %>
-    <div class="col-sm-6">
-      <%= f.collection_select(:intervenant_id, Intervenant.all, :id, :nom_prenom, {include_blank: true}) %>
+    <div class="col-sm-5">
+      <%= f.collection_select(:intervenant_id, Intervenant.all, :id, :nom_prenom, {include_blank: true}, class:"form-control") %>
     </div>
   </div>
 
   <div class="form-group">
     <%= f.label 'Binôme', class:"control-label col-sm-2" %>
-    <div class="col-sm-6">
-      <%= f.collection_select(:intervenant_binome_id, Intervenant.all, :id, :nom_prenom, {include_blank: true}) %>
+    <div class="col-sm-5">
+      <%= f.collection_select(:intervenant_binome_id, Intervenant.all, :id, :nom_prenom, {include_blank: true}, class:"form-control") %>
     </div>
   </div>
 
@@ -58,10 +58,6 @@
     <%= f.label :ue, "UE", class:"control-label col-sm-2" %>
     <div class="col-sm-1">
       <%= f.text_field :ue, class:"form-control", placeholder:"UE#" %>
-
-<!--       <%= select_tag :ue, options_for_select(['UE1','UE2','UE3','UE4','UE5','UE6','UE7','UE8','UE9'], @cour.ue), 
-                            include_blank:true, class:"form-control" %>
- -->    
     </div>
   </div>
 
@@ -72,26 +68,28 @@
     </div>
   </div>
 
-  <div class="form-group">
-    <%= f.label :etat, class:"control-label col-sm-2" %>
-    <div class="col-sm-2">
-      <%= f.select(:etat, Cour.etats.keys.to_a, {include_blank: true}) %>
+  <% unless @cour.new_record? %>
+    <div class="form-group">
+      <%= f.label :etat, class:"control-label col-sm-2" %>
+      <div class="col-sm-2">
+        <%= f.select(:etat, Cour.etats.keys.to_a, {include_blank: true}, class:"form-control") %>
+      </div>
     </div>
-  </div>
+  <% end %>
 
   <div class="form-group">
     <%= f.label :salle_id, class:"control-label col-sm-2" %>
-    <div class="col-sm-6">
-      <%= f.collection_select(:salle_id, Salle.all, :id, :nom_places, {include_blank: true}) %>
+    <div class="col-sm-2">
+      <%= f.collection_select(:salle_id, Salle.all, :id, :nom_places, {include_blank: true}, class:"form-control") %>
     </div>
   </div>
   <br>
   
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
-      <%= f.submit "Enregistrer ce cours", class: "btn btn-primary" %>
+      <%= f.submit "Enregistrer", class: "btn btn-primary" %>
       <% if @cour.new_record? %>
-        <%= f.submit "Enregistrer ce cours et saisir le suivant", name: 'create_and_add', class:"btn btn-default" %>
+        <%= f.submit "Enregistrer et saisir le suivant", name: 'create_and_add', class:"btn btn-default" %>
       <% end %>
     </div>
   </div>

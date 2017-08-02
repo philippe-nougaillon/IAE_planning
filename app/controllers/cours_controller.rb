@@ -164,7 +164,7 @@ class CoursController < ApplicationController
       # supprimer ce cours que si c'est son créateur qui le demande !
       ids.each do |id, state|
         cours = Cour.find(id)
-        if current_user.id == cours.audits.last.user_id
+        if (current_user.id == cours.audits.last.user_id) or (current_user.admin?)
           cours.destroy
         else 
           flash[:error] = "Vous ne pouvez pas supprimer ce cours (##{cours.id}) ! Opération annulée"
@@ -249,7 +249,6 @@ class CoursController < ApplicationController
   def new
     @cour = Cour.new
     @cour.formation_id = params[:formation_id]
-    # @cour.debut = params[:fin] 
     @cour.debut = params[:debut] if params[:debut]
     @cour.intervenant_id = params[:intervenant_id]
     @cour.ue = params[:ue]

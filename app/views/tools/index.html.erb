@@ -6,18 +6,12 @@
 </div>
 <br>	
 
-<dir class="row">
+<div class="row">
 	<div class="col-sm-4">
 		<ul>
 		  	<li>
 				<span class="glyphicon glyphicon-blackboard"></span>
 				<%= link_to "Salles", salles_path %>
-			</li>
-			<br>
-
-			<li>
-				<span class="glyphicon glyphicon-user"></span>
-				<%= link_to "Utilisateurs", users_path %>
 			</li>
 			<br>
 
@@ -33,6 +27,11 @@
 			</li>
 			<br>
 
+			<li>
+				<span class="glyphicon glyphicon-phone"></span>
+				<%= link_to "Planning", cours_planning_path %>
+			</li>
+			<br>
 		</ul>
 	</div>
 	
@@ -51,12 +50,6 @@
 			<br>
 
 			<li>
-				<span class="glyphicon glyphicon-download-alt"></span>
-				<%= link_to "Import des utilisateurs", tools_import_utilisateurs_path %>
-			</li>
-			<br>
-
-			<li>
 				<span class="glyphicon glyphicon-export"></span>
 				<%= link_to "Export de cours", tools_export_path %>
 			</li>
@@ -70,21 +63,23 @@
 		</ul>
 	</div>
 
-	<div class="col-sm-4">
-		<ul>
-			<li>
-				<span class="glyphicon glyphicon-calendar"></span>
-				<%= link_to "Vue Afficheur", cours_index_slide_path %>
-			</li>
-			<br>
+	<% if current_user.admin? %>
+		<div class="col-sm-4">
+			<ul>
+				<li>
+					<span class="glyphicon glyphicon-user"></span>
+					<%= link_to "Utilisateurs", users_path %>
+				</li>
+				<br>
 
-			<li>
-				<span class="glyphicon glyphicon-calendar"></span>
-				<%= link_to "Vue Afficheur (2017-03-15 11:00)", 
-					cours_index_slide_path(planning_date:"20170315T110000") %>
-			</li>
-			<br>
-		</ul>
-	</div>
+				<li>
+					<span class="glyphicon glyphicon-download-alt"></span>
+					<%= link_to "Import des utilisateurs", tools_import_utilisateurs_path %>
+				</li>
+				<br>
 
-</dir>
+			</ul>
+		</div>
+	<% end %>
+
+</div>

@@ -71,9 +71,7 @@
           <th>Cours planifiés</th>
           <th>Confirmés</th>
           <th>Réalisés</th>
-          <% if current_user.try(:admin?) %>
-            <th colspan="2"></th>
-          <% end %>  
+          <th colspan="2"></th>
         </tr>
       </thead>
 
@@ -85,10 +83,7 @@
               <%= @all_formations.sum(:nbr_etudiants) %>
             <% end %>
           </th>
-          <th /><th /><th />
-          <% if current_user.try(:admin?) %>
-            <th /><th />
-          <% end %>  
+          <th /><th /><th /><th /><th />
         </tr>
       </tfoot>
 
@@ -111,20 +106,18 @@
             <td>
               <%= link_to formation.cours.réalisé.count, cours_path(formation_id:formation, etat:Cour.etats[:réalisé], filter:'all') %>
             </td>
-            <% if current_user.admin? %>
-              <td>
-                <%= link_to edit_formation_path(formation), class: "btn btn-default" do %>
-                  <i class="glyphicon glyphicon-pencil"></i>
+            <td>
+              <%= link_to edit_formation_path(formation), class: "btn btn-default" do %>
+                <i class="glyphicon glyphicon-pencil"></i>
+              <% end %>
+            </td>
+            <td>
+              <% unless formation.cours.any? %>
+                <%= link_to(formation, method: :delete, data:{confirm: 'Confirmez-vous ?'}, class: "btn btn-default") do %>
+                  <i class="glyphicon glyphicon-remove"></i>
                 <% end %>
-              </td>
-              <td>
-                <% unless formation.cours.any? %>
-                  <%= link_to(formation, method: :delete, data:{confirm: 'Confirmez-vous ?'}, class: "btn btn-default") do %>
-                    <i class="glyphicon glyphicon-remove"></i>
-                  <% end %>
-                <% end %>
-              </td>
-            <% end %>
+              <% end %>
+            </td>
           </tr>
         <% end %>
       </tbody>

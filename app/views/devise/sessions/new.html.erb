@@ -5,9 +5,7 @@
   <% end %>  
 </h2>
 
-<%= request.subdomains %>
-
-<% if request.ssl? or request.domain == 'localhost' or request.subdomains(0).first == 'iae-test.philnoug.com' %>
+<% if request.ssl? or request.domain == 'localhost' or request.subdomains(0).first == 'iae-test' %>
   <%= bootstrap_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
     <div class="form-group">
       <div class="row">

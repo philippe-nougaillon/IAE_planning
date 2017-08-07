@@ -5,7 +5,7 @@
   <% end %>  
 </h2>
 
-<% if request.ssl? or request.domain == 'localhost' %>
+<% if request.ssl? or request.domain == 'localhost' or request.domain == 'iae-test.philnoug.com' %>
   <%= bootstrap_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
     <div class="form-group">
       <div class="row">
@@ -28,11 +28,13 @@
   <% end %>
 <% end %>
 
-<% if request.ssl? %>
+<% unless request.ssl? %>
   <p>
-    Voir le <%= link_to "planning des cours du jour (Mobile/Tablette/PC)","/cours/planning" %>
+    Veuillez utiliser la <%= link_to "connexion sécurisée", "https://iae-planning.philnoug.com" %>
   </p>
-<% else %>
-  Veuillez utiliser la <%= link_to "connexion sécurisée", "https://iae-planning.philnoug.com" %>
 <% end %>
+
+<p>
+  Voir le <%= link_to "planning des cours du jour (Mobile/Tablette/PC)","/cours/planning" %>
+</p>
 

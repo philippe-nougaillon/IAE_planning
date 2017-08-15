@@ -16,14 +16,17 @@ module Api
 				# - Nom de l'enseignant (string)
 				# - Formation (string)
 
-		        # cours = Cour.all
-		        # render json: cours.where.not(etat:0).where("debut >= ?", Date.today).order(:debut),
-		        # 		 	methods:[:start_time_short_fr, :nom_ou_ue, :formation_json, :photo_json, :salle_json], 
-				# 		 	except:[:nom, :debut, :fin, :ue, :created_at, :updated_at]
-				
-				render json: Cour.where(etat: Cour.etats.values_at(:planifié, :confirmé)).where("debut >= ?", Date.today).order(:debut),
-							methods:[:duree_json, :salle_json, :matiere_json, :formation_json, :intervenant_json],
-							except:[:created_at, :updated_at, :id, :salle_id, :formation_id, :intervenant_id, :intervenant_binome_id, :etat, :duree, :ue, :nom]
+				cours = Cour.where(etat: Cour.etats.values_at(:planifié, :confirmé)).order(:debut)
+
+				if params[:d]
+					cours = cours.where("DATE(debut)=?", params[:d]).limit(2)
+				else
+					cours = cours.where("debut >= ?", Date.today)
+				end
+
+				render json: cours,
+						methods:[:duree_json, :salle_json, :matiere_json, :formation_json, :intervenant_json],
+						except:[:created_at, :updated_at, :id, :salle_id, :formation_id, :intervenant_id, :intervenant_binome_id, :etat, :duree, :ue, :nom]
 			
 			end	
 							

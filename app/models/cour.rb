@@ -105,7 +105,7 @@ class Cour < ActiveRecord::Base
 
   def progress_bar_pct(planning_date)
     # calcul le % de réalisation du cours
-    ((planning_date.to_f - self.debut.to_f) / (self.fin.to_f - self.debut.to_f) * 100).to_i
+    ((planning_date.to_datetime.to_f - self.debut.to_f) / (self.fin.to_f - self.debut.to_f) * 100).to_i
   end
 
   def range

@@ -24,9 +24,11 @@ class CoursController < ApplicationController
 
     if params[:commit] == 'Raz filtre'
       session[:formation_id] = params[:formation_id] = nil
+      session[:start_date] = params[:start_date] = nil
       redirect_to cours_path
     end
     params[:formation_id] ||= session[:formation_id]
+    params[:start_date] ||= session[:start_date]
 
     @cours = Cour.includes(:formation, :intervenant, :salle).order(:debut)
 
@@ -97,7 +99,8 @@ class CoursController < ApplicationController
     end
 
     session[:formation_id] = params[:formation_id]
-
+    session[:start_date] = params[:start_date]
+    
   end
 
   def index_slide

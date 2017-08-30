@@ -32,32 +32,45 @@ class CoursController < ApplicationController
 
     @cours = Cour.includes(:formation, :intervenant, :salle).order(:debut)
 
-    if params[:view] == "calendar_rooms" 
-      # Se positionner sur le premier jour de la semaine 
-      if params[:start_date].blank? 
-        @date = Date.today.beginning_of_week(start_day = :monday)
-      else
-        @date = Date.parse(params[:start_date]).beginning_of_week(start_day = :monday)
-      end
-      params[:start_date] = @date.to_s
+    unless params[:semaine].blank?      
+      @date = Date.commercial(Date.today.year, params[:semaine].to_i, 1)
+    else
+      @date = Date.parse(params[:start_date]) 
     end
+    params[:start_date] = @date.to_s
 
-    unless params[:start_date].blank? 
-      @date = Date.parse(params[:start_date])
-      params[:semaine] = @date.cweek if params[:semaine] != @date.cweek 
+    # # Si vue 'Salles' 
+    if params[:view] == "calendar_rooms" || params[:view] == "calendar_week"
+      # Se positionner sur le premier jour de la semaine 
+      unless params[:start_date].blank? 
+        @date = Date.parse(params[:start_date]).beginning_of_week(start_day = :monday)
+        params[:start_date] = @date.to_s
+      end
+    end
+    
+    if params[:view] == 'calendar_month'
+      params[:semaine] = nil # pour que les liens << >> fonctionnent
+      @date = Date.parse(params[:start_date]).beginning_of_month
+      params[:start_date] = @date.to_s
+      @cours = @cours.where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 1.month)
+    else
       @cours = @cours.where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 7.day)
     end
 
-    # unless params[:semaine].blank?      
-    #   @date = Date.commercial(Date.today.year, params[:semaine].to_i, 1)
-    #   params[:start_date] = @date.to_s if params[:start_date] != @date.to_s 
-    #   @cours = @cours.where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 7.day)
+    # unless params[:start_date].blank? 
+    #   @date = Date.parse(params[:start_date])
+    #   params[:semaine] = @date.cweek if params[:semaine] != @date.cweek 
+    #   if params[:view] == 'calendar_month'
+    #     @cours = @cours.where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 1.month)
+    #   else
+    #     @cours = @cours.where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 7.day)
+    #   end
     # end
 
-    if params[:start_date].blank? and !params[:semaine].blank?
-      params[:semaine] = nil
-      flash[:alert] = "Veuillez choisir une date svp..."
-    end
+    # if params[:start_date].blank? and !params[:semaine].blank?
+    #   params[:semaine] = nil
+    #   flash[:alert] = "Veuillez choisir une date svp..."
+    # end
 
     if current_user.formation 
       params[:formation_id] = current_user.formation_id
@@ -78,10 +91,6 @@ class CoursController < ApplicationController
 
     unless params[:salle_id].blank?
       @cours = @cours.where(salle_id:params[:salle_id])      
-    end
-
-    unless params[:ue].blank?
-      @cours = @cours.where(ue:params[:ue])
     end
 
     if params[:filter] == 'upcoming'

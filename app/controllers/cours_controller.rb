@@ -32,6 +32,7 @@ class CoursController < ApplicationController
 
     @cours = Cour.includes(:formation, :intervenant, :salle).order(:debut)
 
+    # Si N° de semaine, afficher le premier jour de la semaine choisie, sinon date du jour
     unless params[:semaine].blank?      
       @date = Date.commercial(Date.today.year, params[:semaine].to_i, 1)
     else
@@ -43,23 +44,40 @@ class CoursController < ApplicationController
     end
     params[:start_date] = @date.to_s
 
-    # # Si vue 'Salles' 
-    if params[:view] == "calendar_rooms" || params[:view] == "calendar_week"
-      # Se positionner sur le premier jour de la semaine 
-      unless params[:start_date].blank? 
-        @date = Date.parse(params[:start_date]).beginning_of_week(start_day = :monday)
-        params[:start_date] = @date.to_s
+    case params[:view]
+    when 'list'
+      unless params[:semaine].blank?
+        @cours = @cours.where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 7.day)
+      else        
+        @cours = @cours.where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 1.day)
       end
-    end
-    
-    if params[:view] == 'calendar_month'
-      params[:semaine] = nil # pour que les liens << >> fonctionnent
-      @date = Date.parse(params[:start_date]).beginning_of_month
-      params[:start_date] = @date.to_s
-      @cours = @cours.where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 1.month)
-    else
+    when 'calendar_rooms'
+      @date = Date.parse(params[:start_date]).beginning_of_week(start_day = :monday)
       @cours = @cours.where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 7.day)
+    when 'calendar_week'
+      #params[:semaine] = nil # pour que les liens << >> fonctionnent
+      @date = Date.parse(params[:start_date]).beginning_of_week(start_day = :monday)
+      @cours = @cours.where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 7.day)
+    when 'calendar_month'
+      #params[:semaine] = nil
+      @date = Date.parse(params[:start_date]).beginning_of_month
+      @cours = @cours.where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 1.month)
     end
+    params[:start_date] = @date.to_s
+    
+      # # Si vue 'Salles' 
+    # if params[:view] == "calendar_rooms" || params[:view] == "calendar_week"
+    #   # Se positionner sur le premier jour de la semaine 
+    #   unless params[:start_date].blank? 
+    #     @date = Date.parse(params[:start_date]).beginning_of_week(start_day = :monday)
+    #     params[:start_date] = @date.to_s
+    #   end
+    # end
+    
+    # if params[:view] == 'calendar_month'
+    # elsif params[:view] == 'calendar_week'
+    # elsif params[:view] == 'calendar_rooms'
+      
 
     # unless params[:start_date].blank? 
     #   @date = Date.parse(params[:start_date])

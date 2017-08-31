@@ -35,7 +35,11 @@ class CoursController < ApplicationController
     unless params[:semaine].blank?      
       @date = Date.commercial(Date.today.year, params[:semaine].to_i, 1)
     else
-      @date = Date.parse(params[:start_date]) 
+      unless params[:start_date].blank?
+        @date = Date.parse(params[:start_date]) 
+      else
+        @date = Date.today
+      end
     end
     params[:start_date] = @date.to_s
 

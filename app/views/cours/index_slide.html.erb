@@ -5,6 +5,22 @@
 </script>
 <br><br><br>
 
+<nav class="navbar navbar-default navbar-fixed-bottom">
+    <ul class="nav navbar-nav">
+      <p class="navbar-text">Màj: <%= l(DateTime.now) %></p>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li><%= link_to '<<', cours_planning_path(planning_date:(@planning_date - 1.month)) %></li>
+      <li><%= link_to '<', cours_planning_path(planning_date:(@planning_date - 1.day)) %></li>
+    
+      <p class="navbar-text"><%= l(@planning_date.to_date, format: :short) %></p>
+    
+      <li><%= link_to '>', cours_planning_path(planning_date:(@planning_date + 1.day)) %></li>
+      <li><%= link_to '>>', cours_planning_path(planning_date:(@planning_date + 1.month)) %></li>
+      <%= image_tag("qr_code.jpg", class:"navbar-brand") %>
+    </ul>
+</nav> 
+
 <% if @cours.any? %>
   <table class="table table-striped table-bordered">
     <% if @cours.any? %>
@@ -64,19 +80,4 @@
   </table>
 <% end %>
 <br><br>
-
-<small>
-  Màj: <%= l(DateTime.now) %>
-  
-  <div class="pull-right">
-    <%= link_to '<<', cours_planning_path(planning_date:(@planning_date - 1.month)) %>
-    <%= link_to '<', cours_planning_path(planning_date:(@planning_date - 1.day)) %>
-
-    <%= l(@planning_date.to_date, format: :short) %>
-
-    <%= link_to '>', cours_planning_path(planning_date:(@planning_date + 1.day)) %>
-    <%= link_to '>>', cours_planning_path(planning_date:(@planning_date + 1.month)) %>
-  <div>
-</small>
-
 

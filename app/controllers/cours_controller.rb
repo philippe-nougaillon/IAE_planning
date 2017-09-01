@@ -143,23 +143,19 @@ class CoursController < ApplicationController
     
     if params[:planning_date]
       # Afficher tous les cours du jours
-      # @planning_date = DateTime.parse(params[:planning_date] + "+0200")
       @planning_date = Date.parse(params[:planning_date])
-      @cours = @cours.where("debut like ?", @planning_date.to_s + "%").order(:debut)
+      # si date du jour, on ajoute l'heure qu'il est
+      @planning_date = DateTime.now if @planning_date == Date.today
     else
       # afficher tous les cours du jour à heure H-4 jusqu'à minuit
       @planning_date = DateTime.now 
-      limite_debut = @planning_date - 4.hour
-      limite_fin = (@planning_date.beginning_of_day) + 1.day  
-      @cours = @cours.where("(debut between ? and ?) and fin >= ?", limite_debut, limite_fin, @planning_date).order(:debut)
     end
+    limite_debut = @planning_date - 4.hour
+    limite_fin = (@planning_date.beginning_of_day) + 1.day  
+    @cours = @cours.where("(debut between ? and ?) and fin >= ?", limite_debut, limite_fin, @planning_date).order(:debut)
 
     unless params[:formation_id].blank?
       @cours = @cours.where(formation_id:params[:formation_id])
-    end
-
-    unless params[:intervenant_id].blank?
-      @cours = @cours.where(intervenant_id:params[:intervenant_id])
     end
 
     @cours = @cours.includes(:formation, :intervenant, :salle)

@@ -13,8 +13,8 @@
     <div class="form-group">
       <div class="row">
         <div class="col-sm-6">
-          <%= label_tag "Date" %>  
-          <h5>
+          <%= label_tag "Date" %>
+          <div class="input-group">  
             <%= link_to '<<', cours_planning_path(planning_date:(@planning_date - 1.month)), class:"btn btn-default btn-sm" %>
             <%= link_to '<',  cours_planning_path(planning_date:(@planning_date - 1.day)), class:"btn btn-default btn-sm" %>
 
@@ -22,7 +22,7 @@
             
             <%= link_to '>',  cours_planning_path(planning_date:(@planning_date + 1.day)), class:"btn btn-default btn-sm" %>
             <%= link_to '>>', cours_planning_path(planning_date:(@planning_date + 1.month)), class:"btn btn-default btn-sm" %>
-          </h5>
+          </div>
         </div>
 
         <div class="col-sm-6">

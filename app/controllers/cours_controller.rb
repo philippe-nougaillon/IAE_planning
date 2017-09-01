@@ -46,10 +46,14 @@ class CoursController < ApplicationController
 
     case params[:view]
     when 'list'
-      unless params[:semaine].blank?
-        @cours = @cours.where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 7.day)
-      else        
-        @cours = @cours.where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 1.day)
+      unless params[:filter] == 'all'
+        unless params[:semaine].blank?
+          @cours = @cours.where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 7.day)
+        else        
+          @cours = @cours.where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 1.day)
+        end
+      else
+        @date = nil
       end
     when 'calendar_rooms'
       @date = Date.parse(params[:start_date]).beginning_of_week(start_day = :monday)

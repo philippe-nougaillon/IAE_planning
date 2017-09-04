@@ -8,8 +8,11 @@
     <ul class="nav navbar-nav">
       <% unless @cours.count.zero? %>
         <p class="navbar-text">
-          Màj: <%= l(DateTime.now) %> | 
-          Page <%= session[:page_slide] %> sur <%= @max_page_slide %>
+          Màj: <%= l(DateTime.now) %>
+          <% if @max_page_slide %> 
+            | 
+            Page <%= session[:page_slide] %> sur <%= @max_page_slide %>
+          <% end %>
           |
           <%= @cours.count %> Cours au total
         </p>

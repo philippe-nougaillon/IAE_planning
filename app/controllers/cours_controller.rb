@@ -21,7 +21,6 @@ class CoursController < ApplicationController
     params[:view] ||= 'list'
     params[:filter] ||= 'upcoming'
     params[:paginate] ||= 'pages'
-    session[:page_slide] = 1
 
     if params[:commit] == 'Raz filtre'
       session[:formation_id] = params[:formation_id] = nil
@@ -116,6 +115,9 @@ class CoursController < ApplicationController
   end
 
   def index_slide
+    # page courante
+    session[:page_slide] ||= 0
+
     @cours = Cour.where(etat: Cour.etats.values_at(:planifié, :confirmé))
     
     if params[:planning_date]
@@ -137,7 +139,7 @@ class CoursController < ApplicationController
 
     @cours = @cours.includes(:formation, :intervenant, :salle).order("formations.nom")
 
-    if request.variant.include?(:desktop)
+    if request.variant.include?(:desktop) and !params[:planning_date]
       # effectuer une rotation de x pages de 6 cours 
       per_page = 6
       @max_page_slide = (@cours.count / per_page)

@@ -1,12 +1,12 @@
 <script type="text/javascript">    
     setInterval(function() {
         window.location.reload();
-    }, 0.5*60000); 
+    }, <%= @cours.any? ? 0.5*60000 : 60*60000 %>); 
 </script>
 
 <nav class="navbar navbar-default navbar-fixed-bottom">
     <ul class="nav navbar-nav">
-      <% unless @cours.count.zero? %>
+      <% if @cours.any? %>
         <p class="navbar-text">
           Màj: <%= l(DateTime.now) %>
           <% if @max_page_slide %> 
@@ -15,6 +15,11 @@
           <% end %>
           |
           <%= @cours.count %> Cours au total
+        </p>
+      <% else %>
+        <p class="navbar-text">
+          Plus aucun cours à afficher pour aujourd'hui...
+          Bonne soirée et à demain :)
         </p>
       <% end %>
     </ul>
@@ -89,9 +94,7 @@
   </table>
 <% else %>
   <h1>
-    <br><br>
-    Plus aucun cours à afficher pour aujourd'hui.
-    Bonne soirée et à demain :)
+    <%= image_tag("http://www.bing.com/#{@image}", class:"img-thumbnail img-responsive") %>
   </h1>
 <% end %>
 <br><br>

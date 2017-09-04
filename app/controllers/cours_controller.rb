@@ -137,20 +137,29 @@ class CoursController < ApplicationController
       @cours = @cours.where(formation_id:params[:formation_id])
     end
 
-    @cours = @cours.includes(:formation, :intervenant, :salle).order("formations.nom")
+    if @cours.any?
+      @cours = @cours.includes(:formation, :intervenant, :salle).order("formations.nom")
 
-    if request.variant.include?(:desktop) and !params[:planning_date]
-      # effectuer une rotation de x pages de 6 cours 
-      per_page = 6
-      @max_page_slide = (@cours.count / per_page)
-      @max_page_slide += 1 unless @cours.count.%(per_page).zero?
+      if request.variant.include?(:desktop) and !params[:planning_date]
+        # effectuer une rotation de x pages de 6 cours 
+        per_page = 6
+        @max_page_slide = (@cours.count / per_page)
+        @max_page_slide += 1 unless @cours.count.%(per_page).zero?
 
-      if session[:page_slide].to_i < @max_page_slide
-        session[:page_slide] = session[:page_slide].to_i + 1
-      else
-        session[:page_slide] = 1
+        if session[:page_slide].to_i < @max_page_slide
+          session[:page_slide] = session[:page_slide].to_i + 1
+        else
+          session[:page_slide] = 1
+        end
+        @cours = @cours.paginate(page:session[:page_slide], per_page:per_page)
       end
-      @cours = @cours.paginate(page:session[:page_slide], per_page:per_page)
+    else
+      require 'net/http'
+      url = "http://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=fr-FR"
+      uri = URI(url)
+      response = Net::HTTP.get(uri)
+      json = JSON.parse(response)
+      @image = json["images"][0]["url"]
     end
 
   end

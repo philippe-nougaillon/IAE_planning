@@ -6,12 +6,14 @@
 
 <nav class="navbar navbar-default navbar-fixed-bottom">
     <ul class="nav navbar-nav">
-      <p class="navbar-text">
-        Màj: <%= l(DateTime.now) %> | 
-        Page <%= session[:page_slide] %> sur <%= @max_page_slide %>
-         |
-        <%= @cours.count %> Cours au total
-      </p>
+      <% unless @cours.count.zero? %>
+        <p class="navbar-text">
+          Màj: <%= l(DateTime.now) %> | 
+          Page <%= session[:page_slide] %> sur <%= @max_page_slide %>
+          |
+          <%= @cours.count %> Cours au total
+        </p>
+      <% end %>
     </ul>
     <ul class="nav navbar-nav navbar-right">
       <li><%= link_to '<<', cours_planning_path(planning_date:(@planning_date - 1.month)) %></li>
@@ -82,6 +84,12 @@
       </tbody>
     <% end %>
   </table>
+<% else %>
+  <h1>
+    <br><br>
+    Plus aucun cours à afficher pour aujourd'hui.
+    Bonne soirée et à demain :)
+  </h1>
 <% end %>
 <br><br>
 

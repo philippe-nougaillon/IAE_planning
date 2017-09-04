@@ -26,7 +26,7 @@
     
       <li><%= link_to '>', cours_planning_path(planning_date:(@planning_date + 1.day)) %></li>
       <li><%= link_to '>>', cours_planning_path(planning_date:(@planning_date + 1.month)) %></li>
-      <%= image_tag("qr_code.jpg", class:"navbar-brand") %>
+      <p class="navbar-text"><%= image_tag("qr_code.jpg", size:"40x40") %></p>
     </ul>
 </nav> 
 

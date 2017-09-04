@@ -1,13 +1,17 @@
 <script type="text/javascript">    
     setInterval(function() {
         window.location.reload();
-    }, 1*60000); 
+    }, 0.2*60000); 
 </script>
-<br><br><br>
 
 <nav class="navbar navbar-default navbar-fixed-bottom">
     <ul class="nav navbar-nav">
-      <p class="navbar-text">Màj: <%= l(DateTime.now) %></p>
+      <p class="navbar-text">
+        Màj: <%= l(DateTime.now) %> | 
+        Page <%= session[:page_slide] %> sur <%= @max_page_slide %>
+         |
+        <%= @cours.count %> Cours au total
+      </p>
     </ul>
     <ul class="nav navbar-nav navbar-right">
       <li><%= link_to '<<', cours_planning_path(planning_date:(@planning_date - 1.month)) %></li>

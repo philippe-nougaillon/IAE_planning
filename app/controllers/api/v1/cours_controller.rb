@@ -19,7 +19,7 @@ module Api
 				cours = Cour.where(etat: Cour.etats.values_at(:planifié, :confirmé)).order(:debut)
 
 				if params[:d]
-					cours = cours.where("DATE(debut)=?", params[:d]).limit(2)
+					cours = cours.where("DATE(debut)=?", params[:d])
 				else
 					cours = cours.where("debut >= ?", Date.today)
 				end

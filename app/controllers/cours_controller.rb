@@ -21,6 +21,7 @@ class CoursController < ApplicationController
     params[:view] ||= 'list'
     params[:filter] ||= 'upcoming'
     params[:paginate] ||= 'pages'
+    session[:page_slide] = 1
 
     if params[:commit] == 'Raz filtre'
       session[:formation_id] = params[:formation_id] = nil
@@ -33,8 +34,13 @@ class CoursController < ApplicationController
     @cours = Cour.includes(:formation, :intervenant, :salle).order(:debut)
 
     # Si N° de semaine, afficher le premier jour de la semaine choisie, sinon date du jour
-    unless params[:semaine].blank?      
-      @date = Date.commercial(Date.today.year, params[:semaine].to_i, 1)
+    unless params[:semaine].blank?
+      if params[:semaine].to_i <= Date.today.cweek
+        year =  Date.today.year + 1
+      else
+        year = Date.today.year
+      end    
+      @date = Date.commercial(year, params[:semaine].to_i, 1)
     else
       unless params[:start_date].blank?
         @date = Date.parse(params[:start_date]) 
@@ -69,35 +75,6 @@ class CoursController < ApplicationController
     end
     params[:start_date] = @date.to_s
     
-      # # Si vue 'Salles' 
-    # if params[:view] == "calendar_rooms" || params[:view] == "calendar_week"
-    #   # Se positionner sur le premier jour de la semaine 
-    #   unless params[:start_date].blank? 
-    #     @date = Date.parse(params[:start_date]).beginning_of_week(start_day = :monday)
-    #     params[:start_date] = @date.to_s
-    #   end
-    # end
-    
-    # if params[:view] == 'calendar_month'
-    # elsif params[:view] == 'calendar_week'
-    # elsif params[:view] == 'calendar_rooms'
-      
-
-    # unless params[:start_date].blank? 
-    #   @date = Date.parse(params[:start_date])
-    #   params[:semaine] = @date.cweek if params[:semaine] != @date.cweek 
-    #   if params[:view] == 'calendar_month'
-    #     @cours = @cours.where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 1.month)
-    #   else
-    #     @cours = @cours.where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 7.day)
-    #   end
-    # end
-
-    # if params[:start_date].blank? and !params[:semaine].blank?
-    #   params[:semaine] = nil
-    #   flash[:alert] = "Veuillez choisir une date svp..."
-    # end
-
     if current_user.formation 
       params[:formation_id] = current_user.formation_id
     end
@@ -135,7 +112,7 @@ class CoursController < ApplicationController
 
     session[:formation_id] = params[:formation_id]
     session[:start_date] = params[:start_date]
-    
+    @week_numbers =  ((Date.today.cweek.to_s..'52').to_a << ('1'..(Date.today.cweek - 1).to_s).to_a).flatten
   end
 
   def index_slide
@@ -158,7 +135,22 @@ class CoursController < ApplicationController
       @cours = @cours.where(formation_id:params[:formation_id])
     end
 
-    @cours = @cours.includes(:formation, :intervenant, :salle)
+    @cours = @cours.includes(:formation, :intervenant, :salle).order("formations.nom")
+
+    if request.variant.include?(:desktop)
+      # effectuer une rotation de x pages de 6 cours 
+      per_page = 6
+      @max_page_slide = (@cours.count / per_page)
+      @max_page_slide += 1 unless @cours.count.%(per_page).zero?
+
+      if session[:page_slide].to_i < @max_page_slide
+        session[:page_slide] = session[:page_slide].to_i + 1
+      else
+        session[:page_slide] = 1
+      end
+      @cours = @cours.paginate(page:session[:page_slide], per_page:per_page)
+    end
+
   end
 
   def action

@@ -22,20 +22,17 @@
   </head>
 
   <body>
-    <nav class="navbar navbar-fixed-top" role="navigation">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <span class="navbar-brand">
-            <%= link_to image_tag("logo@2000.png", height:110), root_url %>
-          </span>
-        </div>
-
-        <h1 style="text-align: center;margin-left: 1%; margin-top: 50px;">
-          Planning du <%= l(@planning_date.to_date, format: :long) %>
-        </h1>
+    <nav class="navbar" role="navigation">
+      <div class="navbar-header">
+        <span class="navbar-brand">
+          <%= link_to image_tag("logo@2000.png", height:100), root_url %>
+        </span>
       </div>
+
+      <h1 style="text-align: center;margin-left: 1%; margin-top: 50px;">
+        Planning du <%= l(@planning_date.to_date, format: :long) %>
+      </h1>
     </nav>
-    <br><br>
 
     <div class="slide_container">
       <%= yield %>

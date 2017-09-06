@@ -1,0 +1,50 @@
+<div class="page-header">
+  <h1>
+  	<span class="glyphicon glyphicon-list-alt"></span>
+  	Etat de services
+  </h1>
+</div>
+<div>
+  <h3>Cette fonction affiche l'état de services d'un intervenant sur une période donnée</h3>
+</div>
+
+<br>
+
+<%= form_tag({action: "etats_services_do", method: :post}, multipart: true) do %>
+
+  <div class="form-group">
+    <div class="row">
+        <div class="col-sm-4">
+            <%= label_tag :intervenant_id, "Intervenant" %>
+            <%= select_tag :intervenant_id,
+                options_from_collection_for_select(Intervenant.all, :id, :nom_prenom, Intervenant.all), include_blank:true, class:"form-control" %>
+            <br>
+        </div>
+
+        <div class="col-sm-2">
+            <%= label_tag "Du" %>    
+            <%= text_field_tag :start_date, params[:start_date], type:'date', class:"form-control" %>
+        </div>
+
+        <div class="col-sm-2">
+            <%= label_tag "Au" %>    
+            <%= text_field_tag :end_date, params[:end_date], type:'date', class:"form-control" %>
+        </div>
+        <br>
+    </div>
+
+    <div class="field">
+        <b>Envoyer par mail ?</b><br>
+        <%= label :save, "Oui", :value => "true" %>
+        <%= radio_button_tag :save, true %>
+        <%= label :save, "Non", :value => "false" %>
+        <%= radio_button_tag :save, false, :checked => true %>
+    </div>
+    <br><br>
+    
+    <div class="actions">
+        <%= submit_tag "Valider", class: "btn btn-success" %>
+    </div>
+  </div>
+  
+<% end %>

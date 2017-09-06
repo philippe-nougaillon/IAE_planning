@@ -396,4 +396,33 @@ class ToolsController < ApplicationController
     render "export_intervenants_do.csv.erb"
   end
 
+  def etats_services
+  end
+
+  def etats_services_do
+    
+    unless params[:intervenant_id].blank? 
+      @intervenant = Intervenant.find(params[:intervenant_id])
+      @cours = Cour.where(etat:Cour.etats[:réalisé]).order(:debut)
+      @cours = @cours.where("intervenant_id = ? OR intervenant_binome_id = ?", @intervenant.id, @intervenant.id)
+    else 
+      flash[:alert] = "Oups... Il me faut au moins un intervenant :)"
+      redirect_to action: 'etats_services'
+      return
+    end
+
+    unless params[:start_date].blank? and params[:end_date].blank?
+      @cours = @cours.where("debut between ? and ?", params[:start_date], params[:end_date])
+    end
+
+    # capture output
+    @stream = capture_stdout do
+      @cours.each do |c|
+          puts "#{l(c.debut, format: :short)} | #{c.duree.to_f}h | #{c.formation.nom}"
+      end
+
+      puts "\n Total: #{@cours.count} cours, #{@cours.sum(:duree)}h"
+    end  
+  end
+  
 end

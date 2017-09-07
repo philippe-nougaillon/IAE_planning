@@ -38,6 +38,7 @@
             options_from_collection_for_select(Salle.order(:nom), :id, :nom, params[:salle_id]), 
             include_blank:true, class:"form-control" %>
     </div>
+
   <% elsif params[:action_name] == "Changer d'état" %>
     <div class="col-sm-2">
       <%= label_tag "Nouvel état" %>    
@@ -46,9 +47,11 @@
     </div>
     <div class="col-sm-6">
       <%= label_tag "Notification" %><br>
-      <%= check_box_tag :email, 1, true %> Prévenir les participants par courriel ?
+      <%= check_box_tag :email %> Prévenir les participants par courriel ?
       <%= check_box_tag :sms %> Prévenir les participants par SMS ?
+      <br><br>
     </div>
+
   <% elsif params[:action_name] == "Supprimer" %>
     <div class="col-sm-6">
       <%= label_tag "Confirmation :" %><br>
@@ -58,7 +61,6 @@
       <br><br>
     </div>
   <% end %>
-
 
   <div class="col-sm-12">
     <%= submit_tag 'Appliquer', class:"btn btn-success" %>

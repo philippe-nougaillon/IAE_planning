@@ -400,7 +400,6 @@ class ToolsController < ApplicationController
   end
 
   def etats_services_do
-    
     unless params[:intervenant_id].blank? 
       @intervenant = Intervenant.find(params[:intervenant_id])
       @cours = Cour.where(etat:Cour.etats[:réalisé]).order(:debut)
@@ -412,16 +411,25 @@ class ToolsController < ApplicationController
     end
 
     unless params[:start_date].blank? and params[:end_date].blank?
-      @cours = @cours.where("debut between ? and ?", params[:start_date], params[:end_date])
+      @start_date = params[:start_date]
+      @end_date = params[:end_date]
+      @cours = @cours.where("debut between ? and ?", @start_date, @end_date)
     end
 
     # capture output
     @stream = capture_stdout do
+      # Affiche le récap des heures de cours réalisés
       @cours.each do |c|
           puts "#{l(c.debut, format: :short)} | #{c.duree.to_f}h | #{c.formation.nom}"
       end
 
       puts "\n Total: #{@cours.count} cours, #{@cours.sum(:duree)}h"
+
+      # envoyer le récap par mail ?
+      unless params[:mailer].blank?
+        IntervenantMailer.etat_services(@intervenant, @cours, @start_date, @end_date).deliver_now 
+        puts "\n\n Ce récapitulatif vient d'être envoyé par mail à l'adresse: #{@intervenant.email} !"
+      end
     end  
   end
   

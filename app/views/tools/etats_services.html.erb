@@ -5,7 +5,7 @@
   </h1>
 </div>
 <div>
-  <h3>Cette fonction affiche l'état de services d'un intervenant sur une période donnée</h3>
+  <h3>Cette fonction récapitule les cours réalisés d'un intervenant sur une période donnée</h3>
 </div>
 
 <br>
@@ -35,12 +35,12 @@
 
     <div class="field">
         <b>Envoyer par mail ?</b><br>
-        <%= label :save, "Oui", :value => "true" %>
-        <%= radio_button_tag :save, true %>
-        <%= label :save, "Non", :value => "false" %>
-        <%= radio_button_tag :save, false, :checked => true %>
+        <%= label :mailer, "Oui", :value => "true" %>
+        <%= radio_button_tag :mailer, true %>
+        <%= label :mailer, "Non", :value => "false" %>
+        <%= radio_button_tag :mailer, false, :checked => true %>
     </div>
-    <br><br>
+    <br>
     
     <div class="actions">
         <%= submit_tag "Valider", class: "btn btn-success" %>

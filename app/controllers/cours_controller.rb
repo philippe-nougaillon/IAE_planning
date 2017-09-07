@@ -55,7 +55,7 @@ class CoursController < ApplicationController
         unless params[:semaine].blank?
           @cours = @cours.where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 7.day)
         else        
-          @cours = @cours.where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 1.day)
+          @cours = @cours.where("cours.debut >= DATE(?)", @date)
         end
       else
         @date = nil

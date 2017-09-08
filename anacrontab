@@ -1,0 +1,9 @@
+# num@period  delay(unused) name script...
+#
+# uncomment to purge files older than 7days in TMP
+#1@daily 0 purgetmp find /srv/data/tmp -type f -mtime +7 -delete > /dev/null
+
+# mettre à jour les cours passés
+1@daily 0 update_cours (cd /srv/data/web/vhosts/default; rake cours:update_etat_realises)
+
+

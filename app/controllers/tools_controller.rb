@@ -426,9 +426,9 @@ class ToolsController < ApplicationController
       puts "\n Total: #{@cours.count} cours, #{@cours.sum(:duree)}h"
 
       # envoyer le récap par mail ?
-      unless params[:mailer].blank?
+      if params[:mailer] == "true"
         IntervenantMailer.etat_services(@intervenant, @cours, @start_date, @end_date).deliver_now 
-        puts "\n\n Ce récapitulatif vient d'être envoyé par mail à l'adresse: #{@intervenant.email} !"
+        puts "\n\n Ce récapitulatif vient d'être envoyé par mail à l'adresse: #{@intervenant.email}"
       end
     end  
   end

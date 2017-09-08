@@ -29,7 +29,7 @@
           <%= label_tag "Formation" %>    
           <div class="input-group">
             <%= select_tag :formation_id, 
-                  options_from_collection_for_select(@cours.collect{|c| c.formation}.uniq, :id, :nom_promo, params[:formation_id]), include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
+                  options_from_collection_for_select(@formations, :id, :nom_promo, params[:formation_id]), include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
             <span class="input-group-btn">
               <%= submit_tag 'Filtrer', class:"btn btn-success" %>
             </span>

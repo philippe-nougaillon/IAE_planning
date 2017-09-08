@@ -117,6 +117,7 @@ class CoursController < ApplicationController
   def index_slide
     # page courante
     session[:page_slide] ||= 0
+    params[:formation_id] ||= session[:formation_id]
 
     @cours = Cour.where(etat: Cour.etats.values_at(:planifié, :confirmé))
     
@@ -135,7 +136,11 @@ class CoursController < ApplicationController
 
     unless params[:formation_id].blank?
       @cours = @cours.where(formation_id:params[:formation_id])
+      @formations = Formation.where(id:params[:formation_id])
+    else
+      @formations = @cours.collect{|c| c.formation}.uniq
     end
+
 
     if @cours.any?
       @cours = @cours.includes(:formation, :intervenant, :salle).order("formations.nom")
@@ -161,6 +166,8 @@ class CoursController < ApplicationController
       json = JSON.parse(response)
       @image = json["images"][0]["url"]
     end
+
+    session[:formation_id] = params[:formation_id]
 
   end
 

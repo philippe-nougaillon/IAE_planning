@@ -32,7 +32,7 @@ class Cour < ActiveRecord::Base
   end
   
   def self.actions
-    ["Changer de salle", "Changer d'état", "Exporter vers Excel", "Exporter vers iCalendar", "Supprimer"]
+    ["Changer de salle", "Changer d'état", "Changer d'intervenant", "Exporter vers Excel", "Exporter vers iCalendar", "Supprimer"]
   end
 
   def self.etendue_horaire

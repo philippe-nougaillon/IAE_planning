@@ -200,6 +200,13 @@ class CoursController < ApplicationController
         @cours.save(validate:params[:email].present?)
       end
 
+    elsif action_name == "Changer d'intervenant"
+      ids.each do |id, state|
+        @cours = Cour.find(id)
+        @cours.intervenant_id = params[:intervenant_id].to_i
+        @cours.save
+      end
+
     elsif action_name == "Supprimer" and !params[:delete].blank?      
       # supprimer ce cours que si c'est son créateur qui le demande !
       ids.each do |id, state|

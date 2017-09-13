@@ -1,0 +1,107 @@
+<div class="page-header">
+  <h1>
+    <span class="glyphicon glyphicon-blackboard"></span>
+    Occupation des salles
+  </h1>
+</div>
+
+<div class='container-fluid'>
+    <%= form_tag request.path, method: :get do %>
+      <div class="form-group">
+        <div class="row">
+          <div class="col-sm-2">
+            <%= label_tag "Salle" %>    
+              <%= select_tag :salle_id, 
+                      options_from_collection_for_select(Salle.order(:nom), :id, :nom, params[:salle_id]), 
+                        include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
+          </div>
+
+          <div class="col-sm-3">
+            <%= label_tag "Date de réservation" %>    
+            <div class="input-group">
+              <%= text_field_tag :date, params[:date], type:'date', onchange:'this.form.submit()', class:"form-control" %>
+              <span class="input-group-btn">
+                <%= submit_tag 'Filtrer', class:"btn btn-success" %>
+              </span>
+            </div>
+          </div>
+
+          <% unless params[:date].blank? %>
+            <div class="col-sm-3">
+              <%= label_tag :libre, "Que les salles libres ?" %>
+              <br>    
+              <%= check_box_tag :libre, 1, params[:libre], 
+                    onchange:'this.form.submit()', class:"form-control" %>
+            </div>
+          <% end %>
+
+        </div>
+      </div>  
+    <% end %>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-hover table-striped">
+    <thead>
+      <tr>
+        <th>Nom salle</th>
+        <th>Nbr places</th>
+        <th>Cours</th>
+        <% Cour.etendue_horaire.each_with_index do |heure, index| %>
+          <th><%= heure %>h</th>
+          <% if [4,10].include?(index) %><th /><% end %>
+        <% end %>
+      </tr>
+    </thead>
+    <tfoot>
+      <tr>
+        <% 20.times do %><th /><% end %>
+      </tr>
+    </tfoot>
+
+    <tbody>
+      <% @salles.each do |salle| %>
+        <% if @date %>
+          <% @cours = Cour.confirmé.where("salle_id = ? AND cours.debut BETWEEN DATE(?) AND DATE(?)", salle.id, @date, @date + 1.day) %>
+        <% else %>
+          <% @cours = salle.cours %>
+        <% end %>
+
+        <tr>
+          <td><b><%= salle.nom %></b></td>
+          <td><%= salle.places %></td>
+          <td><%= link_to @cours.count, 
+                    cours_path(start_date:@date, salle_id:salle.id, etat:Cour.etats[:confirmé]) %>
+          </td>
+
+          <% if @cours.count > 0 and @date %>
+            <% range = [] %>
+            <% @cours.each do | cours | %>
+              <% range += cours.range %>
+            <% end %>
+
+            <% map = Cour.etendue_horaire.map {|i| range.include?(i) ? 'red' : 'lightgreen' } %>
+            <% map.each_with_index do |color, index| %>
+              <td>
+                  <% if color == 'lightgreen' %>
+                    <%= link_to new_cour_path(debut:@date, salle_id:salle.id) do %>
+                      <span style="background-color:<%= color %>;padding-left: 15px;"></span>
+                    <% end %>
+                  <% else %>
+                     <i style="background-color:<%= color %>;padding-left: 15px;" 
+                        class="glyph-custom-warning" data-toggle="tooltip" data-placement="top"
+                        title=<%= @cours.pluck(:formation_id).collect{|id| Formation.find(id).abrg }.join(', ') %> >
+                  <% end %>
+              </td>
+              <% if [4,10].include?(index) %><td /><% end %>
+            <% end %>
+          <% else %>
+            <% 17.times do %><td /><% end %>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<br>
+

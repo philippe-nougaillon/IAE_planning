@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170620160029) do
+ActiveRecord::Schema.define(version: 20170913132607) do
 
   create_table "audits", force: :cascade do |t|
     t.integer  "auditable_id"
@@ -119,6 +119,7 @@ ActiveRecord::Schema.define(version: 20170620160029) do
     t.string   "adresse"
     t.string   "cp"
     t.string   "ville"
+    t.boolean  "doublon"
   end
 
   create_table "salles", force: :cascade do |t|
@@ -126,6 +127,7 @@ ActiveRecord::Schema.define(version: 20170620160029) do
     t.integer  "places"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "bloc"
   end
 
   create_table "unites", force: :cascade do |t|

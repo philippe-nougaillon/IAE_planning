@@ -19,6 +19,8 @@ Rails.application.routes.draw do
   get 'tools/etats_services'
   post 'tools/etats_services_do'
 
+  get 'salles/occupation'
+
   get 'cours/index_slide' # à supprimer 
   get 'cours/planning' => "cours#index_slide"
 

@@ -13,6 +13,14 @@ class SallesController < ApplicationController
   def index
     @salles = Salle.order(:nom)
 
+    unless params[:salle_id].blank?
+      @salles = @salles.where(id:params[:salle_id])
+    end
+  end
+
+  def occupation
+    @salles = Salle.order(:nom)
+
     params[:date] ||= Date.today
 
     unless params[:salle_id].blank?
@@ -29,6 +37,7 @@ class SallesController < ApplicationController
     end
 
   end
+
 
   # GET /salles/1
   # GET /salles/1.json
@@ -92,6 +101,6 @@ class SallesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def salle_params
-      params.require(:salle).permit(:nom, :places)
+      params.require(:salle).permit(:nom, :places, :bloc)
     end
 end

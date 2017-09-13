@@ -27,14 +27,22 @@
 
         <div class="col-sm-6">
           <%= label_tag "Formation" %>    
+          <%= select_tag :formation_id, 
+                options_from_collection_for_select(@formations, :id, :nom_promo, params[:formation_id]), include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
+        </div>
+
+        <div class="col-sm-5">
+          <%= label_tag "Intervenant" %>    
           <div class="input-group">
-            <%= select_tag :formation_id, 
-                  options_from_collection_for_select(@formations, :id, :nom_promo, params[:formation_id]), include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
+            <%= select_tag :intervenant_id, 
+                options_from_collection_for_select(@intervenants, :id, :nom_prenom, params[:intervenant_id]), 
+                  include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
             <span class="input-group-btn">
               <%= submit_tag 'Filtrer', class:"btn btn-success" %>
             </span>
           </div>
-      </div>
+        </div>
+
     </div>
   <% end %>
 

@@ -25,16 +25,18 @@ class CoursController < ApplicationController
     if params[:commit] == 'Raz filtre'
       session[:formation_id] = params[:formation_id] = nil
       session[:start_date] = params[:start_date] = nil
+      session[:etat] = params[:etat]
       redirect_to cours_path
     end
     params[:formation_id] ||= session[:formation_id]
     params[:start_date] ||= session[:start_date]
+    params[:etat] ||= session[:etat]
 
     @cours = Cour.includes(:formation, :intervenant, :salle).order(:debut)
 
     # Si N° de semaine, afficher le premier jour de la semaine choisie, sinon date du jour
     unless params[:semaine].blank?
-      if params[:semaine].to_i <= Date.today.cweek
+      if params[:semaine].to_i < Date.today.cweek
         year =  Date.today.year + 1
       else
         year = Date.today.year
@@ -105,15 +107,18 @@ class CoursController < ApplicationController
       @cours = @cours.where(etat: Cour.etats.values_at(:à_réserver, :confirmé, :annulé, :reporté))
     end
 
+    @week_numbers =  ((Date.today.cweek.to_s..'52').to_a << ('1'..(Date.today.cweek - 1).to_s).to_a).flatten
+    
     session[:formation_id] = params[:formation_id]
     session[:start_date] = params[:start_date]
-    @week_numbers =  ((Date.today.cweek.to_s..'52').to_a << ('1'..(Date.today.cweek - 1).to_s).to_a).flatten
+    session[:etat] = params[:etat]
   end
 
   def index_slide
     # page courante
     session[:page_slide] ||= 0
     params[:formation_id] ||= session[:formation_id]
+    params[:intervenant_id] ||= session[:intervenant_id]
 
     @cours = Cour.where(etat: Cour.etats.values_at(:planifié, :confirmé))
     
@@ -137,6 +142,12 @@ class CoursController < ApplicationController
       @formations = @cours.collect{|c| c.formation}.uniq
     end
 
+    unless params[:intervenant_id].blank?
+      @cours = @cours.where(intervenant_id:params[:intervenant_id])
+      @intervenants = Intervenant.where(id:params[:intervenant_id])
+    else
+      @intervenants = @cours.collect{|c| c.intervenant}.uniq
+    end
 
     if @cours.any?
       @cours = @cours.includes(:formation, :intervenant, :salle).order("formations.nom")
@@ -164,7 +175,7 @@ class CoursController < ApplicationController
     end
 
     session[:formation_id] = params[:formation_id]
-
+    session[:intervenant_id] = params[:intervenant_id]
   end
 
   def action

@@ -20,6 +20,10 @@
       <%= f.text_field :titre1 %>
       <%= f.text_field :titre2 %>
       <%= f.text_field :spécialité %>
+      <%= f.check_box :doublon, label:"Autoriser les doublons sur le même créneau horaire ?" %>
+      <br>
+
+      <%= f.submit class: "btn btn-primary" %>
     </div>
 
     <div class="col-sm-5">
@@ -50,8 +54,6 @@
       </div>
       <%= f.text_field :linkedin_url, label:"Profil LinkedIn", placeholder:'URL du profil public' %>
       <%= f.file_field :photo %>
-
-      <%= f.submit class: "btn btn-primary" %>
 
     </div>   
   </div>

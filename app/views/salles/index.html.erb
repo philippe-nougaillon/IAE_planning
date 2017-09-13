@@ -19,26 +19,6 @@
                       options_from_collection_for_select(Salle.order(:nom), :id, :nom, params[:salle_id]), 
                         include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
           </div>
-
-          <div class="col-sm-3">
-            <%= label_tag "Date de réservation" %>    
-            <div class="input-group">
-              <%= text_field_tag :date, params[:date], type:'date', onchange:'this.form.submit()', class:"form-control" %>
-              <span class="input-group-btn">
-                <%= submit_tag 'Filtrer', class:"btn btn-success" %>
-              </span>
-            </div>
-          </div>
-
-          <% unless params[:date].blank? %>
-            <div class="col-sm-3">
-              <%= label_tag :libre, "Que les salles libres ?" %>
-              <br>    
-              <%= check_box_tag :libre, 1, params[:libre], 
-                    onchange:'this.form.submit()', class:"form-control" %>
-            </div>
-          <% end %>
-
         </div>
       </div>  
     <% end %>
@@ -49,54 +29,28 @@
     <thead>
       <tr>
         <th>Nom salle</th>
+        <th>Bloc</th>
         <th>Nbr places</th>
-        <th>Cours confirmés</th>
-        <% Cour.etendue_horaire.map do |i| %><th><%= i %>h</th><% end %>
         <th colspan="2"></th>
       </tr>
     </thead>
     <tfoot>
       <tr>
-        <% 19.times do %><th /><% end %>
+        <th /><th /><th /><th />
       </tr>
     </tfoot>
 
     <tbody>
       <% @salles.each do |salle| %>
-        <% if @date %>
-          <% @cours = Cour.confirmé.where("salle_id = ? AND cours.debut BETWEEN DATE(?) AND DATE(?)", salle.id, @date, @date + 1.day) %>
-        <% else %>
-          <% @cours = salle.cours %>
-        <% end %>
-
         <tr>
           <td><b><%= salle.nom %></b></td>
+          <td><%= salle.bloc %></td>
           <td><%= salle.places %></td>
-          <td><%= link_to @cours.count, 
-                    cours_path(start_date:@date, salle_id:salle.id, filter:'all', etat:Cour.etats[:confirmé]) %>
-          </td>
-
-          <% if @cours.count > 0 and @date %>
-            <% range = [] %>
-            <% @cours.each do | cours | %>
-              <% range += cours.range %>
-            <% end %>
-
-            <% map = Cour.etendue_horaire.map {|i| range.include?(i) ? 'red' : 'lightgreen' } %>
-            <% map.each do |color| %>
-              <td>
-                <span style="background-color:<%= color %>;padding-left: 15px;"></span>
-              </td>
-            <% end %>
-          <% else %>
-            <% 15.times do %><td /><% end %>
-          <% end %>
-
           <td>
             <%= link_to edit_salle_path(salle), class: "btn btn-default" do %>
               <i class="glyphicon glyphicon-pencil"></i>
             <% end %>
-            <% unless salle.cours.any? %>
+            <% unless Cour.where(salle_id:salle).any? %>
               <%= link_to(salle, method: :delete, data:{confirm: 'Confirmez-vous ?'}, class: "btn btn-default") do %>
                 <i class="glyphicon glyphicon-remove"></i>
               <% end %>

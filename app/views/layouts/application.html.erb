@@ -75,6 +75,12 @@
                   Intervenants
               <% end %>
             </li>
+            <li class="<%= (@ctrl=='salles' ? 'active' : '') %>">
+              <%= link_to salles_occupation_path do %>
+                <span class="glyphicon glyphicon-blackboard"></span>
+                  Salles
+              <% end %>
+            </li>
           <% end %>
         </ul>
 

@@ -112,7 +112,6 @@ class Cour < ActiveRecord::Base
     # retourne l'étendue d'un cours sous la forme d'une suite d'heures. Ex: 8 9 pour un cours de 8 à 10h
     range = []
     (self.debut.to_datetime.to_i .. self.fin.to_datetime.to_i).step(1.hour) do |hour|
-      # range << Time.at(hour).utc.hour => ajoute 2 heures !
       range << Time.at(hour).hour
     end
 
@@ -177,6 +176,10 @@ class Cour < ActiveRecord::Base
     end  
 
     def check_chevauchement_intervenant
+
+      # Pas de test si les doublons sont autorisés
+      return if self.intervenant.doublon 
+
       # s'il y a dejà des cours dans la même salle et à la même date
       cours = Cour.where("intervenant_id = ? AND ((debut BETWEEN ? AND ?) OR (fin BETWEEN ? AND ?))", 
                           self.intervenant_id, self.debut, self.fin, self.debut, self.fin)

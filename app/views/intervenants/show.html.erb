@@ -45,10 +45,17 @@
 
       <% cours = formation.cours.where(etat:Cour.etats[:planifié], intervenant_id:@intervenant).order(:debut) %>
       <% if cours.any? %>
-        (<%= cours.sum(:duree) %>h planifiées, premier cours le: <%= l(cours.first.debut, format: :short) %> )
+        (<%= cours.sum(:duree) %>h planifiées, premier cours le: <%= l(cours.first.debut, format: :short) %>)
       <% end %>
       <br>
     <% end %>
+
+    <% if @intervenant.doublon %> 
+      <p> 
+          <br><strong>Doublons autorisés !</strong>
+      </p>
+    <% end %>
+
   </div>
 
   <div class="col-sm-3">

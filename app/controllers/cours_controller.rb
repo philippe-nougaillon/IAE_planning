@@ -308,6 +308,9 @@ class CoursController < ApplicationController
     @cour = Cour.new
     @cour.formation_id = params[:formation_id]
     @cour.debut = params[:debut] if params[:debut]
+    if params[:heure]
+      @cour.debut = Time.zone.parse("#{params[:debut]} #{params[:heure]}:00").to_s 
+    end
     @cour.intervenant_id = params[:intervenant_id]
     @cour.ue = params[:ue]
     @cour.salle_id = params[:salle_id]

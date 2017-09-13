@@ -84,7 +84,7 @@
             <% map.each_with_index do |color, index| %>
               <td>
                   <% if color == 'lightgreen' %>
-                    <%= link_to new_cour_path(debut:@date, salle_id:salle.id) do %>
+                    <%= link_to new_cour_path(debut:@date, heure:(index + 8), salle_id:salle.id) do %>
                       <span style="background-color:<%= color %>;padding-left: 15px;"></span>
                     <% end %>
                   <% else %>

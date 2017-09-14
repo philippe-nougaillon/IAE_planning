@@ -47,6 +47,7 @@ gem 'rails-erd'
 gem 'will_paginate'
 gem 'will_paginate-bootstrap'
 gem 'icalendar'
+gem 'pundit'
 
 #gem 'capture-output'
 

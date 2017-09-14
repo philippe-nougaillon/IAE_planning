@@ -109,6 +109,8 @@ GEM
     nokogiri (1.6.8.1)
       mini_portile2 (~> 2.1.0)
     orm_adapter (0.5.0)
+    pundit (1.1.0)
+      activesupport (>= 3.0.0)
     rack (1.6.5)
     rack-cors (0.4.0)
     rack-test (0.6.3)
@@ -213,6 +215,7 @@ DEPENDENCIES
   icalendar
   jbuilder (~> 2.0)
   jquery-rails
+  pundit
   rack-cors
   rails (= 4.2.1)
   rails-erd
@@ -229,4 +232,4 @@ DEPENDENCIES
   will_paginate-bootstrap
 
 BUNDLED WITH
-   1.13.7
+   1.15.1

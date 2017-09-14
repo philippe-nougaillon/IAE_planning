@@ -165,8 +165,11 @@
   
   <div class="row">
     <div class="col-md-12">
+      <% bloc = 'A' %> 
       <% Salle.all.each do |salle_id| %>
         <% @salle = Salle.find(salle_id) %> 
+        <% if bloc != @salle.nom[0] %><hr><% bloc = @salle.nom[0] %><% end %>
+
         <%= calendar partial: 'simple_calendar/week_rooms_calendar', 
                      events: @cours.where(salle_id:@salle.id), salle_id:@salle.id, 
                      number_of_days: 6 do |date, meetings| %>

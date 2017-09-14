@@ -9,29 +9,31 @@
     <%= form_tag request.path, method: :get do %>
       <div class="form-group">
         <div class="row">
+
           <div class="col-sm-2">
-            <%= label_tag "Salle" %>    
-              <%= select_tag :salle_id, 
-                      options_from_collection_for_select(Salle.order(:nom), :id, :nom, params[:salle_id]), 
-                        include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
+            <%= label_tag "Date" %>    
+            <%= text_field_tag :date, params[:date], type:'date', onchange:'this.form.submit()', class:"form-control" %>
           </div>
 
-          <div class="col-sm-3">
-            <%= label_tag "Date de réservation" %>    
-            <div class="input-group">
-              <%= text_field_tag :date, params[:date], type:'date', onchange:'this.form.submit()', class:"form-control" %>
-              <span class="input-group-btn">
-                <%= submit_tag 'Filtrer', class:"btn btn-success" %>
-              </span>
-            </div>
+          <div class="col-sm-2">
+            <%= label_tag "Salle" %>
+              <div class="input-group">
+                <%= select_tag :salle_id, 
+                        options_from_collection_for_select(Salle.order(:nom), :id, :nom, params[:salle_id]), 
+                          include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
+                <span class="input-group-btn">
+                  <%= submit_tag 'Filtrer', class:"btn btn-success" %>
+                </span>
+              </div>
           </div>
 
-          <% unless params[:date].blank? %>
-            <div class="col-sm-3">
-              <%= label_tag :libre, "Que les salles libres ?" %>
-              <br>    
+          <% if !params[:date].blank? && params[:salle_id].blank? %>
+            <div class="col-sm-4">
+              <br><br>
               <%= check_box_tag :libre, 1, params[:libre], 
-                    onchange:'this.form.submit()', class:"form-control" %>
+                    onchange:'this.form.submit()' %>
+                                  <%= label_tag :libre, "Ne voir que les salles libres ?" %>
+
             </div>
           <% end %>
 
@@ -60,12 +62,15 @@
     </tfoot>
 
     <tbody>
+      <% bloc = 'A' %>
       <% @salles.each do |salle| %>
         <% if @date %>
           <% @cours = Cour.confirmé.where("salle_id = ? AND cours.debut BETWEEN DATE(?) AND DATE(?)", salle.id, @date, @date + 1.day) %>
         <% else %>
           <% @cours = salle.cours %>
         <% end %>
+
+        <% if bloc != salle.nom[0] %><tr><% 20.times do %><th /><% end %></tr><% bloc = salle.nom[0] %><% end %>
 
         <tr>
           <td><b><%= salle.nom %></b></td>

@@ -27,7 +27,10 @@
           
           <% week.each do |day| %>
             <% unless day.sunday? %>
-              <%= content_tag :td, class: calendar.td_classes_for(day) do %>
+              <% day_style_class = calendar.td_classes_for(day) %>
+              <% day_style_class << 'day_off' if Fermeture.where(date:day).any? %>
+              
+              <%= content_tag :td, class: day_style_class do %>
                 <% if defined?(Haml) && respond_to?(:block_is_haml?) && block_is_haml?(block) %>
                   <% capture_haml(day, sorted_events.fetch(day, []), &block) %>
                 <% else %>

@@ -5,3 +5,7 @@
 .calendar_day {
 	font-size: 20px;
 }
+
+.day_off {
+	background-color:lightcoral;
+}

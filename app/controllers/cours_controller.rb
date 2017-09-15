@@ -18,6 +18,9 @@ class CoursController < ApplicationController
   # GET /cours
   # GET /cours.json
   def index
+    session[:view] ||= 'list'
+    session[:filter] ||= 'upcoming'
+    session[:paginate] ||= 'pages'
 
     if params[:commit] == 'Raz filtre'
       session[:formation_id] = params[:formation_id] = nil

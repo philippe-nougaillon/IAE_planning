@@ -27,15 +27,15 @@
               </div>
           </div>
 
+          <!---
           <% if !params[:date].blank? && params[:salle_id].blank? %>
             <div class="col-sm-4">
-              <br><br>
-              <%= check_box_tag :libre, 1, params[:libre], 
-                    onchange:'this.form.submit()' %>
-                                  <%= label_tag :libre, "Ne voir que les salles libres ?" %>
-
+              <br>
+              <%= check_box_tag :libre, 1, params[:libre], onchange:'this.form.submit()' %>
+              <%= label_tag :libre, "Ne voir que les salles libres ?" %>
             </div>
           <% end %>
+          -->
 
         </div>
       </div>  
@@ -46,9 +46,10 @@
   <table class="table table-hover table-striped">
     <thead>
       <tr>
-        <th>Nom salle</th>
-        <th>Nbr places</th>
+        <th>Salle</th>
+        <th>Places</th>
         <th>Cours</th>
+        <th>Formation</th>
         <% Cour.etendue_horaire.each_with_index do |heure, index| %>
           <th><%= heure %>h</th>
           <% if [4,10].include?(index) %><th /><% end %>
@@ -57,7 +58,7 @@
     </thead>
     <tfoot>
       <tr>
-        <% 20.times do %><th /><% end %>
+        <% 21.times do %><th /><% end %>
       </tr>
     </tfoot>
 
@@ -65,22 +66,44 @@
       <% bloc = 'A' %>
       <% @salles.each do |salle| %>
         <% if @date %>
-          <% @cours = Cour.confirmé.where("salle_id = ? AND cours.debut BETWEEN DATE(?) AND DATE(?)", salle.id, @date, @date + 1.day) %>
+          <% @cours = Cour.confirmé.where("salle_id = ? AND cours.debut BETWEEN DATE(?) AND DATE(?)", salle.id, @date, @date + 1.day).order(:debut) %>
         <% else %>
           <% @cours = salle.cours %>
         <% end %>
+        <% @formations = @cours.pluck(:formation_id).uniq %>
 
-        <% if bloc != salle.nom[0] %><tr><% 20.times do %><th /><% end %></tr><% bloc = salle.nom[0] %><% end %>
+        <% if bloc != salle.nom[0] %>
+          <% bloc = salle.nom[0] %>
+          <thead>
+            <tr>
+              <th />
+              <th />
+              <th />
+              <th />
+              <% Cour.etendue_horaire.each_with_index do |heure, index| %>
+                <th><%= heure %>h</th>
+                <% if [4,10].include?(index) %><th /><% end %>
+              <% end %>
+            </tr>
+          </thead>
+        <% end %>
 
         <tr>
-          <td><b><%= salle.nom %></b></td>
+          <td><b><%= salle.nom[0..3] %></b></td>
           <td><%= salle.places %></td>
           <td><%= link_to @cours.count, 
-                    cours_path(start_date:@date, salle_id:salle.id, etat:Cour.etats[:confirmé]) %>
+                    cours_path(start_date:@date, salle_id:salle.id, etat:Cour.etats[:confirmé], view:'list') %>
+          </td>
+          <td>
+            <% if @formations.any? %>
+              <span style="background-color:<%= Formation.find(@formations.first).color %>;padding-left: 7px;"></span>
+              <span style="padding-left:15px;"></span>
+              <%= @formations.collect{|id| Formation.find(id).abrg}.join(' | ')  %>
+            <% end %>
           </td>
 
-          <% if @cours.count > 0 and @date %>
-            <% range = [] %>
+          <% if @date %>
+            <% range =  [] %>
             <% @cours.each do | cours | %>
               <% range += cours.range %>
             <% end %>
@@ -88,20 +111,18 @@
             <% map = Cour.etendue_horaire.map {|i| range.include?(i) ? 'red' : 'lightgreen' } %>
             <% map.each_with_index do |color, index| %>
               <td>
-                  <% if color == 'lightgreen' %>
-                    <%= link_to new_cour_path(debut:@date, heure:(index + 8), salle_id:salle.id) do %>
-                      <span style="background-color:<%= color %>;padding-left: 15px;"></span>
-                    <% end %>
-                  <% else %>
-                     <i style="background-color:<%= color %>;padding-left: 15px;" 
-                        class="glyph-custom-warning" data-toggle="tooltip" data-placement="top"
-                        title=<%= @cours.pluck(:formation_id).collect{|id| Formation.find(id).abrg }.join(', ') %> >
+                <% if color == 'lightgreen' %>
+                  <%= link_to new_cour_path(debut:@date, heure:(index + 8), salle_id:salle.id) do %>
+                    <span style="background-color:<%= color %>;padding-left: 15px;"></span>
                   <% end %>
+                <% else %>
+                  <span style="background-color:<%= color %>;padding-left: 15px;"></span> 
+                <% end %>
               </td>
               <% if [4,10].include?(index) %><td /><% end %>
             <% end %>
           <% else %>
-            <% 17.times do %><td /><% end %>
+            <% 18.times do %><td /><% end %>
           <% end %>
         </tr>
       <% end %>

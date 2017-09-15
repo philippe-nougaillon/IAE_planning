@@ -1,7 +1,7 @@
 <script type="text/javascript">    
     setInterval(function() {
         window.location.reload();
-    }, <%= @cours.any? ? 0.3*60000 : 60*60000 %>); 
+    }, <%= @cours.any? ? 0.2*60000 : 60*60000 %>); 
 </script>
 
 <nav class="navbar navbar-default navbar-fixed-bottom">
@@ -31,7 +31,6 @@
     
       <li><%= link_to '>', cours_planning_path(planning_date:(@planning_date + 1.day)) %></li>
       <li><%= link_to '>>', cours_planning_path(planning_date:(@planning_date + 1.month)) %></li>
-      <p class="navbar-text"><%= image_tag("qr_code.jpg", size:"40x40") %></p>
     </ul>
 </nav> 
 

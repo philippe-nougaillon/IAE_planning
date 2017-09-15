@@ -1,5 +1,5 @@
 <div class="page-header">
-  <%= link_to new_cour_path, class: 'btn btn-primary' do %>
+  <%= link_to new_cour_path(formation_id:session[:formation_id], debut:session[:start_date]), class: 'btn btn-primary' do %>
     <span class="glyphicon glyphicon-plus"></span>
     Cours
   <% end %>
@@ -325,11 +325,10 @@
           <%= will_paginate @cours, renderer: BootstrapPagination::Rails %>
         <% end %>
 
-
         <div class="col-sm-3 pull-right">
           <small>Action:</small>
           <div class="input-group">
-            <%= select_tag "action_name", options_for_select(Cour.actions), include_blank:true, class:"form-control" %>
+            <%= select_tag "action_name", options_for_select(Cour.actions), include_blank:true, class:"form-control", onchange:'this.form.submit()' %>
             <div class="input-group-btn">
               <%= submit_tag 'Go', class: 'btn btn-sm btn-success' %>
             </div>
@@ -339,7 +338,7 @@
         
       <% end %>
     <% else %>
-      Aucun résultat à afficher... <%= link_to "Essayer en affichant tous les cours", url_for(params.merge(filter:'all')) %>
+      Aucun résultat à afficher... <%= link_to "Essayer en affichant aussi les cours passés ?", url_for(params.merge(filter:'all')) %>
     <% end %>
 <% else %>
   <i><b>Veuillez choisir une date...</b></i>

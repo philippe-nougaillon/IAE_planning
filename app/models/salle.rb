@@ -10,4 +10,5 @@ class Salle < ActiveRecord::Base
 	def nom_places
 		self.places.blank? ? self.nom : "#{self.nom} (#{self.places}P)" 
 	end
+
 end

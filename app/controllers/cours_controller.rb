@@ -18,19 +18,25 @@ class CoursController < ApplicationController
   # GET /cours
   # GET /cours.json
   def index
-    params[:view] ||= 'list'
-    params[:filter] ||= 'upcoming'
-    params[:paginate] ||= 'pages'
 
     if params[:commit] == 'Raz filtre'
       session[:formation_id] = params[:formation_id] = nil
+      session[:intervenant_id] = params[:intervenant_id] = nil
       session[:start_date] = params[:start_date] = nil
-      session[:etat] = params[:etat]
+      session[:etat] = params[:etat] = nil
+      session[:view] = params[:view] = 'list'
+      session[:filter] = params[:filter] = 'upcoming'
+      session[:paginate] = params[:paginate] = 'pages'
       redirect_to cours_path
     end
+
     params[:formation_id] ||= session[:formation_id]
     params[:start_date] ||= session[:start_date]
     params[:etat] ||= session[:etat]
+    params[:view] ||= session[:view]
+    params[:filter] ||= session[:filter]
+    params[:paginate] ||= session[:paginate]
+    params[:intervenant_id] ||= session[:intervenant_id]
 
     @cours = Cour.includes(:formation, :intervenant, :salle).order(:debut)
 
@@ -104,14 +110,18 @@ class CoursController < ApplicationController
     end
 
     if params[:view] == "calendar_rooms"
-      @cours = @cours.where(etat: Cour.etats.values_at(:à_réserver, :confirmé, :annulé, :reporté))
+      @cours = @cours.where(etat: Cour.etats.values_at(:à_réserver, :planifié, :confirmé, :annulé, :reporté, :réalisé))
     end
 
     @week_numbers =  ((Date.today.cweek.to_s..'52').to_a << ('1'..(Date.today.cweek - 1).to_s).to_a).flatten
     
     session[:formation_id] = params[:formation_id]
+    session[:intervenant_id] = params[:intervenant_id]
     session[:start_date] = params[:start_date]
     session[:etat] = params[:etat]
+    session[:view] = params[:view]
+    session[:filter] = params[:filter]
+    session[:paginate] = params[:paginate]
   end
 
   def index_slide
@@ -199,7 +209,9 @@ class CoursController < ApplicationController
         else
           @cours.salle = nil
         end
-        @cours.save
+        unless @cours.save
+          flash[:error] = @cours.errors.messages
+        end
       end
 
     elsif action_name == "Changer d'état"
@@ -308,13 +320,13 @@ class CoursController < ApplicationController
     @cour = Cour.new
     @cour.formation_id = params[:formation_id]
     @cour.debut = params[:debut] if params[:debut]
-    if params[:heure]
-      @cour.debut = Time.zone.parse("#{params[:debut]} #{params[:heure]}:00").to_s 
-    end
     @cour.intervenant_id = params[:intervenant_id]
     @cour.ue = params[:ue]
     @cour.salle_id = params[:salle_id]
     @cour.etat = params[:etat].to_i
+    if params[:heure]
+      @cour.debut = Time.zone.parse("#{params[:debut]} #{params[:heure]}:00").to_s 
+    end
   end
 
   # GET /cours/1/edit
@@ -331,10 +343,8 @@ class CoursController < ApplicationController
         format.html do
           if params[:create_and_add]  
             redirect_to new_cour_path(debut:@cour.debut, fin:@cour.fin, formation_id:@cour.formation_id, intervenant_id:@cour.intervenant_id, ue:@cour.ue), notice: 'Cours ajouté avec succès.'
-          elsif params[:from] == 'planning_salles'
-            redirect_to cours_path(view:"calendar_rooms", start_date:@cour.debut)
           else
-            redirect_to @cour, notice: 'Cours ajouté avec succès.'
+            redirect_to cours_path, notice: "Cours ##{@cour.id} ajouté avec succès."
           end 
         end
         format.json { render :show, status: :created, location: @cour }

@@ -169,9 +169,12 @@ class ToolsController < ApplicationController
   end
 
   def import_utilisateurs
+    authorize :tool, :import_utilisateurs?
   end
 
   def import_utilisateurs_do
+    authorize :tool, :import_utilisateurs?
+    
     if params[:upload]
     	
       # Enregistre le fichier localement
@@ -229,9 +232,11 @@ class ToolsController < ApplicationController
   end
 
   def swap_intervenant
+    authorize :tool, :swap_intervenant?
   end
 
   def swap_intervenant_do
+    authorize :tool, :swap_intervenant?
     
     unless params[:intervenant_from_id].blank? and params[:intervenant_to_id].blank?
     	

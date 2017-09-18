@@ -3,7 +3,7 @@
 class SallesController < ApplicationController
   before_action :set_salle, only: [:show, :edit, :update, :destroy]
 
-  # check if logged and admin  
+  ## check if logged and admin  
   # before_filter do 
   #   redirect_to new_user_session_path unless current_user && current_user.admin?
   # end
@@ -11,6 +11,7 @@ class SallesController < ApplicationController
   # GET /salles
   # GET /salles.json
   def index
+    authorize Salle
     @salles = Salle.order(:nom)
 
     unless params[:salle_id].blank?
@@ -35,27 +36,29 @@ class SallesController < ApplicationController
     unless params[:libre].blank? 
       @salles = Salle.all - @salles.joins(:cours).where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 1.day)
     end
-
   end
-
 
   # GET /salles/1
   # GET /salles/1.json
   def show
+    authorize Salle
   end
 
   # GET /salles/new
   def new
+    authorize Salle
     @salle = Salle.new
   end
 
   # GET /salles/1/edit
   def edit
+    authorize Salle
   end
 
   # POST /salles
   # POST /salles.json
   def create
+    authorize Salle
     @salle = Salle.new(salle_params)
 
     respond_to do |format|
@@ -72,6 +75,7 @@ class SallesController < ApplicationController
   # PATCH/PUT /salles/1
   # PATCH/PUT /salles/1.json
   def update
+    authorize Salle
     respond_to do |format|
       if @salle.update(salle_params)
         format.html { redirect_to @salle, notice: 'Salle modifié.' }
@@ -86,6 +90,7 @@ class SallesController < ApplicationController
   # DELETE /salles/1
   # DELETE /salles/1.json
   def destroy
+    authorize Salle
     @salle.destroy
     respond_to do |format|
       format.html { redirect_to salles_url, notice: 'Salle supprimé.' }

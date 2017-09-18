@@ -341,6 +341,12 @@
             </div>
             <br><br>
           </div>
+        <% else %>
+          <div class="pull-right">
+            <br>
+            <%= link_to "Export CSV", cours_url(format: :csv) %> | 
+            <%= link_to "Export iCal", cours_url(format: :ics) %>
+          </div>
         <% end %>
       <% end %>
     <% else %>

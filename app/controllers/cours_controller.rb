@@ -126,6 +126,57 @@ class CoursController < ApplicationController
     session[:view] = params[:view]
     session[:filter] = params[:filter]
     session[:paginate] = params[:paginate]
+
+    respond_to do |format|
+      format.html 
+
+      format.csv do
+        require 'csv'
+        @csv_string = CSV.generate(col_sep:';', encoding:'UTF-8') do | csv |
+            csv << ['id','date debut', 'heure debut', 'date fin','heure fin', 'formation_id','formation','intervenant_id','intervenant','nom du cours', 'etat','duree', 'Forfait_HETD', 'Taux_TD', 'Code_Analytique', 'cours cree le', 'cours modifie le']
+        
+            @cours.each do |c|
+              fields_to_export = [c.id, c.debut.to_date.to_s, c.debut.to_s(:time), c.fin.to_date.to_s, c.fin.to_s(:time), 
+                c.formation_id, c.formation.nom_promo, c.intervenant_id, c.intervenant.nom_prenom, c.nom, c.etat, 
+                number_with_delimiter(c.duree, separator: ","), c.formation.Forfait_HETD, c.formation.Taux_TD, 
+                c.formation.Code_Analytique, c.created_at, c.updated_at]
+              
+              csv << fields_to_export
+              
+              # exporter le binome sauf si l'utilisateur ne veut que les cours d'un intervenant 
+              if c.intervenant_binome and !params[:intervenant_id]
+                fields_to_export[7] = c.intervenant_binome_id
+                fields_to_export[8] = c.intervenant_binome.nom_prenom 
+                csv << fields_to_export
+              end  
+            end
+        end
+        filename = "Export_Cours_#{Date.today.to_s}"
+        response.headers['Content-Disposition'] = 'attachment; filename="' + filename + '.csv"'
+        render "cours/action_do.csv.erb"
+      end
+
+      format.ics do
+        require 'icalendar'
+        
+        @calendar = Icalendar::Calendar.new
+        @cours.each do |cours|
+          event = Icalendar::Event.new
+          event.dtstart = cours.debut.strftime("%Y%m%dT%H%M%S")
+          event.dtend = cours.fin.strftime("%Y%m%dT%H%M%S")
+          event.summary = cours.formation.nom
+          event.description = cours.nom
+          event.location = "BioPark #{cours.salle.nom if cours.salle}"
+          @calendar.add_event(event)
+        end  
+        @calendar.publish
+        
+        filename = "Export_iCalendar_#{Date.today.to_s}"
+        response.headers['Content-Disposition'] = 'attachment; filename="' + filename + '.ics"'
+        headers['Content-Type'] = "text/calendar; charset=UTF-8"
+        render text:@calendar.to_ical
+      end
+    end
   end
 
   def index_slide

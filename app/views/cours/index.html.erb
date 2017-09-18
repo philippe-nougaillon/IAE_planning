@@ -1,7 +1,9 @@
 <div class="page-header">
-  <%= link_to new_cour_path(formation_id:session[:formation_id], debut:session[:start_date]), class: 'btn btn-primary' do %>
-    <span class="glyphicon glyphicon-plus"></span>
-    Cours
+  <% if user_signed_in? %>
+    <%= link_to new_cour_path(formation_id:session[:formation_id], debut:session[:start_date]), class: 'btn btn-primary' do %>
+      <span class="glyphicon glyphicon-plus"></span>
+      Cours
+    <% end %>
   <% end %>
   <h1>
     <span class="glyphicon glyphicon-calendar"></span>
@@ -16,8 +18,7 @@
           <div class="col-sm-5">
               <%= label_tag "Formation" %>    
               <%= select_tag :formation_id, 
-                    options_from_collection_for_select(Formation.all, :id, :nom_promo, params[:formation_id]), include_blank:true, onchange:'this.form.submit()', class:"form-control", 
-                        disabled:(current_user.formation) %>
+                    options_from_collection_for_select(Formation.all, :id, :nom_promo, params[:formation_id]), include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
           </div>
 
           <div class="col-sm-5">
@@ -67,9 +68,11 @@
             <br> 
             <%= radio_button_tag :view, "list", (params[:view]=='list'), onchange:'this.form.submit()' %>
             Liste 
-            <%= radio_button_tag :view, "calendar_rooms", (params[:view]=='calendar_rooms'), onchange:'this.form.submit()' %>
-            Salles 
-            <%= radio_button_tag :view, "calendar_week", (params[:view]=='calendar_week'), onchange:'this.form.submit()' %>
+            <%= radio_button_tag :view, "calendar_rooms", (params[:view]=='calendar_rooms'), onchange:'this.form.submit()' %>    
+            <% if user_signed_in? %>
+              Salles 
+              <%= radio_button_tag :view, "calendar_week", (params[:view]=='calendar_week'), onchange:'this.form.submit()' %>
+            <% end %>
             Semaine 
             <%= radio_button_tag :view, "calendar_month", (params[:view]=='calendar_month'), onchange:'this.form.submit()' %>
             Mois 
@@ -292,8 +295,10 @@
                     </td>
 
                     <td>
-                      <%= link_to edit_cour_path(cours), class:"btn btn-default" do %>
-                        <i class="glyphicon glyphicon-pencil"></i>
+                      <% if user_signed_in? %>
+                        <%= link_to edit_cour_path(cours), class:"btn btn-default" do %>
+                          <i class="glyphicon glyphicon-pencil"></i>
+                        <% end %>
                       <% end %>
                     </td>
                   </tr>
@@ -325,17 +330,18 @@
           <%= will_paginate @cours, renderer: BootstrapPagination::Rails %>
         <% end %>
 
-        <div class="col-sm-3 pull-right">
-          <small>Action:</small>
-          <div class="input-group">
-            <%= select_tag "action_name", options_for_select(Cour.actions), include_blank:true, class:"form-control", onchange:'this.form.submit()' %>
-            <div class="input-group-btn">
-              <%= submit_tag 'Go', class: 'btn btn-sm btn-success' %>
+        <% if user_signed_in? %>
+          <div class="col-sm-3 pull-right">
+            <small>Action:</small>
+            <div class="input-group">
+              <%= select_tag "action_name", options_for_select(Cour.actions), include_blank:true, class:"form-control", onchange:'this.form.submit()' %>
+              <div class="input-group-btn">
+                <%= submit_tag 'Go', class: 'btn btn-sm btn-success' %>
+              </div>
             </div>
+            <br><br>
           </div>
-          <br><br>
-        </div>
-        
+        <% end %>
       <% end %>
     <% else %>
       Aucun résultat à afficher... <%= link_to "Essayer en affichant aussi les cours passés ?", url_for(params.merge(filter:'all')) %>

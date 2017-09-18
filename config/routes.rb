@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
   
-  resources :fermetures
   get 'tools/index'
   get 'tools/import'
   post 'tools/import_do'
@@ -35,7 +34,8 @@ Rails.application.routes.draw do
   resources :formations
   resources :intervenants
   resources :users
-
+  resources :fermetures
+  
   namespace :api, defaults: {format: 'json'} do 
     namespace :v1 do 
         resources :cours

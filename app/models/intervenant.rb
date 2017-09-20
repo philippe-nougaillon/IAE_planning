@@ -15,6 +15,13 @@ class Intervenant < ActiveRecord::Base
 
     mount_uploader :photo, AvatarUploader
 
+	def self.for_select
+		{
+		  'Groupe'   => where(doublon:true).map { |i| i.nom },
+		  'Individu' => where("intervenants.doublon = ? OR intervenants.doublon is null", false).map { |i| i.nom }
+		}
+	end
+	
 	def nom_prenom
 		self.prenom.blank? ? self.nom.upcase : "#{self.nom} #{self.prenom}" 
 	end

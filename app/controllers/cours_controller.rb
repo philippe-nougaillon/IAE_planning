@@ -31,6 +31,7 @@ class CoursController < ApplicationController
       session[:filter] = params[:filter] = 'upcoming'
       session[:paginate] = params[:paginate] = 'pages'
       redirect_to cours_path
+      return
     end
 
     params[:formation_id] ||= session[:formation_id]
@@ -94,9 +95,14 @@ class CoursController < ApplicationController
       @cours = @cours.where(formation_id:params[:formation_id])
     end
 
-    unless params[:intervenant_id].blank?
-      @cours = @cours.where("intervenant_id = ? OR intervenant_binome_id = ?", 
-                              params[:intervenant_id],params[:intervenant_id])
+    # unless params[:intervenant_id].blank?
+    #   @cours = @cours.where("intervenant_id = ? OR intervenant_binome_id = ?", 
+    #                           params[:intervenant_id],params[:intervenant_id])
+    # end
+
+    unless params[:intervenant].blank?
+      intervenant_id = Intervenant.find_by(nom:params[:intervenant])
+      @cours = @cours.where("intervenant_id = ? OR intervenant_binome_id = ?", intervenant_id, intervenant_id)
     end
 
     unless params[:etat].blank?
@@ -200,22 +206,26 @@ class CoursController < ApplicationController
     limite_fin = (@planning_date.beginning_of_day) + 1.day  
     @cours = @cours.where("(debut between ? and ?) and fin >= ?", limite_debut, limite_fin, @planning_date).order(:debut)
 
-    unless params[:formation_id].blank?
-      @cours = @cours.where(formation_id:params[:formation_id])
-      @formations = Formation.where(id:params[:formation_id])
-    else
-      @formations = @cours.collect{|c| c.formation}.uniq
-    end
-
     unless params[:intervenant_id].blank?
       @cours = @cours.where(intervenant_id:params[:intervenant_id])
       @intervenants = Intervenant.where(id:params[:intervenant_id])
     else
-      @intervenants = @cours.collect{|c| c.intervenant}.uniq
+      unless request.variant.include?(:desktop)
+        @intervenants = @cours.collect{|c| c.intervenant}.uniq
+      end
+    end
+
+    unless params[:intervenant].blank?
+      @cours = @cours.joins(:intervenant).where("intervenants.nom = ?", params[:intervenant])
+      @intervenants = Intervenant.where(id:params[:intervenant_id])
+    else
+      unless request.variant.include?(:desktop)
+        @intervenants = @cours.collect{|c| c.intervenant}.uniq
+      end
     end
 
     if @cours.any?
-      @cours = @cours.includes(:formation, :intervenant, :salle).order("formations.nom")
+      @cours = @cours.includes(:formation).order("formations.nom")
 
       if request.variant.include?(:desktop) and !params[:planning_date]
         # effectuer une rotation de x pages de 6 cours 
@@ -231,6 +241,7 @@ class CoursController < ApplicationController
         @cours = @cours.paginate(page:session[:page_slide], per_page:per_page)
       end
     else
+      # Affiche un papier peint si pas de cours à afficher
       require 'net/http'
       url = "http://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=fr-FR"
       uri = URI(url)

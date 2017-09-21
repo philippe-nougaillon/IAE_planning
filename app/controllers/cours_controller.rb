@@ -23,8 +23,8 @@ class CoursController < ApplicationController
     session[:paginate] ||= 'pages'
 
     if params[:commit] == 'Raz filtre'
-      session[:formation_id] = params[:formation_id] = nil
-      session[:intervenant_id] = params[:intervenant_id] = nil
+      session[:formation] = params[:formation] = nil
+      session[:intervenant] = params[:intervenant] = nil
       session[:start_date] = params[:start_date] = nil
       session[:etat] = params[:etat] = nil
       session[:view] = params[:view] = 'list'
@@ -34,13 +34,13 @@ class CoursController < ApplicationController
       return
     end
 
-    params[:formation_id] ||= session[:formation_id]
+    params[:formation] ||= session[:formation]
+    params[:intervenant] ||= session[:intervenant]
     params[:start_date] ||= session[:start_date]
     params[:etat] ||= session[:etat]
     params[:view] ||= session[:view]
     params[:filter] ||= session[:filter]
     params[:paginate] ||= session[:paginate]
-    params[:intervenant_id] ||= session[:intervenant_id]
 
     @cours = Cour.includes(:formation, :intervenant, :salle).order(:debut)
 
@@ -130,8 +130,8 @@ class CoursController < ApplicationController
 
     @week_numbers =  ((Date.today.cweek.to_s..'52').to_a << ('1'..(Date.today.cweek - 1).to_s).to_a).flatten
     
-    session[:formation_id] = params[:formation_id]
-    session[:intervenant_id] = params[:intervenant_id]
+    session[:formation] = params[:formation]
+    session[:intervenant] = params[:intervenant]
     session[:start_date] = params[:start_date]
     session[:etat] = params[:etat]
     session[:view] = params[:view]
@@ -387,9 +387,14 @@ class CoursController < ApplicationController
   # GET /cours/new
   def new
     @cour = Cour.new
-    @cour.formation_id = params[:formation_id]
+    if params[:formation]
+      @cour.formation_id = Formation.find_by(nom:params[:formation]).id
+    end
+    if params[:intervenant_id]
+      @cour.intervenant_id = Intervenant.find_by(nom:params[:intervenant_id])
+    end
+
     @cour.debut = params[:debut] if params[:debut]
-    @cour.intervenant_id = params[:intervenant_id]
     @cour.ue = params[:ue]
     @cour.salle_id = params[:salle_id]
     @cour.etat = params[:etat].to_i

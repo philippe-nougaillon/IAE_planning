@@ -439,7 +439,19 @@ class ToolsController < ApplicationController
   end
 
   def audits
-    @audits = Audited::Audit.order("id DESC").last(20)
+    @audits = Audited::Audit.order("id DESC")
+
+    unless params[:type].blank?
+      @audits = @audits.where(auditable_type:params[:type])
+    end
+
+    unless params[:search].blank?
+      @audits = @audits.where("audited_changes like ?", "%#{params[:search]}%")
+    end
+
+    @types = @audits.collect{|t| t.auditable_type}.uniq
+
+    @audits = @audits.first(20)
   end
   
 end

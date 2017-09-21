@@ -1,6 +1,6 @@
 <div class="page-header">
   <% if user_signed_in? %>
-    <%= link_to new_cour_path(formation_id:session[:formation_id], debut:session[:start_date]), class: 'btn btn-primary' do %>
+    <%= link_to new_cour_path(formation:session[:formation], debut:session[:start_date]), class: 'btn btn-primary' do %>
       <span class="glyphicon glyphicon-plus"></span>
       Cours
     <% end %>
@@ -164,7 +164,11 @@
               </b>
               <br>
               <% if meeting.formation.abrg %>
-                <%= link_to meeting.formation.abrg, edit_cour_path(meeting, from:'planning_salles'), title:meeting.nom %>
+                <% if meeting.salle_id == nil %>
+                  <%= link_to meeting.formation.abrg, cours_path(start_date:meeting.debut, formation:meeting.formation.nom, view:'list'), title:meeting.nom %>
+                <% else %>                 
+                  <%= link_to meeting.formation.abrg, edit_cour_path(meeting, from:'planning_salles'), title:meeting.nom %>
+                <% end %>
               <% else %>
                 <%= link_to meeting.formation.nom, meeting %>
               <% end %>

@@ -5,7 +5,38 @@
   </h1>
 </div>
 
-<table class="table">
+<div class='container-fluid'>
+    <%= form_tag request.path, method: :get do %>
+      <div class="form-group">
+        <div class="row">
+          <div class="col-sm-2">
+              <%= label_tag "Type" %>   
+              <%= select_tag :type, 
+                    options_for_select(@types, params[:type]), include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
+          </div>
+          <div class="col-sm-4">
+              <%= label_tag "Rechercher" %>   
+              <%= text_field_tag :search, params[:search], class:"form-control" %>
+          </div>
+        </div>
+      </div>  
+    <% end %>
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Type</th>
+            <th>ID</th>
+            <th>Action</th>
+            <th>Modifications</th>
+            <th>Salle</th>
+            <th>Utilisateur</th>            
+            
+        </tr>
+    </thead>
+
     <% @audits.each do |audit| %>
         <tr>
             <td><%= l(audit.created_at) %></td>
@@ -13,7 +44,30 @@
             <td><%= audit.auditable_id %></td>
             <td><%= audit.action %></td>
             <td><%= audit.audited_changes %></td>
-            <td><%= User.find(audit.user_id).email %></td>
+            <td>
+                <% if audit.audited_changes.include?("salle_id") %>
+                    <% if audit.audited_changes["salle_id"].class.name == "Array" %>
+                        <% salle_id_was =  audit.audited_changes["salle_id"].first %>
+                        <% salle_id =  audit.audited_changes["salle_id"].last %>
+                        <%= Salle.find(salle_id_was).nom if salle_id_was %>
+                        => 
+                        <%= Salle.find(salle_id).nom if salle_id %>
+                    <% else %>
+                        <% if audit.audited_changes["salle_id"].class.name == "Fixnum" %>
+                            <%= Salle.find( audit.audited_changes["salle_id"]).nom %>
+                        <% else %>
+                            <%= audit.audited_changes["salle_id"] %>
+                        <% end %>
+                    <% end %> 
+                <% end %>
+            </td>
+            <td><%= User.find(audit.user_id).email.split('@').first if audit.user_id %></td>
+            <td>
+                <% if audit.auditable_type == "Cour" %> 
+                    <%= link_to "Voir", Cour.find(audit.auditable_id) %>
+                <% end %>
+            </td>
         </tr>
     <% end %>
 </table>
+

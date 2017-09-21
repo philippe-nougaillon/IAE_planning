@@ -24,5 +24,13 @@ class Formation < ActiveRecord::Base
 		self.promo.blank? ? "#{self.nom} (#{self.nbr_etudiants}E)"  : "#{self.nom} - #{self.promo} (#{self.nbr_etudiants}E)" 
 	end
 
+	def self.for_select
+		{
+		  'Formations catalogue' => where.not(hors_catalogue:true).map { |i| i.nom },
+		  'Formations hors catalogue' => where(hors_catalogue:true).map { |i| i.nom }
+		}
+	end
+
+
 end
 

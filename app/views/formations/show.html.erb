@@ -52,6 +52,12 @@
   </dir>
 
   <dir class="col-sm-6">
+    <p> 
+      <strong>
+        <%= "Hors catalogue !" if @formation.hors_catalogue %>
+      </strong>
+    </p>
+
     <p>
       <strong>Chargée de formation:</strong>
       <%= @formation.user.email if @formation.user %>

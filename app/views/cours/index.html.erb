@@ -16,9 +16,12 @@
       <div class="form-group">
         <div class="row">
           <div class="col-sm-5">
-              <%= label_tag "Formation" %>    
+              <%= label_tag "Formation" %>   
+              <!--  
               <%= select_tag :formation_id, 
                     options_from_collection_for_select(Formation.all, :id, :nom_promo, params[:formation_id]), include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
+              -->
+              <%= select_tag :formation, grouped_options_for_select(Formation.for_select, params[:formation]), class:"form-control", include_blank:true, onchange:'this.form.submit()' %>
           </div>
 
           <div class="col-sm-5">

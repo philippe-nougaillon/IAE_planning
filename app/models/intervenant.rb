@@ -17,8 +17,8 @@ class Intervenant < ActiveRecord::Base
 
 	def self.for_select
 		{
-		  'Groupe'   => where(doublon:true).map { |i| i.nom },
-		  'Individu' => where("intervenants.doublon = ? OR intervenants.doublon is null", false).map { |i| i.nom }
+		  'Groupes (Doublons autorisés)' => where(doublon:true).map { |i| i.nom },
+		  'Individus' => where("intervenants.doublon = ? OR intervenants.doublon is null", false).map { |i| i.nom }
 		}
 	end
 	

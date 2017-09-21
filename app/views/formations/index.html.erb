@@ -13,23 +13,31 @@
     <%= form_tag request.path, method: :get do %>
       <div class="form-group">
         <div class="row">
-          <div class="col-sm-4">
+          <div class="col-sm-3">
             <%= label_tag :nom, "Nom/Abr." %>    
             <%= text_field_tag :nom, params[:nom], include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
           </div>
 
+          <!---
           <div class="col-sm-2">
             <%= label_tag "Promotion" %>    
             <%= select_tag :promo, 
                   options_for_select(Formation.select(:promo).uniq.pluck(:promo).sort, params[:promo]), 
                     include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
           </div>
+          -->
 
           <div class="col-sm-2">
             <%= label_tag :apprentissage, "Apprentissage ?" %>
             <br>    
             <%= check_box_tag :apprentissage, 1, params[:apprentissage], 
                   onchange:'this.form.submit()', class:"form-control" %>
+          </div>
+
+          <div class="col-sm-2">
+            <%= label_tag :hors_catalogue, "Hors Catalogue ?" %>
+            <br>    
+            <%= check_box_tag :hors_catalogue, 1, params[:hors_catalogue], onchange:'this.form.submit()', class:"form-control" %>
           </div>
 
           <div class="col-sm-2">

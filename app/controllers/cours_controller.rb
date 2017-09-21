@@ -91,8 +91,13 @@ class CoursController < ApplicationController
     #   params[:formation_id] = current_user.formation_id
     # end
 
-    unless params[:formation_id].blank?
-      @cours = @cours.where(formation_id:params[:formation_id])
+    # unless params[:formation_id].blank?
+    #   @cours = @cours.where(formation_id:params[:formation_id])
+    # end
+
+    unless params[:formation].blank?
+      formation_id = Formation.find_by(nom:params[:formation])
+      @cours = @cours.where(formation_id:formation_id)
     end
 
     # unless params[:intervenant_id].blank?

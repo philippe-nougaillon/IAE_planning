@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   post 'tools/swap_intervenant_do'
   get 'tools/etats_services'
   post 'tools/etats_services_do'
+  get 'tools/audits'
 
   get 'salles/occupation'
 

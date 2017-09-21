@@ -17,6 +17,10 @@ class IntervenantsController < ApplicationController
       @intervenants = @intervenants.where("nom like ? or prenom like ?", "%#{params[:nom]}%", "%#{params[:nom]}%" )
     end
 
+    unless params[:doublon].blank?
+      @intervenants = @intervenants.where(doublon:true)
+    end
+
     unless params[:status].blank?
       @intervenants = @intervenants.where("status = ?", params[:status])
     end

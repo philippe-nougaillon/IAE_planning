@@ -437,5 +437,9 @@ class ToolsController < ApplicationController
       end
     end  
   end
+
+  def audits
+    @audits = Audited::Audit.order("id DESC").last(20)
+  end
   
 end

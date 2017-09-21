@@ -1,0 +1,18 @@
+<div class="page-header">
+  <h1>
+    <span class="glyphicon glyphicon-search"></span>
+    Liste des modifications (audits)
+  </h1>
+</div>
+
+<table class="table">
+    <% @audits.each do |audit| %>
+        <tr>
+            <td><%= l(audit.created_at) %></td>
+            <td><%= audit.auditable_type %></td>
+            <td><%= audit.action %></td>
+            <td><%= audit.audited_changes %></td>
+            <td><%= User.find(audit.user_id).email %></td>
+        </tr>
+    <% end %>
+</table>

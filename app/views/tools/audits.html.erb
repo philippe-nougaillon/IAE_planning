@@ -10,6 +10,7 @@
         <tr>
             <td><%= l(audit.created_at) %></td>
             <td><%= audit.auditable_type %></td>
+            <td><%= audit.auditable_id %></td>
             <td><%= audit.action %></td>
             <td><%= audit.audited_changes %></td>
             <td><%= User.find(audit.user_id).email %></td>

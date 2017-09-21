@@ -220,14 +220,12 @@ class CoursController < ApplicationController
       end
     end
 
-    unless params[:intervenant].blank?
-      @cours = @cours.joins(:intervenant).where("intervenants.nom = ?", params[:intervenant])
-      @intervenants = Intervenant.where(id:params[:intervenant_id])
-    else
-      unless request.variant.include?(:desktop)
-        @intervenants = @cours.collect{|c| c.intervenant}.uniq
-      end
-    end
+    unless params[:formation_id].blank? 
+      @cours = @cours.where(formation_id:params[:formation_id]) 
+      @formations = Formation.where(id:params[:formation_id]) 
+    else 
+      @formations = @cours.collect{|c| c.formation}.uniq 
+    end 
 
     if @cours.any?
       @cours = @cours.includes(:formation).order("formations.nom")

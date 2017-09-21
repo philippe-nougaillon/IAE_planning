@@ -1,7 +1,7 @@
 <div class="page-header">
   <h1>
     <span class="glyphicon glyphicon-search"></span>
-    Liste des modifications (audits)
+    Audit des modifications
   </h1>
 </div>
 
@@ -15,8 +15,20 @@
                     options_for_select(@types, params[:type]), include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
           </div>
           <div class="col-sm-4">
-              <%= label_tag "Rechercher" %>   
-              <%= text_field_tag :search, params[:search], class:"form-control" %>
+              <%= label_tag "Rechercher" %>
+              <div class="input-group">       
+                <%= text_field_tag :search, params[:search], class:"form-control" %>
+                <span class="input-group-btn">
+                  <%= submit_tag 'Filtrer', class:"btn btn-success" %>
+                </span>
+            </div>
+
+          </div>
+        <div class="col-sm-4">
+            <%= label_tag :chgt_salle, "Ne voir que les changements de salle ?" %>
+            <br>    
+            <%= check_box_tag :chgt_salle, 1, params[:chgt_salle], 
+                  onchange:'this.form.submit()', class:"form-control" %>
           </div>
         </div>
       </div>  
@@ -27,22 +39,22 @@
     <thead>
         <tr>
             <th>Date</th>
+            <th>Utilisateur</th>            
+            <th>Action</th>
             <th>Type</th>
             <th>ID</th>
-            <th>Action</th>
             <th>Modifications</th>
             <th>Salle</th>
-            <th>Utilisateur</th>            
-            
         </tr>
     </thead>
 
     <% @audits.each do |audit| %>
         <tr>
-            <td><%= l(audit.created_at) %></td>
+            <td><%= l(audit.created_at, format: :short) %></td>
+            <td><%= User.find(audit.user_id).email.split('@').first if audit.user_id %></td>
+            <td><%= audit.action %></td>
             <td><%= audit.auditable_type %></td>
             <td><%= audit.auditable_id %></td>
-            <td><%= audit.action %></td>
             <td><%= audit.audited_changes %></td>
             <td>
                 <% if audit.audited_changes.include?("salle_id") %>
@@ -61,7 +73,6 @@
                     <% end %> 
                 <% end %>
             </td>
-            <td><%= User.find(audit.user_id).email.split('@').first if audit.user_id %></td>
             <td>
                 <% if audit.auditable_type == "Cour" %> 
                     <%= link_to "Voir", Cour.find(audit.auditable_id) %>
@@ -70,4 +81,10 @@
         </tr>
     <% end %>
 </table>
+
+<div class="page_info">
+    <%= page_entries_info @audits %>
+</div>
+<%= will_paginate @audits, renderer: BootstrapPagination::Rails %>
+
 

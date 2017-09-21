@@ -130,12 +130,14 @@
         <% end %>
       </tbody>
     </table>
+
     <% if params[:paginate] == 'pages' %>
       <div class="page_info">
         <%= page_entries_info @formations %>
       </div>
       <%= will_paginate @formations, renderer: BootstrapPagination::Rails %>
     <% end %>  
+
   </div>
 <% end %>
 <br>

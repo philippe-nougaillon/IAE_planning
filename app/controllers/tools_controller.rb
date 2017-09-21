@@ -441,6 +441,11 @@ class ToolsController < ApplicationController
   def audits
     @audits = Audited::Audit.order("id DESC")
 
+    unless params[:chgt_salle].blank?
+      params[:type] = 'Cour'
+      params[:search] = 'salle_id'
+    end
+
     unless params[:type].blank?
       @audits = @audits.where(auditable_type:params[:type])
     end
@@ -451,7 +456,7 @@ class ToolsController < ApplicationController
 
     @types = @audits.collect{|t| t.auditable_type}.uniq
 
-    @audits = @audits.first(20)
+    @audits = @audits.paginate(page:params[:page], per_page:10)
   end
   
 end

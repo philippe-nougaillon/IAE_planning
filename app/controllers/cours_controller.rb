@@ -106,7 +106,7 @@ class CoursController < ApplicationController
     # end
 
     unless params[:intervenant].blank?
-      intervenant_id = Intervenant.find_by(nom:params[:intervenant])
+      intervenant_id = Intervenant.find_by(nom:params[:intervenant].split(' ').first, prenom:params[:intervenant].split(' ').last)
       @cours = @cours.where("intervenant_id = ? OR intervenant_binome_id = ?", intervenant_id, intervenant_id)
     end
 
@@ -144,12 +144,12 @@ class CoursController < ApplicationController
       format.csv do
         require 'csv'
         @csv_string = CSV.generate(col_sep:';', encoding:'UTF-8') do | csv |
-            csv << ['id','date debut', 'heure debut', 'date fin','heure fin', 'formation_id','formation','intervenant_id','intervenant','nom du cours', 'etat','duree', 'Forfait_HETD', 'Taux_TD', 'Code_Analytique', 'cours cree le', 'cours modifie le']
+            csv << ['ID','Date début', 'Heure début', 'Date fin','Heure fin', 'Formation_id','Formation','Intervenant_id','Intervenant','UE','Nom du cours','Etat','Durée','Salle','Forfait_HETD','Taux_TD','Code_Analytique', 'Cours créé le', 'Cours modifié le']
         
             @cours.each do |c|
               fields_to_export = [c.id, c.debut.to_date.to_s, c.debut.to_s(:time), c.fin.to_date.to_s, c.fin.to_s(:time), 
-                c.formation_id, c.formation.nom_promo, c.intervenant_id, c.intervenant.nom_prenom, c.nom, c.etat, 
-                number_with_delimiter(c.duree, separator: ","), c.formation.Forfait_HETD, c.formation.Taux_TD, 
+                c.formation_id, c.formation.nom_promo, c.intervenant_id, c.intervenant.nom_prenom, c.ue, c.nom, c.etat, 
+                number_with_delimiter(c.duree, separator: ","), (c.salle ? c.salle.nom : ""), c.formation.Forfait_HETD, c.formation.Taux_TD, 
                 c.formation.Code_Analytique, c.created_at, c.updated_at]
               
               csv << fields_to_export
@@ -418,7 +418,11 @@ class CoursController < ApplicationController
           if params[:create_and_add]  
             redirect_to new_cour_path(debut:@cour.debut, fin:@cour.fin, formation_id:@cour.formation_id, intervenant_id:@cour.intervenant_id, ue:@cour.ue), notice: 'Cours ajouté avec succès.'
           else
-            redirect_to cours_path, notice: "Cours ##{@cour.id} ajouté avec succès."
+            if params[:from] == 'occupation'
+              redirect_to occupation_des_salles_path, notice: "Cours ##{@cour.id} ajouté avec succès."
+            else
+              redirect_to cours_path, notice: "Cours ##{@cour.id} ajouté avec succès."
+            end  
           end 
         end
         format.json { render :show, status: :created, location: @cour }

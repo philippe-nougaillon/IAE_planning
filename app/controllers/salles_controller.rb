@@ -22,20 +22,21 @@ class SallesController < ApplicationController
   def occupation
     @salles = Salle.order(:nom)
 
-    params[:date] ||= Date.today
+    params[:start_date] ||= session[:start_date]
 
     unless params[:salle_id].blank?
       @salles = @salles.where(id:params[:salle_id])
     end
 
-    unless params[:date].blank?
-      @date = params[:date].to_date
-      #@salles = @salles.joins(:cours).where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 1.day).uniq
+    unless params[:start_date].blank?
+      @date = params[:start_date].to_date
     end
 
     unless params[:libre].blank? 
       @salles = Salle.all - @salles.joins(:cours).where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 1.day)
     end
+
+    session[:start_date] = params[:start_date]
   end
 
   # GET /salles/1

@@ -17,23 +17,13 @@
         <div class="row">
           <div class="col-sm-5">
               <%= label_tag "Formation" %>   
-              <!--  
-              <%= select_tag :formation_id, 
-                    options_from_collection_for_select(Formation.all, :id, :nom_promo, params[:formation_id]), include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
-              -->
               <%= select_tag :formation, grouped_options_for_select(Formation.for_select, params[:formation]), class:"form-control", include_blank:true, onchange:'this.form.submit()' %>
           </div>
 
           <div class="col-sm-5">
               <%= label_tag "Intervenant" %>    
               <div class="input-group">
-                <!---
-                <%= select_tag :intervenant_id, 
-                      options_from_collection_for_select(Intervenant.all, :id, :nom_prenom, params[:intervenant_id]), 
-                        include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
-                -->
                 <%= select_tag :intervenant, grouped_options_for_select(Intervenant.for_select, params[:intervenant]), class:"form-control", include_blank:true, onchange:'this.form.submit()' %>
-
                 <span class="input-group-btn">
                   <%= submit_tag 'Filtrer', class:"btn btn-success" %>
                   <%= submit_tag 'Raz filtre', class:"btn btn-default" %>
@@ -51,7 +41,7 @@
           </div>
 
           <div class="col-sm-2">
-            <%= label_tag "Date" %>    
+            <%= label_tag "A partir du" %>    
             <%= text_field_tag :start_date, params[:start_date], type:'date', onchange:'this.form.submit()', class:"form-control" %>
           </div>
 
@@ -76,10 +66,8 @@
             <%= radio_button_tag :view, "list", (params[:view]=='list'), onchange:'this.form.submit()' %>
             Liste 
             <%= radio_button_tag :view, "calendar_rooms", (params[:view]=='calendar_rooms'), onchange:'this.form.submit()' %>    
-            <% if user_signed_in? %>
-              Salles 
-              <%= radio_button_tag :view, "calendar_week", (params[:view]=='calendar_week'), onchange:'this.form.submit()' %>
-            <% end %>
+            Salles 
+            <%= radio_button_tag :view, "calendar_week", (params[:view]=='calendar_week'), onchange:'this.form.submit()' %>
             Semaine 
             <%= radio_button_tag :view, "calendar_month", (params[:view]=='calendar_month'), onchange:'this.form.submit()' %>
             Mois 
@@ -188,7 +176,9 @@
                      events: @cours.where(salle_id:@salle.id), salle_id:@salle.id, 
                      number_of_days: 6 do |date, meetings| %>
 
-          <%= link_to "+", new_cour_path(debut:date, salle_id:@salle.id, etat:2, from:'planning_salles'), class:"btn btn-default btn-sm" %>
+          <% if user_signed_in? %>
+            <%= link_to "+", new_cour_path(debut:date, salle_id:@salle.id, etat:2, from:'planning_salles'), class:"btn btn-default btn-sm" %>
+          <% end %>  
 
           <% meetings.each do |meeting| %>
             <div class="meeting">

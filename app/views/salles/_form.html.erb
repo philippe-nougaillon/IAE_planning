@@ -14,12 +14,12 @@
   <% end %>
 
   <div class="form-group">
-    <div class="col-sm-4">
+    <div class="col-sm-3">
 
       <%= f.text_field :nom %>
-      <%= f.number_field :places %>
       <%= f.text_field :bloc %>
-      
+      <%= f.number_field :places, label:"Nombre de places" %><i><small>Entrez 0 pour autoriser les doublons</small></i>
+      <br><br>
       <%= f.submit class: "btn btn-primary" %>
     </div>
   </div>  

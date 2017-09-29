@@ -7,7 +7,7 @@ class Intervenant < ActiveRecord::Base
 	has_many :formations, through: :cours
 
 	validates_uniqueness_of :nom, scope: :email, case_sensitive: false
-	validates :nom, :prenom, :email, presence: true
+	validates :nom, :email, presence: true
 	
   	enum status: [:CEV, :Permanent, :PR, :MCF, :MCF_HDR, :PAST, :PRAG, :VAC, :Admin]
 
@@ -18,7 +18,7 @@ class Intervenant < ActiveRecord::Base
 	def self.for_select
 		{
 		  'Groupes (Doublons autorisés)' => where(doublon:true).map { |i| i.nom },
-		  'Individus' => where("intervenants.doublon = ? OR intervenants.doublon is null", false).map { |i| i.nom }
+		  'Individus' => where("intervenants.doublon = ? OR intervenants.doublon is null", false).map { |i| "#{i.nom} #{i.prenom}"  }
 		}
 	end
 	

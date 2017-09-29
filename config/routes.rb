@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   get 'tools/audits'
 
   get 'salles/occupation'
+  get 'salles/occupation', as: :occupation_des_salles
 
   get 'cours/index_slide' # à supprimer 
   get 'cours/planning' => "cours#index_slide"

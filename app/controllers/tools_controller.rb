@@ -355,12 +355,12 @@ class ToolsController < ApplicationController
     require 'csv'
 
   	@csv_string = CSV.generate(col_sep:';', encoding:'UTF-8') do | csv |
-      csv << ['id','date debut', 'heure debut', 'date fin','heure fin', 'formation_id','formation','intervenant_id','intervenant','nom du cours', 'etat','duree','cours cree le', 'cours modifie le']
+      csv << ['ID','Date début', 'Heure début', 'Date fin', 'Heure fin', 'Formation_id','Formation','Intervenant_id','Intervenant','UE','Nom du cours','Etat','Durée','Salle','Cours créé le', 'Cours modifié le']
       
       @cours.each do |c|
         fields_to_export = [c.id, c.debut.to_date.to_s, c.debut.to_s(:time), c.fin.to_date.to_s, c.fin.to_s(:time), 
-          c.formation_id, c.formation.nom_promo, c.intervenant_id, c.intervenant.nom_prenom, c.nom, c.etat, 
-          number_with_delimiter(c.duree, separator: ","), c.formation.Forfait_HETD, c.formation.Taux_TD, 
+          c.formation_id, c.formation.nom_promo, c.intervenant_id, c.intervenant.nom_prenom, c.ue, c.nom, c.etat, 
+          number_with_delimiter(c.duree, separator: ","), (c.salle ? c.salle.nom : ""), c.formation.Forfait_HETD, c.formation.Taux_TD, 
           c.formation.Code_Analytique, c.created_at, c.updated_at]
         
         csv << fields_to_export

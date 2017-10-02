@@ -181,6 +181,8 @@ class Cour < ActiveRecord::Base
 
     def check_chevauchement_intervenant
 
+      # Pas de test si pas d'intervenant
+      return unless self.intervenant
       # Pas de test si les doublons sont autorisés
       return if self.intervenant.doublon 
 

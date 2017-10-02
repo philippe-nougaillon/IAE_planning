@@ -68,8 +68,8 @@ class Cour < ActiveRecord::Base
             ue.num_nom
           end        
         end  
-      else 
-        self.nom       
+      else
+        self.nom 
       end
     rescue Exception => e 
       "erreur => #{e}"

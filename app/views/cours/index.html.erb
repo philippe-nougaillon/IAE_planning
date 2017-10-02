@@ -272,11 +272,16 @@
                     </td>
                     <td>
                       <% if cours.ue %>
+                        <%= link_to cours.ue, cours_path(ue:cours.ue) %>
+                      <% end %>
+                      <!---
+                      <% if cours.ue %>
                         <% if cours.ue[2].to_i > 0 and cours.ue[2].to_i < 20 %>   
                           <span style="background-color:<%= Cour.ue_styles[cours.ue[2].to_i - 1] %>;padding-left: 7px;">
                           </span>
                         <% end %>
                       <% end %>
+                      -->
                     </td>
 
                     <td>

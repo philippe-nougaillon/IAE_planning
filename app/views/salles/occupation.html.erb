@@ -100,7 +100,7 @@
               <% range += cours.range %>
             <% end %>
 
-            <% map = Cour.etendue_horaire.map {|i| range.include?(i) ? 'orange' : 'lightgreen' } %>
+            <% map = Cour.etendue_horaire.map {|i| range.include?(i) ? 'red' : 'lightgreen' } %>
             <% map.each_with_index do |color, index| %>
               <td>
                 <% if color == 'lightgreen' %>

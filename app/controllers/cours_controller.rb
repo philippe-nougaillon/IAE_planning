@@ -118,6 +118,10 @@ class CoursController < ApplicationController
       @cours = @cours.where(salle_id:params[:salle_id])      
     end
 
+    unless params[:ue].blank?
+      @cours = @cours.where(ue:params[:ue])
+    end
+
     @all_cours = @cours
 
     if params[:view] == 'list' and params[:paginate] == 'pages'

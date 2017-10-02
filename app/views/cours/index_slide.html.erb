@@ -62,13 +62,17 @@
                        style="width:<%= cours.progress_bar_pct(@planning_date) %>%">
                   </div>
                 </div>
+              <% else %>
+                <br><br>
               <% end %>
             </td>
             <td style="vertical-align: middle;">
               <h3>
+                <!---
                 <% if cours.intervenant.photo.url %>
                   <%= image_tag(cours.intervenant.photo.url, class: "img-circle", size:'80x80') %>
                 <% end %>
+                -->
                 <%= cours.intervenant.nom_prenom %>
                 <% if cours.intervenant_binome %>
                     / <%= cours.intervenant_binome.nom_prenom %>

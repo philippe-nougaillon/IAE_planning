@@ -383,13 +383,18 @@ class CoursController < ApplicationController
   # GET /cours/new
   def new
     @cour = Cour.new
-    if params[:formation]
+
+    unless params[:formation].blank?
       @cour.formation_id = Formation.find_by(nom:params[:formation]).id
     end
-    if params[:intervenant_id]
-      @cour.intervenant_id = Intervenant.find_by(nom:params[:intervenant_id])
-    end
 
+    if params[:intervenant_id]
+      intervenant = params[:intervenant].strip
+      intervenant_id = Intervenant.find_by(nom:intervenant.split(' ').first, prenom:intervenant.split(' ').last.rstrip)
+
+      @cour.intervenant_id = intervenant_id
+    end
+    
     @cour.debut = params[:debut] if params[:debut]
     @cour.ue = params[:ue]
     @cour.salle_id = params[:salle_id]

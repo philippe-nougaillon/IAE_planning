@@ -168,8 +168,8 @@ class Cour < ActiveRecord::Base
       return if self.salle.places == 0
             
       # s'il y a dejà des cours dans la même salle et à la même date
-      cours = Cour.where("salle_id = ? AND ((debut BETWEEN ? AND ?) OR (fin BETWEEN ? AND ?))", 
-                          self.salle_id, self.debut, self.fin, self.debut, self.fin)
+      cours = Cour.where("salle_id = ? AND (((debut BETWEEN ? AND ?) OR (fin BETWEEN ? AND ?)) OR (debut < ? AND fin > ?))", 
+                          self.salle_id, self.debut, self.fin, self.debut, self.fin, self.fin, self.debut)
 
       # si cours en chevauchement n'est pas le cours lui même (modif de cours)
       cours = cours.where.not(id:self.id).where.not(fin:self.debut).where.not(debut:self.fin)

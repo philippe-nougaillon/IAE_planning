@@ -66,8 +66,13 @@ class CoursController < ApplicationController
       unless params[:filter] == 'all'
         unless params[:semaine].blank?
           @cours = @cours.where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 7.day)
-        else        
-          @cours = @cours.where("cours.debut >= DATE(?)", @date)
+        else
+          if request.variant = :phone
+            # ne voir que la journée si vue depuis un mobile        
+            @cours = @cours.where("DATE(cours.debut) = DATE(?)", @date)
+          else
+            @cours = @cours.where("cours.debut >= DATE(?)", @date)
+          end  
         end
       else
         @date = nil

@@ -355,7 +355,7 @@ class ToolsController < ApplicationController
     require 'csv'
 
   	@csv_string = CSV.generate(col_sep:';', encoding:'UTF-8') do | csv |
-      csv << ['ID','Date début', 'Heure début', 'Date fin', 'Heure fin', 'Formation_id','Formation','Intervenant_id','Intervenant','UE','Nom du cours','Etat','Durée','Salle','Forfait_HETD','Taux_TD','Code_Analytique','Cours créé le', 'Cours modifié le']
+      csv << ['id','Date début', 'Heure début', 'Date fin', 'Heure fin', 'Formation_id','Formation','Intervenant_id','Intervenant','UE','Nom du cours','Etat','Durée','Salle','Forfait_HETD','Taux_TD','Code_Analytique','Cours créé le', 'Cours modifié le']
       
       @cours.each do |c|
         fields_to_export = [c.id, c.debut.to_date.to_s, c.debut.to_s(:time), c.fin.to_date.to_s, c.fin.to_s(:time), 

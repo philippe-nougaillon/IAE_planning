@@ -30,11 +30,6 @@
 
 <% unless request.ssl? %>
   <p>
-    Veuillez utiliser de préférence la <%= link_to "connexion sécurisée", "https://iae-planning.philnoug.com" %>
+    Veuillez utiliser <%= link_to "la connexion sécurisée", "https://iae-planning.philnoug.com" %> !
   </p>
 <% end %>
-
-<p>
-  Voir le <%= link_to "planning des cours du jour (Mobile/Tablette/PC)","/cours/planning" %>
-</p>
-

@@ -86,27 +86,14 @@ class CoursController < ApplicationController
     end
     params[:start_date] = @date.to_s
 
-    
-    # if current_user.formation 
-    #   params[:formation_id] = current_user.formation_id
-    # end
-
-    # unless params[:formation_id].blank?
-    #   @cours = @cours.where(formation_id:params[:formation_id])
-    # end
-
     unless params[:formation].blank?
-      formation_id = Formation.find_by(nom:params[:formation])
+      formation_id = Formation.find_by(nom:params[:formation].rstrip)
       @cours = @cours.where(formation_id:formation_id)
     end
 
-    # unless params[:intervenant_id].blank?
-    #   @cours = @cours.where("intervenant_id = ? OR intervenant_binome_id = ?", 
-    #                           params[:intervenant_id],params[:intervenant_id])
-    # end
-
     unless params[:intervenant].blank?
-      intervenant_id = Intervenant.find_by(nom:params[:intervenant].split(' ').first, prenom:params[:intervenant].split(' ').last)
+      intervenant = params[:intervenant].strip
+      intervenant_id = Intervenant.find_by(nom:intervenant.split(' ').first, prenom:intervenant.split(' ').last.rstrip)
       @cours = @cours.where("intervenant_id = ? OR intervenant_binome_id = ?", intervenant_id, intervenant_id)
     end
 
@@ -148,7 +135,7 @@ class CoursController < ApplicationController
       format.csv do
         require 'csv'
         @csv_string = CSV.generate(col_sep:';', encoding:'UTF-8') do | csv |
-            csv << ['ID','Date début', 'Heure début', 'Date fin','Heure fin', 'Formation_id','Formation','Intervenant_id','Intervenant','UE','Nom du cours','Etat','Durée','Salle','Forfait_HETD','Taux_TD','Code_Analytique', 'Cours créé le', 'Cours modifié le']
+            csv << ['id','Date début', 'Heure début', 'Date fin','Heure fin', 'Formation_id','Formation','Intervenant_id','Intervenant','UE','Nom du cours','Etat','Durée','Salle','Forfait_HETD','Taux_TD','Code_Analytique', 'Cours créé le', 'Cours modifié le']
         
             @cours.each do |c|
               fields_to_export = [c.id, c.debut.to_date.to_s, c.debut.to_s(:time), c.fin.to_date.to_s, c.fin.to_s(:time), 

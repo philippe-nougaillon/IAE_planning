@@ -1,69 +1,81 @@
-<div class="container-fluid">
-    <%= form_tag request.path, method: :get do %>
-      <div class="form-group">
-        <div class="row">
-          <div class="col-sm-6">
-              <%= label_tag "Formation" %>    
-              <%= select_tag :formation_id, 
-                    options_from_collection_for_select(Formation.all, :id, :nom_promo, params[:formation_id]), include_blank:true, onchange:'this.form.submit()', class:"form-control", 
-                        disabled:(current_user.formation) %>
-          </div>
-          <div class="col-sm-5">
-              <%= label_tag "Intervenant" %>    
-              <div class="input-group">
-                <% if current_user.try(:admin?) %>
-                  <%= select_tag :intervenant_id, 
-                    options_from_collection_for_select(Intervenant.all, :id, :nom_prenom, params[:intervenant_id]), 
-                      include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
-                <% else %>
-                  <%= select_tag :intervenant_id, 
-                    options_from_collection_for_select(current_user.formation.intervenants.uniq, :id, :nom_prenom, params[:intervenant_id]), 
-                      include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
-                <% end %>
+<script type="text/javascript">    
+    setInterval(function() {
+        window.location.reload();
+    }, 1*60000); 
+</script>
 
-                <span class="input-group-btn">
-                  <%= submit_tag 'Filtrer', class:"btn btn-success" %>
-                </span>
-              </div>
+<div class="container-fluid">
+
+  <%= form_tag request.path, method: :get do %>
+
+    <div class="form-group">
+      <div class="row">
+        <div class="col-sm-6">
+          <%= label_tag "Date" %>
+          <div class="input-group">  
+            <%= link_to '<<', cours_path(start_date:(@date - 1.month)), class:"btn btn-default btn-sm" %>
+            <%= link_to '<',  cours_path(start_date:(@date - 1.day)), class:"btn btn-default btn-sm" %>
+
+            <%= l(@date.to_date, format: :short).humanize %>
+            
+            <%= link_to '>',  cours_path(start_date:(@date + 1.day)), class:"btn btn-default btn-sm" %>
+            <%= link_to '>>', cours_path(start_date:(@date + 1.month)), class:"btn btn-default btn-sm" %>
           </div>
         </div>
-      </div>
-    <% end %>
-  
-    <% if params[:view] == "list" %>
-      <% current_date = "" %>
-      <% @cours = @cours.where("debut >= ?", Date.today)
-               .where(etat:[Cour.etats[:confirmé], Cour.etats[:reporté], Cour.etats[:annulé]])
-               .paginate(page:params[:page], per_page:20) %>
 
-      <% @cours.each do |cours| %>
-         <div class="row">
-            <div class="col-xs-3">
-              <% if cours.debut.to_date != current_date   %>
-                <b><%= l(cours.debut.to_date, format: :short) %></b> 
-                <% current_date = cours.debut.to_date %>
-                <br>  
-              <% end %>
-            </div>
+        <div class="col-sm-6">
+          <%= label_tag "Formation" %>    
+          <%= select_tag :formation, grouped_options_for_select(Formation.for_select, params[:formation]), class:"form-control", include_blank:true, onchange:'this.form.submit()' %>
+        </div>
 
-            <div class="col-xs-2">
-              <%= "#{l(cours.debut, format: :heures_min)}-#{l(cours.fin, format: :heures_min)}" %>
-              <% unless cours.confirmé? %>
-                <span class="label <%= cours.style %>"><%= cours.etat.humanize %></span>
-              <% else %>
-                <%= "(#{cours.salle.nom})" if cours.salle %>  
-              <% end %>
-            </div>
-            <div class="col-xs-2">
-              <% if cours.intervenant.photo.url %>
-                <%= image_tag(cours.intervenant.photo.url, class: "img-circle", size:'45x45') %>
-              <% end %>
-            </div>
-            <div class="col-xs-5">
-              <%= link_to cours.nom_ou_ue, cours %>
-            </div>
-          </div>  
+        <div class="col-sm-5">
+          <%= label_tag "Intervenant" %>    
+          <div class="input-group">
+            <%= select_tag :intervenant, grouped_options_for_select(Intervenant.for_select, params[:intervenant]), class:"form-control", include_blank:true, onchange:'this.form.submit()' %>
+            <span class="input-group-btn">
+              <%= submit_tag 'Filtrer', class:"btn btn-success" %>
+            </span>
+          </div>
+        </div>
+    </div>
+  <% end %>
+
+  <% if @cours.any? %>
+    <% @cours.includes(:formation, :intervenant, :salle).each do | cours | %>
+      <hr>
+      <h4>
+        <%= l(cours.debut, format: :heures_min) %>
+        <small>- <%= l(cours.fin, format: :heures_min) %></small>
+        <div class="pull-right">
+          <% if cours.salle %>
+            <span class="label <%= cours.style %>">
+              <%= cours.salle.nom %>
+            </span>
+          <% end %>
+        </div>
+      </h4>
+
+      <b><%= cours.formation.nom_promo %></b><br>
+      <%= cours.intervenant.nom_prenom %><br>
+      <% if cours.intervenant_binome %>
+        <br>
+        <%= cours.intervenant_binome.nom_prenom %>
+      <% end %>
+      <i><%= cours.nom_ou_ue %></i><br>
+      
+      <% if (cours.debut.to_date == Date.today && cours.progress_bar_pct(@date) > 0) %>  
+        <br>
+        <div class="progress" style="width: 100%">
+          <div class="progress-bar progress-bar-striped active" 
+               role="progressbar" aria-valuemin="0" aria-valuemax="100" 
+               aria-valuenow="<%= cours.progress_bar_pct(@date) %> " 
+               style="width:<%= cours.progress_bar_pct(@date) %>%">
+          </div>
+        </div>
       <% end %>
     <% end %>
-    <%= will_paginate @cours, renderer: BootstrapPagination::Rails %>
+    <hr>
+  <% end %>
 </div>
+
+

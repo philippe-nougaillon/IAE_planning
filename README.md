@@ -31,23 +31,26 @@ Application web de planification collaborative, flexible et simple d'utilisation
 
 ### Affichage sur panneaux lumineux et smartphones
 - Le planning peut être visualisé sur différents supports (Responsive Design)
-- [Planning du jour optimisé pour les mobiles](http://planning.iae-paris.com/cours/planning) 
+- [Planning du jour optimisé pour les grands écrans](http://planning.iae-paris.com/cours/planning) 
 
 ### Notification
-- les chargés de scolarité et les étudiants peuvent recevoir une notification par email/SMS(à venir) lors de l'annulation de cours
+- Les chargés de scolarité et les étudiants peuvent recevoir une notification par email/SMS(à venir) lors de l'annulation de cours
 
 ### Importation des données
-- les cours, formations, intervenants et les utilisateurs peuvent être importés en masse à partir de fichiers CSV
+- Les cours, formations, intervenants, ainsi que les utilisateurs peuvent être importés en masse à partir de fichiers CSV issues de tableaux Excel.
+
+### RH
+- Etat récapitulatif mensuel des cours effectués
+
 
 ### API
-- une api fourni les données du planning aux applications tierces (JSON)
+- une API fournit les données du planning au format JSON aux applications tierces/mobiles
 
 
 ### TODO
 
 ||
 |-|
-| - Envoi d'un état récapitulatif des cours effectués, à chaque intervenant, en fin de mois |
 | - Notification d'annulation de cours par SMS à chaque étudiant |
 
 

@@ -181,7 +181,10 @@
           <% meetings.each do |meeting| %>
             <!--- chercher si conflit de salle ! -->
             <% if Cour.where("cours.id <> ? AND salle_id = ? AND (((debut BETWEEN ? AND ?) OR (fin BETWEEN ? AND ?)) OR (debut < ? AND fin > ?))", 
-                          meeting.id, salle_id, meeting.debut, meeting.fin, meeting.debut, meeting.fin, meeting.fin, meeting.debut).any? %>
+                          meeting.id, salle_id, meeting.debut, meeting.fin, meeting.debut, meeting.fin, meeting.fin, meeting.debut)
+                          .where.not(debut:meeting.fin)
+                          .where.not(fin:meeting.debut)
+                          .any? %>
               <span style="background-color:black;color:yellow;">BANZAÏ !!!</span>
             <% end %>  
 

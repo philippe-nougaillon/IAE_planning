@@ -75,7 +75,9 @@
             </td>
             <td>
                 <% if audit.auditable_type == "Cour" %> 
-                    <%= link_to "Voir", Cour.find(audit.auditable_id) %>
+                    <% if Cour.exists?(audit.auditable_id) %>
+                        <%= link_to "Voir", Cour.find(audit.auditable_id) %>
+                    <% end %>
                 <% end %>
             </td>
         </tr>

@@ -63,13 +63,13 @@
       <% end %>
       <i><%= cours.nom_ou_ue %></i><br>
       
-      <% if (cours.debut.to_date == Date.today && cours.progress_bar_pct(@date) > 0) %>  
+      <% if (cours.debut.to_date == Date.today && (cours.progress_bar_pct(DateTime.now) > 0 && cours.progress_bar_pct(DateTime.now) < 100)) %>  
         <br>
         <div class="progress" style="width: 100%">
           <div class="progress-bar progress-bar-striped active" 
                role="progressbar" aria-valuemin="0" aria-valuemax="100" 
-               aria-valuenow="<%= cours.progress_bar_pct(@date) %> " 
-               style="width:<%= cours.progress_bar_pct(@date) %>%">
+               aria-valuenow="<%= cours.progress_bar_pct(DateTime.now) %> " 
+               style="width:<%= cours.progress_bar_pct(DateTime.now) %>%">
           </div>
         </div>
       <% end %>

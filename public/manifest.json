@@ -1,10 +1,10 @@
 {
     "dir": "ltr",
     "lang": "fr",
-    "name": "IAE-PLANNING v2.0b",
-    "scope": "/cours/planning",
+    "name": "PLANNING IAE",
+    "scope": "",
     "display": "fullscreen",
-    "start_url": "https://iae-planning.philnoug.com/cours/planning",
+    "start_url": "https://iae-planning.philnoug.com/",
     "short_name": "IAE-PLANNING v2",
     "theme_color": "transparent",
     "description": "",

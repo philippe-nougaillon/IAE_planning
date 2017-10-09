@@ -30,8 +30,8 @@ class CoursController < ApplicationController
       session[:view] = params[:view] = 'list'
       session[:filter] = params[:filter] = 'upcoming'
       session[:paginate] = params[:paginate] = 'pages'
-      redirect_to cours_path
-      return
+      #redirect_to cours_path
+      #return
     end
 
     params[:formation] ||= session[:formation]

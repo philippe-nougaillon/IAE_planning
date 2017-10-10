@@ -76,6 +76,17 @@ class Cour < ActiveRecord::Base
     end
   end
 
+  def url?
+    require 'uri'
+    
+    if self.nom_ou_ue =~ URI::regexp
+        # Correct URL
+        true
+    else
+        false
+    end
+  end
+
   # render json methods:
   def photo_json
     if self.intervenant.photo 

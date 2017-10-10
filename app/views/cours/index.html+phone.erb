@@ -61,7 +61,12 @@
         <br>
         <%= cours.intervenant_binome.nom_prenom %>
       <% end %>
-      <i><%= cours.nom_ou_ue %></i><br>
+
+      <% if cours.url? %>
+        <%= link_to cours.nom, cours.nom, target:"_blank" %>
+      <% else %>         
+        <i><%= cours.nom_ou_ue %></i><br>
+      <% end %>
       
       <% if (cours.debut.to_date == Date.today && cours.progress_bar_pct(DateTime.now) > 0) %>  
         <br>

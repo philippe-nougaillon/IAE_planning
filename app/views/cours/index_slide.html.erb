@@ -36,7 +36,6 @@
 
 <% if @cours.any? %>
   <table class="table table-striped table-bordered">
-    <% if @cours.any? %>
       <tfoot>
         <thead>
           <th>Heure</th>
@@ -74,16 +73,16 @@
                 <% end %>
                 -->
                 <%= cours.intervenant.nom_prenom %>
-                <% if cours.intervenant_binome %>
+                <% if cours.intervenant_binome_id %>
                     / <%= cours.intervenant_binome.nom_prenom %>
                 <% end %>
               </h3>
             </td>
             <td style="text-align: center;vertical-align: middle;">
-              <% if cours.salle %>
+              <% if salle = cours.salle %>
                 <h2>
                   <span class="label <%= cours.style %>">
-                    <%= cours.salle.nom %>
+                    <%= salle.nom %>
                   </span>
                 </h2>
               <% else %>
@@ -93,7 +92,6 @@
           </tr>
         <% end %>
       </tbody>
-    <% end %>
   </table>
 <% else %>
   <h1>

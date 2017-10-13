@@ -440,7 +440,8 @@ class ToolsController < ApplicationController
 
   def audits
     @audits = Audited::Audit.order("id DESC")
-
+    @types = Audited::Audit.select(:auditable_type).uniq.pluck(:auditable_type)
+    
     unless params[:chgt_salle].blank?
       params[:type] = 'Cour'
       params[:search] = 'salle_id'
@@ -453,8 +454,6 @@ class ToolsController < ApplicationController
     unless params[:search].blank?
       @audits = @audits.where("audited_changes like ?", "%#{params[:search]}%")
     end
-
-    @types = @audits.collect{|t| t.auditable_type}.uniq
 
     @audits = @audits.paginate(page:params[:page], per_page:10)
   end

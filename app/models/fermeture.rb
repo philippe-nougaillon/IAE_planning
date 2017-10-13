@@ -1,4 +1,6 @@
 class Fermeture < ActiveRecord::Base
+	
+	audited
 
 	validates :date, presence: true
 	validates :date, uniqueness: true

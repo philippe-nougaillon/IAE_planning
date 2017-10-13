@@ -42,7 +42,7 @@ class CoursController < ApplicationController
     params[:filter] ||= session[:filter]
     params[:paginate] ||= session[:paginate]
 
-    @cours = Cour.includes(:formation, :intervenant, :salle).order(:debut)
+    @cours = Cour.order(:debut)
 
     # Si N° de semaine, afficher le premier jour de la semaine choisie, sinon date du jour
     unless params[:semaine].blank?

@@ -40,6 +40,8 @@ class FormationsController < ApplicationController
     if params[:paginate] == 'pages'
        @formations = @formations.paginate(page:params[:page], per_page:20)
     end
+
+    @diplomes = Formation.where.not(diplome:nil).select(:diplome).uniq.pluck(:diplome).sort
   end
 
   # GET /formations/1

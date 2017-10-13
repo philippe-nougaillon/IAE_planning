@@ -1,6 +1,7 @@
 # ENCODING: UTF-8
 
 class Intervenant < ActiveRecord::Base
+
 	audited
 
 	has_many :cours
@@ -29,13 +30,5 @@ class Intervenant < ActiveRecord::Base
 	def total_cours
 		self.cours.where(etat:Cour.etats[:confirmé]).count
 	end
-
-	# def total_heures_de_cours
-	# 	sum = 0.0
-	# 	self.cours.where(etat:Cour.etats[:planifié]).each do | c |
-	# 		sum += c.duree
-	# 	end
-	# 	return sum
-	# end
 
 end

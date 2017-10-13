@@ -1,4 +1,5 @@
 class Document < ActiveRecord::Base
+  
   audited
 
   mount_uploader :fichier, DocumentUploader

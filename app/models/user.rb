@@ -1,6 +1,7 @@
 # Encoding: UTF-8
 
 class User < ActiveRecord::Base
+  
   audited
   
   # Include default devise modules. Others available are:

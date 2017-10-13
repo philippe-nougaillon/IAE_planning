@@ -59,7 +59,7 @@
         <% else %>
           <% @cours = salle.cours %>
         <% end %>
-        <% @formations = @cours.pluck(:formation_id).uniq %>
+        <% @formations = @cours.select(:formation_id).uniq.pluck(:formation_id) %>
 
         <% if bloc != salle.nom[0] %>
           <% bloc = salle.nom[0] %>
@@ -84,21 +84,17 @@
                     cours_path(commit:'Raz filtre', start_date:@date, salle_id:salle.id, etat:Cour.etats[:confirmé], view:'list') %>
           </td>
           <td>
-            <% if @formations.any? %>
               <% @formations.each do |id| %>
                 <% formation = Formation.find(id) %>
                 <span style="background-color:<%= formation.color %>;padding-left: 6px;"></span>
                 <span style="padding-left:5px;"></span>
                 <%= formation.abrg %>
               <% end %>
-            <% end %>
           </td>
 
           <% if @date %>
             <% range = [] %>
-            <% @cours.each do | cours | %>
-              <% range += cours.range %>
-            <% end %>
+            <% @cours.each {|cours| range += cours.range } %>
 
             <% map = Cour.etendue_horaire.map {|i| range.include?(i) ? 'red' : 'lightgreen' } %>
             <% map.each_with_index do |color, index| %>

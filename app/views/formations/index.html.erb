@@ -18,20 +18,10 @@
             <%= text_field_tag :nom, params[:nom], include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
           </div>
 
-          <!---
-          <div class="col-sm-2">
-            <%= label_tag "Promotion" %>    
-            <%= select_tag :promo, 
-                  options_for_select(Formation.select(:promo).uniq.pluck(:promo).sort, params[:promo]), 
-                    include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
-          </div>
-          -->
-
           <div class="col-sm-2">
             <%= label_tag :apprentissage, "Apprentissage ?" %>
             <br>    
-            <%= check_box_tag :apprentissage, 1, params[:apprentissage], 
-                  onchange:'this.form.submit()', class:"form-control" %>
+            <%= check_box_tag :apprentissage, 1, params[:apprentissage], onchange:'this.form.submit()', class:"form-control" %>
           </div>
 
           <div class="col-sm-2">
@@ -40,11 +30,11 @@
             <%= check_box_tag :hors_catalogue, 1, params[:hors_catalogue], onchange:'this.form.submit()', class:"form-control" %>
           </div>
 
-          <div class="col-sm-2">
+          <div class="col-sm-3">
             <%= label_tag "Diplôme" %>    
             <div class="input-group">
               <%= select_tag :diplome, 
-                  options_for_select(Formation.where.not(diplome:nil).select(:diplome).uniq.pluck(:diplome).sort, params[:diplome]), include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
+                  options_for_select(@diplomes, params[:diplome]), include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
                 <span class="input-group-btn">
                 <%= submit_tag 'Filtrer', class:"btn btn-success" %>
               </span>

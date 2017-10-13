@@ -48,6 +48,9 @@ gem 'will_paginate'
 gem 'will_paginate-bootstrap'
 gem 'icalendar'
 gem 'pundit'
+gem 'scout_apm'
+gem 'dotenv-rails', groups: [:development, :test]
+
 
 #gem 'capture-output'
 

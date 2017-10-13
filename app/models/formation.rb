@@ -1,4 +1,5 @@
 class Formation < ActiveRecord::Base
+	
 	audited
 	
 	has_many :users
@@ -30,7 +31,6 @@ class Formation < ActiveRecord::Base
 		  'Formations hors catalogue' => where(hors_catalogue:true).map { |i| i.nom }
 		}
 	end
-
 
 end
 

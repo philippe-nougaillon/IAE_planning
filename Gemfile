@@ -50,7 +50,7 @@ gem 'icalendar'
 gem 'pundit'
 gem 'scout_apm'
 gem 'dotenv-rails', groups: [:development, :test]
-
+gem 'serviceworker-rails'
 
 #gem 'capture-output'
 

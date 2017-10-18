@@ -226,7 +226,7 @@
                 <th>Durée</th>
                 <th></th>
                 <th>Formation</th>
-                <th colspan="2">Intervenant</th>
+                <th>Intervenant</th>
                 <th colspan="2">Intitulé cours</th>
                 <th>Etat</th>
                 <th>Salle</th>
@@ -238,6 +238,7 @@
               <tbody>
                 <% current_date = "" %>
                 <% @cours.includes(:formation, :intervenant, :salle).each do | cours | %>
+                  <% cours_formation = cours.formation %>
                   <% if cours.debut.to_date != current_date %>
                     <tr class="active">
                       <% if user_signed_in? %>
@@ -264,15 +265,16 @@
                       <%= number_with_precision(cours.duree, precision: 1) %>h
                     </td>
                     <td> 
-                      <span style="background-color:<%= cours.formation.color %>;padding-left: 7px;"></span>
+                      <span style="background-color:<%= cours_formation.color %>;padding-left: 7px;"></span>
                     </td>
-                    <td><%= link_to cours.formation.nom, cours.formation %></td>
-
+                    <td><%= link_to cours_formation.nom, cours_formation %></td>
+                    <!--
                     <td>
                       <% if cours.intervenant.photo.url %>
                         <%= link_to(image_tag(cours.intervenant.photo.url, class: "img-circle", size:'45x45'), cours.intervenant) %>
                       <% end %>
                     </td>
+                    -->
                     <td>
                       <%= link_to cours.intervenant.nom_prenom, cours.intervenant %>
                       <% if cours.intervenant_binome %>
@@ -302,7 +304,7 @@
                         <% if cours.manque_de_places? %>
                           <i class="glyphicon glyphicon-warning-sign glyph-custom-alert" 
                               data-toggle="tooltip" data-placement="bottom"
-                              title="Salle trop petite ! (Manque <%= cours.formation.nbr_etudiants - cours.salle.places %> 
+                              title="Salle trop petite ! (Manque <%= cours_formation.nbr_etudiants - cours.salle.places %> 
                               place.s)">
                           </i>
                         <% end %>

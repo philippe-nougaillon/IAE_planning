@@ -79,13 +79,7 @@
 
       <tfoot>
         <tr>
-          <% 5.times do %><th><% end %>
-          <th>
-            <% if params[:paginate] == 'all' or @formations.total_pages == @formations.current_page %>
-              <%= @all_formations.sum(:nbr_etudiants) %>
-            <% end %>
-          </th>
-          <th /><th />
+          <% 8.times do %><th><% end %>
         </tr>
       </tfoot>
 

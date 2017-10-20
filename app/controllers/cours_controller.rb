@@ -22,16 +22,14 @@ class CoursController < ApplicationController
     session[:filter] ||= 'upcoming'
     session[:paginate] ||= 'pages'
 
-    if params[:commit] == 'Raz filtre'
+    if params[:commit] == 'Raz filtres'
       session[:formation] = params[:formation] = nil
       session[:intervenant] = params[:intervenant] = nil
-      session[:start_date] = params[:start_date] = nil
+      session[:start_date] = params[:start_date] = Date.today.to_s
       session[:etat] = params[:etat] = nil
       session[:view] = params[:view] = 'list'
       session[:filter] = params[:filter] = 'upcoming'
       session[:paginate] = params[:paginate] = 'pages'
-      #redirect_to cours_path
-      #return
     end
 
     params[:formation] ||= session[:formation]
@@ -41,7 +39,7 @@ class CoursController < ApplicationController
     params[:view] ||= session[:view]
     params[:filter] ||= session[:filter]
     params[:paginate] ||= session[:paginate]
-
+    
     @cours = Cour.order(:debut)
 
     # Si N° de semaine, afficher le premier jour de la semaine choisie, sinon date du jour
@@ -68,7 +66,7 @@ class CoursController < ApplicationController
           @cours = @cours.where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 7.day)
         else
           if request.variant == [:phone]
-            # ne voir que la journée si vue depuis un mobile        
+            # ne voir que la journée si vue depuis un mobile       
             @cours = @cours.where("DATE(cours.debut) = DATE(?)", @date)
           else
             @cours = @cours.where("cours.debut >= DATE(?)", @date)
@@ -81,15 +79,18 @@ class CoursController < ApplicationController
       @date = Date.parse(params[:start_date]).beginning_of_week(start_day = :monday)
       @cours = @cours.where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 7.day)
     when 'calendar_week'
-      #params[:semaine] = nil # pour que les liens << >> fonctionnent
       @date = Date.parse(params[:start_date]).beginning_of_week(start_day = :monday)
       @cours = @cours.where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 7.day)
     when 'calendar_month'
-      #params[:semaine] = nil
       @date = Date.parse(params[:start_date]).beginning_of_month
       @cours = @cours.where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 1.month)
     end
     params[:start_date] = @date.to_s
+
+    unless params[:formation_id].blank?
+      params[:formation] = Formation.find(params[:formation_id]).nom.rstrip 
+      #@cours = @cours.where(formation_id:params[:formation_id])
+    end
 
     unless params[:formation].blank?
       formation_id = Formation.find_by(nom:params[:formation].rstrip)
@@ -112,6 +113,10 @@ class CoursController < ApplicationController
 
     unless params[:ue].blank?
       @cours = @cours.where(ue:params[:ue])
+    end
+
+    unless params[:ids].blank?
+      @cours = @cours.where(id:params[:ids])
     end
 
     @all_cours = @cours
@@ -254,11 +259,13 @@ class CoursController < ApplicationController
   end
 
   def action
-    if params[:cours_id]
+    unless params[:cours_id].blank? or params[:action_name].blank?
       @action_ids = []
       params[:cours_id].each do |id, state|
         @action_ids << id
       end
+    else
+      redirect_to cours_path, alert:'Veuillez choisir des cours et une action à appliquer !'
     end
   end
 

@@ -31,6 +31,10 @@ class FormationsController < ApplicationController
       @formations = @formations.where(hors_catalogue:true)
     end
 
+    #unless params[:a_planifier].blank?
+    #  @formations = @formations.joins(:cours).where("cours.etat=0").count
+    #end
+
     unless params[:promo].blank?
       @formations = @formations.where(promo:params[:promo])
     end

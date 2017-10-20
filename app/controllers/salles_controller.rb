@@ -22,7 +22,11 @@ class SallesController < ApplicationController
   def occupation
     @salles = Salle.order(:nom)
 
-    params[:start_date] ||= session[:start_date]
+    unless session[:start_date].blank?
+      params[:start_date] ||= session[:start_date]
+    else
+      params[:start_date] ||= Date.today
+    end
 
     unless params[:salle_id].blank?
       @salles = @salles.where(id:params[:salle_id])

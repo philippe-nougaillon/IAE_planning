@@ -197,13 +197,12 @@ class ToolsController < ApplicationController
                   password:generated_password, formation_id:params[:formation_id])
 
           user.admin = true if row['admin?'] == 'admin'
-          
-          UserMailer.welcome_email(user, generated_password).deliver if params[:save] == 'true'
-          
+           
           if user.valid? 
-            #puts "user VALIDE => #{user.changes}"
             user.save if params[:save] == 'true'
-                @importes += 1
+            UserMailer.welcome_email(user.id, generated_password).deliver_later if params[:save] == 'true'
+            
+            @importes += 1
           else
             puts "Ligne ##{index}"
             puts "!! user INVALIDE !! Erreur => #{user.errors.messages} | Source: #{row}"
@@ -405,6 +404,7 @@ class ToolsController < ApplicationController
   end
 
   def etats_services_do
+
     unless params[:intervenant_id].blank? 
       @intervenant = Intervenant.find(params[:intervenant_id])
       @cours = Cour.where(etat:Cour.etats[:réalisé]).order(:debut)
@@ -428,12 +428,12 @@ class ToolsController < ApplicationController
           puts "#{l(c.debut, format: :short)} | #{c.duree.to_f}h | #{c.formation.nom}"
       end
 
-      puts "\n Total: #{@cours.count} cours, #{@cours.sum(:duree)}h"
+      puts "\n Total: #{@cours.count} cours, soit #{@cours.sum(:duree)} heure.s réalisée.s"
 
       # envoyer le récap par mail ?
       if params[:mailer] == "true"
-        IntervenantMailer.etat_services(@intervenant, @cours, @start_date, @end_date).deliver_now 
-        puts "\n\n Ce récapitulatif vient d'être envoyé par mail à l'adresse: #{@intervenant.email}"
+        IntervenantMailer.etat_services(@intervenant.id, @cours.pluck(:id), @start_date, @end_date).deliver_later 
+        puts "\n\n Ce récapitulatif vient d'être envoyé à cette adresse: #{@intervenant.email}"
       end
     end  
   end

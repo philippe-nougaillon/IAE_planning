@@ -151,11 +151,11 @@ class Cour < ActiveRecord::Base
 
         # envoyer notification au chargé de formation
         if self.formation.user
-          UserMailer.cours_changed(self, self.formation.user.email).deliver_now
+          UserMailer.cours_changed(self.id, self.formation.user.email).deliver_later
         end
 
         # envoyer un mail à Pascal pour info
-        UserMailer.cours_changed(self, "wachnick.iae@univ-paris1.fr").deliver_now
+        UserMailer.cours_changed(self.id, "wachnick.iae@univ-paris1.fr").deliver_later
 
         # envoyer à tous les étudiants 
         #self.formation.users.each do | user |
@@ -165,7 +165,7 @@ class Cour < ActiveRecord::Base
 
       # envoyer un mail à Pascal pour faire la réservation de cours
       if self.changes.include?('etat') and (self.etat == 'à_réserver') 
-        UserMailer.cours_changed(self, "wachnick.iae@univ-paris1.fr").deliver_now
+        UserMailer.cours_changed(self.id, "wachnick.iae@univ-paris1.fr").deliver_later
       end 
     end  
 

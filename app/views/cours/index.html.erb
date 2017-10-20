@@ -26,7 +26,7 @@
                 <%= select_tag :intervenant, grouped_options_for_select(Intervenant.for_select, params[:intervenant]), class:"form-control", include_blank:true, onchange:'this.form.submit()' %>
                 <span class="input-group-btn">
                   <%= submit_tag 'Filtrer', class:"btn btn-success" %>
-                  <%= submit_tag 'Raz filtre', class:"btn btn-default" %>
+                  <%= submit_tag 'Raz filtres', class:"btn btn-default" %>
                 </span>
               </div>
           </div>
@@ -230,7 +230,9 @@
                 <th colspan="2">Intitulé cours</th>
                 <th>Etat</th>
                 <th>Salle</th>
-                <th />
+                <% if user_signed_in? %>
+                  <th />
+                <% end %>
               </tr>
             </thead>
 
@@ -242,9 +244,10 @@
                   <% if cours.debut.to_date != current_date %>
                     <tr class="active">
                       <% if user_signed_in? %>
-                        <th />
+                        <th colspan="12">
+                      <% else %>
+                        <th colspan="10">
                       <% end %>
-                      <th colspan="12">
                       <b><%= l(cours.debut.to_date, format: :long).humanize %></b> 
                       </th>
                     </tr>
@@ -317,13 +320,14 @@
                       <% end %>
                     </td>
 
-                    <td>
-                      <% if user_signed_in? %>
+                    <% if user_signed_in? %>
+                      <td>
                         <%= link_to edit_cour_path(cours), class:"btn btn-default" do %>
                           <i class="glyphicon glyphicon-pencil"></i>
                         <% end %>
-                      <% end %>
-                    </td>
+                      </td>
+                    <% end %>
+
                   </tr>
                 <% end %>
               </tbody>
@@ -341,7 +345,11 @@
                   <% else %>
                     <th></th>  
                   <% end %>
-                  <% 9.times do %><th /><% end %>
+                  <% if user_signed_in? %>
+                    <% 8.times do %><th /><% end %>
+                  <% else %>
+                    <% 7.times do %><th /><% end %>
+                  <% end %>
                 </tr>
               </tfoot>
             <% end %>
@@ -377,7 +385,7 @@
         <% end %>
       <% end %>
     <% else %>
-      Aucun résultat à afficher... <%= link_to "Essayer en affichant aussi les cours passés ?", url_for(params.merge(filter:'all')) %>
+      Aucun résultat à afficher... <%= link_to "Effacer tous les filtres", url_for(params.merge(commit:'Raz filtres')) %>
     <% end %>
 <% else %>
   <i><b>Veuillez choisir une date...</b></i>

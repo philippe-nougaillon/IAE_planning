@@ -4,6 +4,12 @@
 	    <span class="glyphicon glyphicon-list-alt"></span>
 	    Retour
 	  <% end %>
+
+		<a href="#audit" data-toggle="collapse" class='btn btn-default'>
+      <span class="glyphicon glyphicon-search"></span>
+      Audit
+    </a>
+
 	  <%= link_to edit_user_path(@user), class: 'btn btn-primary' do %>
 	    <span class="glyphicon glyphicon-pencil"></span>
 	    Modifier
@@ -59,37 +65,39 @@
 <% end %>
 <br>
 
-<% if current_user.admin? %>
-  <% if Audited.audit_class.any? %>
-    <h3>Historique des modifications</h3>
-    <table class="table table-condensed table-striped">
-			<thead>
-				<th>ID</th>
-				<th style="width:100px">Date</th>
-				<th>Table</th>
-				<th>Action</th>
-				<th>Changes</th>
-			</thead>
-      <% @audits.each do |audit| %>
-        <tr>
-          <td><%= audit.id %></td>
-          <td><%= l(audit.created_at, format: :short) %></td>
-          <td><%= audit.auditable_type %></td>
-          <td><%= audit.action %></td>
-          <td>
-	          <% begin %>
-		         <%= audit.try(:audited_changes) %>
-		      	<% rescue %>
-		      		 ???
-		      	<% end %>
-          </td>
-        </tr>  
-      <% end %>
-    </table>
-		 <div class="page_info">
-        <%= page_entries_info  @audits %>
-    	</div>
+<div id="audit" class="collapse">
+	<% if current_user.admin? %>
+		<% if Audited.audit_class.any? %>
+			<h3>Audit des modifications</h3>
+			<table class="table table-condensed table-striped">
+				<thead>
+					<th>ID</th>
+					<th style="width:100px">Date</th>
+					<th>Table</th>
+					<th>Action</th>
+					<th>Changes</th>
+				</thead>
+				<% @audits.each do |audit| %>
+					<tr>
+						<td><%= audit.id %></td>
+						<td><%= l(audit.created_at, format: :short) %></td>
+						<td><%= audit.auditable_type %></td>
+						<td><%= audit.action %></td>
+						<td>
+							<% begin %>
+							<%= audit.try(:audited_changes) %>
+							<% rescue %>
+								???
+							<% end %>
+						</td>
+					</tr>  
+				<% end %>
+			</table>
+			<div class="page_info">
+					<%= page_entries_info  @audits %>
+				</div>
 
-      <%= will_paginate @audits, renderer: BootstrapPagination::Rails %>
-  <% end %>
-<% end %>
+				<%= will_paginate @audits, renderer: BootstrapPagination::Rails %>
+		<% end %>
+	<% end %>
+</div>

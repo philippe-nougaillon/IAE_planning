@@ -29,6 +29,8 @@ module Iae
         resource '*', :headers => :any, :methods => [:get, :post, :options]
       end
     end
+
+    config.active_job.queue_adapter = :sucker_punch
     
     # config.web_console.development_only = false
       

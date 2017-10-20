@@ -80,8 +80,7 @@
         <tr>
           <td><b><%= salle.nom %></b></td>
           <td><%= salle.places %></td>
-          <td><%= link_to_unless @cours.count.zero?, @cours.count, 
-                    cours_path(commit:'Raz filtre', start_date:@date, salle_id:salle.id, etat:Cour.etats[:confirmé], view:'list') %>
+          <td><%= link_to_unless @cours.count.zero?, @cours.count, cours_path(ids:@cours.pluck(:id), view:'list') %>
           </td>
           <td>
               <% @formations.each do |id| %>

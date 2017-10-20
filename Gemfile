@@ -51,6 +51,7 @@ gem 'pundit'
 gem 'scout_apm'
 gem 'dotenv-rails', groups: [:development, :test]
 gem 'serviceworker-rails'
+gem 'sucker_punch'
 
 #gem 'capture-output'
 

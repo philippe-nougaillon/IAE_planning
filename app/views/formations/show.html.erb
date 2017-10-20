@@ -4,10 +4,17 @@
       <span class="glyphicon glyphicon-list-alt"></span>
       Retour
     <% end %>
+
+    <a href="#audit" data-toggle="collapse" class='btn btn-default'>
+      <span class="glyphicon glyphicon-search"></span>
+      Audit
+    </a>
+
     <%= link_to edit_formation_path(@formation), class: 'btn btn-primary' do %>
       <span class="glyphicon glyphicon-pencil"></span>
       Modifier
     <% end %>
+
   <% end %>
   
   <h2>
@@ -76,11 +83,6 @@
         <%= link_to @formation.cours.planifié.sum(:duree), 
         cours_path(formation_id:@formation, etat:Cour.etats[:planifié])  %>
       )
-    </p>
-
-    <p>
-      <strong>Nbr d'utilisateurs associés:</strong>
-      <%= link_to @formation.users.count, users_path(formation_id: @formation.id) %>
     </p>
 
     <p>
@@ -154,18 +156,20 @@
   </div>
 <% end %>
 
-<% if current_user.admin? %>
-  <% if @formation.audits.any? %>
-    <h3>Historique des modifications</h3>
-    <table class="table table-condensed">
-      <% @formation.audits.includes(:user).reverse.each do |audit| %>
-        <tr>
-          <td><%= l(audit.created_at, format: :short) %></td>
-          <td><%= audit.user.email if audit.user %></td>
-          <td><%= audit.action %></td>
-          <td><%= audit.audited_changes %></td>
-        </tr>  
-      <% end %>
-    </table>
+<div id="audit" class="collapse">
+  <% if current_user.admin? %>
+    <% if @formation.audits.any? %>
+      <h3>Audit des modifications</h3>
+      <table class="table table-condensed">
+        <% @formation.audits.includes(:user).reverse.each do |audit| %>
+          <tr>
+            <td><%= l(audit.created_at, format: :short) %></td>
+            <td><%= audit.user.email if audit.user %></td>
+            <td><%= audit.action %></td>
+            <td><%= audit.audited_changes %></td>
+          </tr>  
+        <% end %>
+      </table>
+    <% end %>
   <% end %>
-<% end %>
+</div> 

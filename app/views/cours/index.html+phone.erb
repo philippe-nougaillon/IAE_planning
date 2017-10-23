@@ -20,6 +20,7 @@
             
             <%= link_to '>',  cours_path(start_date:(@date + 1.day)), class:"btn btn-default btn-sm" %>
             <%= link_to '>>', cours_path(start_date:(@date + 1.month)), class:"btn btn-default btn-sm" %>
+            <%= link_to "Aujourd'hui", cours_path(start_date:Date.today), class:"btn btn-default btn-sm" %>
           </div>
         </div>
 

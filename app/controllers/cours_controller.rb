@@ -121,7 +121,7 @@ class CoursController < ApplicationController
 
     @all_cours = @cours
 
-    if params[:view] == 'list' and params[:paginate] == 'pages'
+    if (params[:view] == 'list' and params[:paginate] == 'pages' and request.variant.include?(:desktop)) 
       @cours = @cours.paginate(page:params[:page], per_page:20)
     end
 
@@ -194,8 +194,8 @@ class CoursController < ApplicationController
   def index_slide
     # page courante
     session[:page_slide] ||= 0
-    params[:formation_id] ||= session[:formation_id]
-    params[:intervenant_id] ||= session[:intervenant_id]
+    #params[:formation_id] ||= session[:formation_id]
+    #params[:intervenant_id] ||= session[:intervenant_id]
 
     @cours = Cour.where(etat: Cour.etats.values_at(:planifié, :confirmé))
     
@@ -212,21 +212,21 @@ class CoursController < ApplicationController
     limite_fin = (@planning_date.beginning_of_day) + 1.day  
     @cours = @cours.where("(debut between ? and ?) and fin >= ?", limite_debut, limite_fin, @planning_date).order(:debut)
 
-    unless params[:intervenant_id].blank?
-      @cours = @cours.where(intervenant_id:params[:intervenant_id])
-      @intervenants = Intervenant.where(id:params[:intervenant_id])
-    else
-      unless request.variant.include?(:desktop)
-        @intervenants = @cours.collect{|c| c.intervenant}.uniq
-      end
-    end
+    #unless params[:intervenant_id].blank?
+    #  @cours = @cours.where(intervenant_id:params[:intervenant_id])
+    #  @intervenants = Intervenant.where(id:params[:intervenant_id])
+    #else
+    #  unless request.variant.include?(:desktop)
+    #    @intervenants = @cours.collect{|c| c.intervenant}.uniq
+    #  end
+    #end
 
-    unless params[:formation_id].blank? 
-      @cours = @cours.where(formation_id:params[:formation_id]) 
-      @formations = Formation.where(id:params[:formation_id]) 
-    else 
-      @formations = @cours.collect{|c| c.formation}.uniq 
-    end 
+    #unless params[:formation_id].blank? 
+    #  @cours = @cours.where(formation_id:params[:formation_id]) 
+    #  @formations = Formation.where(id:params[:formation_id]) 
+    #else 
+    #  @formations = @cours.collect{|c| c.formation}.uniq 
+    #end 
 
     if @cours.any?
       @cours = @cours.includes(:formation).order("formations.nom")
@@ -254,8 +254,8 @@ class CoursController < ApplicationController
       @image = json["images"][0]["url"]
     end
 
-    session[:formation_id] = params[:formation_id]
-    session[:intervenant_id] = params[:intervenant_id]
+    #session[:formation_id] = params[:formation_id]
+    #session[:intervenant_id] = params[:intervenant_id]
   end
 
   def action

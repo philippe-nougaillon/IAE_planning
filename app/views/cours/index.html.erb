@@ -221,7 +221,6 @@
                 <% if user_signed_in? %>
                   <th><%= check_box_tag "check_all", false %></th>
                 <% end %>
-                <th>Date</th>
                 <th>Heure</th>
                 <th>Durée</th>
                 <th></th>
@@ -243,11 +242,9 @@
                   <% cours_formation = cours.formation %>
                   <% if cours.debut.to_date != current_date %>
                     <tr class="active">
-                      <% if user_signed_in? %>
-                        <th colspan="12">
-                      <% else %>
-                        <th colspan="10">
-                      <% end %>
+                      <% if user_signed_in? %><th /><% end %>
+                      <th colspan="<%= user_signed_in? ? '10' : '9' %>">
+                      <i class="glyphicon glyphicon-triangle-bottom"></i>
                       <b><%= l(cours.debut.to_date, format: :long).humanize %></b> 
                       </th>
                     </tr>
@@ -258,8 +255,6 @@
                     <% if user_signed_in? %>
                       <td><%= check_box_tag "[cours_id][#{cours.id}]",nil ,false ,class:'check_all' %></td>
                     <% end %>
-                    <td style="width:150px" class="text-center">
-                    </td>
                     <td>
                       <b><%= l(cours.debut, format: :heures_min) %></b><br> 
                       <%= l(cours.fin, format: :heures_min) %>
@@ -290,10 +285,15 @@
                         <%= link_to cours.ue, cours_path(ue:cours.ue) %>
                       <% end %>
                     </td>
-
                     <td>
                       <% if cours.url? %>
-                        <%= link_to cours.nom, cours.nom, target:"_blank" %>
+                        <% if cours_ue = cours.formation.unites.find_by(num:cours.ue.upcase) %>
+                          <%= cours_ue.nom %>
+                        <% end %>
+                        <%= link_to cours.nom, target:"_blank" do %>
+                          <span class="glyphicon glyphicon-new-window"></span>
+                          Zoom
+                        <% end %>
                       <% else %>         
                         <%= link_to cours.nom_ou_ue, cours %>
                       <% end %>

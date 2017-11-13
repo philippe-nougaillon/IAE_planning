@@ -62,7 +62,7 @@ class Cour < ActiveRecord::Base
 
   def nom_ou_ue
     begin
-      if self.nom.blank?           
+      if self.nom.blank?        
         unless self.ue.blank?
           if ue = self.formation.unites.find_by(num:self.ue.upcase)
             ue.num_nom
@@ -78,13 +78,9 @@ class Cour < ActiveRecord::Base
 
   def url?
     require 'uri'
-    
-    if self.nom_ou_ue =~ URI::regexp
-        # Correct URL
-        true
-    else
-        false
-    end
+
+    # Correct URL
+    self.nom =~ URI::regexp
   end
 
   # render json methods:

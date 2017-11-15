@@ -115,6 +115,22 @@
       <% end %>
     </tbody>
   </table>
-</div>
+  <% if user_signed_in? %>
+    <div class="row">
+      <div class="col-sm-6">
+        <h4>
+          Heures de cours planifiées: <%= @nombre_heures_cours %>h <br>
+          Heures de salles disponibles: <%= @heures_dispo_salles %>h
+           (<%= @salles_dispo.count %> salles * 8h)<br>
+        </h4>
+      </div>
+      <div class="col-sm-6">
+        <h3>
+          Taux d'occupation: <%= @taux_occupation.to_i %>%
+        </h3>
+      </div>
+    </h4>
+  </div>
+<% end %>
 <br>
 

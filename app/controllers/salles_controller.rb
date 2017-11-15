@@ -40,6 +40,14 @@ class SallesController < ApplicationController
       @salles = Salle.all - @salles.joins(:cours).where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 1.day)
     end
 
+    if user_signed_in?
+      # taux occupation
+      @nombre_heures_cours = Cour.confirmé.where("Date(debut) = ?", params[:start_date]).sum(:duree).to_f
+      @salles_dispo = Salle.where("LENGTH(nom) = 2")
+      @heures_dispo_salles = @salles_dispo.count * 8   
+      @taux_occupation = @nombre_heures_cours * 100 / @heures_dispo_salles
+    end
+
     session[:start_date] = params[:start_date]
   end
 

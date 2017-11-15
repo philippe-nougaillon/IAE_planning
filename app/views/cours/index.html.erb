@@ -346,9 +346,9 @@
                     <th></th>  
                   <% end %>
                   <% if user_signed_in? %>
-                    <% 8.times do %><th /><% end %>
-                  <% else %>
                     <% 7.times do %><th /><% end %>
+                  <% else %>
+                    <% 6.times do %><th /><% end %>
                   <% end %>
                 </tr>
               </tfoot>
@@ -378,9 +378,14 @@
         <% else %>
           <div class="pull-right">
             <br>
-            <%= link_to "Export CSV", cours_url(format: :csv) %> | 
-            <%= link_to "Export iCal", cours_url(format: :ics) %>
-            <br><br>
+            <%= link_to cours_url(format: :csv), class: 'btn btn-primary' do %>
+              <span class="glyphicon glyphicon-share"></span>
+              Export CSV
+            <% end %>
+            <%= link_to cours_url(format: :ics), class: 'btn btn-primary' do %>
+              <span class="glyphicon glyphicon-calendar"></span>
+              Export iCal
+            <% end %>
           </div>
         <% end %>
       <% end %>

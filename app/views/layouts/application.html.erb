@@ -60,21 +60,21 @@
           <li class="<%= (@ctrl=='cours' ? 'active' : '') %>">
             <%= link_to cours_path(@cours_params) do %>
               <span class="glyphicon glyphicon-calendar"></span>
-                Planning des cours
+                Planning
             <% end %>
           </li>
 
           <li class="<%= (@ctrl=='salles' ? 'active' : '') %>">
             <%= link_to salles_occupation_path do %>
               <span class="glyphicon glyphicon-blackboard"></span>
-                Occupation des salles
+                Salles
             <% end %>
           </li>
 
           <% if user_signed_in? %>
             <li class="<%= (@ctrl=='formations' ? 'active' : '') %>">
               <%= link_to formations_path do %>
-                <span class="glyphicon glyphicon-education"></span>
+                <span class="glyphicon glyphicon-briefcase"></span>
                   Formations
               <% end %>
             </li>
@@ -82,6 +82,12 @@
               <%= link_to intervenants_path do %>
                 <span class="glyphicon glyphicon-user"></span>
                   Intervenants
+              <% end %>
+            </li>
+            <li class="<%= (@ctrl=='etudiants' ? 'active' : '') %>">
+              <%= link_to etudiants_path do %>
+                <span class="glyphicon glyphicon-education"></span>
+                  Etudiants
               <% end %>
             </li>
           <% end %>

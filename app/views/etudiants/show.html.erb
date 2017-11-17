@@ -1,0 +1,52 @@
+<div class="page-header">
+  <%= link_to etudiants_path, class: 'btn btn-default' do %>
+    <span class="glyphicon glyphicon-list-alt"></span>
+    Retour
+  <% end %>
+
+  <a href="#audit" data-toggle="collapse" class='btn btn-default'>
+    <span class="glyphicon glyphicon-search"></span>
+    Audit
+  </a>
+
+  <%= link_to edit_etudiant_path(@etudiant), class: 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-pencil"></span>
+    Modification
+  <% end %>
+  <h1>Etudiant</h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt>Nom:</dt>
+  <dd><%= @etudiant.nom %></dd>
+
+  <dt>Prénom:</dt>
+  <dd><%= @etudiant.prénom %></dd>
+
+  <dt>Email:</dt>
+  <dd><%= @etudiant.email %></dd>
+
+  <dt>Mobile:</dt>
+  <dd><%= @etudiant.mobile %></dd>
+
+  <dt>Formation:</dt>
+  <dd><%= @etudiant.formation.nom %></dd>
+</dl>
+
+<div id="audit" class="collapse">
+  <% if current_user.admin? %>
+    <% if @etudiant.audits.any? %>
+      <h3>Audit des modifications</h3>
+      <table class="table table-condensed">
+        <% @etudiant.audits.includes(:user).reverse.each do |audit| %>
+          <tr>
+            <td><%= l(audit.created_at, format: :short) %></td>
+            <td><%= audit.user.email if audit.user %></td>
+            <td><%= audit.action %></td>
+            <td><%= audit.audited_changes %></td>
+          </tr>  
+        <% end %>
+      </table>
+    <% end %>
+  <% end %>
+</div> 

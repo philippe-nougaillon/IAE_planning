@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  formation_id: 
+  nom: MyString
+  prénom: 
+  email: MyString
+  mobile: MyString
+
+two:
+  formation_id: 
+  nom: MyString
+  prénom: 
+  email: MyString
+  mobile: MyString

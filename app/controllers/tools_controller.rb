@@ -230,6 +230,62 @@ class ToolsController < ApplicationController
     end  
   end
 
+
+  def import_etudiants
+  end
+
+  def import_etudiants_do
+    
+    if params[:upload]
+    	
+      # Enregistre le fichier localement
+      file_with_path = Rails.root.join('public', 'tmp', params[:upload].original_filename)
+      File.open(file_with_path, 'wb') do |file|
+          file.write(params[:upload].read)
+      end
+
+      # capture output
+      @stream = capture_stdout do
+        @importes = @errors = 0	
+
+        index = 0
+
+        CSV.foreach(file_with_path, headers:true, col_sep:';', quote_char:'"', encoding:'iso-8859-1:UTF-8') do |row|
+          index += 1
+
+          etudiant = Etudiant.new(nom:row['nom'].strip, prénom:row['prénom'].strip, 
+                                  email:row['email'], mobile:row['mobile'], formation_id:params[:formation_id])
+           
+          if etudiant.valid? 
+            etudiant.save if params[:save] == 'true'
+            @importes += 1
+          else
+            puts "Ligne ##{index}"
+            puts "!! étudiant INVALIDE !! Erreur => #{etudiant.errors.messages} | Source: #{row}"
+            puts
+            # puts user.changes
+            @errors += 1
+          end
+          puts "- -" * 40
+          puts
+        end
+        puts "----------- Les modifications n'ont pas été enregistrées ! ---------------" unless params[:save] == 'true'
+        puts
+
+        puts "=" * 40
+        puts "Lignes importées: #{@importes} | Lignes ignorées: #{@errors}"
+        puts "=" * 40
+      end
+
+      # save output            
+      #@now = DateTime.now.to_s
+      #File.open("public/Documents/Import_logements-#{@now}.txt", "w") { |file| file.write @out }
+    else
+      flash[:alert] = "Manque le fichier source ou la formation pour pouvoir lancer l'importation !"
+      redirect_to action: 'import_etudiants'
+    end  
+  end
+
   def swap_intervenant
     authorize :tool, :swap_intervenant?
   end
@@ -399,6 +455,29 @@ class ToolsController < ApplicationController
     response.headers['Content-Disposition'] = 'attachment; filename="' + filename + '.csv"'
     render "export_intervenants_do.csv.erb"
   end
+
+  def etudiants
+  end
+
+  def export_etudiants_do
+    require 'csv'
+
+  	@csv_string = CSV.generate(col_sep:';', encoding:'UTF-8') do | csv |
+      csv << ["id", "nom","prénom", "email", "mobile", "formation_id", "formation_nom","créé le", "modifié le"]
+      
+      Etudiant.all.each do |c|
+        fields_to_export = [c.id, c.nom, c.prénom, c.email, c.mobile, c.formation_id, c.formation.nom, c.created_at, c.updated_at]
+        
+        csv << fields_to_export
+      end
+    end
+    
+    filename = "Export_Etudiants_#{Date.today.to_s}"
+    response.headers['Content-Disposition'] = 'attachment; filename="' + filename + '.csv"'
+    render "export_etudiants_do.csv.erb"
+  end
+
+
 
   def etats_services
   end

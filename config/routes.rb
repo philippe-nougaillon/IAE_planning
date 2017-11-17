@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   
+  resources :etudiants
   get 'tools/index'
   get 'tools/import'
   post 'tools/import_do'
@@ -18,7 +19,11 @@ Rails.application.routes.draw do
   get 'tools/etats_services'
   post 'tools/etats_services_do'
   get 'tools/audits'
-
+  get 'tools/import_etudiants'
+  post 'tools/import_etudiants_do'
+  get 'tools/export_etudiants'
+  post 'tools/export_etudiants_do'
+  
   get 'salles/occupation'
   get 'salles/occupation', as: :occupation_des_salles
 

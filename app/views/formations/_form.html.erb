@@ -33,7 +33,14 @@
         <%= f.text_field :diplome, label:"Diplôme" %>
         <%= f.text_field :domaine %>
         <%= f.check_box :apprentissage, label:"Apprentissage ?" %>
-        <%= f.collection_select :user_id, User.where(admin:true).order(:email), :id, :email, {include_blank: true, label:"Gestionnaire de formation"} %>
+        
+      </div>
+
+      <div class="col-sm-1">
+      </div>
+
+      <div class="col-sm-6">
+          <%= f.collection_select :user_id, User.where(admin:true).order(:email), :id, :email, {include_blank: true, label:"Gestionnaire de formation"} %>
         <%= f.number_field :nbr_etudiants, label:"Nombre d'étudiants prévus" %>
         <%= f.number_field :nbr_heures, label:"Nombre d'heures prévues" %>
 
@@ -50,30 +57,64 @@
         </div>  
 
         <%= f.text_area :memo, label:"Mémo" %>
-        <%= f.submit class: "btn btn-primary" %>
-      </div>
-
-      <div class="col-sm-1">
-      </div>
-
-      <div class="col-sm-6">
-        <h4>UE</h4>
-        <ul>
-          <%= f.fields_for :unites do |ue| %>
-            <div class="row">
-              <li>
-                <div class="col-sm-3">
-                  <%= ue.text_field :num, placeholder:"UE# ex:UE3", label:"Code" %>
-                </div>  
-                <div class="col-sm-9">
-                  <%= ue.text_field :nom %>
-                  <%= ue.check_box :_destroy, label:"Supprimer ?" %>
-                </div>
-              </li> 
-            </div>
-          <% end %>
-        </ul>
+        <%= f.submit class: "btn btn-primary" %>     
       </div>
     </div>
+
   </div>
+
+  <h4>
+    <a href="#UE" data-toggle="collapse">Liste des UE</a>
+    | 
+    <a href="#Etudiants" data-toggle="collapse">Liste des étudiants</a>
+  </h4>
+  
+  <div id="UE" class="collapse">
+      <ul>
+        <%= f.fields_for :unites do |ue| %>
+          <div class="row">
+            <li>
+              <div class="col-sm-3">
+                <%= ue.text_field :num, placeholder:"UE# ex:UE3", label:"Code" %>
+              </div>  
+              <div class="col-sm-7">
+                <%= ue.text_field :nom %>
+              </div>
+              <div class="col-sm-2">
+                <br>
+                <%= ue.check_box :_destroy, label:"Supprimer ?" %>
+              </div>
+            </li> 
+          </div>
+        <% end %>
+      </ul>
+  </div>
+  
+  <div id="Etudiants" class="collapse">
+      <ul>
+        <%= f.fields_for :etudiants do |etudiant| %>
+          <div class="row">
+            <li>
+              <div class="col-sm-2">
+                <%= etudiant.text_field :nom %>
+              </div>  
+              <div class="col-sm-2">
+                <%= etudiant.text_field :prénom %>
+              </div>
+              <div class="col-sm-4">
+                <%= etudiant.text_field :email %>
+              </div>
+              <div class="col-sm-2">
+                <%= etudiant.text_field :mobile %>
+              </div>
+              <div class="col-sm-2">
+                <br>
+                <%= etudiant.check_box :_destroy, label:"Supprimer ?" %>
+              </div>
+            </li> 
+          </div>
+        <% end %>
+      </ul>
+  </div>
+
 <% end %>

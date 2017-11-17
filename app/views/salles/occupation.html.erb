@@ -94,8 +94,9 @@
           <% if @date %>
             <% range = [] %>
             <% @cours.each {|cours| range += cours.range } %>
-
+            
             <% map = Cour.etendue_horaire.map {|i| range.include?(i) ? 'red' : 'lightgreen' } %>
+            
             <% map.each_with_index do |color, index| %>
               <td>
                 <% if color == 'lightgreen' %>
@@ -115,6 +116,7 @@
       <% end %>
     </tbody>
   </table>
+
   <% if user_signed_in? %>
     <div class="row">
       <div class="col-sm-6">

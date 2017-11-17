@@ -31,10 +31,6 @@ class FormationsController < ApplicationController
       @formations = @formations.where(hors_catalogue:true)
     end
 
-    #unless params[:a_planifier].blank?
-    #  @formations = @formations.joins(:cours).where("cours.etat=0").count
-    #end
-
     unless params[:promo].blank?
       @formations = @formations.where(promo:params[:promo])
     end
@@ -56,12 +52,14 @@ class FormationsController < ApplicationController
   # GET /formations/new
   def new
     @formation = Formation.new
-    15.times { @formation.unites.build}
+    15.times { @formation.unites.build }
+    10.times { @formation.etudiants.build } 
   end
 
   # GET /formations/1/edit
   def edit
     2.times { @formation.unites.build }
+    2.times { @formation.etudiants.build } 
   end
 
   # POST /formations
@@ -114,6 +112,7 @@ class FormationsController < ApplicationController
     def formation_params
       params.require(:formation).permit(:nom, :promo, :diplome, :domaine, :apprentissage, :memo, :nbr_etudiants, :nbr_heures, 
                                         :abrg, :user_id, :color, :Forfait_HETD, :Taux_TD, :Code_Analytique, :hors_catalogue,
-                                        unites_attributes: [:id, :num, :nom, :_destroy])
+                                        unites_attributes: [:id, :num, :nom, :_destroy],
+                                        etudiants_attributes: [:id, :nom, :prénom, :email, :mobile, :_destroy])
     end
 end

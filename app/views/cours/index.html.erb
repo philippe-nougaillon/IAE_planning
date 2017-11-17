@@ -241,7 +241,7 @@
                 <% @cours.includes(:formation, :intervenant, :salle).each do | cours | %>
                   <% cours_formation = cours.formation %>
                   <% if cours.debut.to_date != current_date %>
-                    <tr class="active">
+                    <tr class="info">
                       <% if user_signed_in? %><th /><% end %>
                       <th colspan="<%= user_signed_in? ? '10' : '9' %>">
                       <i class="glyphicon glyphicon-triangle-bottom"></i>
@@ -288,11 +288,11 @@
                     <td>
                       <% if cours.url? %>
                         <% if cours_ue = cours.formation.unites.find_by(num:cours.ue.upcase) %>
-                          <%= cours_ue.nom %>
+                          <%= link_to cours_ue.nom, cours %>
                         <% end %>
+                        <br>
                         <%= link_to cours.nom, target:"_blank" do %>
-                          <span class="glyphicon glyphicon-new-window"></span>
-                          Zoom
+                          (e-learning) <span class="glyphicon glyphicon-new-window"></span>
                         <% end %>
                       <% else %>         
                         <%= link_to cours.nom_ou_ue, cours %>
@@ -304,18 +304,17 @@
                     <td>
                       <% if cours.salle %>
                         <%= link_to cours.salle.nom, cours_url(start_date:cours.debut.to_date, view:'calendar_rooms', anchor:cours.salle.nom), target: :_blank %>
-                        <% if cours.manque_de_places? %>
+                        <% if cours.manque_de_places? && user_signed_in? %>
                           <i class="glyphicon glyphicon-warning-sign glyph-custom-alert" 
                               data-toggle="tooltip" data-placement="bottom"
-                              title="Salle trop petite ! (Manque <%= cours_formation.nbr_etudiants - cours.salle.places %> 
-                              place.s)">
+                              title="Manque <%= cours_formation.nbr_etudiants - cours.salle.places %> place.s">
                           </i>
                         <% end %>
                       <% else %>
-                        <% if cours.confirmé? %>
+                        <% if cours.confirmé? && user_signed_in? %>
                           <i class="glyphicon glyphicon-warning-sign glyph-custom-warning" 
                              data-toggle="tooltip" data-placement="top"
-                             title="Cours confirmé mais pas de salle réservée !">
+                             title="Pas de salle réservée !">
                         <% end %>
                       <% end %>
                     </td>

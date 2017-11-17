@@ -57,7 +57,7 @@ class Cour < ActiveRecord::Base
   end
 
   def manque_de_places? 
-    (self.formation.nbr_etudiants > self.salle.places)
+    (self.salle.places > 0 && self.formation.nbr_etudiants > self.salle.places)
   end
 
   def nom_ou_ue
@@ -77,10 +77,8 @@ class Cour < ActiveRecord::Base
   end
 
   def url?
-    require 'uri'
-
-    # Correct URL
-    self.nom =~ URI::regexp
+    # Correct URL ?
+    self.nom =~ /https?:\/\/[\S]+/
   end
 
   # render json methods:

@@ -16,7 +16,7 @@ class EtudiantsController < ApplicationController
       @etudiants = @etudiants.where(formation_id:params[:formation_id])
     end
 
-    @etudiants = @etudiants.paginate(page:params[:page], per_page:20)
+    @etudiants = @etudiants.includes(:formation).paginate(page:params[:page], per_page:20)
   end
 
   # GET /etudiants/1

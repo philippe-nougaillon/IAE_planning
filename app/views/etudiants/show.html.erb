@@ -13,16 +13,13 @@
     <span class="glyphicon glyphicon-pencil"></span>
     Modification
   <% end %>
-  <h1>Etudiant</h1>
+  <br><br>
 </div>
 
+<h1><%= @etudiant.nom %> <%= @etudiant.prénom %></h1>
+<br><br>
+
 <dl class="dl-horizontal">
-  <dt>Nom:</dt>
-  <dd><%= @etudiant.nom %></dd>
-
-  <dt>Prénom:</dt>
-  <dd><%= @etudiant.prénom %></dd>
-
   <dt>Email:</dt>
   <dd><%= @etudiant.email %></dd>
 
@@ -30,7 +27,7 @@
   <dd><%= @etudiant.mobile %></dd>
 
   <dt>Formation:</dt>
-  <dd><%= @etudiant.formation.nom %></dd>
+  <dd><%= link_to @etudiant.formation.nom, @etudiant.formation %></dd>
 </dl>
 
 <div id="audit" class="collapse">

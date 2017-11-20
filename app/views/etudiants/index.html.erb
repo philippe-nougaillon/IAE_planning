@@ -13,7 +13,7 @@
     <%= form_tag request.path, method: :get do %>
       <div class="form-group">
         <div class="row">
-          <div class="col-sm-3">
+          <div class="col-sm-4">
             <%= label_tag :nom, "Nom" %>    
             <%= text_field_tag :nom, params[:nom], include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
           </div>
@@ -50,7 +50,7 @@
 
     <tbody>
       <%= content_tag_for(:tr, @etudiants) do |etudiant| %>
-        <td><b><%= etudiant.nom %></b></td>
+        <td><b><%= link_to etudiant.nom, etudiant %></b></td>
         <td><%= etudiant.prénom %></td>
         <td><%= etudiant.email %></td>
         <td><%= etudiant.mobile %></td>

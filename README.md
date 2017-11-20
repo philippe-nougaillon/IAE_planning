@@ -16,6 +16,9 @@ Application web de planification collaborative, flexible et simple d'utilisation
 - Chaque formation est associée à un code couleur pour un répérage rapide dans le planning
 - Gestion des UE (une liste d'UE est associée à chaque formation, avec indication du nombre d'heures)
 
+### Gestion des Etudiants
+- Chaque étudiant est associé à une formation
+
 ### Gestion des Intervenants
 - Profil des intervenants avec photo, status, formations dispensées (affichage dynamique basé sur les cours enregistrés, avec le nombre d'heures planifiées et la date du premier cours)  
 
@@ -37,20 +40,21 @@ Application web de planification collaborative, flexible et simple d'utilisation
 - Les chargés de scolarité et les étudiants peuvent recevoir une notification par email/SMS(à venir) lors de l'annulation de cours
 
 ### Importation des données
-- Les cours, formations, intervenants, ainsi que les utilisateurs peuvent être importés en masse à partir de fichiers CSV issues de tableaux Excel.
+- Les cours, formations, intervenants, étudiants et les utilisateurs peuvent être importés en masse à partir de fichiers CSV issues de tableaux Excel.
+
+### Export des données
+- Toutes les données sont exportables au format CSV
 
 ### RH
 - Etat récapitulatif mensuel des cours effectués
 
-
 ### API
 - une API fournit les données du planning au format JSON aux applications tierces/mobiles
-
 
 ### TODO
 
 ||
 |-|
 | - Notification d'annulation de cours par SMS à chaque étudiant |
-
+| - Notification de cours en e-learning (envoi du lien à tous les étudiants de la formation) |
 

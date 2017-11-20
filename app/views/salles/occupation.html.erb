@@ -85,9 +85,10 @@
           <td>
               <% @formations.each do |id| %>
                 <% formation = Formation.find(id) %>
-                <span style="background-color:<%= formation.color %>;padding-left: 6px;"></span>
+                <span style="background-color:<%= formation.color %>;padding-left: 7px;"></span>
                 <span style="padding-left:5px;"></span>
                 <%= formation.abrg %>
+                <span style="padding-right:10px;"></span>
               <% end %>
           </td>
 

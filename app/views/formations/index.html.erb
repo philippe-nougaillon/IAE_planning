@@ -68,7 +68,7 @@
     <table class="table table-hover">
       <thead>
         <tr>
-          <th colspan="2">Nom de la formation</th>
+          <th>Nom de la formation</th>
           <th>Abr.</th>
           <th>Cours à planifier</th>
           <th>Confirmés</th>
@@ -79,7 +79,7 @@
 
       <tfoot>
         <tr>
-          <% 8.times do %><th><% end %>
+          <% 7.times do %><th><% end %>
         </tr>
       </tfoot>
 
@@ -88,8 +88,10 @@
           <% formation_cours = formation.cours %>
           <% formation_cours_planifié_count = formation_cours.planifié.count %>
           <tr class=<%= formation_cours_planifié_count != 0 ? 'info' : '' %>>
-            <td><span style="background-color:<%= formation.color %>;padding-left: 7px;"></span></td>
-            <td><%= link_to formation.nom, formation %></td>
+            <td>
+              <span style="background-color:<%= formation.color %>;padding-left: 7px;"></span>
+              <span style="padding-left: 10px;"></span>
+              <%= link_to formation.nom, formation %></td>
             <td><%= formation.abrg %></td>
             <td>
               <%= link_to_unless formation_cours_planifié_count.zero?, formation_cours_planifié_count, cours_path(ids:formation_cours.planifié.pluck(:id)) %>

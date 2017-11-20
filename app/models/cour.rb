@@ -152,9 +152,9 @@ class Cour < ActiveRecord::Base
         UserMailer.cours_changed(self.id, "wachnick.iae@univ-paris1.fr").deliver_later
 
         # envoyer à tous les étudiants 
-        #self.formation.users.each do | user |
-        #  UserMailer.cours_changed(self, user.email).deliver_now
-        #end
+        self.formation.etudiants.each do | etudiant |
+          UserMailer.cours_changed(self, etudiant.email).deliver_later unless etudiant.email.blank?
+        end
       end
 
       # envoyer un mail à Pascal pour faire la réservation de cours

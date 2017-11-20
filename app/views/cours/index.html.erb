@@ -20,7 +20,7 @@
               <%= select_tag :formation, grouped_options_for_select(Formation.for_select, params[:formation]), class:"form-control", include_blank:true, onchange:'this.form.submit()' %>
           </div>
 
-          <div class="col-sm-5">
+          <div class="col-sm-6">
               <%= label_tag "Intervenant" %>    
               <div class="input-group">
                 <%= select_tag :intervenant, grouped_options_for_select(Intervenant.for_select, params[:intervenant]), class:"form-control", include_blank:true, onchange:'this.form.submit()' %>
@@ -223,7 +223,6 @@
                 <% end %>
                 <th>Heure</th>
                 <th>Durée</th>
-                <th></th>
                 <th>Formation</th>
                 <th>Intervenant</th>
                 <th colspan="2">Intitulé cours</th>
@@ -262,10 +261,11 @@
                     <td>
                       <%= number_with_precision(cours.duree, precision: 1) %>h
                     </td>
-                    <td> 
+                    <td>
                       <span style="background-color:<%= cours_formation.color %>;padding-left: 7px;"></span>
+                      <span style="padding-left:5px;"></span>
+                      <%= link_to cours_formation.nom, cours_formation %>
                     </td>
-                    <td><%= link_to cours_formation.nom, cours_formation %></td>
                     <!--
                     <td>
                       <% if cours.intervenant.photo.url %>
@@ -345,9 +345,9 @@
                     <th></th>  
                   <% end %>
                   <% if user_signed_in? %>
-                    <% 7.times do %><th /><% end %>
-                  <% else %>
                     <% 6.times do %><th /><% end %>
+                  <% else %>
+                    <% 5.times do %><th /><% end %>
                   <% end %>
                 </tr>
               </tfoot>

@@ -89,7 +89,6 @@ class CoursController < ApplicationController
 
     unless params[:formation_id].blank?
       params[:formation] = Formation.find(params[:formation_id]).nom.rstrip 
-      #@cours = @cours.where(formation_id:params[:formation_id])
     end
 
     unless params[:formation].blank?
@@ -291,7 +290,7 @@ class CoursController < ApplicationController
         @cours = Cour.find(id)
         @cours.etat = params[:etat].to_i
         
-        # envoyer de mail par défaut (after_validation:true) sauf si envoyer email pas choché
+        # envoyer de mail par défaut (after_validation:true) sauf si envoyer email pas coché
         @cours.save(validate:params[:email].present?)
       end
 

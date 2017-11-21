@@ -462,10 +462,16 @@ class ToolsController < ApplicationController
   def export_etudiants_do
     require 'csv'
 
+    @etudiants = Etudiant.all
+
+    unless params[:formation_id].blank?
+      @etudiants = @etudiants.where(formation_id:params[:formation_id])
+    end
+
   	@csv_string = CSV.generate(col_sep:';', encoding:'UTF-8') do | csv |
       csv << ["id", "nom","prénom", "email", "mobile", "formation_id", "formation_nom","créé le", "modifié le"]
       
-      Etudiant.all.each do |c|
+      @etudiants.all.each do |c|
         fields_to_export = [c.id, c.nom, c.prénom, c.email, c.mobile, c.formation_id, c.formation.nom, c.created_at, c.updated_at]
         
         csv << fields_to_export

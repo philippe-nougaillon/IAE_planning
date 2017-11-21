@@ -67,8 +67,9 @@
   <strong>Etat:</strong>
   <span class="label <%= @cour.style %>"><%= @cour.etat.humanize %></span>
 </p>
+<br>
 
-<div id="audit" class="collapse">
+<div id="audit" class="collapse in">
   <% if current_user.admin? %>
     <% if @cour.audits.any? %>
       <h3>Audit des modifications</h3>

@@ -321,7 +321,7 @@
 
                     <% if user_signed_in? %>
                       <td>
-                        <%= link_to edit_cour_path(cours), class:"btn btn-default" do %>
+                        <%= link_to edit_cour_path(cours, from:params[:from]), class:"btn btn-default" do %>
                           <i class="glyphicon glyphicon-pencil"></i>
                         <% end %>
                       </td>
@@ -336,7 +336,7 @@
                   <% if user_signed_in? %>
                     <th />
                   <% end %>
-                  <th /><th />
+                  <th />
                   <% if params[:paginate] == 'all' or @cours.total_pages == @cours.current_page %>
                       <th>
                         <%= number_with_precision(@all_cours.sum(:duree), precision: 1) %>h

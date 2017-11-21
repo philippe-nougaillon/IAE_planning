@@ -5,13 +5,23 @@
   </h1>
 </div>
 <div>
-  <h3>Cette fonction permet la création d'un fichier CSV d'intervenants</h3>
+  <h3>Cette fonction permet la création d'un fichier CSV d'étudiants</h3>
   <p>
     Pour ouvrir ce fichier dans Excel, à partir d'une feuille vierge, utilisez dans le menu "Données" la fonction "A partir du texte", choisir le fichier csv, puis choisir 'Délimité' et "Origine du fichier : 65001 Unicode UTF-8", et enfin optez pour le séparateur "point-virgule" et validez.
   </p>
 </div>
 
 <%= form_tag({action: "export_etudiants_do", method: :post}) do %>
+
+  <div class="row">
+    <div class="col-sm-4">
+      <%= label_tag "Formation" %>    
+      <%= select_tag :formation_id, 
+            options_from_collection_for_select(Formation.all, :id, :nom, params[:formation_id]), 
+              class:"form-control", include_blank:true %>
+    </div>
+  </div>
+
 
   <div class="form-group">
     <div class="row">

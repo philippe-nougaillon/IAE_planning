@@ -394,17 +394,20 @@ class CoursController < ApplicationController
       @cour.formation_id = Formation.find_by(nom:params[:formation]).id
     end
 
-    if params[:intervenant_id]
+    unless params[:intervenant].blank?
       intervenant = params[:intervenant].strip
       intervenant_id = Intervenant.find_by(nom:intervenant.split(' ').first, prenom:intervenant.split(' ').last.rstrip)
 
       @cour.intervenant_id = intervenant_id
     end
     
+    @cour.formation_id = params[:formation_id] if params[:formation_id]
+    @cour.intervenant_id = params[:intervenant_id] if params[:intervenant_id] 
     @cour.debut = params[:debut] if params[:debut]
     @cour.ue = params[:ue]
     @cour.salle_id = params[:salle_id]
     @cour.etat = params[:etat].to_i
+    @cour.nom = params[:nom]
     if params[:heure]
       @cour.debut = Time.zone.parse("#{params[:debut]} #{params[:heure]}:00").to_s 
     end
@@ -423,7 +426,9 @@ class CoursController < ApplicationController
       if @cour.save
         format.html do
           if params[:create_and_add]  
-            redirect_to new_cour_path(debut:@cour.debut, fin:@cour.fin, formation_id:@cour.formation_id, intervenant_id:@cour.intervenant_id, ue:@cour.ue), notice: 'Cours ajouté avec succès.'
+            redirect_to new_cour_path(debut:@cour.debut, fin:@cour.fin, 
+                        formation_id:@cour.formation_id, intervenant_id:@cour.intervenant_id, ue:@cour.ue, salle_id:@cour.salle_id, nom:@cour.nom),
+                        notice: 'Cours ajouté avec succès.'
           else
             if params[:from] == 'occupation'
               redirect_to occupation_des_salles_path, notice: "Cours ##{@cour.id} ajouté avec succès."
@@ -449,7 +454,11 @@ class CoursController < ApplicationController
           if params[:from] == 'planning_salles'
             redirect_to cours_path(view:"calendar_rooms", start_date:@cour.debut)
           else
-            redirect_to cours_url, notice: 'Cours modifié avec succès.'
+            if params[:from] == 'occupation'
+              redirect_to occupation_des_salles_path, notice: "Cours ##{@cour.id} ajouté avec succès."
+            else
+              redirect_to cours_url, notice: 'Cours modifié avec succès.'
+            end
           end
         end
         format.json { render :show, status: :ok, location: @cour }

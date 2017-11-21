@@ -41,11 +41,29 @@ class SallesController < ApplicationController
     end
 
     if user_signed_in?
-      # taux occupation
-      @nombre_heures_cours = Cour.confirmé.where("Date(debut) = ?", params[:start_date]).sum(:duree).to_f
-      @salles_dispo = Salle.where("LENGTH(nom) = 2")
-      @heures_dispo_salles = @salles_dispo.count * 8   
-      @taux_occupation = @nombre_heures_cours * 100 / @heures_dispo_salles
+      # calcul du taux d'occupation
+      # salles concernées
+      @salles_dispo = Salle.where("LENGTH(nom) = 2").where.not(nom:%w{A8 A20 D7 D8 D9})
+
+      # cumul les heures de cours du jour et du soir
+      @nombre_heures_cours_jour = 0
+      @nombre_heures_cours_soir = 0
+      Cour.confirmé.where("Date(debut) = ?", params[:start_date]).each do |c|
+        # si le cours commence avant 18h
+        if c.debut.hour < 18
+          @nombre_heures_cours_jour += c.duree.to_f
+        else
+          @nombre_heures_cours_soir += c.duree.to_f
+        end
+      end     
+     
+      # nombre d'heures salles
+      @heures_dispo_salles_jour = @salles_dispo.count * 8 
+      @heures_dispo_salles_soir = @salles_dispo.count * 4  
+
+      # taux d'occupation  
+      @taux_occupation_jour = @nombre_heures_cours_jour * 100 / @heures_dispo_salles_jour
+      @taux_occupation_soir = @nombre_heures_cours_soir * 100 / @heures_dispo_salles_soir
     end
 
     session[:start_date] = params[:start_date]

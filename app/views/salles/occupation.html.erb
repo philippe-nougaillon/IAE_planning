@@ -41,7 +41,7 @@
         <th>Formation</th>
         <% Cour.etendue_horaire.each_with_index do |heure, index| %>
           <th><%= heure %>h</th>
-          <% if [4,10].include?(index) %><th /><% end %>
+          <% if [4,9].include?(index) %><th /><% end %>
         <% end %>
       </tr>
     </thead>
@@ -71,16 +71,16 @@
               <th />
               <% Cour.etendue_horaire.each_with_index do |heure, index| %>
                 <th><%= heure %>h</th>
-                <% if [4,10].include?(index) %><th /><% end %>
+                <% if [4,9].include?(index) %><th /><% end %>
               <% end %>
             </tr>
           </thead>
         <% end %>
 
         <tr>
-          <td><b><%= salle.nom %></b></td>
+          <td><b><%= salle.nom[0..6] %></b></td>
           <td><%= salle.places %></td>
-          <td><%= link_to_unless @cours.count.zero?, @cours.count, cours_path(ids:@cours.pluck(:id), view:'list') %>
+          <td><%= link_to_unless @cours.count.zero?, @cours.count, cours_path(ids:@cours.pluck(:id), view:'list', from:'occupation') %>
           </td>
           <td>
               <% @formations.each do |id| %>
@@ -108,7 +108,7 @@
                   <span style="background-color:<%= color %>;padding-left: 15px;"></span> 
                 <% end %>
               </td>
-              <% if [4,10].include?(index) %><td /><% end %>
+              <% if [4,9].include?(index) %><td /><% end %>
             <% end %>
           <% else %>
             <% 18.times do %><td /><% end %>
@@ -118,18 +118,34 @@
     </tbody>
   </table>
 
-  <% if user_signed_in? %>
+  <% if user_signed_in? && (!params[:salle_id] || params[:salle_id].blank?) %>
     <div class="row">
       <div class="col-sm-6">
         <h4>
-          Heures de cours planifiées: <%= @nombre_heures_cours %>h <br>
-          Heures de salles disponibles: <%= @heures_dispo_salles %>h
+          Heures de cours planifiées jour: <%= @nombre_heures_cours_jour %>h <br>
+          Heures de salles disponibles jour: <%= @heures_dispo_salles_jour %>h
            (<%= @salles_dispo.count %> salles * 8h)<br>
         </h4>
       </div>
       <div class="col-sm-6">
         <h3>
-          Taux d'occupation: <%= @taux_occupation.to_i %>%
+          Taux d'occupation jour: <%= @taux_occupation_jour.to_i %>%
+        </h3>
+      </div>
+    </h4>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-6">
+      <h4>
+          Heures de cours planifiées soir: <%= @nombre_heures_cours_soir %>h <br>
+          Heures de salles disponibles soir: <%= @heures_dispo_salles_soir %>h
+           (<%= @salles_dispo.count %> salles * 5h)<br>
+        </h4>
+      </div>
+      <div class="col-sm-6">
+        <h3>
+          Taux d'occupation soir: <%= @taux_occupation_soir.to_i %>%
         </h3>
       </div>
     </h4>

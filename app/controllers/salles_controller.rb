@@ -48,7 +48,7 @@ class SallesController < ApplicationController
       # cumul les heures de cours du jour et du soir
       @nombre_heures_cours_jour = 0
       @nombre_heures_cours_soir = 0
-      Cour.confirmé.where("Date(debut) = ?", params[:start_date]).each do |c|
+      Cour.where(etat: Cour.etats.values_at(:confirmé, :réalisé)).where("Date(debut) = ?", params[:start_date]).each do |c|
         # si le cours commence avant 18h
         if c.debut.hour < 18
           @nombre_heures_cours_jour += c.duree.to_f

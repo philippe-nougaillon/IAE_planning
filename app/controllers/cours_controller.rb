@@ -140,7 +140,7 @@ class CoursController < ApplicationController
 
     respond_to do |format|
       format.html 
-
+    
       format.csv do
         require 'csv'
         @csv_string = CSV.generate(col_sep:';', encoding:'UTF-8') do | csv |

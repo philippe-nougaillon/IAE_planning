@@ -342,12 +342,12 @@
                         <%= number_with_precision(@all_cours.sum(:duree), precision: 1) %>h
                       </th>
                   <% else %>
-                    <th></th>  
+                    <th />  
                   <% end %>
                   <% if user_signed_in? %>
-                    <% 6.times do %><th /><% end %>
+                    <% 7.times do %><th /><% end %>
                   <% else %>
-                    <% 5.times do %><th /><% end %>
+                    <% 6.times do %><th /><% end %>
                   <% end %>
                 </tr>
               </tfoot>

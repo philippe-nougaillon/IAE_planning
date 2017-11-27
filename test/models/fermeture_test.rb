@@ -6,8 +6,8 @@ class FermetureTest < ActiveSupport::TestCase
   # end
 
  test "should not save this without date" do
-  	f = Fermeture.new
-  	assert_not f.save
+  	fermeture = Fermeture.new
+  	assert fermeture.invalid? # should be invalid if no attributes
   end
 
 end

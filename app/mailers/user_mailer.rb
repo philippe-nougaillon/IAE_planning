@@ -9,9 +9,10 @@ class UserMailer < ApplicationMailer
     mail(to: @user.email, bcc: 'philippe.nougaillon@gmail.com', subject: "Welcome to IAE-Planning !")
   end
 
-  def cours_changed(cours_id, email)
-  	@cours = Cour.find(cours_id)
-  	mail(to: email , subject: "[PLANNING] L'état du cours #{@cours.formation.nom}/#{@cours.nom_ou_ue} a été modifié")
+  def cours_changed(cours_id, email, etat)
+    @cours = Cour.find(cours_id)
+    @etat = etat
+  	mail(to: email , subject: "[IAE-Paris/PLANNING] L'état du cours #{@cours.nom_ou_ue} - #{@cours.formation.nom}) a été modifié")
   end
 
 end

@@ -5,9 +5,9 @@
   </head>
   <body>
     <h1>
-        Votre cours <%= "#{@cours.formation.nom}/#{@cours.nom_ou_ue}" %> 
+        Votre cours <%= "#{@cours.nom_ou_ue} - #{@cours.formation.nom}" %> 
         du <%= l(@cours.debut, format: :long) %> 
-        vient d'être <b><%= @cours.etat.humanize %></b>
+        vient d'être <b><%= @etat.humanize %></b>
     </h1>
     <p>
       <%= link_to "Voir le planning", root_url(formation_id:@cours.formation_id) %>

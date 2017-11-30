@@ -153,7 +153,7 @@ class Cour < ActiveRecord::Base
 
         # envoyer à tous les étudiants 
         self.formation.etudiants.each do | etudiant |
-          UserMailer.cours_changed(self.id, etudiant.email, self.etat).deliver_later
+          UserMailer.cours_changed(self.id, etudiant.email, self.etat).deliver_now
         end
       end
 

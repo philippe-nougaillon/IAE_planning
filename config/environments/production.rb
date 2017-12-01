@@ -88,13 +88,12 @@ Rails.application.configure do
   config.action_mailer.smtp_settings = {
     address:              'smtp.univ-paris1.fr',
     port:                 587,
-    domain:               'philnoug.com',
+    domain:               'univ-paris1.fr',
     user_name:            'philippe.nougaillon@univ-paris1.fr',
     password:             'Ulysse!6',
     authentication:       'plain',
     enable_starttls_auto: true  }
-
-  # config.action_mailer.perform_deliveries = true
+  config.action_mailer.asset_host = "http://planning.iae-paris.com"
 
   # Don't care if the mailer can't send. => false
   config.action_mailer.raise_delivery_errors = true

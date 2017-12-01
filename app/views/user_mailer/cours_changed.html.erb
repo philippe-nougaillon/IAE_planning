@@ -4,11 +4,13 @@
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
   </head>
   <body>
-    <h1>
-        Votre cours <%= "#{@cours.nom_ou_ue} - #{@cours.formation.nom}" %> 
-        du <%= l(@cours.debut, format: :long) %> 
-        vient d'être <b><%= @etat.humanize %></b>
-    </h1>
+    <%= image_tag("logo_iae.png") %>
+    <br>
+    <h3>
+        Votre cours du <%= l(@cours.debut, format: :long) %> <br>
+        (<%= "#{@cours.nom_ou_ue} - #{@cours.formation.nom}" %>) <br> 
+        vient d'être <b><%= @etat %></b>.
+    </h3>
     <p>
       <%= link_to "Voir le planning", root_url(formation_id:@cours.formation_id) %>
     </p>

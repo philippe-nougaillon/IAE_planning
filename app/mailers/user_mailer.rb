@@ -12,7 +12,7 @@ class UserMailer < ApplicationMailer
   def cours_changed(cours_id, email, etat)
     @cours = Cour.find(cours_id)
     @etat = etat
-  	mail(to: email , subject: "[IAE-Paris/PLANNING] L'état du cours #{@cours.nom_ou_ue} - #{@cours.formation.nom}) a été modifié")
+  	mail(to: email , subject: "[PLANNING] Cours du #{l(@cours.debut, format: :long).humanize} (#{@cours.nom_ou_ue}) est #{@etat}")
   end
 
 end

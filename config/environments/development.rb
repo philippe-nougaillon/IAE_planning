@@ -36,13 +36,14 @@ Rails.application.configure do
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 
+  config.action_mailer.asset_host = "http://planning.iae-paris.com"
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
   
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
     address:              'smtp.univ-paris1.fr',
     port:                 587,
-    domain:               'example.com',
+    domain:               'univ-paris1.fr',
     user_name:            'philippe.nougaillon@univ-paris1.fr',
     password:             'Ulysse!6',
     authentication:       'plain',

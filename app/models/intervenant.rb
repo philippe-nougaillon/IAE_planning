@@ -8,7 +8,7 @@ class Intervenant < ActiveRecord::Base
 	has_many :formations, through: :cours
 
 	validates_uniqueness_of :nom, scope: :email, case_sensitive: false
-	validates :nom, :email, presence: true
+	validates :nom, :email, :prenom, :status, presence: true
 	
   	enum status: [:CEV, :Permanent, :PR, :MCF, :MCF_HDR, :PAST, :PRAG, :VAC, :Admin]
 

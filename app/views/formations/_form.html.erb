@@ -40,7 +40,7 @@
       </div>
 
       <div class="col-sm-6">
-          <%= f.collection_select :user_id, User.where(admin:true).order(:email), :id, :email, {include_blank: true, label:"Gestionnaire de formation"} %>
+        <%= f.collection_select :user_id, User.where.not(admin:true).order(:email), :id, :email, {include_blank: true, label:"Gestionnaire de formation"} %>
         <%= f.number_field :nbr_etudiants, label:"Nombre d'étudiants prévus" %>
         <%= f.number_field :nbr_heures, label:"Nombre d'heures prévues" %>
 

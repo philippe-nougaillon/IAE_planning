@@ -20,7 +20,9 @@
       <%= f.text_field :titre1 %>
       <%= f.text_field :titre2 %>
       <%= f.text_field :spécialité %>
-      <%= f.check_box :doublon, label:"Autoriser les doublons(groupe et non individu) sur le même créneau horaire ?" %>
+      <% if current_user.admin? %>
+        <%= f.check_box :doublon, label:"Autoriser les doublons(groupe et non individu) sur le même créneau horaire ?" %>
+      <% end %>
       <br>
 
       <%= f.submit class: "btn btn-primary" %>
@@ -28,7 +30,7 @@
 
     <div class="col-sm-5">
       <div class="form-group">
-        <%= f.select(:status, Intervenant.statuses.keys.to_a) %>
+        <%= f.select :status, Intervenant.statuses.keys.to_a, {include_blank: true} %>
       </div>
 
       <div class="col-sm-6">

@@ -1,14 +1,14 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  formation_id: 1
+  formation_id: 298486374
   nom: Mister
   prénom: Max
   email: toto@gmail.com
   mobile: 0660600660
 
 two:
-  formation_id: 2
+  formation_id: 298486374
   nom: Miss
   prénom: Kate
   email: kate@gmail.com

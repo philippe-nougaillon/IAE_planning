@@ -1,11 +1,26 @@
+# encoding: UTF-8
+
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 # This model initially had no columns defined.  If you add columns to the
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-one: {}
-# column: value
-#
+one: 
+  email: philippe.nougaillon@gmail.com
+  nom: nougaillon
+  prénom: philippe
+  admin: true
+  formation_id: nil
+  encrypted_password: <%= Devise.bcrypt(User, 'password') %>
+
+admin:
+  email: toto@gmail.com
+  nom: toto
+  prénom: pn
+  admin: true
+  formation_id: nil
+  encrypted_password: <%= Devise.bcrypt(User, 'password') %>
+
 two: {}
 #  column: value

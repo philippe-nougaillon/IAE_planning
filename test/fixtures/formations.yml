@@ -1,15 +1,19 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  nom: MyString
-  promo: MyString
+  nom: FormationTest1
+  abrg: FT1
+  promo: 2017/2018
   diplome: MyString
   domaine: MyString
   apprentissage: false
+  nbr_heures: 200
 
 two:
-  nom: MyString
-  promo: MyString
+  nom: FormationTest2
+  abrg: FT2
+  promo: 2017/2018
   diplome: MyString
   domaine: MyString
   apprentissage: false
+  nbr_heures: 100

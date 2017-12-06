@@ -15,7 +15,7 @@ class Formation < ActiveRecord::Base
 
 	belongs_to :user
 
-	validates :nom, :nbr_etudiants, :nbr_heures, presence: true
+	validates :nom, :nbr_etudiants, :nbr_heures, :abrg, presence: true
 	validates :nom, uniqueness: {scope: :promo}
 	
 	default_scope { order(:nom, :promo) } 

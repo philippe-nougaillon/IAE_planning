@@ -109,7 +109,7 @@ class SallesController < ApplicationController
     authorize Salle
     respond_to do |format|
       if @salle.update(salle_params)
-        format.html { redirect_to @salle, notice: 'Salle modifié.' }
+        format.html { redirect_to @salle, notice: 'Salle modifiée.' }
         format.json { render :show, status: :ok, location: @salle }
       else
         format.html { render :edit }

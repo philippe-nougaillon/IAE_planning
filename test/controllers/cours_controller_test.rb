@@ -3,6 +3,9 @@ require 'test_helper'
 class CoursControllerTest < ActionController::TestCase
   setup do
     @cour = cours(:one)
+    @salle = salles(:one)
+    @formation = formations(:one)
+    sign_in users(:one)
   end
 
   test "should get index" do
@@ -18,10 +21,12 @@ class CoursControllerTest < ActionController::TestCase
 
   test "should create cour" do
     assert_difference('Cour.count') do
-      post :create, cour: { debut: @cour.debut, fin: @cour.fin, formation_id: @cour.formation_id, intervenant_id: @cour.intervenant_id, nom: @cour.nom, salle_id: @cour.salle_id, ue: @cour.ue }
+      post :create, cour: { debut: @cour.debut, fin: @cour.fin, formation_id: @formation.id, 
+                            intervenant_id: @cour.intervenant_id, nom: @cour.nom, 
+                            salle_id: @salle.id, ue: @cour.ue }
     end
 
-    assert_redirected_to cour_path(assigns(:cour))
+    assert_redirected_to cours_path
   end
 
   test "should show cour" do
@@ -35,8 +40,12 @@ class CoursControllerTest < ActionController::TestCase
   end
 
   test "should update cour" do
-    patch :update, id: @cour, cour: { debut: @cour.debut, fin: @cour.fin, formation_id: @cour.formation_id, intervenant_id: @cour.intervenant_id, nom: @cour.nom, salle_id: @cour.salle_id, ue: @cour.ue }
-    assert_redirected_to cour_path(assigns(:cour))
+    patch :update, id: @cour, cour: { 
+      debut: @cour.debut, fin: @cour.fin, formation_id: @formation.id, 
+      intervenant_id: @cour.intervenant_id, nom: @cour.nom, 
+      salle_id: @salle.id, ue: @cour.ue
+     }
+    assert_redirected_to cours_path
   end
 
   test "should destroy cour" do

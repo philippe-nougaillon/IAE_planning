@@ -1,9 +1,9 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  nom: MyString
-  places: 1
+  nom: A1
+  places: 10
 
 two:
-  nom: MyString
-  places: 1
+  nom: A2
+  places: 100

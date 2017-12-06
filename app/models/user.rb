@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
 
   belongs_to :formation   
 
-  validates :nom, :prénom, presence:true    
+  validates :nom, :prénom, presence: true    
 
   default_scope { order(:nom, :prénom) } 
 

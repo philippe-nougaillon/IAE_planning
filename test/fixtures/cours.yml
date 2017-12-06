@@ -3,11 +3,12 @@
 one:
   debut: 2016-12-08 10:38:38
   fin: 2016-12-08 10:38:38
-  formation_id: 1
-  intervenant_id: 1 
+  formation_id: 298486374
+  intervenant_id: 298486374
   salle_id: 1
   ue: MyString
   nom: MyString
+  etat: 0
 
 two:
   debut: 2016-12-08 10:38:38
@@ -17,3 +18,4 @@ two:
   salle_id: 1
   ue: MyString
   nom: MyString
+  etat: 0

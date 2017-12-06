@@ -1,8 +1,13 @@
+# encoding: UTF-8
+
 require 'test_helper'
 
 class EtudiantsControllerTest < ActionController::TestCase
   setup do
     @etudiant = etudiants(:one)
+    @formation = formations(:one)
+
+    sign_in users(:one)
   end
 
   test "should get index" do
@@ -18,7 +23,7 @@ class EtudiantsControllerTest < ActionController::TestCase
 
   test "should create etudiant" do
     assert_difference('Etudiant.count') do
-      post :create, etudiant: { email: @etudiant.email, formation_id: @etudiant.formation_id, mobile: @etudiant.mobile, nom: @etudiant.nom, prénom: @etudiant.prénom }
+      post :create, etudiant: { email: @etudiant.email, formation_id: @formation.id, mobile: @etudiant.mobile, nom: @etudiant.nom, prénom: @etudiant.prénom }
     end
 
     assert_redirected_to etudiant_path(assigns(:etudiant))

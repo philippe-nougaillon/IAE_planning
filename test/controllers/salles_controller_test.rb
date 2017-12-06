@@ -3,6 +3,7 @@ require 'test_helper'
 class SallesControllerTest < ActionController::TestCase
   setup do
     @salle = salles(:one)
+    sign_in users(:admin)
   end
 
   test "should get index" do
@@ -18,7 +19,7 @@ class SallesControllerTest < ActionController::TestCase
 
   test "should create salle" do
     assert_difference('Salle.count') do
-      post :create, salle: { nom: @salle.nom, places: @salle.places }
+      post :create, salle: { nom: "D3", places: 40 }
     end
 
     assert_redirected_to salle_path(assigns(:salle))

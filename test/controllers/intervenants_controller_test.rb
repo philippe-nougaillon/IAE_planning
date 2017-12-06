@@ -1,8 +1,12 @@
+# encoding: utf-8
+
 require 'test_helper'
 
 class IntervenantsControllerTest < ActionController::TestCase
   setup do
     @intervenant = intervenants(:one)
+    @intervenant2 = intervenants(:two)
+    sign_in users(:one)
   end
 
   test "should get index" do
@@ -18,7 +22,7 @@ class IntervenantsControllerTest < ActionController::TestCase
 
   test "should create intervenant" do
     assert_difference('Intervenant.count') do
-      post :create, intervenant: { nom: @intervenant.nom }
+      post :create, intervenant:  @intervenant2
     end
 
     assert_redirected_to intervenant_path(assigns(:intervenant))

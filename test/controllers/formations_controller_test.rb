@@ -3,6 +3,7 @@ require 'test_helper'
 class FormationsControllerTest < ActionController::TestCase
   setup do
     @formation = formations(:one)
+    sign_in users(:one)
   end
 
   test "should get index" do
@@ -18,7 +19,7 @@ class FormationsControllerTest < ActionController::TestCase
 
   test "should create formation" do
     assert_difference('Formation.count') do
-      post :create, formation: { apprentissage: @formation.apprentissage, diplome: @formation.diplome, domaine: @formation.domaine, nom: @formation.nom, promo: @formation.promo }
+      post :create, formation: { nom: "TesterFormation", abrg: "TF", nbr_heures: 100 }
     end
 
     assert_redirected_to formation_path(assigns(:formation))
@@ -35,7 +36,7 @@ class FormationsControllerTest < ActionController::TestCase
   end
 
   test "should update formation" do
-    patch :update, id: @formation, formation: { apprentissage: @formation.apprentissage, diplome: @formation.diplome, domaine: @formation.domaine, nom: @formation.nom, promo: @formation.promo }
+    patch :update, id: @formation, formation: { apprentissage: @formation.apprentissage, diplome: @formation.diplome, domaine: @formation.domaine, nom: @formation.nom, promo: @formation.promo, nbr_heures: @formation.nbr_heures }
     assert_redirected_to formation_path(assigns(:formation))
   end
 

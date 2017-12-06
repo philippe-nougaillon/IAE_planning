@@ -102,6 +102,11 @@ class CoursController < ApplicationController
       @cours = @cours.where("intervenant_id = ? OR intervenant_binome_id = ?", intervenant_id, intervenant_id)
     end
 
+    unless params[:intervenant_id].blank?
+      intervenant_id = params[:intervenant_id]
+      @cours = @cours.where("intervenant_id = ? OR intervenant_binome_id = ?", intervenant_id, intervenant_id)
+    end
+
     unless params[:etat].blank?
       @cours = @cours.where(etat:params[:etat])
     end

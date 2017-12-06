@@ -1,7 +1,13 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  nom: MyString
+  nom: Toto
+  prenom: PPPPP
+  email: toto@gmail.com
+  status: 0
 
 two:
-  nom: MyString
+  nom: Titi
+  prenom: PPPPP
+  email: titi@gmail.com
+  status: 1

@@ -54,7 +54,7 @@
     </p>
 
     <% @formations.each do | formation | %>
-      <%= link_to formation.nom, cours_path(formation_id:formation, intervenant_id:@intervenant, filter:'all') %>
+      <%= link_to formation.nom, cours_path(formation_id:formation, intervenant_id:@intervenant, intervenant:@intervenant.nom_prenom , filter:'all') %>
 
       <% cours = formation.cours.where(etat:Cour.etats[:planifié], intervenant_id:@intervenant).order(:debut) %>
       <% if cours.any? %>

@@ -89,126 +89,15 @@
 </div>
 
 <% if params[:view] == "calendar_month" and !params[:start_date].blank? %>
-  <div class="row">
-    <div class="col-md-12">
-      <%= month_calendar events: @cours do |date, meetings| %>
-        <span class="calendar_day">
-          <%= date.day %>
-        </span>
-
-        <% meetings.each do |meeting| %>
-          <div class="meeting">
-            <b>
-              <%= "#{l(meeting.debut, format: :heures_min)}-#{l(meeting.fin, format: :heures_min)}" %>
-              <%= "(#{meeting.salle.nom})" if meeting.salle %>  
-            </b>
-            <br>
-            <%= link_to meeting.formation.nom, meeting %> / 
-            <%= link_to meeting.intervenant.nom_prenom, meeting %>
-          </div>
-        <% end %>
-      <% end %>
-    </div>
-  </div>
+  <%= render partial: 'calendar_month' %>
 
 <% elsif params[:view] == "calendar_week" and !params[:start_date].blank? %>
   <% @week_selector_visible = true %>
-
-  <div class="row">
-    <div class="col-md-12">
-      <%= week_calendar events: @cours do |date, meetings| %>
-        <span class="calendar_day">
-          <%= date.day %>
-        </span>
-
-        <% meetings.each do |meeting| %>
-          <div class="meeting">
-            <b>
-              <%= "#{l(meeting.debut, format: :heures_min)}-#{l(meeting.fin, format: :heures_min)}" %>
-              <%= "(#{meeting.salle.nom})" if meeting.salle %>  
-            </b>
-            <br>
-            <%= link_to meeting.formation.nom, meeting %> / 
-            <%= link_to meeting.intervenant.nom_prenom, url_for(params.merge(intervenant_id:meeting.intervenant_id)) %>
-          </div>
-        <% end %>
-      <% end %>
-    </div>
-  </div>
+  <%= render partial: 'calendar_week' %>
 
 <% elsif params[:view] == "calendar_rooms" and !params[:start_date].blank? %>
   <% @week_selector_visible = true %>
-  
-  <div class="row">
-    <div class="col-md-12">
-        <%= calendar partial: 'simple_calendar/week_rooms_calendar', 
-                events: @cours.where(salle_id:nil), salle_id:0, number_of_days:6 do |date, meetings| %>
-          <% meetings.each do |meeting| %>
-              <span class="label <%= meeting.style %>"><%= meeting.etat.humanize %></span><br>
-              <b><%= l(meeting.debut, format: :heures_min) %></b>  
-              - <%= l(meeting.fin, format: :heures_min) %>
-              <br>
-              <% if meeting.formation.abrg %>
-                <% if meeting.salle_id == nil %>
-                  <%= link_to meeting.formation.abrg, cours_path(start_date:meeting.debut, formation:meeting.formation.nom, view:'list'), title:meeting.nom %>
-                <% else %>                 
-                  <%= link_to meeting.formation.abrg, edit_cour_path(meeting, from:'planning_salles'), title:meeting.nom %>
-                <% end %>
-              <% else %>
-                <%= link_to meeting.formation.nom, meeting %>
-              <% end %>
-          <% end %>
-        <% end %>
-    </div>
-  </div>
-  
-  <div class="row">
-    <div class="col-md-12">
-      <% bloc = 'A' %> 
-      <% Salle.all.each do |salle_id| %>
-        <% @salle = Salle.find(salle_id) %> 
-        <% if bloc != @salle.nom[0] %><hr><% bloc = @salle.nom[0] %><% end %>
-
-        <%= calendar partial: 'simple_calendar/week_rooms_calendar', 
-                     events: @cours.where(salle_id:@salle.id), salle_id:@salle.id, 
-                     number_of_days: 6 do |date, meetings| %>
-
-          <% if user_signed_in? %>
-            <%= link_to "+", new_cour_path(debut:date, salle_id:@salle.id, etat:2, from:'planning_salles'), class:"btn btn-default btn-sm" %>
-            <br><br>
-          <% end %>  
-
-          <% meetings.each do |meeting| %>
-            <!--- chercher si conflit de salle ! -->
-            <% if Cour.where("cours.id <> ? AND salle_id = ? AND (((debut BETWEEN ? AND ?) OR (fin BETWEEN ? AND ?)) OR (debut < ? AND fin > ?))", 
-                          meeting.id, salle_id, meeting.debut, meeting.fin, meeting.debut, meeting.fin, meeting.fin, meeting.debut)
-                          .where.not(debut:meeting.fin)
-                          .where.not(fin:meeting.debut)
-                          .any? %>
-              <span style="background-color:black;color:yellow;">BANZAÏ !!!</span>
-            <% end %>  
-
-            <div style="height:<%= 30 + (20 * meeting.duree) %>px;border:1px;border-style:solid;border-color:lightgrey;">
-              <b><%= l(meeting.debut, format: :heures_min) %></b>  
-              - <%= l(meeting.fin, format: :heures_min) %>
-              <br>
-
-              <span style="background-color:<%= meeting.formation.color %>;padding-left: 7px;"></span>
-              <span style="padding-left: 7px;"></span>
-
-              <% if meeting.formation.abrg %>
-                <%= link_to meeting.formation.abrg, edit_cour_path(meeting, from:'planning_salles'), title:meeting.nom %>
-              <% else %>
-                <%= link_to meeting.formation.nom, meeting %>
-              <% end %>
-              <br>
-            </div>
-          <% end %>
-
-        <% end %>
-      <% end %>
-    </div>
-  </div>
+  <%= render partial: 'calendar_rooms' %>
 
 <% elsif params[:view] == "list" %>
   <% if @cours.any? %>
@@ -238,7 +127,7 @@
               <tbody>
                 <% current_date = "" %>
                 <% @cours.includes(:formation, :intervenant, :salle).each do | cours | %>
-                  <% cours_formation = cours.formation %>
+
                   <% if cours.debut.to_date != current_date %>
                     <tr class="info">
                       <% if user_signed_in? %><th /><% end %>
@@ -249,85 +138,9 @@
                     </tr>
                     <% current_date = cours.debut.to_date %>
                   <% end %>  
-                  
-                  <tr>
-                    <% if user_signed_in? %>
-                      <td><%= check_box_tag "[cours_id][#{cours.id}]",nil ,false ,class:'check_all' %></td>
-                    <% end %>
-                    <td>
-                      <b><%= l(cours.debut, format: :heures_min) %></b><br> 
-                      <%= l(cours.fin, format: :heures_min) %>
-                    </td>
-                    <td>
-                      <%= number_with_precision(cours.duree, precision: 1) %>h
-                    </td>
-                    <td>
-                      <span style="background-color:<%= cours_formation.color %>;padding-left: 7px;"></span>
-                      <span style="padding-left:5px;"></span>
-                      <%= link_to cours_formation.nom, cours_formation %>
-                    </td>
-                    <!--
-                    <td>
-                      <% if cours.intervenant.photo.url %>
-                        <%= link_to(image_tag(cours.intervenant.photo.url, class: "img-circle", size:'45x45'), cours.intervenant) %>
-                      <% end %>
-                    </td>
-                    -->
-                    <td>
-                      <%= link_to cours.intervenant.nom_prenom, cours.intervenant %>
-                      <% if cours.intervenant_binome %>
-                        <br>
-                        <%= link_to cours.intervenant_binome.nom_prenom, cours.intervenant_binome %>
-                      <% end %>
-                    </td>
-                    <td>
-                      <% if cours.ue %>
-                        <%= link_to cours.ue, cours_path(ue:cours.ue) %>
-                      <% end %>
-                    </td>
-                    <td>
-                      <% if cours.url? %>
-                        <% if cours_ue = cours.formation.unites.find_by(num:cours.ue.upcase) %>
-                          <%= link_to cours_ue.nom, cours %>
-                        <% end %>
-                        <br>
-                        <%= link_to cours.nom, target:"_blank" do %>
-                          (e-learning) <span class="glyphicon glyphicon-new-window"></span>
-                        <% end %>
-                      <% else %>         
-                        <%= link_to cours.nom_ou_ue, cours %>
-                      <% end %>
-                    </td>
-                    <td>
-                      <span class="label <%= cours.style %>"><%= cours.etat.humanize %></span>
-                    </td>
-                    <td>
-                      <% if cours.salle %>
-                        <%= link_to cours.salle.nom, cours_url(start_date:cours.debut.to_date, view:'calendar_rooms', anchor:cours.salle.nom), target: :_blank %>
-                        <% if cours.manque_de_places? && user_signed_in? %>
-                          <i class="glyphicon glyphicon-warning-sign glyph-custom-alert" 
-                              data-toggle="tooltip" data-placement="bottom"
-                              title="Manque <%= cours_formation.nbr_etudiants - cours.salle.places %> place.s">
-                          </i>
-                        <% end %>
-                      <% else %>
-                        <% if cours.confirmé? && user_signed_in? %>
-                          <i class="glyphicon glyphicon-warning-sign glyph-custom-warning" 
-                             data-toggle="tooltip" data-placement="top"
-                             title="Pas de salle réservée !">
-                        <% end %>
-                      <% end %>
-                    </td>
 
-                    <% if user_signed_in? %>
-                      <td>
-                        <%= link_to edit_cour_path(cours, from:params[:from]), class:"btn btn-default" do %>
-                          <i class="glyphicon glyphicon-pencil"></i>
-                        <% end %>
-                      </td>
-                    <% end %>
+                  <%= render partial: 'cours', locals: {cours: cours, cours_formation: cours.formation } %>
 
-                  </tr>
                 <% end %>
               </tbody>
 
@@ -338,9 +151,9 @@
                   <% end %>
                   <th />
                   <% if params[:paginate] == 'all' or @cours.total_pages == @cours.current_page %>
-                      <th>
-                        <%= number_with_precision(@all_cours.sum(:duree), precision: 1) %>h
-                      </th>
+                    <th>
+                      <%= number_with_precision(@all_cours.sum(:duree), precision: 1) %>h
+                    </th>
                   <% else %>
                     <th />  
                   <% end %>

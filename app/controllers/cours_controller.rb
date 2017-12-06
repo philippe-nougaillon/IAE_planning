@@ -32,9 +32,9 @@ class CoursController < ApplicationController
       session[:paginate] = params[:paginate] = 'pages'
     end
 
+    params[:start_date] ||= session[:start_date]
     params[:formation] ||= session[:formation]
     params[:intervenant] ||= session[:intervenant]
-    params[:start_date] ||= session[:start_date]
     params[:etat] ||= session[:etat]
     params[:view] ||= session[:view]
     params[:filter] ||= session[:filter]
@@ -60,30 +60,30 @@ class CoursController < ApplicationController
     params[:start_date] = @date.to_s
 
     case params[:view]
-    when 'list'
-      unless params[:filter] == 'all'
-        unless params[:semaine].blank?
-          @cours = @cours.where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 7.day)
-        else
-          if request.variant == [:phone]
-            # ne voir que la journée si vue depuis un mobile       
-            @cours = @cours.where("DATE(cours.debut) = DATE(?)", @date)
+      when 'list'
+        unless params[:filter] == 'all'
+          unless params[:semaine].blank?
+            @cours = @cours.where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 7.day)
           else
-            @cours = @cours.where("cours.debut >= DATE(?)", @date)
-          end  
+            #if request.variant == [:phone] && ((!params[:formation_id].blank?) || (!params[:intervenant_id].blank?))
+              # ne voir que la journée si vue depuis un mobile       
+            #  @cours = @cours.where("DATE(cours.debut) = DATE(?)", @date)
+            #else
+              @cours = @cours.where("cours.debut >= DATE(?)", @date)
+            #end  
+          end
+        else
+          @date = nil
         end
-      else
-        @date = nil
-      end
-    when 'calendar_rooms'
-      @date = Date.parse(params[:start_date]).beginning_of_week(start_day = :monday)
-      @cours = @cours.where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 7.day)
-    when 'calendar_week'
-      @date = Date.parse(params[:start_date]).beginning_of_week(start_day = :monday)
-      @cours = @cours.where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 7.day)
-    when 'calendar_month'
-      @date = Date.parse(params[:start_date]).beginning_of_month
-      @cours = @cours.where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 1.month)
+      when 'calendar_rooms'
+        @date = Date.parse(params[:start_date]).beginning_of_week(start_day = :monday)
+        @cours = @cours.where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 7.day)
+      when 'calendar_week'
+        @date = Date.parse(params[:start_date]).beginning_of_week(start_day = :monday)
+        @cours = @cours.where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 7.day)
+      when 'calendar_month'
+        @date = Date.parse(params[:start_date]).beginning_of_month
+        @cours = @cours.where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 1.month)
     end
     params[:start_date] = @date.to_s
 
@@ -127,6 +127,10 @@ class CoursController < ApplicationController
 
     if (params[:view] == 'list' and params[:paginate] == 'pages' and request.variant.include?(:desktop)) 
       @cours = @cours.paginate(page:params[:page], per_page:20)
+    end
+
+    if request.variant.include?(:phone)
+      @cours = @cours.paginate(page:params[:page], per_page:30)
     end
 
     if params[:view] == "calendar_rooms"

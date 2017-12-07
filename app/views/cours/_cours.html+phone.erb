@@ -24,7 +24,7 @@
         <i><%= cours.nom_ou_ue %></i><br>
       <% end %>
       
-      <% if (cours.debut.to_date == Date.today && cours_progress_bar_pct > 0) %> 
+      <% if (cours.debut.to_date == Date.today && cours_progress_bar_pct > 0 && cours_progress_bar_pct < 100) %> 
         <br>
         <div class="progress" style="width: 100%">
           <div class="progress-bar progress-bar-striped active" 

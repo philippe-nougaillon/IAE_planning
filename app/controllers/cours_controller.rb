@@ -22,7 +22,7 @@ class CoursController < ApplicationController
     session[:filter] ||= 'upcoming'
     session[:paginate] ||= 'pages'
 
-    if params[:commit] && params[:commit][0..2] == 'Raz'
+    if params[:commit] && params[:commit][0..2] == 'RàZ'
       session[:formation] = params[:formation] = nil
       session[:intervenant] = params[:intervenant] = nil
       session[:start_date] = params[:start_date] = Date.today.to_s

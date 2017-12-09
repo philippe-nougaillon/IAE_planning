@@ -1,3 +1,9 @@
+<script type="text/javascript">    
+    setInterval(function() {
+        window.location.reload();
+    }, <%= @cours.any? ? 1*60000 : 60*60000 %>); 
+</script>
+
 <div class="container-fluid">
 
   <%= form_tag request.path, method: :get do %>
@@ -23,7 +29,7 @@
             <%= select_tag :intervenant, grouped_options_for_select(Intervenant.for_select, params[:intervenant]), class:"form-control", include_blank:true, onchange:'this.form.submit()' %>
             <span class="input-group-btn">
               <%= submit_tag 'Filtrer', class:"btn btn-success" %>
-              <%= submit_tag 'Raz', class:"btn btn-default" %>
+              <%= submit_tag 'RàZ', class:"btn btn-default" %>
 
             </span>
           </div>

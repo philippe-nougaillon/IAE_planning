@@ -140,7 +140,7 @@ class Cour < ActiveRecord::Base
     (user.id == self.audits.last.user_id) or (user.admin?)
   end  
 
-  def self.generate_csv(cours)
+  def self.generate_csv(cours, binome)
     require 'csv'
     
     CSV.generate(col_sep:';', encoding:'UTF-8') do | csv |
@@ -155,7 +155,7 @@ class Cour < ActiveRecord::Base
           csv << fields_to_export
           
           # exporter le binome sauf si l'utilisateur ne veut que les cours d'un intervenant 
-          if c.intervenant_binome and !params[:intervenant_id]
+          if c.intervenant_binome and binome
             fields_to_export[7] = c.intervenant_binome_id
             fields_to_export[8] = c.intervenant_binome.nom_prenom 
             csv << fields_to_export

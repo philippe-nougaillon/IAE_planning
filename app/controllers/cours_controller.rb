@@ -149,7 +149,7 @@ class CoursController < ApplicationController
       format.html 
     
       format.csv do
-        @csv_string = Cour.generate_csv(@cours)
+        @csv_string = Cour.generate_csv(@cours, !params[:intervenant])
         filename = "Export_Cours_#{Date.today.to_s}"
         response.headers['Content-Disposition'] = 'attachment; filename="' + filename + '.csv"'
         render "cours/action_do.csv.erb"
@@ -168,8 +168,6 @@ class CoursController < ApplicationController
   def index_slide
     # page courante
     session[:page_slide] ||= 0
-    #params[:formation_id] ||= session[:formation_id]
-    #params[:intervenant_id] ||= session[:intervenant_id]
 
     @cours = Cour.where(etat: Cour.etats.values_at(:planifié, :confirmé))
     
@@ -256,7 +254,7 @@ class CoursController < ApplicationController
         end
       end
     when "Exporter vers Excel"
-      @csv_string = Cour.generate_csv(@cours)
+      @csv_string = Cour.generate_csv(@cours, true)
       request.format = 'csv'
     when "Exporter vers iCalendar"
       @calendar = Cour.generate_ical(@cours)

@@ -407,28 +407,7 @@ class ToolsController < ApplicationController
       @cours = @cours.where(etat:params[:etat])
     end
 
-    require 'csv'
-
-  	@csv_string = CSV.generate(col_sep:';', encoding:'UTF-8') do | csv |
-      csv << ['id','Date début', 'Heure début', 'Date fin', 'Heure fin', 'Formation_id','Formation','Intervenant_id','Intervenant','UE','Nom du cours','Etat','Durée','Salle','Forfait_HETD','Taux_TD','Code_Analytique','Cours créé le', 'Cours modifié le']
-      
-      @cours.each do |c|
-        fields_to_export = [c.id, c.debut.to_date.to_s, c.debut.to_s(:time), c.fin.to_date.to_s, c.fin.to_s(:time), 
-          c.formation_id, c.formation.nom_promo, c.intervenant_id, c.intervenant.nom_prenom, c.ue, c.nom, c.etat, 
-          number_with_delimiter(c.duree, separator: ","), (c.salle ? c.salle.nom : ""), c.formation.Forfait_HETD, c.formation.Taux_TD, 
-          c.formation.Code_Analytique, c.created_at, c.updated_at]
-        
-        csv << fields_to_export
-
-        # exporter le binome sauf si l'utilisateur ne veut que les cours d'un intervenant 
-        if c.intervenant_binome and !params[:intervenant_id]
-          fields_to_export[7] = c.intervenant_binome_id
-          fields_to_export[8] = c.intervenant_binome.nom_prenom 
-          csv << fields_to_export
-        end  
-      end
-    end
-    
+    @csv_string = Cour.generate_csv(@cours, !params[:intervenant_id])  
     filename = "Export_Cours_#{Date.today.to_s}"
     response.headers['Content-Disposition'] = 'attachment; filename="' + filename + '.csv"'
     render "export_do.csv.erb"

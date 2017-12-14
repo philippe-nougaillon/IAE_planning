@@ -26,7 +26,10 @@
     <% bloc = 'A' %> 
     <% Salle.all.each do |salle| %>
       <% @salle = salle %>
-      <% if bloc != salle.nom[0] %><hr><% bloc = salle.nom[0] %><% end %>
+      <% if bloc != salle.nom[0] %>
+        <br><br>
+        <% bloc = salle.nom[0] %>
+      <% end %>
 
       <%= calendar partial: 'simple_calendar/week_rooms_calendar', 
                     events: @cours.where(salle_id:salle.id), salle_id:salle.id, number_of_days: 6 do |date, meetings| %>

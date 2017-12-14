@@ -1,8 +1,6 @@
 # ENCODING: UTF-8
 
 class CoursController < ApplicationController
-  include ActionView::Helpers::NumberHelper
-  
   before_action :set_cour, only: [:show, :edit, :update, :destroy]
   
   layout :define_layout
@@ -151,46 +149,14 @@ class CoursController < ApplicationController
       format.html 
     
       format.csv do
-        require 'csv'
-        @csv_string = CSV.generate(col_sep:';', encoding:'UTF-8') do | csv |
-            csv << ['id','Date début', 'Heure début', 'Date fin','Heure fin', 'Formation_id','Formation','Intervenant_id','Intervenant','UE','Nom du cours','Etat','Durée','Salle','Forfait_HETD','Taux_TD','Code_Analytique', 'Cours créé le', 'Cours modifié le']
-        
-            @cours.each do |c|
-              fields_to_export = [c.id, c.debut.to_date.to_s, c.debut.to_s(:time), c.fin.to_date.to_s, c.fin.to_s(:time), 
-                c.formation_id, c.formation.nom_promo, c.intervenant_id, c.intervenant.nom_prenom, c.ue, c.nom, c.etat, 
-                number_with_delimiter(c.duree, separator: ","), (c.salle ? c.salle.nom : ""), c.formation.Forfait_HETD, c.formation.Taux_TD, 
-                c.formation.Code_Analytique, c.created_at, c.updated_at]
-              
-              csv << fields_to_export
-              
-              # exporter le binome sauf si l'utilisateur ne veut que les cours d'un intervenant 
-              if c.intervenant_binome and !params[:intervenant_id]
-                fields_to_export[7] = c.intervenant_binome_id
-                fields_to_export[8] = c.intervenant_binome.nom_prenom 
-                csv << fields_to_export
-              end  
-            end
-        end
+        @csv_string = Cour.generate_csv(@cours)
         filename = "Export_Cours_#{Date.today.to_s}"
         response.headers['Content-Disposition'] = 'attachment; filename="' + filename + '.csv"'
         render "cours/action_do.csv.erb"
       end
 
       format.ics do
-        require 'icalendar'
-        
-        @calendar = Icalendar::Calendar.new
-        @cours.each do |cours|
-          event = Icalendar::Event.new
-          event.dtstart = cours.debut.strftime("%Y%m%dT%H%M%S")
-          event.dtend = cours.fin.strftime("%Y%m%dT%H%M%S")
-          event.summary = cours.formation.nom
-          event.description = cours.nom
-          event.location = "BioPark #{cours.salle.nom if cours.salle}"
-          @calendar.add_event(event)
-        end  
-        @calendar.publish
-        
+        @calendar = Cour.generate_ical(@cours)
         filename = "Export_iCalendar_#{Date.today.to_s}"
         response.headers['Content-Disposition'] = 'attachment; filename="' + filename + '.ics"'
         headers['Content-Type'] = "text/calendar; charset=UTF-8"
@@ -220,22 +186,6 @@ class CoursController < ApplicationController
     limite_fin = (@planning_date.beginning_of_day) + 1.day  
     @cours = @cours.where("(debut between ? and ?) and fin >= ?", limite_debut, limite_fin, @planning_date).order(:debut)
 
-    #unless params[:intervenant_id].blank?
-    #  @cours = @cours.where(intervenant_id:params[:intervenant_id])
-    #  @intervenants = Intervenant.where(id:params[:intervenant_id])
-    #else
-    #  unless request.variant.include?(:desktop)
-    #    @intervenants = @cours.collect{|c| c.intervenant}.uniq
-    #  end
-    #end
-
-    #unless params[:formation_id].blank? 
-    #  @cours = @cours.where(formation_id:params[:formation_id]) 
-    #  @formations = Formation.where(id:params[:formation_id]) 
-    #else 
-    #  @formations = @cours.collect{|c| c.formation}.uniq 
-    #end 
-
     if @cours.any?
       @cours = @cours.includes(:formation).order("formations.nom")
 
@@ -261,15 +211,12 @@ class CoursController < ApplicationController
       json = JSON.parse(response)
       @image = json["images"][0]["url"]
     end
-
-    #session[:formation_id] = params[:formation_id]
-    #session[:intervenant_id] = params[:intervenant_id]
   end
 
   def action
     unless params[:cours_id].blank? or params[:action_name].blank?
       @action_ids = []
-      params[:cours_id].each do |id, state|
+      params[:cours_id].keys.each do |id|
         @action_ids << id
       end
     else
@@ -279,91 +226,40 @@ class CoursController < ApplicationController
 
   def action_do
     action_name = params[:action_name]
-    ids = params[:cours_id]
+    ids = params[:cours_id].keys
+    @cours = Cour.where(id:ids)
 
-    if action_name == 'Changer de salle'
-      ids.each do |id, state|
-        @cours = Cour.find(id)
-        unless params[:salle_id].blank?
-          @cours.salle = Salle.find(params[:salle_id])
-        else
-          @cours.salle = nil
-        end
-        unless @cours.save
-          flash[:error] = @cours.errors.messages
-        end
+    case action_name 
+    when 'Changer de salle'
+      salle = !params[:salle_id].blank? ? Salle.find(params[:salle_id]) : nil
+      @cours.each do |c|
+        c.salle = salle
+        flash[:error] = c.errors.messages unless c.save
       end
-
-    elsif action_name == "Changer d'état"
-      ids.each do |id, state|
-        @cours = Cour.find(id)
-        @cours.etat = params[:etat].to_i
-        
+    when "Changer d'état"
+      @cours.each do |c|
+        c.etat = params[:etat].to_i
         # envoyer de mail par défaut (after_validation:true) sauf si envoyer email pas coché
-        @cours.save(validate:params[:email].present?)
+        c.save(validate:params[:email].present?)
       end
-
-    elsif action_name == "Changer d'intervenant"
-      ids.each do |id, state|
-        @cours = Cour.find(id)
-        @cours.intervenant_id = params[:intervenant_id].to_i
-        @cours.save
+    when "Changer d'intervenant"
+      @cours.each do |c|
+        c.intervenant_id = params[:intervenant_id].to_i
+        c.save
       end
-
-    elsif action_name == "Supprimer" and !params[:delete].blank?      
-      # supprimer ce cours que si c'est son créateur qui le demande !
-      ids.each do |id, state|
-        cours = Cour.find(id)
-        if (current_user.id == cours.audits.last.user_id) or (current_user.admin?)
-          cours.destroy
-        else 
-          flash[:error] = "Vous ne pouvez pas supprimer ce cours (##{cours.id}) ! Opération annulée"
-          next
+    when "Supprimer" 
+      if !params[:delete].blank?      
+        @cours.each do |c|
+          c.destroy if c.can_be_destroy_by(current_user) # supprimer ce cours que si c'est son créateur qui le demande ou un admin !
+          #flash[:error] = "Vous ne pouvez pas supprimer ce cours (##{c.id}) ! Opération annulée"
+          #next
         end
       end
-
-    elsif action_name == "Exporter vers Excel"
-      require 'csv'
-
-      @csv_string = CSV.generate(col_sep:';', encoding:'UTF-8') do | csv |
-          csv << ['id','date debut', 'heure debut', 'date fin','heure fin', 'formation_id','formation','intervenant_id','intervenant','nom du cours', 'etat','duree', 'Forfait_HETD', 'Taux_TD', 'Code_Analytique', 'cours cree le', 'cours modifie le']
-      
-          ids.each do |id, state|
-            c = Cour.find(id)
-            fields_to_export = [c.id, c.debut.to_date.to_s, c.debut.to_s(:time), c.fin.to_date.to_s, c.fin.to_s(:time), 
-              c.formation_id, c.formation.nom_promo, c.intervenant_id, c.intervenant.nom_prenom, c.nom, c.etat, 
-              number_with_delimiter(c.duree, separator: ","), c.formation.Forfait_HETD, c.formation.Taux_TD, 
-              c.formation.Code_Analytique, c.created_at, c.updated_at]
-            
-            csv << fields_to_export
-            
-            # exporter le binome sauf si l'utilisateur ne veut que les cours d'un intervenant 
-            if c.intervenant_binome and !params[:intervenant_id]
-              fields_to_export[7] = c.intervenant_binome_id
-              fields_to_export[8] = c.intervenant_binome.nom_prenom 
-              csv << fields_to_export
-            end  
-          end
-      end
+    when "Exporter vers Excel"
+      @csv_string = Cour.generate_csv(@cours)
       request.format = 'csv'
-
-    elsif action_name == "Exporter vers iCalendar"
-      require 'icalendar'
-
-      @calendar = Icalendar::Calendar.new
-      ids.each do |id, state|
-        cours = Cour.find(id)
-      
-        event = Icalendar::Event.new
-        event.dtstart = cours.debut.strftime("%Y%m%dT%H%M%S")
-        event.dtend = cours.fin.strftime("%Y%m%dT%H%M%S")
-        event.summary = cours.formation.nom
-        event.description = cours.nom
-        event.location = "BioPark #{cours.salle.nom if cours.salle}"
-        @calendar.add_event(event)
-      end  
-      @calendar.publish
-
+    when "Exporter vers iCalendar"
+      @calendar = Cour.generate_ical(@cours)
       request.format = 'ics'
     end 
 

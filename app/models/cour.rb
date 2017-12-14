@@ -136,6 +136,49 @@ class Cour < ActiveRecord::Base
     return range[0..-2] # enlève le dernier créneau horaire
   end
 
+  def can_be_destroy_by(user)
+    (user.id == self.audits.last.user_id) or (user.admin?)
+  end  
+
+  def self.generate_csv(cours)
+    require 'csv'
+    
+    CSV.generate(col_sep:';', encoding:'UTF-8') do | csv |
+        csv << ['id','Date début', 'Heure début', 'Date fin','Heure fin', 'Formation_id','Formation','Intervenant_id','Intervenant','UE','Nom du cours','Etat','Durée','Salle','Forfait_HETD','Taux_TD','Code_Analytique', 'Cours créé le', 'Cours modifié le']
+    
+        cours.each do |c|
+          fields_to_export = [c.id, c.debut.to_date.to_s, c.debut.to_s(:time), c.fin.to_date.to_s, c.fin.to_s(:time), 
+            c.formation_id, c.formation.nom_promo, c.intervenant_id, c.intervenant.nom_prenom, c.ue, c.nom, c.etat, 
+            c.duree, (c.salle ? c.salle.nom : ""), c.formation.Forfait_HETD, c.formation.Taux_TD, 
+            c.formation.Code_Analytique, c.created_at, c.updated_at]
+          
+          csv << fields_to_export
+          
+          # exporter le binome sauf si l'utilisateur ne veut que les cours d'un intervenant 
+          if c.intervenant_binome and !params[:intervenant_id]
+            fields_to_export[7] = c.intervenant_binome_id
+            fields_to_export[8] = c.intervenant_binome.nom_prenom 
+            csv << fields_to_export
+          end  
+        end
+    end
+  end
+
+  def self.generate_ical(cours)
+    require 'icalendar'
+    
+    calendar = Icalendar::Calendar.new
+    cours.each do | c |
+      event = Icalendar::Event.new
+      event.dtstart = c.debut.strftime("%Y%m%dT%H%M%S")
+      event.dtend = c.fin.strftime("%Y%m%dT%H%M%S")
+      event.summary = c.formation.nom
+      event.description = c.nom
+      event.location = "BioPark #{c.salle.nom if c.salle}"
+      calendar.add_event(event)
+    end  
+     return calendar
+  end
 
   private
     def update_date_fin

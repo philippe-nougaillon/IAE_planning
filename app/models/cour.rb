@@ -43,6 +43,19 @@ class Cour < ActiveRecord::Base
     ['#D4D8D1','#A8A8A1','#AA9A66','#B74934','#577492','#67655D','#332C2F','#432C2F','#732C2F','#932C2F']
   end
 
+  def self.cumul_heures(start_date)
+    nombre_heures_cours_jour = nombre_heures_cours_soir = 0
+    Cour.where(etat: Cour.etats.values_at(:confirmé, :réalisé)).where("Date(debut) = ? ", start_date).each do |c|
+      # si le cours commence avant 18h
+      if c.debut.hour < 18
+        nombre_heures_cours_jour += c.duree.to_f
+      else
+        nombre_heures_cours_soir += c.duree.to_f
+      end
+    end
+    return [nombre_heures_cours_jour, nombre_heures_cours_soir]   
+  end
+
   # Simple_calendar attributes
   def start_time
     self.debut.to_datetime 
@@ -153,7 +166,7 @@ class Cour < ActiveRecord::Base
 
         # envoyer à tous les étudiants 
         self.formation.etudiants.each do | etudiant |
-          UserMailer.cours_changed(self.id, etudiant.email, self.etat).deliver_now
+          UserMailer.cours_changed(self.id, etudiant.email, self.etat).deliver_later
         end
       end
 

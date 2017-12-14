@@ -3,11 +3,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
   
-  # # check if logged and admin  
-  # before_filter do 
-  #   redirect_to new_user_session_path unless current_user && current_user.admin?
-  # end
-
   # GET /users
   # GET /users.json
   def index

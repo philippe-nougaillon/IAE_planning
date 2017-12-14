@@ -95,7 +95,4 @@ Rails.application.configure do
     enable_starttls_auto: true  }
   config.action_mailer.asset_host = "http://planning.iae-paris.com"
 
-  # Don't care if the mailer can't send. => false
-  config.action_mailer.raise_delivery_errors = true
-
 end

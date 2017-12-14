@@ -23,6 +23,8 @@ Rails.application.routes.draw do
   post 'tools/import_etudiants_do'
   get 'tools/export_etudiants'
   post 'tools/export_etudiants_do'
+  get 'tools/taux_occupation'
+  post 'tools/taux_occupation_do'
   
   get 'salles/occupation'
   get 'salles/occupation', as: :occupation_des_salles

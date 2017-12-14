@@ -542,5 +542,56 @@ class ToolsController < ApplicationController
 
     @audits = @audits.paginate(page:params[:page], per_page:10)
   end
-  
+
+  def taux_occupation
+  end
+
+  def taux_occupation_do
+    unless params[:start_date].blank? and params[:end_date].blank?
+      @start_date = params[:start_date]
+      @end_date = params[:end_date]
+    else
+      flash[:alert] = "Il manque les dates..."
+      redirect_to tools_taux_occupation_path
+      return
+    end
+
+    # Calcul du taux d'occupation
+    #
+
+    # salles concernées
+    salles_dispo = Salle.salles_de_cours.count
+    # nombre d'heures salles
+    heures_dispo_salles = [salles_dispo * 8, salles_dispo * 4] 
+
+    nbr_jours = total_jour = total_soir = 0
+        
+    # capture output
+    @stream = capture_stdout do
+      puts "Date;Taux journée(%);Taux soirée(%)"
+      # pour chaque jour entre la date de début et la date de fin
+      (@start_date.to_date..@end_date.to_date).each do |d|
+        # on ne compte pas le dimanche
+        if d.to_date.wday > 0 && !Fermeture.find_by(date:d.to_date)
+          # cumul les heures de cours du jour et du soir
+          nombre_heures_cours = [Cour.cumul_heures(d).first, Cour.cumul_heures(d).last]
+
+          # taux d'occupation  
+          taux_occupation = [(nombre_heures_cours.first * 100 / heures_dispo_salles.first), (nombre_heures_cours.last * 100 / heures_dispo_salles.last)]
+          
+          # cumul pour faire la moyenne
+          total_jour += taux_occupation.first
+          total_soir += taux_occupation.last
+          nbr_jours += 1
+
+          puts "#{l(d.to_date)}; #{taux_occupation.first.to_i}%; #{taux_occupation.last.to_i}%"
+        end
+      end   
+      puts  
+      puts "Nombre de jours: #{nbr_jours}"  
+      puts "Moyenne journée: #{(total_jour / nbr_jours).to_i}%"
+      puts "Moyenne soirée: #{(total_soir / nbr_jours).to_i}%"
+  end 
+  end
+
 end

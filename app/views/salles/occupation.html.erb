@@ -116,14 +116,14 @@
     <div class="row">
       <div class="col-sm-6">
         <h4>
-          Heures de cours planifiées jour: <%= @nombre_heures_cours_jour %>h <br>
-          Heures de salles disponibles jour: <%= @heures_dispo_salles_jour %>h
-           (<%= @salles_dispo.count %> salles * 8h)<br>
+          Heures de cours planifiées jour: <%= @nombre_heures_cours.first %>h <br>
+          Heures de salles disponibles jour: <%= @heures_dispo_salles.first %>h
+           (<%= @salles_dispo %> salles * 8h)<br>
         </h4>
       </div>
       <div class="col-sm-6">
         <h3>
-          Taux d'occupation jour: <%= @taux_occupation_jour.to_i %>%
+          Taux d'occupation jour: <%= @taux_occupation.first.to_i %>%
         </h3>
       </div>
     </h4>
@@ -132,14 +132,14 @@
   <div class="row">
     <div class="col-sm-6">
       <h4>
-          Heures de cours planifiées soir: <%= @nombre_heures_cours_soir %>h <br>
-          Heures de salles disponibles soir: <%= @heures_dispo_salles_soir %>h
-           (<%= @salles_dispo.count %> salles * 5h)<br>
+          Heures de cours planifiées soir: <%= @nombre_heures_cours.last %>h <br>
+          Heures de salles disponibles soir: <%= @heures_dispo_salles.last %>h
+           (<%= @salles_dispo %> salles * 5h)<br>
         </h4>
       </div>
       <div class="col-sm-6">
         <h3>
-          Taux d'occupation soir: <%= @taux_occupation_soir.to_i %>%
+          Taux d'occupation soir: <%= @taux_occupation.last.to_i %>%
         </h3>
       </div>
     </h4>

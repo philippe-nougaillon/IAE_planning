@@ -1,3 +1,7 @@
+<script>
+  $(document).ready(function() { $(".select2").select2({theme: "bootstrap"}); });
+</script>
+
 <div class="page-header">
   <%= link_to new_etudiant_path, class: 'btn btn-primary' do %>
     <span class="glyphicon glyphicon-plus"></span>
@@ -23,7 +27,7 @@
             <div class="input-group">
               <%= select_tag :formation_id, 
                     options_from_collection_for_select(Formation.all, :id, :nom, params[:formation_id]), 
-                      class:"form-control", include_blank:true, onchange:'this.form.submit()' %>
+                      class:"form-control select2", include_blank:true, onchange:'this.form.submit()' %>
                 <span class="input-group-btn">
                 <%= submit_tag 'Filtrer', class:"btn btn-success" %>
               </span>

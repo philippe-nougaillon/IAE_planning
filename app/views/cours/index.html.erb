@@ -1,3 +1,7 @@
+<script>
+  $(document).ready(function() { $(".select2").select2({theme: "bootstrap"}); });
+</script>
+
 <div class="page-header">
   <% if user_signed_in? %>
     <%= link_to new_cour_path(formation:session[:formation], debut:session[:start_date]), class: 'btn btn-primary' do %>
@@ -17,13 +21,13 @@
         <div class="row">
           <div class="col-sm-5">
               <%= label_tag "Formation" %>   
-              <%= select_tag :formation, grouped_options_for_select(Formation.for_select, params[:formation]), class:"form-control", include_blank:true, onchange:'this.form.submit()' %>
+              <%= select_tag :formation, grouped_options_for_select(Formation.for_select, params[:formation]), class:"form-control select2", include_blank:true, onchange:'this.form.submit()' %>
           </div>
 
           <div class="col-sm-6">
               <%= label_tag "Intervenant" %>    
               <div class="input-group">
-                <%= select_tag :intervenant, grouped_options_for_select(Intervenant.for_select, params[:intervenant]), class:"form-control", include_blank:true, onchange:'this.form.submit()' %>
+                <%= select_tag :intervenant, grouped_options_for_select(Intervenant.for_select, params[:intervenant]), class:"form-control select2", include_blank:true, onchange:'this.form.submit()' %>
                 <span class="input-group-btn">
                   <%= submit_tag 'Filtrer', class:"btn btn-success" %>
                   <%= submit_tag 'RàZ filtres', class:"btn btn-default" %>

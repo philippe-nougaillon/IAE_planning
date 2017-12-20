@@ -12,6 +12,10 @@ class Salle < ActiveRecord::Base
 		Salle.where("LENGTH(nom) = 2").where.not(nom:%w{A8 A20 D7 D8 D9})
 	end
 
+	def self.salles_de_cours_du_samedi
+		self.salles_de_cours.where("nom like 'D%'")
+	end
+
 	def nom_places
 		self.places.blank? ? self.nom : "#{self.nom} (#{self.places}P)" 
 	end

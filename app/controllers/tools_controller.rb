@@ -540,6 +540,7 @@ class ToolsController < ApplicationController
 
     # salles concernées
     salles_dispo = Salle.salles_de_cours.count
+    
     # nombre d'heures salles
     heures_dispo_salles = [salles_dispo * 8, salles_dispo * 4] 
 
@@ -550,8 +551,8 @@ class ToolsController < ApplicationController
       puts "Date;Taux journée(%);Taux soirée(%)"
       # pour chaque jour entre la date de début et la date de fin
       (@start_date.to_date..@end_date.to_date).each do |d|
-        # on ne compte pas le dimanche
-        if d.to_date.wday > 0 && !Fermeture.find_by(date:d.to_date)
+        # on ne compte pas le samedi et le dimanche ainsi que les jours de fermetures
+        if (d.to_date.wday > 0 && d.to_date.wday <6) && !Fermeture.find_by(date:d.to_date)
           # cumul les heures de cours du jour et du soir
           nombre_heures_cours = [Cour.cumul_heures(d).first, Cour.cumul_heures(d).last]
 
@@ -566,8 +567,8 @@ class ToolsController < ApplicationController
           puts "#{l(d.to_date)}; #{taux_occupation.first.to_i}%; #{taux_occupation.last.to_i}%"
         end
       end   
-      puts  
       puts "Nombre de jours: #{nbr_jours}"  
+      puts  
       puts "Moyenne journée: #{(total_jour / nbr_jours).to_i}%"
       puts "Moyenne soirée: #{(total_soir / nbr_jours).to_i}%"
   end 

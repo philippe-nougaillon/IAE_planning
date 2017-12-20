@@ -52,6 +52,7 @@ gem 'scout_apm'
 gem 'dotenv-rails', groups: [:development, :test]
 gem 'serviceworker-rails'
 gem 'sucker_punch'
+gem "select2-rails"
 
 #gem 'capture-output'
 

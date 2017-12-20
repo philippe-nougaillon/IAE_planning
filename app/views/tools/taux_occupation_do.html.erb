@@ -6,4 +6,29 @@
   </h1>
 </div>
 
-<%= simple_format(@stream) %>
+<table class="table table-striped table-hover">
+  <thead>
+    <th>Date</th>
+    <th>Taux journée</th>
+    <th>Taux soirée</th>
+  </thead>
+  <tfoot>
+    <th /><th /><th />
+  </tfoot>
+  <tbody>
+    <% @results.each do |r| %>
+      <tr>
+        <td><%= r[0] %></td>
+        <td><%= r[1] %>%</td>
+        <td><%= r[2] %>%</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<h4>
+  Nombre de jours: <%= @nbr_jours %> |
+  Moyenne journée: <%= (@total_jour / @nbr_jours).to_i %>% |
+  Moyenne soirée:  <%= (@total_soir / @nbr_jours).to_i %>%
+</h4>  
+<br>

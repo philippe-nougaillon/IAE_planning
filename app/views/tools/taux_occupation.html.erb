@@ -7,7 +7,8 @@
 <div>
     <h3>Calcul le taux d'occupation des salles de cours sur une période</h3>
     <p>
-        Salles prises en compte: <%= Salle.salles_de_cours.pluck(:nom).join(', ') %><br>
+        Salles prises en compte pour les jours de la semaine: <%= Salle.salles_de_cours.pluck(:nom).join(', ') %><br>
+        Salles prises en compte pour les jours de le samedi: <%= Salle.salles_de_cours_du_samedi.pluck(:nom).join(', ') %><br>
         Nombre d'heures de disponibilité par salle: 8h en journée / 5h en soirée<br>
         Les dimanches et les jours de fermetures n'entrent pas dans le calcul de la moyenne<br>
     </p>

@@ -44,13 +44,20 @@ class SallesController < ApplicationController
       @salles_dispo = Salle.salles_de_cours.count
 
       # cumul les heures de cours du jour et du soir
-      @nombre_heures_cours = [Cour.cumul_heures(@date).first, Cour.cumul_heures(@date).last]
-               
+      @nombre_heures_cours = [Cour.cumul_heures(@date).first, 
+                              Cour.cumul_heures(@date).last]
+
+      # amplitude 
+      @nb_heures_journée = Salle.nb_heures_journée
+      @nb_heures_soirée = Salle.nb_heures_soirée
+
       # nombre d'heures salles
-      @heures_dispo_salles = [@salles_dispo * 8, @salles_dispo * 4] 
+      @heures_dispo_salles = [@salles_dispo * @nb_heures_journée, 
+                              @salles_dispo * @nb_heures_soirée] 
 
       # taux d'occupation  
-      @taux_occupation = [(@nombre_heures_cours.first * 100 / @heures_dispo_salles.first), (@nombre_heures_cours.last * 100 / @heures_dispo_salles.last)]
+      @taux_occupation = [(@nombre_heures_cours.first * 100 / @heures_dispo_salles.first),
+                           (@nombre_heures_cours.last * 100 / @heures_dispo_salles.last)]
     end
 
     session[:start_date] = params[:start_date]

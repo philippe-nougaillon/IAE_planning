@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class Salle < ActiveRecord::Base
 	
 	audited
@@ -18,6 +20,14 @@ class Salle < ActiveRecord::Base
 
 	def nom_places
 		self.places.blank? ? self.nom : "#{self.nom} (#{self.places}P)" 
+	end
+
+	def self.nb_heures_journée
+		return 6
+	end
+
+	def self.nb_heures_soirée
+		return 3
 	end
 
 end

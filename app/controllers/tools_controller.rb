@@ -542,11 +542,15 @@ class ToolsController < ApplicationController
     salles_dispo = Salle.salles_de_cours.count
     salles_dispo_samedi = Salle.salles_de_cours_du_samedi.count
     
+    # amplitude 
+    @nb_heures_journée = Salle.nb_heures_journée
+    @nb_heures_soirée = Salle.nb_heures_soirée
+
     # nombre d'heures salles semaine
-    heures_dispo_salles = [salles_dispo * 8, salles_dispo * 4] 
+    heures_dispo_salles = [salles_dispo * @nb_heures_journée, salles_dispo * @nb_heures_soirée] 
 
     # nombre d'heures salles samedi
-    heures_dispo_salles_samedi = [salles_dispo_samedi * 8, salles_dispo_samedi * 4] 
+    heures_dispo_salles_samedi = [salles_dispo_samedi * @nb_heures_journée, salles_dispo_samedi * @nb_heures_soirée] 
 
     @nbr_jours = @total_jour = @total_soir = 0
 
@@ -561,9 +565,11 @@ class ToolsController < ApplicationController
 
           # calcul du taux d'occupation  
           if d.to_date.wday == 6 # le samedi, on ne comtpe que le batiment D
-            taux_occupation = [(nombre_heures_cours.first * 100 / heures_dispo_salles_samedi.first), (nombre_heures_cours.last * 100 / heures_dispo_salles_samedi.last)]
+            taux_occupation = [(nombre_heures_cours.first * 100 / heures_dispo_salles_samedi.first),
+                               (nombre_heures_cours.last * 100 / heures_dispo_salles_samedi.last)]
           else  
-            taux_occupation = [(nombre_heures_cours.first * 100 / heures_dispo_salles.first), (nombre_heures_cours.last * 100 / heures_dispo_salles.last)]
+            taux_occupation = [(nombre_heures_cours.first * 100 / heures_dispo_salles.first), 
+                              (nombre_heures_cours.last * 100 / heures_dispo_salles.last)]
           end  
             
           # cumul pour faire la moyenne

@@ -9,7 +9,7 @@
     <p>
         Salles prises en compte pour les jours de la semaine: <%= Salle.salles_de_cours.pluck(:nom).join(', ') %><br>
         Salles prises en compte pour les jours de le samedi: <%= Salle.salles_de_cours_du_samedi.pluck(:nom).join(', ') %><br>
-        Nombre d'heures de disponibilité par salle: 8h en journée / 5h en soirée<br>
+        Nombre d'heures de disponibilité par salle: <%= Salle.nb_heures_journée %>h en journée / <%= Salle.nb_heures_soirée %>h en soirée<br>
         Les dimanches et les jours de fermetures n'entrent pas dans le calcul de la moyenne<br>
     </p>
 </div>

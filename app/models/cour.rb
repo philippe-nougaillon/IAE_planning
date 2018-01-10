@@ -36,7 +36,7 @@ class Cour < ActiveRecord::Base
   end
 
   def self.etendue_horaire
-    [8,9,10,11,12,13,14,15,16,17,18,19,20,21,22]
+    [8,9,10,11,12,13,14,15,16,17,18,19,20,21]
   end
 
   def self.ue_styles
@@ -149,7 +149,8 @@ class Cour < ActiveRecord::Base
         cours.each do |c|
           fields_to_export = [c.id, c.debut.to_date.to_s, c.debut.to_s(:time), c.fin.to_date.to_s, c.fin.to_s(:time), 
             c.formation_id, c.formation.nom_promo, c.intervenant_id, c.intervenant.nom_prenom, c.ue, c.nom, c.etat, 
-            c.duree, (c.salle ? c.salle.nom : ""), c.formation.Forfait_HETD, c.formation.Taux_TD, 
+            c.duree.to_s.gsub(/\./, ','), (c.salle ? c.salle.nom : ""), 
+            c.formation.Forfait_HETD, c.formation.Taux_TD, 
             c.formation.Code_Analytique, c.created_at, c.updated_at]
           
           csv << fields_to_export

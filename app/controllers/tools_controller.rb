@@ -547,7 +547,7 @@ class ToolsController < ApplicationController
     @nb_heures_soirée = Salle.nb_heures_soirée
 
     # nombre d'heures salles semaine
-    heures_dispo_salles = [salles_dispo * @nb_heures_journée, salles_dispo * @nb_heures_soirée] 
+    heures_dispo_salles = [salles_dispo * @nb_heures_journée, salles_dispo_samedi * @nb_heures_soirée] 
 
     # nombre d'heures salles samedi
     heures_dispo_salles_samedi = [salles_dispo_samedi * @nb_heures_journée, salles_dispo_samedi * @nb_heures_soirée] 
@@ -567,14 +567,13 @@ class ToolsController < ApplicationController
           if d.to_date.wday == 6 # le samedi, on ne comtpe que le batiment D
             taux_occupation = [(nombre_heures_cours.first * 100 / heures_dispo_salles_samedi.first),
                                (nombre_heures_cours.last * 100 / heures_dispo_salles_samedi.last)]
+            @total_jour += taux_occupation.first
           else  
             taux_occupation = [(nombre_heures_cours.first * 100 / heures_dispo_salles.first), 
                               (nombre_heures_cours.last * 100 / heures_dispo_salles.last)]
+            @total_jour += taux_occupation.first
+            @total_soir += taux_occupation.last
           end  
-            
-          # cumul pour faire la moyenne
-          @total_jour += taux_occupation.first
-          @total_soir += taux_occupation.last
           @nbr_jours += 1
 
           @results << [l(d.to_date, format: :long), taux_occupation.first.to_i, taux_occupation.last.to_i]

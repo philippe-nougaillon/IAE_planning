@@ -42,6 +42,7 @@ class SallesController < ApplicationController
 
       # salles concernées
       @salles_dispo = Salle.salles_de_cours.count
+      @salles_dispo_samedi = Salle.salles_de_cours_du_samedi.count
 
       # cumul les heures de cours du jour et du soir
       @nombre_heures_cours = [Cour.cumul_heures(@date).first, 
@@ -53,7 +54,7 @@ class SallesController < ApplicationController
 
       # nombre d'heures salles
       @heures_dispo_salles = [@salles_dispo * @nb_heures_journée, 
-                              @salles_dispo * @nb_heures_soirée] 
+                              @salles_dispo_samedi * @nb_heures_soirée] 
 
       # taux d'occupation  
       @taux_occupation = [(@nombre_heures_cours.first * 100 / @heures_dispo_salles.first),

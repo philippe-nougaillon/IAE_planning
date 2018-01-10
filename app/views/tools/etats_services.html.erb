@@ -1,3 +1,7 @@
+<script>
+  $(document).ready(function() { $(".select2").select2({theme: "bootstrap"}); });
+</script>
+
 <div class="page-header">
   <h1>
   	<span class="glyphicon glyphicon-list-alt"></span>
@@ -17,7 +21,7 @@
         <div class="col-sm-4">
             <%= label_tag :intervenant_id, "Intervenant" %>
             <%= select_tag :intervenant_id,
-                options_from_collection_for_select(Intervenant.all, :id, :nom_prenom, Intervenant.all), include_blank:true, class:"form-control" %>
+                options_from_collection_for_select(Intervenant.all, :id, :nom_prenom, Intervenant.all), include_blank:true, class:"form-control select2" %>
             <br>
         </div>
 
@@ -35,10 +39,10 @@
 
     <div class="field">
         <b>Envoyer à l'intervenant ?</b><br>
-        <%= radio_button_tag :mailer, true, checked:true %>
+        <%= radio_button_tag :mailer, true %>
         <%= label :mailer, "Oui, envoyer par email", value:"true" %>
         <br>
-        <%= radio_button_tag :mailer, false %>
+        <%= radio_button_tag :mailer, false, checked:true %>
         <%= label :mailer, "Non", value:"false" %>
     </div>
     <br>

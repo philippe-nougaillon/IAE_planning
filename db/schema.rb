@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171116101322) do
+ActiveRecord::Schema.define(version: 20180117121907) do
 
   create_table "audits", force: :cascade do |t|
     t.integer  "auditable_id"
@@ -44,11 +44,12 @@ ActiveRecord::Schema.define(version: 20171116101322) do
     t.integer  "salle_id"
     t.string   "ue"
     t.string   "nom"
-    t.datetime "created_at",                                                  null: false
-    t.datetime "updated_at",                                                  null: false
-    t.integer  "etat",                                          default: 0
-    t.decimal  "duree",                 precision: 4, scale: 2, default: 0.0
+    t.datetime "created_at",                                                    null: false
+    t.datetime "updated_at",                                                    null: false
+    t.integer  "etat",                                            default: 0
+    t.decimal  "duree",                   precision: 4, scale: 2, default: 0.0
     t.integer  "intervenant_binome_id"
+    t.boolean  "hors_service_statutaire"
   end
 
   add_index "cours", ["debut"], name: "index_cours_on_debut"
@@ -97,26 +98,26 @@ ActiveRecord::Schema.define(version: 20171116101322) do
     t.string   "diplome"
     t.string   "domaine"
     t.boolean  "apprentissage"
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
+    t.datetime "created_at",                                               null: false
+    t.datetime "updated_at",                                               null: false
     t.string   "memo"
-    t.integer  "nbr_etudiants",   default: 0
+    t.integer  "nbr_etudiants",                            default: 0
     t.integer  "nbr_heures"
     t.string   "abrg"
     t.integer  "user_id"
     t.string   "color"
     t.string   "Forfait_HETD"
-    t.string   "Taux_TD"
+    t.decimal  "Taux_TD",         precision: 10, scale: 2, default: 0.0
     t.string   "Code_Analytique"
-    t.boolean  "hors_catalogue",  default: false
+    t.boolean  "hors_catalogue",                           default: false
   end
 
   add_index "formations", ["user_id"], name: "index_formations_on_user_id"
 
   create_table "intervenants", force: :cascade do |t|
     t.string   "nom"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
     t.string   "prenom"
     t.string   "email"
     t.string   "linkedin_url"
@@ -133,6 +134,9 @@ ActiveRecord::Schema.define(version: 20171116101322) do
     t.string   "cp"
     t.string   "ville"
     t.boolean  "doublon"
+    t.integer  "nbr_heures_statutaire"
+    t.date     "date_naissance"
+    t.string   "memo"
   end
 
   create_table "salles", force: :cascade do |t|
@@ -154,48 +158,7 @@ ActiveRecord::Schema.define(version: 20171116101322) do
   add_index "unites", ["formation_id"], name: "index_unites_on_formation_id"
   add_index "unites", ["num"], name: "index_unites_on_num"
 
-  create_table "users", force: :cascade do |t|
-    ## Database authenticatable
-    t.string :email,              null: false, default: ""
-    t.string :encrypted_password, null: false, default: ""
-
-    t.string :nom
-    t.string :prénom
-    t.string :mobile
-    t.boolean :admin
-    t.integer :formation_id
-
-    ## Recoverable
-    t.string   :reset_password_token
-    t.datetime :reset_password_sent_at
-
-    ## Rememberable
-    t.datetime :remember_created_at
-
-    ## Trackable
-    t.integer  :sign_in_count, default: 0, null: false
-    t.datetime :current_sign_in_at
-    t.datetime :last_sign_in_at
-    t.string   :current_sign_in_ip
-    t.string   :last_sign_in_ip
-
-    ## Confirmable
-    # t.string   :confirmation_token
-    # t.datetime :confirmed_at
-    # t.datetime :confirmation_sent_at
-    # t.string   :unconfirmed_email # Only if using reconfirmable
-
-    ## Lockable
-    # t.integer  :failed_attempts, default: 0, null: false # Only if lock strategy is :failed_attempts
-    # t.string   :unlock_token # Only if unlock strategy is :email or :both
-    # t.datetime :locked_at
-
-
-    t.timestamps
-  end
-
-  add_index :users, :email,                unique: true
-  add_index :users, :reset_password_token, unique: true
-
+# Could not dump table "users" because of following NoMethodError
+#   undefined method `[]' for nil:NilClass
 
 end

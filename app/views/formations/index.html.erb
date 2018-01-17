@@ -14,21 +14,17 @@
       <div class="form-group">
         <div class="row">
           <div class="col-sm-3">
-            <%= label_tag :nom, "Nom/Abr." %>    
+            <%= label_tag :nom, "Nom/Abrg/Code" %>    
             <%= text_field_tag :nom, params[:nom], include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
           </div>
 
+        <!--
           <div class="col-sm-2">
             <%= label_tag :apprentissage, "Apprentissage ?" %>
             <br>    
             <%= check_box_tag :apprentissage, 1, params[:apprentissage], onchange:'this.form.submit()', class:"form-control" %>
           </div>
-
-          <div class="col-sm-2">
-            <%= label_tag :hors_catalogue, "Hors Catalogue ?" %>
-            <br>    
-            <%= check_box_tag :hors_catalogue, 1, params[:hors_catalogue], onchange:'this.form.submit()', class:"form-control" %>
-          </div>
+        -->
 
           <div class="col-sm-3">
             <%= label_tag "Diplôme" %>    
@@ -39,6 +35,17 @@
                 <%= submit_tag 'Filtrer', class:"btn btn-success" %>
               </span>
              </div> 
+          </div>
+
+          <div class="col-sm-2">
+            <%= label_tag :catalogue, "Formations catalogue ?" %>
+            <br>
+            <%= radio_button_tag :catalogue, "yes", (params[:catalogue]=='yes'), onchange:'this.form.submit()' %>
+            Oui 
+            <%= radio_button_tag :catalogue, "no", (params[:catalogue]=='no'), onchange:'this.form.submit()' %>
+            Non 
+            <%= radio_button_tag :catalogue, "all", (params[:catalogue]=='all'), onchange:'this.form.submit()' %>
+            Tout           
           </div>
 
           <div class="col-sm-2">
@@ -62,6 +69,7 @@
         <tr>
           <th>Nom de la formation</th>
           <th>Abr.</th>
+          <th>Code Analytique</th>
           <th>Cours à planifier</th>
           <th>Confirmés</th>
           <th>Réalisés</th>
@@ -85,6 +93,7 @@
               <span style="padding-left: 10px;"></span>
               <%= link_to formation.nom, formation %></td>
             <td><%= formation.abrg %></td>
+            <td><%= formation.Code_Analytique %></td>
             <td>
               <%= link_to_unless formation_cours_planifié_count.zero?, formation_cours_planifié_count, cours_path(ids:formation_cours.planifié.pluck(:id)) %>
             </td>

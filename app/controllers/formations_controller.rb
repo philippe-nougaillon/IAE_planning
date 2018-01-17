@@ -11,12 +11,13 @@ class FormationsController < ApplicationController
   # GET /formations
   # GET /formations.json
   def index
+    params[:catalogue] ||= 'yes'
     params[:paginate] ||= 'pages'
 
     @formations = Formation.all
 
     unless params[:nom].blank?
-      @formations = @formations.where("nom like ? OR abrg like ?", "%#{params[:nom]}%", "%#{params[:nom]}%")
+      @formations = @formations.where("nom like ? OR abrg like ? OR code_analytique like ?", "%#{params[:nom]}%", "%#{params[:nom]}%", "%#{params[:nom]}%")
     end
 
     unless params[:diplome].blank?
@@ -27,13 +28,18 @@ class FormationsController < ApplicationController
       @formations = @formations.where(apprentissage:true)
     end
 
-    unless params[:hors_catalogue].blank?
-      @formations = @formations.where(hors_catalogue:true)
-    end
-
     unless params[:promo].blank?
       @formations = @formations.where(promo:params[:promo])
     end
+
+    case params[:catalogue]
+    when 'yes'
+      @formations = @formations.where(hors_catalogue:false)
+    when 'no'
+      @formations = @formations.where(hors_catalogue:true)
+    when 'all'
+    end
+
     @formations = @formations.order(:nom, :promo)
     
     @all_formations = @formations
@@ -111,7 +117,7 @@ class FormationsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def formation_params
       params.require(:formation).permit(:nom, :promo, :diplome, :domaine, :apprentissage, :memo, :nbr_etudiants, :nbr_heures, 
-                                        :abrg, :user_id, :color, :Forfait_HETD, :Taux_TD, :Code_Analytique, :hors_catalogue,
+                                        :abrg, :user_id, :color, :Forfait_HETD, :Taux_TD, :Code_Analytique, :catalogue,
                                         unites_attributes: [:id, :num, :nom, :_destroy],
                                         etudiants_attributes: [:id, :nom, :prénom, :email, :mobile, :_destroy])
     end

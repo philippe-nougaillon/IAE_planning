@@ -468,7 +468,6 @@ class ToolsController < ApplicationController
   end
 
   def etats_services_do
-
     unless params[:intervenant_id].blank? 
       @intervenant = Intervenant.find(params[:intervenant_id])
       @cours = Cour.where(etat:Cour.etats[:réalisé]).order(:debut)
@@ -485,21 +484,32 @@ class ToolsController < ApplicationController
       @cours = @cours.where("debut between ? and ?", @start_date, @end_date)
     end
 
-    # capture output
-    @stream = capture_stdout do
-      # Affiche le récap des heures de cours réalisés
-      @cours.each do |c|
-          puts "#{l(c.debut, format: :short)} | #{c.duree.to_f}h | #{c.formation.nom}"
-      end
+    @cumul_hetd = 0
 
-      puts "\n Total: #{@cours.count} cours, soit #{@cours.sum(:duree)} heure.s réalisée.s"
+    # # capture output
+    # @stream = capture_stdout do
+    #   # Affiche le récap des heures de cours réalisés
 
-      # envoyer le récap par mail ?
-      if params[:mailer] == "true"
-        IntervenantMailer.etat_services(@intervenant.id, @cours.pluck(:id), @start_date, @end_date).deliver_later 
-        puts "\n\n Ce récapitulatif vient d'être envoyé à cette adresse: #{@intervenant.email}"
-      end
-    end  
+    #   cumul_hetd = 0
+    #   @cours.each do |c|
+    #     if !c.hors_service_statutaire
+    #       hetd = c.duree * c.formation.Taux_TD.to_f
+    #       cumul_hetd += hetd
+    #     end
+
+    #     puts "#{l(c.debut, format: :short)} | #{c.formation.nom} | #{c.formation.Code_Analytique} | #{c.duree.to_f}h | #{c.formation.Taux_TD} | #{hetd} | #{cumul_hetd}"
+    #   end
+
+    #   puts "\n Total: #{@cours.count} cours, soit #{@cours.sum(:duree)} heure.s réalisée.s"
+    #   puts "\n Nbre heures statutaires: #{@intervenant.nbr_heures_statutaire} | Dépassement: #{(@cours.sum(:duree) - @intervenant.nbr_heures_statutaire)}"
+    #   puts "\n\n"
+
+    #   # envoyer le récap par mail ?
+    #   if params[:mailer] == "true"
+    #     IntervenantMailer.etat_services(@intervenant.id, @cours.pluck(:id), @start_date, @end_date).deliver_later 
+    #     puts "\n\n Le récapitulatif vient d'être envoyé à cette adresse: #{@intervenant.email}"
+    #   end
+    # end  
   end
 
   def audits

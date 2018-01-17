@@ -60,7 +60,6 @@ class Cour < ActiveRecord::Base
   def start_time
     self.debut.to_datetime 
   end
-
   def end_time
     self.fin.to_datetime
   end
@@ -121,6 +120,10 @@ class Cour < ActiveRecord::Base
     self.nom_ou_ue
   end
 
+  def HETD
+    self.duree * self.formation.Taux_TD.to_f
+  end
+
   def progress_bar_pct(planning_date)
     # calcul le % de réalisation du cours
     ((planning_date.to_datetime.to_f - self.debut.to_f) / (self.fin.to_f - self.debut.to_f) * 100).to_i
@@ -144,14 +147,18 @@ class Cour < ActiveRecord::Base
     require 'csv'
     
     CSV.generate(col_sep:';', encoding:'UTF-8') do | csv |
-        csv << ['id','Date début', 'Heure début', 'Date fin','Heure fin', 'Formation_id','Formation','Intervenant_id','Intervenant','UE','Nom du cours','Etat','Durée','Salle','Forfait_HETD','Taux_TD','Code_Analytique', 'Cours créé le', 'Cours modifié le']
+        csv << ['id','Date début', 'Heure début', 'Date fin','Heure fin', 'Formation_id','Formation','Code_Analytique','Intervenant_id','Intervenant','UE','Nom du cours','Etat','Salle','Durée','Hors service statutaire(HSS)', 'Taux_TD','HETD', 'Cours créé le', 'Cours modifié le']
     
         cours.each do |c|
+          hetd = c.duree * c.formation.Taux_TD
           fields_to_export = [c.id, c.debut.to_date.to_s, c.debut.to_s(:time), c.fin.to_date.to_s, c.fin.to_s(:time), 
-            c.formation_id, c.formation.nom_promo, c.intervenant_id, c.intervenant.nom_prenom, c.ue, c.nom, c.etat, 
-            c.duree.to_s.gsub(/\./, ','), (c.salle ? c.salle.nom : ""), 
-            c.formation.Forfait_HETD, c.formation.Taux_TD, 
-            c.formation.Code_Analytique, c.created_at, c.updated_at]
+            c.formation_id, c.formation.nom_promo, c.formation.Code_Analytique, c.intervenant_id, c.intervenant.nom_prenom, c.ue, c.nom, c.etat, 
+            (c.salle ? c.salle.nom : ""), 
+            c.duree.to_s.gsub(/\./, ','), 
+            c.hors_service_statutaire,
+            c.formation.Taux_TD,
+            hetd.to_s.gsub(/\./, ','), 
+            c.created_at, c.updated_at]
           
           csv << fields_to_export
           

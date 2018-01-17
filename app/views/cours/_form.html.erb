@@ -21,7 +21,7 @@
 
   <%= hidden_field_tag :from, params[:from] %>
 
-  <div class="form-group">
+  <div class="form-group">      
     <%= f.label :debut, "Début", class:"control-label col-sm-2" %>
     <div class="col-sm-6">
       <%= f.datetime_select :debut, minute_step:15, start_hour: 8, end_hour: 22, class:"form-control" %>
@@ -35,6 +35,8 @@
               options_for_select(['0.5','1.0','1.5','2.0','2.5','3.0','3.5','4.0','4.5','5.0','5.5','6.0','6.5','7.0','7.5','8.0','8.5','9.0','9.5','10.0','10.5','11.0','11.5','12.0','12.5','13.0','13.5','14.0'], @cour.duree.to_s), 
               {include_blank:true}, class:"form-control") %>
     </div>
+    <%= f.check_box :hors_service_statutaire, title:"hors service statutaire ?" %>
+    HSS
   </div>
   
   <div class="form-group">
@@ -88,7 +90,7 @@
     </div>
   </div>
   <br>
-  
+
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
       <%= f.submit "Enregistrer", class: "btn btn-primary" %>

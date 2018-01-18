@@ -7,7 +7,6 @@ class Cour < ActiveRecord::Base
   belongs_to :formation
   belongs_to :intervenant
   belongs_to :intervenant_binome, class_name: :Intervenant, foreign_key: :intervenant_binome_id 
-
   belongs_to :salle
 
   validates :debut, :formation_id, :intervenant_id, :duree, presence: true
@@ -219,7 +218,7 @@ class Cour < ActiveRecord::Base
 
         # envoyer notification au chargé de formation
         if self.formation.user
-          UserMailer.cours_changed(self.id, self.formation.user.email, self.etat).deliver_later
+          UserMailer.cours_changed(self.id, self.formation.user.email, self.etat).deliver_now
         end
 
         # envoyer un mail à Pascal pour info
@@ -227,7 +226,7 @@ class Cour < ActiveRecord::Base
 
         # envoyer à tous les étudiants 
         self.formation.etudiants.each do | etudiant |
-          UserMailer.cours_changed(self.id, etudiant.email, self.etat).deliver_later
+          UserMailer.cours_changed(self.id, etudiant.email, self.etat).deliver_now
         end
       end
 

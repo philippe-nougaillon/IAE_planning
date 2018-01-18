@@ -14,6 +14,9 @@ class FormationsController < ApplicationController
     params[:catalogue] ||= 'yes'
     params[:paginate] ||= 'pages'
 
+    params[:nom] ||= session[:nom]
+    
+
     @formations = Formation.all
 
     unless params[:nom].blank?
@@ -48,6 +51,8 @@ class FormationsController < ApplicationController
     end
 
     @diplomes = Formation.where.not(diplome:nil).select(:diplome).uniq.pluck(:diplome).sort
+
+    session[:nom] = params[:nom]
   end
 
   # GET /formations/1
@@ -89,7 +94,7 @@ class FormationsController < ApplicationController
   def update
     respond_to do |format|
       if @formation.update(formation_params)
-        format.html { redirect_to @formation, notice: 'Formation modifiée' }
+        format.html { redirect_to formations_url, notice: 'Formation modifiée' }
         format.json { render :show, status: :ok, location: @formation }
       else
         format.html { render :edit }

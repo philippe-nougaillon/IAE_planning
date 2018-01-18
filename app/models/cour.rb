@@ -122,7 +122,7 @@ class Cour < ActiveRecord::Base
 
   def Taux_TD
     # Taux particuliers
-    if ["Jeu d'entreprise", "Pratique de l'entreprise", "Simulation de gestion","INFORMATION COMPTABLE"].include?(self.nom)
+    if ["Jeu d'entreprise", "Pratique de l'entreprise", "Simulation de gestion"].include?(self.nom)
       1
     else
       # Taux général de la formation

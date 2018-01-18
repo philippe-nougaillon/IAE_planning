@@ -120,8 +120,18 @@ class Cour < ActiveRecord::Base
     self.nom_ou_ue
   end
 
+  def Taux_TD
+    # Taux particuliers
+    if ["Jeu d'entreprise", "Pratique de l'entreprise", "Simulation de gestion","INFORMATION COMPTABLE"].include?(self.nom)
+      1
+    else
+      # Taux général de la formation
+      self.formation.Taux_TD
+    end
+  end
+
   def HETD
-    self.duree * self.formation.Taux_TD.to_f
+    self.duree * self.Taux_TD.to_f
   end
 
   def progress_bar_pct(planning_date)

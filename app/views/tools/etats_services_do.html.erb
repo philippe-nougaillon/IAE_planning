@@ -1,12 +1,12 @@
 <div class="page-header">
-  <h1>
+  <h2>
   	<span class="glyphicon glyphicon-list-alt"></span>
   	Etat de services de 
     <%= link_to @intervenant.nom_prenom, edit_intervenant_path(@intervenant), target:"_new" %>
     du <%= l(@start_date.to_date) %> 
     au <%= l(@end_date.to_date) %>
-  </h1>
-  <h3>Heures statutaires: <%= @intervenant.nbr_heures_statutaire %></h3>
+  </h2>
+  <h4>Heures statutaires: <%= @intervenant.nbr_heures_statutaire %></h4>
 </div>
 
 <!--
@@ -22,7 +22,7 @@
     <th>Intitulé</th>
     <th>Durée</th>
     <th>HSS?</th>
-    <th>Taux TD</th>
+    <th>Taux</th>
     <th>HETD</th>
     <th>Cumul HETD</th>
   </thead>
@@ -40,10 +40,10 @@
       <td><%= c.duree.to_f %></td>
       <td>
         <% if c.hors_service_statutaire %>
-          <span class="glyphicon glyphicon-remove">
+          <span class="glyphicon glyphicon-check">
         <% end %>
       </td>
-      <td><%= c.formation.Taux_TD %></td>
+      <td><%= c.Taux_TD %></td>
       <td><%= c.HETD %></td>
       <td><%= @cumul_hetd %></td>
     </tr>

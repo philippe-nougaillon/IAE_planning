@@ -212,7 +212,7 @@ class Cour < ActiveRecord::Base
     end
 
     def call_notifier
-      # envoyer un nmail si le cours à changé d'état vers annulé ou reporté
+      # envoyer un mail si le cours a changé d'état vers annulé ou reporté
       if self.changes.include?('etat') and (self.etat == 'annulé' or self.etat == 'reporté') 
         # logger.debug "[DEBUG] etat modifié: #{self.etat_was} => #{self.etat}"
 
@@ -220,9 +220,6 @@ class Cour < ActiveRecord::Base
         if self.formation.user
           UserMailer.cours_changed(self.id, self.formation.user.email, self.etat).deliver_now
         end
-
-        # envoyer un mail à Pascal pour info
-        #UserMailer.cours_changed(self.id, "wachnick.iae@univ-paris1.fr").deliver_later
 
         # envoyer à tous les étudiants 
         self.formation.etudiants.each do | etudiant |

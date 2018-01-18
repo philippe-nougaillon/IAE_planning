@@ -200,7 +200,7 @@ class ToolsController < ApplicationController
            
           if user.valid? 
             user.save if params[:save] == 'true'
-            UserMailer.welcome_email(user.id, generated_password).deliver_later if params[:save] == 'true'
+            UserMailer.welcome_email(user.id, generated_password).deliver_now if params[:save] == 'true'
             
             @importes += 1
           else

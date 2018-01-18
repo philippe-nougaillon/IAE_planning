@@ -232,9 +232,9 @@ class Cour < ActiveRecord::Base
       end
 
       # envoyer un mail à Pascal pour faire la réservation de cours
-      if self.changes.include?('etat') and (self.etat == 'à_réserver') 
-        UserMailer.cours_changed(self.id, "wachnick.iae@univ-paris1.fr").deliver_later
-      end 
+      #if self.changes.include?('etat') and (self.etat == 'à_réserver') 
+      #  UserMailer.cours_changed(self.id, "wachnick.iae@univ-paris1.fr").deliver_later
+      #end 
     end  
 
     def la_fin_apres_le_debut

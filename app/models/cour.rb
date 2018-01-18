@@ -219,7 +219,7 @@ class Cour < ActiveRecord::Base
 
         # envoyer notification au chargé de formation
         if self.formation.user
-          UserMailer.cours_changed(self.id, self.formation.user.email).deliver_now
+          UserMailer.cours_changed(self.id, self.formation.user.email, self.etat).deliver_now
         end
 
         # envoyer un mail à Pascal pour info

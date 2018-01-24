@@ -15,6 +15,7 @@ class SallesController < ApplicationController
   end
 
   def occupation
+    params[:vue] ||= 'jour'
     @salles = Salle.order(:nom)
 
     unless session[:start_date].blank?

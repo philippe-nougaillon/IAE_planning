@@ -15,8 +15,10 @@ class ToolsController < ApplicationController
       # Enregistre le fichier localement
       file_with_path = Rails.root.join('public', 'tmp', params[:upload].original_filename)
       File.open(file_with_path, 'wb') do |file|
-          file.write(params[:upload].read)
+        file.write(params[:upload].read)
       end
+
+      # Date;Heure début;Heure fin;Durée;UE;Intervenant;Intitulé
 
       # capture output
       @stream = capture_stdout do
@@ -26,8 +28,6 @@ class ToolsController < ApplicationController
 
         CSV.foreach(file_with_path, headers:true, col_sep:';', quote_char:'"', encoding:'iso-8859-1:UTF-8') do |row|
           index += 1
-
-          # Date;Heure début;Heure fin;Durée;UE;Intervenant;Intitulé
 
           # passe si pas de valeur dans le champs date
           next unless row['Date']
@@ -46,45 +46,26 @@ class ToolsController < ApplicationController
 
           debut = Time.parse(row['Date'] + " " + row['Heure début'])
           fin   = Time.parse(row['Date'] + " " + row['Heure fin'])
-
-          #cours = Cour.where(debut:debut, formation_id: params[:formation_id]).first_or_initialize 
-          cours = Cour.new(debut:debut, formation_id:params[:formation_id])
-          cours.fin = fin
-          cours.ue = row['UE'].strip if row['UE']
-          cours.intervenant = intervenant
-          cours.nom = row['Intitulé']
-          # puts "Durée 1: #{cours.duree.to_f}"
-          
-          cours.duree = ((cours.fin - cours.debut) / 3600)
-          # puts "Durée 2: #{cours.duree.to_f}"
-          
+          cours = Cour.new(debut:debut, fin:fin, duree:((cours.fin - cours.debut)/3600), formation_id:params[:formation_id], intervenant:intervenant, ue:row['UE'].try(:strip), nom:row['Intitulé'])
           if cours.valid? 
-            #puts "COURS VALIDE => #{cours.changes}" if cours.new_record?
-            #puts "UPDATE =>#{cours.attributes}" unless cours.new_record?
-            #puts "Durée3: #{cours.duree.to_f}"
             cours.save if params[:save] == 'true'
             @importes += 1
           else
-            puts "Ligne ##{index}"
-            puts "COURS INVALIDE !! Erreur => #{cours.errors.messages} | Source: #{row}"
-            puts
-            # puts cours.changes
             @errors += 1
+            puts "Ligne ##{index} | COURS INVALIDE !! Erreur => #{cours.errors.messages} | Source: #{row} \n\r"
           end
-          # puts "- -" * 40
           puts
         end
         puts "----------- Les modifications n'ont pas été enregistrées ! ---------------" unless params[:save] == 'true'
         puts
-
         puts "=" * 40
         puts "Lignes importées: #{@importes} | Lignes ignorées: #{@errors}"
         puts "=" * 40
       end
 
       # save output            
-      #@now = DateTime.now.to_s
-      #File.open("public/Documents/Import_logements-#{@now}.txt", "w") { |file| file.write @out }
+      # @now = DateTime.now.to_s
+      # File.open("public/Documents/Import_logements-#{@now}.txt", "w") { |file| file.write @out }
     else
       flash[:alert] = "Manque le fichier source ou la formation pour pouvoir lancer l'importation !"
       redirect_to action: 'import'
@@ -237,7 +218,6 @@ class ToolsController < ApplicationController
   def import_etudiants_do
     
     if params[:upload]
-    	
       # Enregistre le fichier localement
       file_with_path = Rails.root.join('public', 'tmp', params[:upload].original_filename)
       File.open(file_with_path, 'wb') do |file|
@@ -418,8 +398,6 @@ class ToolsController < ApplicationController
   end
 
   def export_intervenants_do
-    require 'csv'
-
   	@csv_string = CSV.generate(col_sep:';', encoding:'UTF-8') do | csv |
       csv << ["id", "nom","prenom", "email", "status", "remise_dossier_srh", "linkedin_url", "titre1", "titre2", "spécialité", "téléphone_fixe", "téléphone_mobile", "bureau", "adresse", "cp", "ville",'cree le', 'modifie le' ]
       
@@ -439,8 +417,6 @@ class ToolsController < ApplicationController
   end
 
   def export_etudiants_do
-    require 'csv'
-
     @etudiants = Etudiant.all
 
     unless params[:formation_id].blank?
@@ -462,8 +438,6 @@ class ToolsController < ApplicationController
     render "export_etudiants_do.csv.erb"
   end
 
-
-
   def etats_services
   end
 
@@ -473,43 +447,21 @@ class ToolsController < ApplicationController
       @cours = Cour.where(etat:Cour.etats[:réalisé]).order(:debut)
       @cours = @cours.where("intervenant_id = ? OR intervenant_binome_id = ?", @intervenant.id, @intervenant.id)
     else 
-      flash[:alert] = "Oups... Il me faut au moins un intervenant :)"
+      flash[:error] = "Oups... Il faudrait le nom de l'intervenant"
       redirect_to action: 'etats_services'
       return
     end
 
-    unless params[:start_date].blank? and params[:end_date].blank?
+    unless params[:start_date].blank? || params[:end_date].blank?
       @start_date = params[:start_date]
       @end_date = params[:end_date]
       @cours = @cours.where("debut between ? and ?", @start_date, @end_date)
+    else
+      flash[:error] = "Oups... Il faut une date de début et une date de fin"
+      redirect_to tools_etats_services_path(params)  
+      return
     end
-
     @cumul_hetd = 0
-
-    # # capture output
-    # @stream = capture_stdout do
-    #   # Affiche le récap des heures de cours réalisés
-
-    #   cumul_hetd = 0
-    #   @cours.each do |c|
-    #     if !c.hors_service_statutaire
-    #       hetd = c.duree * c.formation.Taux_TD.to_f
-    #       cumul_hetd += hetd
-    #     end
-
-    #     puts "#{l(c.debut, format: :short)} | #{c.formation.nom} | #{c.formation.Code_Analytique} | #{c.duree.to_f}h | #{c.formation.Taux_TD} | #{hetd} | #{cumul_hetd}"
-    #   end
-
-    #   puts "\n Total: #{@cours.count} cours, soit #{@cours.sum(:duree)} heure.s réalisée.s"
-    #   puts "\n Nbre heures statutaires: #{@intervenant.nbr_heures_statutaire} | Dépassement: #{(@cours.sum(:duree) - @intervenant.nbr_heures_statutaire)}"
-    #   puts "\n\n"
-
-    #   # envoyer le récap par mail ?
-    #   if params[:mailer] == "true"
-    #     IntervenantMailer.etat_services(@intervenant.id, @cours.pluck(:id), @start_date, @end_date).deliver_later 
-    #     puts "\n\n Le récapitulatif vient d'être envoyé à cette adresse: #{@intervenant.email}"
-    #   end
-    # end  
   end
 
   def audits
@@ -532,16 +484,16 @@ class ToolsController < ApplicationController
     @audits = @audits.paginate(page:params[:page], per_page:10)
   end
 
-  def taux_occupation
+  def taux_occupation_jours
   end
 
-  def taux_occupation_do
+  def taux_occupation_jours_do
     unless params[:start_date].blank? and params[:end_date].blank?
       @start_date = params[:start_date]
       @end_date = params[:end_date]
     else
-      flash[:alert] = "Il manque les dates..."
-      redirect_to tools_taux_occupation_path
+      flash[:error] = "Il manque les dates..."
+      redirect_to tools_taux_occupation_jours_path
       return
     end
 
@@ -564,31 +516,82 @@ class ToolsController < ApplicationController
 
     @nbr_jours = @total_jour = @total_soir = 0
 
-    @results = []
-      puts "Date;Taux journée(%);Taux soirée(%)"
-      # pour chaque jour entre la date de début et la date de fin
-      (@start_date.to_date..@end_date.to_date).each do |d|
-        # on ne compte le dimanche ainsi que les jours de fermetures
-        if d.to_date.wday > 0 && !Fermeture.find_by(date:d.to_date)
-          # cumul les heures de cours du jour et du soir
-          nombre_heures_cours = [Cour.cumul_heures(d).first, Cour.cumul_heures(d).last]
+    @@results = []
+    # pour chaque jour entre la date de début et la date de fin
+    (@start_date.to_date..@end_date.to_date).each do |d|
+      # on ne compte pas le dimanche ni les jours de fermetures
+      if d.to_date.wday > 0 && !Fermeture.find_by(date:d.to_date)
+        # cumul les heures de cours du jour et du soir
+        nombre_heures_cours = [Cour.cumul_heures(d).first, Cour.cumul_heures(d).last]
 
-          # calcul du taux d'occupation  
-          if d.to_date.wday == 6 # le samedi, on ne comtpe que le batiment D
-            taux_occupation = [(nombre_heures_cours.first * 100 / heures_dispo_salles_samedi.first),
-                               (nombre_heures_cours.last * 100 / heures_dispo_salles_samedi.last)]
-            @total_jour += taux_occupation.first
-          else  
-            taux_occupation = [(nombre_heures_cours.first * 100 / heures_dispo_salles.first), 
+        # calcul du taux d'occupation  
+        if d.to_date.wday == 6 # le samedi, on ne comtpe que le batiment D
+          taux_occupation = [(nombre_heures_cours.first * 100 / heures_dispo_salles_samedi.first),
+                              (nombre_heures_cours.last * 100 / heures_dispo_salles_samedi.last)]
+          @total_jour += taux_occupation.first
+        else  
+          taux_occupation = [(nombre_heures_cours.first * 100 / heures_dispo_salles.first), 
                               (nombre_heures_cours.last * 100 / heures_dispo_salles.last)]
-            @total_jour += taux_occupation.first
-            @total_soir += taux_occupation.last
-          end  
-          @nbr_jours += 1
+          @total_jour += taux_occupation.first
+          @total_soir += taux_occupation.last
+        end  
+        @nbr_jours += 1
 
-          @results << [l(d.to_date, format: :long), taux_occupation.first.to_i, taux_occupation.last.to_i]
+        @@results << [l(d.to_date, format: :long), taux_occupation.first.to_i, taux_occupation.last.to_i]
+      end
+    end   
+  end
+
+  def taux_occupation_salles
+  end
+
+  def taux_occupation_salles_do
+    unless params[:start_date].blank? and params[:end_date].blank?
+      @start_date = params[:start_date]
+      @end_date = params[:end_date]
+    else
+      flash[:error] = "Il manque les dates..."
+      redirect_to tools_taux_occupation_salles_path
+      return
+    end
+
+    # Calcul du taux d'occupation par salles
+    #
+    
+    # amplitude 
+    @nb_heures_journée = Salle.nb_heures_journée
+    @nb_heures_soirée = Salle.nb_heures_soirée
+
+    # nombre de jours dans la période
+    @nbr_jours = 0
+    # nombre d'heures de disponibilité des salles 
+    @nbr_heures_dispo_salle = 0
+    # fait le cumul des jours et des heures de dispo salle
+    (@start_date.to_date..@end_date.to_date).each do |d|
+      # on ne compte pas le dimanche ni les jours de fermetures
+      next if Fermeture.find_by(date:d.to_date)
+      case d.to_date.wday 
+          when 0    # dimanche
+          when 1..5 # jours de la semaine 
+            @nbr_jours += 1
+            @nbr_heures_dispo_salle += (@nb_heures_journée + @nb_heures_soirée)
+          when 6   # samedi
+            @nbr_jours += 1
+            @nbr_heures_dispo_salle += @nb_heures_journée
+      end
+    end 
+
+    @results = {}
+    Cour.where("debut between DATE(?) AND DATE(?) AND salle_id NOT NULL", @start_date, @end_date).each do | c |
+      if Salle.salles_de_cours.include?(c.salle)
+        salle = c.salle.nom
+        if @results[salle]
+          @results[salle] += c.duree.to_f
+        else
+          @results[salle] = c.duree.to_f
         end
-      end   
+      end
+    end
   end
 
 end

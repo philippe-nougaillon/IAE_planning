@@ -21,7 +21,7 @@
         <div class="col-sm-4">
             <%= label_tag :intervenant_id, "Intervenant" %>
             <%= select_tag :intervenant_id,
-                options_from_collection_for_select(Intervenant.all, :id, :nom_prenom, Intervenant.all), include_blank:true, class:"form-control select2" %>
+                options_from_collection_for_select(Intervenant.all, :id, :nom_prenom, params[:intervenant_id]), include_blank:true, class:"form-control select2" %>
             <br>
         </div>
 

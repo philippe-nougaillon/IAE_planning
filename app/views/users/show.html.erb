@@ -18,10 +18,6 @@
   <h1><%= @user.email %></h1>
 </div>
 
-<dl class="dl-horizontal">
-</dl>
-
-
 <p>
 	<strong>Nom:</strong>
 	<%= @user.nom %>
@@ -30,23 +26,25 @@
 	<strong>Prénom:</strong>
 	<%= @user.prénom %>
 </p>
-
 <p>
 	<strong>Mobile:</strong>
 	<%= @user.mobile %>
 </p>
-
-
 <p>
 	<strong>Formation:</strong>
 	<%= @user.formation.nom_promo if @user.formation %>
 </p>
-
 <p>
 	<strong>Administrateur:</strong> 
 	<%= @user.admin? ? "Oui" : 'Non' %>
 </p>
 <br>
+
+<p>
+	Compte créé le: 
+	le <%= l(@user.created_at) %> 
+	| Il y a <%= time_ago_in_words(@user.created_at) %>
+</p>
 
 <% unless @user.sign_in_count.zero? %>
 	<p>

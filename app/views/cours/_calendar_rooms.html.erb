@@ -9,8 +9,6 @@
           <br>
           <% if meeting.formation.abrg %>
             <% if meeting.salle_id == nil %>
-              <%= link_to meeting.formation.abrg, cours_path(start_date:meeting.debut, formation:meeting.formation.nom, view:'list'), title:meeting.nom %>
-            <% else %>                 
               <%= link_to meeting.formation.abrg, edit_cour_path(meeting, from:'planning_salles'), title:meeting.nom %>
             <% end %>
           <% else %>

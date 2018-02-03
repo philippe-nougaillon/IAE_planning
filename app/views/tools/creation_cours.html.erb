@@ -9,7 +9,7 @@
   </h1>
 </div>
 <div>
-  <h3>Cette fonction permet la création automatique de créneaux horaires réservés à la scolarité</h3>
+  <h3>Cette fonction permet la création de créneaux horaires réservés</h3>
 </div>
 
 <br>
@@ -19,14 +19,16 @@
   <div class="form-group">
     <div class="row">
       <div class="col-sm-5">
-
-        <%= label_tag :debut, "Réserver des créneaux horaires à partir du" %><br>
+        <%= label_tag :debut, "A partir du" %><br>
         <%= datetime_select :cours, :start_date, minute_step:15 %>
         <br><br>
+        <%= label_tag :fin, "Jusqu'au" %><br>
+        <%= date_select :cours, :end_date %>
+        <br><br>
 
-        <%= label_tag :duree, "Durée (h)" %>
-        <%= select_tag :duree, options_for_select(['0.5','1.0','1.5','2.0','2.5','3.0','3.5','4.0']), 
-                          include_blank:true, class:"form-control" %>
+        <%= label_tag :semaines, "Semaines" %>
+        <%= select_tag :semaines, options_for_select((1..52).to_a), 
+                          include_blank:true, multiple:true, class:"form-control" %>
         <br>
 
         <div class="field">
@@ -39,17 +41,14 @@
           <%= check_box_tag :samedi %> Samedi
         </div>
         <br>
-
-        <%= label_tag :fin, "Répéter jusqu'au" %><br>
-        <%= date_select :cours, :end_date %>
-        <br><br>
-
+  
+        <%= check_box_tag :am %> Matin 
+        <%= check_box_tag :pm %> Après-midi
       </div>
 
       <div class="col-sm-1"></div>
 
       <div class="col-sm-6">
-
         <%= label_tag "Formation" %>    
         <%= select_tag :formation_id, 
               options_from_collection_for_select(Formation.all, :id, :nom_promo), class:"form-control select2", include_blank:true %>
@@ -61,17 +60,23 @@
         <br>
 
         <div class="form-group">
-          <div class="col-sm-8">
+          <div class="col-sm-6">
             <%= label_tag :nom, "Nom du cours" %>
             <%= text_field_tag :nom, params[:nom], class:"form-control" %>
           </div>
 
-          <div class="col-sm-4">
+          <div class="col-sm-3">
+            <%= label_tag :duree, "Durée (h)" %>
+            <%= select_tag :duree, options_for_select(['0.5','1.0','1.5','2.0','2.5','3.0','3.5','4.0']), 
+                              include_blank:true, class:"form-control" %>
+          </div>
+
+          <div class="col-sm-3">
           <%= label_tag :salle_id, "Salle" %>
             <%= select_tag :salle_id, options_from_collection_for_select(Salle.all, :id, :nom_places, params[:salle_id]), include_blank: true, class:"form-control" %>
           </div>
         </div>
-        <br><br><br>
+        <br><br><br><br>
 
         <div class="field">
           <b>Enregistrer les changements ?</b> <br>

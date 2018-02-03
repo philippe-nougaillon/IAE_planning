@@ -5,7 +5,7 @@
         <th>Salle</th>
         <th>Places</th>
         <th>Cours</th>
-        <th>Formation</th>
+        <th>Formations</th>
         <% (@date..(@date + 6.day)).each do |d| %>
                 <th><%= d.strftime('%a') %></th>
         <% end %> 
@@ -45,9 +45,7 @@
               <% @formations.each do |id| %>
                 <% formation = Formation.find(id) %>
                 <span style="background-color:<%= formation.color %>;padding-left: 7px;"></span>
-                <span style="padding-left:5px;"></span>
-                <small><%= formation.abrg %></small>
-                <span style="padding-right:10px;"></span>
+                <span style="padding-right:7px;"></span>
               <% end %>
           </td>
 

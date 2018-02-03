@@ -308,11 +308,11 @@ class ToolsController < ApplicationController
   end
 
   def creation_cours_do
-  	if params[:duree].blank?
-      flash[:alert] = "Erreur... manque la durée"
-      redirect_to action: 'creation_cours'
-      return
-    end 
+  	# if params[:duree].blank?
+    #   flash[:alert] = "Erreur... manque la durée"
+    #   redirect_to action: 'creation_cours'
+    #   return
+    # end 
 
 	  @start_date = Date.civil(params[:cours]["start_date(1i)"].to_i,
                          	 params[:cours]["start_date(2i)"].to_i,
@@ -322,35 +322,78 @@ class ToolsController < ApplicationController
                            params[:cours]["end_date(2i)"].to_i,
                            params[:cours]["end_date(3i)"].to_i)
 
-  	current_date = @start_date
-  	@ndays = (@end_date - @start_date).to_i + 1
+    # Calcul le nombre de jours à traiter dans la période à traiter
+  	@ndays = (@end_date - @start_date).to_i
 	  duree = params[:duree]
 	  salle_id = params[:salle_id]
-	  nom_cours = params[:nom]
+    nom_cours = params[:nom]
+    semaines = params[:semaines]
 
   	@cours_créés = @erreurs = 0
 
-  	# capture output
     @stream = capture_stdout do
-	  	@ndays.times do
-	  		wday = current_date.wday
-	  		if (params[:lundi] and wday == 1) or (params[:mardi] and wday == 2) or (params[:mercredi] and wday == 3) or (params[:jeudi] and wday == 4) or (params[:vendredi] and wday == 5) or (params[:samedi] and wday == 6)
+      current_date = @start_date
+      # Pour chaque jour de la période à traiter
+      @ndays.times do
+        # test jour
+        wday = current_date.wday
+        ok_jours = ((params[:lundi] && wday == 1) || (params[:mardi] && wday == 2) || 
+                    (params[:mercredi] && wday == 3) || (params[:jeudi] && wday == 4) || 
+                    (params[:vendredi] && wday == 5) || (params[:samedi] && wday == 6))
+        # test semaine 
+        ok_semaines = (params[:semaines] && params[:semaines].include?(current_date.cweek.to_s))
+        # création du cours
+        new_cours = Cour.new(formation_id:params[:formation_id], intervenant_id:params[:intervenant_id], nom:nom_cours, salle_id:salle_id)
 
-		  		debut = Time.zone.parse(current_date.to_s + " #{params[:cours]["start_date(4i)"]}:#{params[:cours]["start_date(5i)"]}")
+        if params[:am] || params[:pm]
+          if params[:am]
+            new_cours.duree = 3
+            new_cours.debut = Time.zone.parse(current_date.to_s + " 9:00").utc
+            new_cours.fin = eval("new_cours.debut + #{new_cours.duree}.hour")
+          elsif params[:pm]
+            new_cours.duree = 4
+            new_cours.debut = Time.zone.parse(current_date.to_s + " 13:00").utc
+            new_cours.fin = eval("new_cours.debut + #{new_cours.duree}.hour")
+          end
+          # création du cours de l'après midi si besoin
+          if (params[:am] && params[:pm])
+            new_cours_pm = Cour.new(formation_id:params[:formation_id], intervenant_id:params[:intervenant_id], nom:nom_cours, salle_id:salle_id)
+            new_cours_pm.duree = 4
+            new_cours_pm.debut = Time.zone.parse(current_date.to_s + " 13:00").utc
+            new_cours_pm.fin = eval("new_cours_pm.debut + #{new_cours_pm.duree}.hour")
+          end  
+        else
+          # calcul de la date & heure de début et de fin  
+          new_cours.duree = duree
+          new_cours.debut = Time.zone.parse(current_date.to_s + " #{params[:cours]["start_date(4i)"]}:#{params[:cours]["start_date(5i)"]}").utc
+          new_cours.fin = eval("new_cours.debut + #{new_cours.duree}.hour")
+        end
 
-		  		fin = eval("debut + #{duree}.hour")
-
-		  		new_cours = Cour.new(debut:debut.utc, fin:fin, duree:duree, formation_id:params[:formation_id], intervenant_id:params[:intervenant_id], nom:nom_cours, salle_id:salle_id)
-
-		  		if new_cours.valid?
-		  			new_cours.save if params[:save] == 'true'
-	  			  	@cours_créés += 1
-			  		puts "[Création OK] #{I18n.l(new_cours.debut, format: :long)}-#{I18n.l(new_cours.fin, format: :heures_min)}  "
-	  			else
-	  				@erreurs += 1
-			  		puts "[Erreur!] #{I18n.l(new_cours.debut, format: :long)}-#{I18n.l(new_cours.fin, format: :heures_min)}  | #{new_cours.errors.messages}"
-	  			end
-	  		end
+        if ok_jours && ok_semaines
+          msg = "#{I18n.l(new_cours.debut, format: :long)} => #{I18n.l(new_cours.fin, format: :heures_min)}"
+          # création du cours
+          if new_cours.valid?
+            new_cours.save if params[:save] == 'true'
+            puts "[Création OK] #{msg}"
+            @cours_créés += 1
+          else
+            puts "[Erreur!] #{msg}"
+            @erreurs += 1
+          end
+          # création de deux cours (matin+soir)
+          if (params[:am] && params[:pm])
+            msg = "#{I18n.l(new_cours_pm.debut, format: :long)} => #{I18n.l(new_cours_pm.fin, format: :heures_min)}"
+            if new_cours_pm.valid?
+              new_cours_pm.save if params[:save] == 'true'
+              puts "[Création OK] #{msg}"              
+              @cours_créés += 1
+            else
+              puts "[Erreur!] #{msg}"
+              @erreurs += 1
+            end  
+          end  
+        end
+        
 	  		current_date = current_date + 1.day
 	  	end
 	  	puts

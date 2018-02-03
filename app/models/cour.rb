@@ -159,7 +159,7 @@ class Cour < ActiveRecord::Base
         csv << ['id','Date début', 'Heure début', 'Date fin','Heure fin', 'Formation_id','Formation','Code_Analytique','Intervenant_id','Intervenant','UE','Nom du cours','Etat','Salle','Durée','Hors service statutaire(HSS)', 'Taux_TD','HETD', 'Cours créé le', 'Cours modifié le']
     
         cours.each do |c|
-          hetd = c.duree * c.formation.Taux_TD
+          hetd = c.duree * (c.formation.Taux_TD || 0)
           fields_to_export = [c.id, c.debut.to_date.to_s, c.debut.to_s(:time), c.fin.to_date.to_s, c.fin.to_s(:time), 
             c.formation_id, c.formation.nom_promo, c.formation.Code_Analytique, c.intervenant_id, c.intervenant.nom_prenom, c.ue, c.nom, c.etat, 
             (c.salle ? c.salle.nom : ""), 

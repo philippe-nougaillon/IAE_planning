@@ -14,8 +14,8 @@
       <div class="form-group">
         <div class="row">
           <div class="col-sm-2">
-            <%= label_tag "Salle" %>    
-              <%= select_tag :salle_id, 
+            <%= label_tag "Subjet" %>    
+              <%= select_tag :subjet_id, 
                       options_from_collection_for_select(Salle.order(:nom), :id, :nom, params[:salle_id]), 
                         include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
           </div>

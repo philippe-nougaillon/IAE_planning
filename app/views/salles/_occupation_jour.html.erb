@@ -5,7 +5,7 @@
         <th>Salle</th>
         <th>Places</th>
         <th>Cours</th>
-        <th>Formation</th>
+        <th>Formations</th>
         <% Cour.etendue_horaire.each_with_index do |heure, index| %>
           <th><%= heure %>h</th>
           <% if [4,9].include?(index) %><th /><% end %>

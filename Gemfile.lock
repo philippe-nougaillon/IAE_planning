@@ -116,6 +116,7 @@ GEM
       minitest (>= 5.0)
       ruby-progressbar
     multi_json (1.12.1)
+    mysql2 (0.3.21)
     nokogiri (1.6.8.1)
       mini_portile2 (~> 2.1.0)
     orm_adapter (0.5.0)
@@ -213,6 +214,9 @@ GEM
     will_paginate (3.0.7)
     will_paginate-bootstrap (1.0.1)
       will_paginate (>= 3.0.3)
+    yaml_db (0.6.0)
+      rails (>= 3.0, < 5.2)
+      rake (>= 0.8.7)
 
 PLATFORMS
   ruby
@@ -235,6 +239,7 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   minitest-reporters
+  mysql2 (~> 0.3.18)
   pundit
   rack-cors
   rails (= 4.2.1)
@@ -254,6 +259,7 @@ DEPENDENCIES
   web-console (~> 2.0)
   will_paginate
   will_paginate-bootstrap
+  yaml_db
 
 BUNDLED WITH
    1.16.0

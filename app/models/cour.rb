@@ -139,11 +139,16 @@ class Cour < ActiveRecord::Base
   end
 
   def range
-    # retourne l'étendue d'un cours sous la forme d'une suite d'heures. Ex: 8 9 pour un cours de 8 à 10h
     range = []
-    (self.debut.to_datetime.to_i .. self.fin.to_datetime.to_i).step(1.hour) do |hour|
-      range << Time.at(hour).hour
-    end
+    #(self.debut.to_datetime.to_i .. self.fin.to_datetime.to_i).step(1.hour) do |hour|
+    #  range << Time.at(hour).hour
+    #end
+
+    # retourne l'étendue d'un cours sous la forme d'une suite d'heures. Ex: 8 9 pour un cours de 8 à 10h
+
+    (self.debut.hour .. self.fin.hour).each do | hour |
+       range << hour
+    end 
 
     return range[0..-2] # enlève le dernier créneau horaire
   end

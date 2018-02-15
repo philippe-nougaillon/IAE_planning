@@ -17,7 +17,9 @@ class Cour < ActiveRecord::Base
   before_validation :update_date_fin
   before_validation :sunday_morning_praise_the_dawning
 
-  before_save :change_etat_si_salle   
+  before_save :change_etat_si_salle
+  before_save :annuler_salle_si_cours_est_annulé
+
   after_validation :call_notifier
 
   enum etat: [:planifié, :à_réserver, :confirmé, :reporté, :annulé, :réalisé]
@@ -139,12 +141,8 @@ class Cour < ActiveRecord::Base
   end
 
   def range
-    range = []
-    #(self.debut.to_datetime.to_i .. self.fin.to_datetime.to_i).step(1.hour) do |hour|
-    #  range << Time.at(hour).hour
-    #end
-
     # retourne l'étendue d'un cours sous la forme d'une suite d'heures. Ex: 8 9 pour un cours de 8 à 10h
+    range = []
 
     (self.debut.hour .. self.fin.hour).each do | hour |
        range << hour
@@ -154,14 +152,14 @@ class Cour < ActiveRecord::Base
   end
 
   def can_be_destroy_by(user)
-    (user.id == self.audits.last.user_id) or (user.admin?)
+    (user.id == self.audits.first.user_id) or (user.admin?)
   end  
 
   def self.generate_csv(cours, binome)
     require 'csv'
     
     CSV.generate(col_sep:';', encoding:'UTF-8') do | csv |
-        csv << ['id','Date début', 'Heure début', 'Date fin','Heure fin', 'Formation_id','Formation','Code_Analytique','Intervenant_id','Intervenant','UE','Nom du cours','Etat','Salle','Durée','Hors service statutaire(HSS)', 'Taux_TD','HETD', 'Cours créé le', 'Cours modifié le']
+        csv << ['id','Date début','Heure début','Date fin','Heure fin','Formation_id','Formation','Code_Analytique','Intervenant_id','Intervenant','UE','Nom du cours','Etat','Salle','Durée','Hors service statutaire(HSS)','Taux_TD','HETD','Cours créé le','Par','Cours modifié le']
     
         cours.each do |c|
           hetd = c.duree * (c.formation.Taux_TD || 0)
@@ -172,11 +170,14 @@ class Cour < ActiveRecord::Base
             c.hors_service_statutaire,
             c.formation.Taux_TD,
             hetd.to_s.gsub(/\./, ','), 
-            c.created_at, c.updated_at]
+            c.created_at,
+            c.audits.first.user.try(:email),
+            c.updated_at
+          ]
           
           csv << fields_to_export
           
-          # exporter le binome sauf si l'utilisateur ne veut que les cours d'un intervenant 
+          # creer une ligne d'export supplémentaire si binome sauf si l'utilisateur ne veut que les cours d'un intervenant 
           if c.intervenant_binome and binome
             fields_to_export[7] = c.intervenant_binome_id
             fields_to_export[8] = c.intervenant_binome.nom_prenom 
@@ -255,7 +256,11 @@ class Cour < ActiveRecord::Base
       cours = cours.where.not(id:self.id).where.not(fin:self.debut).where.not(debut:self.fin)
 
       if cours.any?
-        errors.add(:cours, "en chevauchement (période, salle) avec le(s) cours ##{cours.pluck(:id).join(',')}")
+        cours_links = []
+        cours.each do |c| 
+          cours_links << "<a href='/cours/#{c.id}'>#{c.id}</a>"
+        end
+        errors.add(:cours, "en chevauchement (période, salle) avec le cours #{cours_links.join(',')}")
       end
     end  
 
@@ -288,6 +293,13 @@ class Cour < ActiveRecord::Base
       if (self.etat == 'planifié' or self.etat == 'à_réserver' or self.etat == 'confirmé') and (self.salle_id_was == nil and self.salle_id != nil)
           self.etat = 'confirmé'
           errors.add(:cours, 'état changé !')
+      end   
+    end
+
+    def annuler_salle_si_cours_est_annulé
+      if (self.etat == 'annulé') and (self.salle_id != nil)
+          self.salle_id = nil
+          errors.add(:cours, 'état changé & salle libérée ')
       end   
     end
 end

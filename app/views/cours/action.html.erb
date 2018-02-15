@@ -25,7 +25,7 @@
               <% end %>
               <span class="label <%= @cours.style %>"><%= @cours.etat.humanize %></span> |
               <%= "Salle: #{@cours.salle.nom} |" if @cours.salle %>
-              <%= "Créé par #{User.find(@cours.audits.first.user_id).email}" %>
+              <%= "Créé par #{@cours.audits.first.user.try(:email)}" %>
             </li>
           <% end %>
         <% end %>

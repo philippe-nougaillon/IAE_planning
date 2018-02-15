@@ -118,7 +118,8 @@ class CoursController < ApplicationController
     end
 
     unless params[:ids].blank?
-      @cours = @cours.where(id:params[:ids])
+      # affiche les cours d'un ID donné
+      @cours = Cour.where(id:params[:ids])
     end
 
     @all_cours = @cours
@@ -237,8 +238,9 @@ class CoursController < ApplicationController
     when "Changer d'état"
       @cours.each do |c|
         c.etat = params[:etat].to_i
-        # envoyer de mail par défaut (after_validation:true) sauf si envoyer email pas coché
-        c.save(validate:params[:email].present?)
+        c.save
+        ## envoyer de mail par défaut (after_validation:true) sauf si envoyer email pas coché
+        #c.save(validate:params[:email].present?)
       end
     when "Changer d'intervenant"
       @cours.each do |c|
@@ -248,9 +250,12 @@ class CoursController < ApplicationController
     when "Supprimer" 
       if !params[:delete].blank?      
         @cours.each do |c|
-          c.destroy if c.can_be_destroy_by(current_user) # supprimer ce cours que si c'est son créateur qui le demande ou un admin !
-          #flash[:error] = "Vous ne pouvez pas supprimer ce cours (##{c.id}) ! Opération annulée"
-          #next
+          if c.can_be_destroy_by(current_user) # supprimer ce cours que si c'est son créateur qui le demande ou un admin !
+            c.destroy
+          else 
+            flash[:error] = "Vous ne pouvez pas supprimer ce cours (##{c.id}) ! Opération annulée"
+            next
+          end
         end
       end
     when "Exporter vers Excel"
@@ -300,7 +305,6 @@ class CoursController < ApplicationController
     unless params[:intervenant].blank?
       intervenant = params[:intervenant].strip
       intervenant_id = Intervenant.find_by(nom:intervenant.split(' ').first, prenom:intervenant.split(' ').last.rstrip)
-
       @cour.intervenant_id = intervenant_id
     end
     

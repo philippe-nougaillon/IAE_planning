@@ -49,6 +49,6 @@ Rails.application.configure do
     password:             'Ulysse!6',
     authentication:       'plain',
     enable_starttls_auto: true  }
-  config.action_mailer.asset_host = "http://planning.iae-paris.com"
+  config.action_mailer.asset_host = "https://planning.iae-paris.com"
     
 end

@@ -46,7 +46,7 @@ class ToolsController < ApplicationController
 
           debut = Time.parse(row['Date'] + " " + row['Heure début'])
           fin   = Time.parse(row['Date'] + " " + row['Heure fin'])
-          cours = Cour.new(debut:debut, fin:fin, duree:((cours.fin - cours.debut)/3600), formation_id:params[:formation_id], intervenant:intervenant, ue:row['UE'].try(:strip), nom:row['Intitulé'])
+          cours = Cour.new(debut:debut, fin:fin, duree:((fin - debut)/3600), formation_id:params[:formation_id], intervenant:intervenant, ue:row['UE'].try(:strip), nom:row['Intitulé'])
           if cours.valid? 
             cours.save if params[:save] == 'true'
             @importes += 1
@@ -323,7 +323,7 @@ class ToolsController < ApplicationController
                            params[:cours]["end_date(3i)"].to_i)
 
     # Calcul le nombre de jours à traiter dans la période à traiter
-  	@ndays = (@end_date - @start_date).to_i
+  	@ndays = (@end_date - @start_date).to_i + 1 
 	  duree = params[:duree]
 	  salle_id = params[:salle_id]
     nom_cours = params[:nom]
@@ -341,7 +341,8 @@ class ToolsController < ApplicationController
                     (params[:mercredi] && wday == 3) || (params[:jeudi] && wday == 4) || 
                     (params[:vendredi] && wday == 5) || (params[:samedi] && wday == 6))
         # test semaine 
-        ok_semaines = (params[:semaines] && params[:semaines].include?(current_date.cweek.to_s))
+        ok_semaines = !params.include?('semaines') || (params[:semaines] && params[:semaines].include?(current_date.cweek.to_s))
+        
         # création du cours
         new_cours = Cour.new(formation_id:params[:formation_id], intervenant_id:params[:intervenant_id], nom:nom_cours, salle_id:salle_id)
 
@@ -370,14 +371,14 @@ class ToolsController < ApplicationController
         end
 
         if ok_jours && ok_semaines
-          msg = "#{I18n.l(new_cours.debut, format: :long)} => #{I18n.l(new_cours.fin, format: :heures_min)}"
+          msg = "#{I18n.l(new_cours.debut, format: :long)} à #{I18n.l(new_cours.fin, format: :heures_min)}"
           # création du cours
           if new_cours.valid?
             new_cours.save if params[:save] == 'true'
-            puts "[Création OK] #{msg}"
+            puts "[OK] #{msg}"
             @cours_créés += 1
           else
-            puts "[Erreur!] #{msg}"
+            puts "[KO => #{new_cours.errors.full_messages}] #{msg}"
             @erreurs += 1
           end
           # création de deux cours (matin+soir)
@@ -397,9 +398,9 @@ class ToolsController < ApplicationController
 	  		current_date = current_date + 1.day
 	  	end
 	  	puts
-		puts "=" * 40
+		  puts "=" * 60
 	  	puts "Création termninée | #{@cours_créés} créneaux_créés | #{@erreurs} erreurs"
-		puts "=" * 40
+		  puts "=" * 60
 	  	puts
 	  	puts "----------- Les modifications n'ont pas été enregistrées ---------------" unless params[:save] == 'true'
 	end  	

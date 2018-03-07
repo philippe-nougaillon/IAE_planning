@@ -44,8 +44,8 @@ class ToolsController < ApplicationController
             end
           end
 
-          debut = Time.parse(row['Date'] + " " + row['Heure début'])
-          fin   = Time.parse(row['Date'] + " " + row['Heure fin'])
+          debut = Time.parse(row['Date'] + " " + row['Heure début']).utc
+          fin   = Time.parse(row['Date'] + " " + row['Heure fin']).utc
           cours = Cour.new(debut:debut, fin:fin, duree:((fin - debut)/3600), formation_id:params[:formation_id], intervenant:intervenant, ue:row['UE'].try(:strip), nom:row['Intitulé'])
           if cours.valid? 
             cours.save if params[:save] == 'true'

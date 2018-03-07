@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
     def set_layout_variables
       @ctrl = params[:controller]
       @sitename ||= request.subdomains.any? ? request.subdomains(0).first.upcase : "IAE-Planning DEV"
-      @sitename.concat(" v2.8c")
+      @sitename.concat(" v2.8d")
 
       if current_user
         @cours_params = {}
@@ -32,7 +32,7 @@ class ApplicationController < ActionController::Base
     end
 
     def user_not_authorized
-      flash[:alert] = "You are not authorized to perform this action."
+      flash[:error] = "You are not authorized to perform this action."
       redirect_to(request.referrer || root_path)
     end
   

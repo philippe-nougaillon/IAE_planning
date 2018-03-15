@@ -96,7 +96,7 @@ class CoursController < ApplicationController
 
     unless params[:intervenant].blank?
       intervenant = params[:intervenant].strip
-      intervenant_id = Intervenant.find_by(nom:intervenant.split(' ').first, prenom:intervenant.split(' ').last.rstrip)
+    intervenant_id = Intervenant.find_by(nom:intervenant.split(' ').first, prenom:intervenant.split(' ').last.rstrip)
       @cours = @cours.where("intervenant_id = ? OR intervenant_binome_id = ?", intervenant_id, intervenant_id)
     end
 

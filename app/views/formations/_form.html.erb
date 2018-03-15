@@ -28,7 +28,15 @@
           </div>
         </div>
 
-        <%= f.check_box :hors_catalogue, label:"Hors catalogue ?" %>
+        <div class="row">
+          <div class="col-sm-6">
+            <%= f.check_box :hors_catalogue, label:"Hors catalogue ?" %>
+          </div>
+          <div class="col-sm-6">
+            <%= f.check_box :archive, label:"Archivée ?" %>
+          </div>
+        </div>
+
         <%= f.text_field :promo %>
         <%= f.text_field :diplome, label:"Diplôme" %>
         <%= f.text_field :domaine %>

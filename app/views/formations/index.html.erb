@@ -23,24 +23,18 @@
             </div> 
           </div>
 
-        <!--
-          <div class="col-sm-2">
-            <%= label_tag :apprentissage, "Apprentissage ?" %>
-            <br>    
-            <%= check_box_tag :apprentissage, 1, params[:apprentissage], onchange:'this.form.submit()', class:"form-control" %>
-          </div>
-
-          <div class="col-sm-3">
-            <%= label_tag "Diplôme" %>    
-            <div class="input-group">
-              <%= select_tag :diplome, 
-                  options_for_select(@diplomes, params[:diplome]), include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
-                <span class="input-group-btn">
-                <%= submit_tag 'Filtrer', class:"btn btn-success" %>
-              </span>
-             </div> 
-          </div>
-        -->
+          <!--
+            <div class="col-sm-3">
+              <%= label_tag "Diplôme" %>    
+              <div class="input-group">
+                <%= select_tag :diplome, 
+                    options_for_select(@diplomes, params[:diplome]), include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
+                  <span class="input-group-btn">
+                  <%= submit_tag 'Filtrer', class:"btn btn-success" %>
+                </span>
+              </div> 
+            </div>
+          -->
 
           <div class="col-sm-2">
             <%= label_tag :catalogue, "Formations catalogue ?" %>
@@ -51,6 +45,12 @@
             Non 
             <%= radio_button_tag :catalogue, "all", (params[:catalogue]=='all'), onchange:'this.form.submit()' %>
             Tout           
+          </div>
+
+          <div class="col-sm-2">
+            <%= label_tag :archive, "Archivées ?" %>
+            <br>    
+            <%= check_box_tag :archive, 1, params[:archive], onchange:'this.form.submit()', class:"form-control" %>
           </div>
 
           <div class="col-sm-2">
@@ -108,11 +108,11 @@
             </td>
             <td>
               <% formation_cours_confirmé_count = formation_cours.confirmé.count %>
-              <%= link_to_unless formation_cours_confirmé_count.zero?, formation_cours_confirmé_count, cours_path(ids:formation_cours.confirmé.pluck(:id), filter:'all') %>
+              <%= link_to_unless (formation.archive || formation_cours_confirmé_count.zero?), formation_cours_confirmé_count, cours_path(ids:formation_cours.confirmé.pluck(:id), filter:'all') %>
             </td>
             <td>
               <% formation_cours_réalisé_count = formation_cours.réalisé.count %>
-              <%= link_to_unless formation_cours_réalisé_count.zero?, formation_cours_réalisé_count, cours_path(ids:formation_cours.réalisé.pluck(:id), filter:'all') %>
+              <%= link_to_unless (formation.archive || formation_cours_réalisé_count.zero?), formation_cours_réalisé_count, cours_path(ids:formation_cours.réalisé.pluck(:id), filter:'all') %>
             </td>
             <td>
               <%= link_to edit_formation_path(formation), class: "btn btn-default" do %>

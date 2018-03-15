@@ -36,13 +36,6 @@ class SallesController < ApplicationController
       @date = params[:start_date].to_date
     end
 
-    # @date = Date.parse(params[:start_date]).beginning_of_week(start_day = :monday)
-    @date = Date.parse(params[:start_date])
-    
-    #unless params[:libre].blank? 
-    #  @salles = Salle.all - @salles.joins(:cours).where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 1.day)
-    #end
-
     if user_signed_in?
       #
       # Calcul du taux d'occupation

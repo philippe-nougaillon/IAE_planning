@@ -32,12 +32,16 @@ class Cour < ActiveRecord::Base
     Cour.styles[Cour.etats[self.etat]]
   end
   
-  def self.actions
+  def self.actions_admin
     ["Changer de salle", "Changer d'état", "Changer d'intervenant", "Exporter vers Excel", "Exporter vers iCalendar", "Supprimer"]
   end
 
+  def self.actions
+    ["Changer d'intervenant", "Exporter vers Excel", "Exporter vers iCalendar"]
+  end
+
   def self.etendue_horaire
-    [8,9,10,11,12,13,14,15,16,17,18,19,20,21]
+    [8,9,10,11,12,13,14,15,16,17,18,19,20,21,22]
   end
 
   def self.ue_styles
@@ -127,7 +131,7 @@ class Cour < ActiveRecord::Base
       1
     else
       # Taux général de la formation
-      self.formation.Taux_TD
+      Formation.unscoped.find(self.formation_id).Taux_TD
     end
   end
 

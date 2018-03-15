@@ -1,7 +1,7 @@
 <div class="page-header">
   <h2>
   	<span class="glyphicon glyphicon-list-alt"></span>
-  	Etat de services de 
+  	Etats de services 
     <%= link_to @intervenant.nom_prenom, edit_intervenant_path(@intervenant), target:"_new" %>
     du <%= l(@start_date.to_date) %> 
     au <%= l(@end_date.to_date) %>
@@ -31,11 +31,11 @@
     <% unless c.hors_service_statutaire %>
       <% @cumul_hetd += c.HETD %>
     <% end %>
-
+    <% formation = Formation.unscoped.find(c.formation_id) %>
     <tr>
       <td><%= l(c.debut, format: :short) %></td>
-      <td><%= link_to c.formation.nom, edit_formation_path(c.formation), target:"_new" %></td>
-      <td><%= c.formation.Code_Analytique %></td>
+      <td><%= link_to formation.nom, edit_formation_path(formation), target:"_new" %></td>
+      <td><%= formation.Code_Analytique %></td>
       <td><%= link_to c.nom_ou_ue, edit_cour_path(c), target:"_new" %></td>
       <td><%= c.duree.to_f %></td>
       <td>

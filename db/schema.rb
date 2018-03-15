@@ -11,78 +11,78 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180117121907) do
+ActiveRecord::Schema.define(version: 20180315152505) do
 
   create_table "audits", force: :cascade do |t|
-    t.integer  "auditable_id"
-    t.string   "auditable_type"
-    t.integer  "associated_id"
-    t.string   "associated_type"
-    t.integer  "user_id"
-    t.string   "user_type"
-    t.string   "username"
-    t.string   "action"
-    t.text     "audited_changes"
-    t.integer  "version",         default: 0
-    t.string   "comment"
-    t.string   "remote_address"
-    t.string   "request_uuid"
+    t.integer  "auditable_id",    limit: 4
+    t.string   "auditable_type",  limit: 255
+    t.integer  "associated_id",   limit: 4
+    t.string   "associated_type", limit: 255
+    t.integer  "user_id",         limit: 4
+    t.string   "user_type",       limit: 255
+    t.string   "username",        limit: 255
+    t.string   "action",          limit: 255
+    t.text     "audited_changes", limit: 65535
+    t.integer  "version",         limit: 4,     default: 0
+    t.string   "comment",         limit: 255
+    t.string   "remote_address",  limit: 255
+    t.string   "request_uuid",    limit: 255
     t.datetime "created_at"
   end
 
-  add_index "audits", ["associated_id", "associated_type"], name: "associated_index"
-  add_index "audits", ["auditable_id", "auditable_type"], name: "auditable_index"
-  add_index "audits", ["created_at"], name: "index_audits_on_created_at"
-  add_index "audits", ["request_uuid"], name: "index_audits_on_request_uuid"
-  add_index "audits", ["user_id", "user_type"], name: "user_index"
+  add_index "audits", ["associated_id", "associated_type"], name: "associated_index", using: :btree
+  add_index "audits", ["auditable_id", "auditable_type"], name: "auditable_index", using: :btree
+  add_index "audits", ["created_at"], name: "index_audits_on_created_at", using: :btree
+  add_index "audits", ["request_uuid"], name: "index_audits_on_request_uuid", using: :btree
+  add_index "audits", ["user_id", "user_type"], name: "user_index", using: :btree
 
   create_table "cours", force: :cascade do |t|
     t.datetime "debut"
     t.datetime "fin"
-    t.integer  "formation_id"
-    t.integer  "intervenant_id"
-    t.integer  "salle_id"
-    t.string   "ue"
-    t.string   "nom"
-    t.datetime "created_at",                                                    null: false
-    t.datetime "updated_at",                                                    null: false
-    t.integer  "etat",                                            default: 0
-    t.decimal  "duree",                   precision: 4, scale: 2, default: 0.0
-    t.integer  "intervenant_binome_id"
-    t.boolean  "hors_service_statutaire"
+    t.integer  "formation_id",            limit: 4
+    t.integer  "intervenant_id",          limit: 4
+    t.integer  "salle_id",                limit: 4
+    t.string   "ue",                      limit: 255
+    t.string   "nom",                     limit: 255
+    t.datetime "created_at",                                                                null: false
+    t.datetime "updated_at",                                                                null: false
+    t.integer  "etat",                    limit: 4,                           default: 0
+    t.decimal  "duree",                               precision: 4, scale: 2, default: 0.0
+    t.integer  "intervenant_binome_id",   limit: 4
+    t.boolean  "hors_service_statutaire", limit: 1
   end
 
-  add_index "cours", ["debut"], name: "index_cours_on_debut"
-  add_index "cours", ["etat"], name: "index_cours_on_etat"
-  add_index "cours", ["formation_id"], name: "index_cours_on_formation_id"
-  add_index "cours", ["intervenant_id"], name: "index_cours_on_intervenant_id"
-  add_index "cours", ["salle_id"], name: "index_cours_on_salle_id"
+  add_index "cours", ["debut"], name: "index_cours_on_debut", using: :btree
+  add_index "cours", ["etat"], name: "index_cours_on_etat", using: :btree
+  add_index "cours", ["formation_id"], name: "index_cours_on_formation_id", using: :btree
+  add_index "cours", ["intervenant_id"], name: "index_cours_on_intervenant_id", using: :btree
+  add_index "cours", ["salle_id"], name: "index_cours_on_salle_id", using: :btree
 
   create_table "documents", force: :cascade do |t|
-    t.string   "nom"
-    t.integer  "formation_id"
-    t.integer  "intervenant_id"
-    t.integer  "unite_id"
-    t.string   "fichier"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.string   "nom",            limit: 255
+    t.integer  "formation_id",   limit: 4
+    t.integer  "intervenant_id", limit: 4
+    t.integer  "unite_id",       limit: 4
+    t.string   "fichier",        limit: 255
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
   end
 
-  add_index "documents", ["formation_id"], name: "index_documents_on_formation_id"
-  add_index "documents", ["intervenant_id"], name: "index_documents_on_intervenant_id"
-  add_index "documents", ["unite_id"], name: "index_documents_on_unite_id"
+  add_index "documents", ["formation_id"], name: "index_documents_on_formation_id", using: :btree
+  add_index "documents", ["intervenant_id"], name: "index_documents_on_intervenant_id", using: :btree
+  add_index "documents", ["unite_id"], name: "index_documents_on_unite_id", using: :btree
 
   create_table "etudiants", force: :cascade do |t|
-    t.integer  "formation_id"
-    t.string   "nom"
-    t.string   "prénom"
-    t.string   "email"
-    t.string   "mobile"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.integer  "formation_id", limit: 4
+    t.string   "nom",          limit: 255
+    t.string   "prénom",       limit: 255
+    t.string   "email",        limit: 255
+    t.string   "mobile",       limit: 255
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
   end
 
-  add_index "etudiants", ["formation_id"], name: "index_etudiants_on_formation_id"
+  add_index "etudiants", ["formation_id"], name: "index_etudiants_on_formation_id", using: :btree
 
   create_table "fermetures", force: :cascade do |t|
     t.date     "date"
@@ -90,75 +90,98 @@ ActiveRecord::Schema.define(version: 20180117121907) do
     t.datetime "updated_at", null: false
   end
 
-  add_index "fermetures", ["date"], name: "index_fermetures_on_date"
+  add_index "fermetures", ["date"], name: "index_fermetures_on_date", using: :btree
 
   create_table "formations", force: :cascade do |t|
-    t.string   "nom"
-    t.string   "promo"
-    t.string   "diplome"
-    t.string   "domaine"
-    t.boolean  "apprentissage"
-    t.datetime "created_at",                                               null: false
-    t.datetime "updated_at",                                               null: false
-    t.string   "memo"
-    t.integer  "nbr_etudiants",                            default: 0
-    t.integer  "nbr_heures"
-    t.string   "abrg"
-    t.integer  "user_id"
-    t.string   "color"
-    t.string   "Forfait_HETD"
-    t.decimal  "Taux_TD",         precision: 10, scale: 2, default: 0.0
-    t.string   "Code_Analytique"
-    t.boolean  "hors_catalogue",                           default: false
+    t.string   "nom",             limit: 255
+    t.string   "promo",           limit: 255
+    t.string   "diplome",         limit: 255
+    t.string   "domaine",         limit: 255
+    t.boolean  "apprentissage",   limit: 1
+    t.datetime "created_at",                                                           null: false
+    t.datetime "updated_at",                                                           null: false
+    t.string   "memo",            limit: 255
+    t.integer  "nbr_etudiants",   limit: 4,                            default: 0
+    t.integer  "nbr_heures",      limit: 4
+    t.string   "abrg",            limit: 255
+    t.integer  "user_id",         limit: 4
+    t.string   "color",           limit: 255
+    t.string   "Forfait_HETD",    limit: 255
+    t.decimal  "Taux_TD",                     precision: 10, scale: 2, default: 0.0
+    t.string   "Code_Analytique", limit: 255
+    t.boolean  "hors_catalogue",  limit: 1,                            default: false
+    t.boolean  "archive",         limit: 1
   end
 
-  add_index "formations", ["user_id"], name: "index_formations_on_user_id"
+  add_index "formations", ["archive"], name: "index_formations_on_archive", using: :btree
+  add_index "formations", ["user_id"], name: "index_formations_on_user_id", using: :btree
 
   create_table "intervenants", force: :cascade do |t|
-    t.string   "nom"
-    t.datetime "created_at",            null: false
-    t.datetime "updated_at",            null: false
-    t.string   "prenom"
-    t.string   "email"
-    t.string   "linkedin_url"
-    t.string   "titre1"
-    t.string   "titre2"
-    t.string   "spécialité"
-    t.string   "téléphone_fixe"
-    t.string   "téléphone_mobile"
-    t.string   "bureau"
-    t.string   "photo"
-    t.integer  "status"
+    t.string   "nom",                   limit: 255
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
+    t.string   "prenom",                limit: 255
+    t.string   "email",                 limit: 255
+    t.string   "linkedin_url",          limit: 255
+    t.string   "titre1",                limit: 255
+    t.string   "titre2",                limit: 255
+    t.string   "spécialité",            limit: 255
+    t.string   "téléphone_fixe",        limit: 255
+    t.string   "téléphone_mobile",      limit: 255
+    t.string   "bureau",                limit: 255
+    t.string   "photo",                 limit: 255
+    t.integer  "status",                limit: 4
     t.datetime "remise_dossier_srh"
-    t.string   "adresse"
-    t.string   "cp"
-    t.string   "ville"
-    t.boolean  "doublon"
-    t.integer  "nbr_heures_statutaire"
+    t.string   "adresse",               limit: 255
+    t.string   "cp",                    limit: 255
+    t.string   "ville",                 limit: 255
+    t.boolean  "doublon",               limit: 1
+    t.integer  "nbr_heures_statutaire", limit: 4
     t.date     "date_naissance"
-    t.string   "memo"
+    t.string   "memo",                  limit: 255
   end
 
   create_table "salles", force: :cascade do |t|
-    t.string   "nom"
-    t.integer  "places"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string   "bloc"
+    t.string   "nom",        limit: 255
+    t.integer  "places",     limit: 4
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.string   "bloc",       limit: 255
   end
 
   create_table "unites", force: :cascade do |t|
-    t.integer  "formation_id"
-    t.string   "nom"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-    t.string   "num"
+    t.integer  "formation_id", limit: 4
+    t.string   "nom",          limit: 255
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.string   "num",          limit: 255
   end
 
-  add_index "unites", ["formation_id"], name: "index_unites_on_formation_id"
-  add_index "unites", ["num"], name: "index_unites_on_num"
+  add_index "unites", ["formation_id"], name: "index_unites_on_formation_id", using: :btree
+  add_index "unites", ["num"], name: "index_unites_on_num", using: :btree
 
-# Could not dump table "users" because of following NoMethodError
-#   undefined method `[]' for nil:NilClass
+  create_table "users", force: :cascade do |t|
+    t.string   "email",                  limit: 255, default: "",    null: false
+    t.string   "encrypted_password",     limit: 255, default: "",    null: false
+    t.string   "reset_password_token",   limit: 255
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",          limit: 4,   default: 0,     null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip",     limit: 255
+    t.string   "last_sign_in_ip",        limit: 255
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "admin",                  limit: 1,   default: false
+    t.integer  "formation_id",           limit: 4
+    t.string   "nom",                    limit: 255
+    t.string   "prénom",                 limit: 255
+    t.string   "mobile",                 limit: 255
+  end
+
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["formation_id"], name: "index_users_on_formation_id", using: :btree
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
 end

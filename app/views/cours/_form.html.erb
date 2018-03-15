@@ -74,22 +74,24 @@
     </div>
   </div>
 
-  <% unless @cour.new_record? %>
+  <% if current_user.admin? %>
+    <% unless @cour.new_record? %>
+      <div class="form-group">
+        <%= f.label :etat, class:"control-label col-sm-2" %>
+        <div class="col-sm-2">
+          <%= f.select(:etat, Cour.etats.keys.to_a, {include_blank: true}, class:"form-control") %>
+        </div>
+      </div>
+    <% end %>
+
     <div class="form-group">
-      <%= f.label :etat, class:"control-label col-sm-2" %>
+      <%= f.label :salle_id, class:"control-label col-sm-2" %>
       <div class="col-sm-2">
-        <%= f.select(:etat, Cour.etats.keys.to_a, {include_blank: true}, class:"form-control") %>
+        <%= f.collection_select(:salle_id, Salle.all, :id, :nom_places, {include_blank: true}, class:"form-control") %>
       </div>
     </div>
+    <br>
   <% end %>
-
-  <div class="form-group">
-    <%= f.label :salle_id, class:"control-label col-sm-2" %>
-    <div class="col-sm-2">
-      <%= f.collection_select(:salle_id, Salle.all, :id, :nom_places, {include_blank: true}, class:"form-control") %>
-    </div>
-  </div>
-  <br>
 
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">

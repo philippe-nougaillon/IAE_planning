@@ -17,14 +17,14 @@ class FormationsController < ApplicationController
     params[:nom] ||= session[:nom]
     
 
-    @formations = Formation.all
+    unless params[:archive].blank?
+      @formations = Formation.unscoped.where(archive:true)
+    else
+      @formations = Formation.all
+    end
 
     unless params[:nom].blank?
       @formations = @formations.where("nom like ? OR abrg like ? OR code_analytique like ?", "%#{params[:nom]}%", "%#{params[:nom]}%", "%#{params[:nom]}%")
-    end
-
-    unless params[:diplome].blank?
-      @formations = @formations.where(diplome:params[:diplome])
     end
 
     unless params[:apprentissage].blank?
@@ -116,13 +116,13 @@ class FormationsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_formation
-      @formation = Formation.find(params[:id])
+      @formation = Formation.unscoped.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def formation_params
       params.require(:formation).permit(:nom, :promo, :diplome, :domaine, :apprentissage, :memo, :nbr_etudiants, :nbr_heures, 
-                                        :abrg, :user_id, :color, :Forfait_HETD, :Taux_TD, :Code_Analytique, :catalogue,
+                                        :abrg, :user_id, :color, :Forfait_HETD, :Taux_TD, :Code_Analytique, :catalogue, :archive,
                                         unites_attributes: [:id, :num, :nom, :_destroy],
                                         etudiants_attributes: [:id, :nom, :prénom, :email, :mobile, :_destroy])
     end

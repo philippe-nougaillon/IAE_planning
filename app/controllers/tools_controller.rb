@@ -44,8 +44,8 @@ class ToolsController < ApplicationController
             end
           end
 
-          debut = Time.parse(row['Date'] + " " + row['Heure début']).utc
-          fin   = Time.parse(row['Date'] + " " + row['Heure fin']).utc
+          debut = Time.parse(row['Date'] + " " + row['Heure début'] + 'UTC')
+          fin   = Time.parse(row['Date'] + " " + row['Heure fin'] + 'UTC')
           cours = Cour.new(debut:debut, fin:fin, duree:((fin - debut)/3600), formation_id:params[:formation_id], intervenant:intervenant, ue:row['UE'].try(:strip), nom:row['Intitulé'])
           if cours.valid? 
             cours.save if params[:save] == 'true'
@@ -349,24 +349,24 @@ class ToolsController < ApplicationController
         if params[:am] || params[:pm]
           if params[:am]
             new_cours.duree = 3
-            new_cours.debut = Time.zone.parse(current_date.to_s + " 9:00").utc
+            new_cours.debut = Time.parse(current_date.to_s + " 9:00 UTC")
             new_cours.fin = eval("new_cours.debut + #{new_cours.duree}.hour")
           elsif params[:pm]
             new_cours.duree = 4
-            new_cours.debut = Time.zone.parse(current_date.to_s + " 13:00").utc
+            new_cours.debut = Time.parse(current_date.to_s + " 13:00 UTC")
             new_cours.fin = eval("new_cours.debut + #{new_cours.duree}.hour")
           end
           # création du cours de l'après midi si besoin
           if (params[:am] && params[:pm])
             new_cours_pm = Cour.new(formation_id:params[:formation_id], intervenant_id:params[:intervenant_id], nom:nom_cours, salle_id:salle_id)
             new_cours_pm.duree = 4
-            new_cours_pm.debut = Time.zone.parse(current_date.to_s + " 13:00").utc
+            new_cours_pm.debut = Time.parse(current_date.to_s + " 13:00 UTC")
             new_cours_pm.fin = eval("new_cours_pm.debut + #{new_cours_pm.duree}.hour")
           end  
         else
           # calcul de la date & heure de début et de fin  
           new_cours.duree = duree
-          new_cours.debut = Time.zone.parse(current_date.to_s + " #{params[:cours]["start_date(4i)"]}:#{params[:cours]["start_date(5i)"]}").utc
+          new_cours.debut = Time.parse(current_date.to_s + " #{params[:cours]["start_date(4i)"]}:#{params[:cours]["start_date(5i)"]} UTC")
           new_cours.fin = eval("new_cours.debut + #{new_cours.duree}.hour")
         end
 
@@ -513,16 +513,16 @@ class ToolsController < ApplicationController
     @types = Audited::Audit.select(:auditable_type).uniq.pluck(:auditable_type)
     
     unless params[:chgt_salle].blank?
-      params[:type] = 'Cour'
-      params[:search] = 'salle_id'
-    end
+      salle_id_nil = "\"salle_id\"=>nil"
+      @audits = @audits.where(auditable_type:'Cour')
+    else
+      unless params[:type].blank?
+        @audits = @audits.where(auditable_type:params[:type])
+      end
 
-    unless params[:type].blank?
-      @audits = @audits.where(auditable_type:params[:type])
-    end
-
-    unless params[:search].blank?
-      @audits = @audits.where("audited_changes like ?", "%#{params[:search]}%")
+      unless params[:search].blank?
+        @audits = @audits.where("audited_changes like ?", "%#{params[:search]}%")
+      end
     end
 
     @audits = @audits.paginate(page:params[:page], per_page:10)

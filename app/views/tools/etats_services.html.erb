@@ -5,51 +5,50 @@
 <div class="page-header">
   <h1>
   	<span class="glyphicon glyphicon-list-alt"></span>
-  	Etat de services
+  	Etats de services
   </h1>
 </div>
-<div>
-  <h3>Récapitule les cours réalisés sur une période par un intervenant </h3>
-</div>
 
+<div>
+  <h3>Récapitule les cours réalisés par un intervenant et sur une période donnée</h3>
+  <i>Même si les formations ont été archivées...</i>
+</div>
 <br>
 
 <%= form_tag({action: "etats_services_do", method: :post}, multipart: true) do %>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-sm-4">
+                <%= label_tag :intervenant_id, "Intervenant" %>
+                <%= select_tag :intervenant_id,
+                    options_from_collection_for_select(Intervenant.all, :id, :nom_prenom, params[:intervenant_id]), include_blank:true, class:"form-control select2" %>
+                <br>
+            </div>
 
-  <div class="form-group">
-    <div class="row">
-        <div class="col-sm-4">
-            <%= label_tag :intervenant_id, "Intervenant" %>
-            <%= select_tag :intervenant_id,
-                options_from_collection_for_select(Intervenant.all, :id, :nom_prenom, params[:intervenant_id]), include_blank:true, class:"form-control select2" %>
+            <div class="col-sm-2">
+                <%= label_tag "Du" %>    
+                <%= text_field_tag :start_date, params[:start_date], type:'date', class:"form-control" %>
+            </div>
+
+            <div class="col-sm-2">
+                <%= label_tag "Au" %>    
+                <%= text_field_tag :end_date, params[:end_date], type:'date', class:"form-control" %>
+            </div>
             <br>
         </div>
 
-        <div class="col-sm-2">
-            <%= label_tag "Du" %>    
-            <%= text_field_tag :start_date, params[:start_date], type:'date', class:"form-control" %>
-        </div>
-
-        <div class="col-sm-2">
-            <%= label_tag "Au" %>    
-            <%= text_field_tag :end_date, params[:end_date], type:'date', class:"form-control" %>
+        <div class="field">
+            <b>Envoyer à l'intervenant ?</b><br>
+            <%= radio_button_tag :mailer, true %>
+            <%= label :mailer, "Oui, envoyer par email", value:"true" %>
+            <br>
+            <%= radio_button_tag :mailer, false, checked:true %>
+            <%= label :mailer, "Non", value:"false" %>
         </div>
         <br>
+        
+        <div class="actions">
+            <%= submit_tag "Valider", class: "btn btn-success" %>
+        </div>
     </div>
-
-    <div class="field">
-        <b>Envoyer à l'intervenant ?</b><br>
-        <%= radio_button_tag :mailer, true %>
-        <%= label :mailer, "Oui, envoyer par email", value:"true" %>
-        <br>
-        <%= radio_button_tag :mailer, false, checked:true %>
-        <%= label :mailer, "Non", value:"false" %>
-    </div>
-    <br>
-    
-    <div class="actions">
-        <%= submit_tag "Valider", class: "btn btn-success" %>
-    </div>
-  </div>
-  
 <% end %>

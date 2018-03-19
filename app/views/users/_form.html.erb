@@ -20,11 +20,10 @@
         <%= f.text_field :prénom %>
         <%= f.text_field :email %>
         <%= f.text_field :mobile %>
-        <%= f.select :formation_id, 
-                options_from_collection_for_select(Formation.all, :id, :nom_promo, @user.formation_id), include_blank:true %>
         <%= f.password_field :password %>
         <%= f.password_field :password_confirmation %>
-        <%= f.check_box :admin, label:"Administrateur ?" %>
+        <%= f.check_box :reserver, label:"Peut réserver une salle ?" %>
+        <%= f.check_box :admin, label:"Peut administrer l'application ?" %>
         <br>
         
         <%= f.submit class: "btn btn-primary" %>

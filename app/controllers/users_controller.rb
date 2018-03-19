@@ -14,12 +14,12 @@ class UsersController < ApplicationController
       @users = @users.where("nom like ? or prénom like ? or email like ?", "%#{params[:search]}%", "%#{params[:search]}%", "%#{params[:search]}%"  )
     end
 
-    unless params[:formation_id].blank?
-      @users = @users.where(formation_id:params[:formation_id])
-    end
-
     unless params[:admin].blank?
       @users = @users.where(admin:true)
+    end
+
+    unless params[:reserver].blank?
+      @users = @users.where(reserver:true)
     end
 
     @users = @users.paginate(page:params[:page], per_page:20)
@@ -95,6 +95,6 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:email, :nom, :prénom, :mobile, :admin, :formation_id, :password, :password_confirmation)
+      params.require(:user).permit(:email, :nom, :prénom, :mobile, :admin, :formation_id, :password, :password_confirmation, :reserver)
     end
 end

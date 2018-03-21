@@ -31,12 +31,12 @@
 	<%= @user.mobile %>
 </p>
 <p>
-	<strong>Formation:</strong>
-	<%= @user.formation.nom_promo if @user.formation %>
+	<strong>Peut réserver une salle ?:</strong> 
+	<%= @user.reserver? ? "Oui" : "Non" %>
 </p>
 <p>
-	<strong>Administrateur:</strong> 
-	<%= @user.admin? ? "Oui" : 'Non' %>
+	<strong>Peut administrer l'application ?:</strong> 
+	<%= @user.admin? ? "Oui" : "Non" %>
 </p>
 <br>
 

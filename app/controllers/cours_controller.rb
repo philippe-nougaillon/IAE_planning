@@ -119,7 +119,7 @@ class CoursController < ApplicationController
 
     unless params[:ids].blank?
       # affiche les cours d'un ID donné
-      @cours = Cour.where(id:params[:ids])
+      @cours = Cour.where(id:params[:ids]).order(:debut)
     end
 
     @all_cours = @cours

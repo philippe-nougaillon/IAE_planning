@@ -18,8 +18,6 @@ class ToolsController < ApplicationController
         file.write(params[:upload].read)
       end
 
-      # Date;Heure début;Heure fin;Durée;UE;Intervenant;Intitulé
-
       # capture output
       @stream = capture_stdout do
         @importes = @errors = 0 
@@ -61,11 +59,7 @@ class ToolsController < ApplicationController
           cours.ue = row['UE'].try(:strip)
           cours.nom = row['Intitulé']
 
-          if update_mode
-            puts "Ligne ##{index} | COURS UPDATE => changes:#{cours.changes} | Source: #{row} \n\r"
-          else
-            puts "Ligne ##{index} | COURS NEW => #{cours.inspect} | Source: #{row} \n\r"
-          end
+          puts "Ligne ##{index} | COURS #{update_mode ? 'UPDATE' : 'NEW'} => changes:#{cours.changes} | Source: #{row} \n\r"
 
           if cours.valid? 
             cours.save if params[:save] == 'true'
@@ -76,16 +70,12 @@ class ToolsController < ApplicationController
           end
           puts
         end
-        puts "----------- Les modifications n'ont pas été enregistrées ! ---------------" unless params[:save] == 'true'
+        puts "=" * 80
+        puts "Les modifications n'ont pas été enregistrées !" unless params[:save] == 'true'
         puts
-        puts "=" * 40
         puts "Lignes importées: #{@importes} | Lignes ignorées: #{@errors}"
-        puts "=" * 40
+        puts "=" * 80
       end
-
-      # save output            
-      # @now = DateTime.now.to_s
-      # File.open("public/Documents/Import_logements-#{@now}.txt", "w") { |file| file.write @out }
     else
       flash[:alert] = "Manque le fichier source ou la formation pour pouvoir lancer l'importation !"
       redirect_to action: 'import'

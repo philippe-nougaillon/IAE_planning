@@ -8,13 +8,11 @@
     <ul class="nav navbar-nav">
       <% if @cours.any? %>
         <p class="navbar-text">
-          Màj: <%= l(DateTime.now) %>
+          Màj: <%= l(@now) %>
           <% if @max_page_slide %> 
-            | 
-            Page <%= session[:page_slide] %> sur <%= @max_page_slide %>
+            | Page <%= session[:page_slide] %> sur <%= @max_page_slide %>
           <% end %>
-          |
-          <%= @cours.count %> Cours au total
+          | <%= @cours.count %> Cours au total
         </p>
       <% else %>
         <p class="navbar-text">
@@ -54,6 +52,7 @@
             <td>
               <h3><%= cours.formation.nom_promo %></h3>
               <h4><%= link_to cours.nom_ou_ue, cours %></h4>
+
               <% if cours.progress_bar_pct(@planning_date) > 0 %>
                 <div class="progress">
                   <div class="progress-bar progress-bar-striped active" 
@@ -64,12 +63,13 @@
               <% else %>
                 <br><br>
               <% end %>
+
             </td>
             <td style="vertical-align: middle;">
               <h3>
                 <!---
                 <% if cours.intervenant.photo.url %>
-                  <%= image_tag(cours.intervenant.photo.url, class: "img-circle", size:'80x80') %>
+                  <%= image_tag(cours.intervenant.photo.url, class: "img-circle", size: '80x80') %>
                 <% end %>
                 -->
                 <%= cours.intervenant.nom_prenom %>

@@ -14,11 +14,14 @@
     <h3>Cette fonction permet l'importation de cours à partir d'un fichier CSV</h3>
     <ul>
       <li>
-        Le fichier source doit contenir les colonnes suivantes: 
-        <b>Date (format:'JJ/MM/AAAA');Heure début (format:'09:30');Heure fin;UE;Intervenant (format:'NOM Prénom');Intitulé</b>
+        Le fichier source doit contenir les colonnes suivantes: <br>
+        <b>id;Date début (format:'JJ/MM/AAAA');Heure début (format:'09:30');Date fin;Heure fin;UE;Intervenant (format:'NOM Prénom');Intitulé</b>
+        <i>Si id est égal à 0, c'est une création de cours, sinon c'est une mise à jour</i>
       </li>
-      <li>Ce fichier doit être au format CSV, Encodage=iso-8859-1, Séparateur=Point-virgule, Noms colonnes=Première ligne</li>
-      <li>Exemple de fichier conforme : <%= link_to "exemple_import_cours.csv", "/exemple_import_cours.csv" %></li>
+
+      <li>Ce fichier doit être au format CSV, Encodage=iso-8859-1, Séparateur=Point-virgule, Noms colonnes=Première ligne.<br>
+        Exemple de fichier conforme : <%= link_to "exemple_import_cours.csv", "/exemple_import_cours.csv" %>
+      </li>
     </ul>
   </div>
 
@@ -34,16 +37,6 @@
   <div class="field">
     <%= label :filename, "Fichier source" %>
     <%= file_field_tag 'upload', accept: 'text/csv' %>
-  </div>
-  <br>
-
-  <div class="field">
-    <b>Ignorer les tests de validation</b> <br>
-    <%= label :skip_validation, "Oui", :value => "true" %>
-    <%= radio_button_tag :skip_validation, true %>
-    <%= label :skip_validation, "Non", :value => "false" %>
-    <%= radio_button_tag :skip_validation, false, :checked => true %>
-    <i>Choisissez 'Oui' pour ignorer les tests de chevauchements si cet import a pour but la modification de cours déjà existants</i><br />
   </div>
   <br>
   

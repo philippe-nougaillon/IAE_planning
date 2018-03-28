@@ -120,8 +120,7 @@
 				<br>
 
 				<li>
-					DateTime: <%= DateTime.now %>
-					TimeZone: <%= Time.zone %> 
+					Time (Paris): <%= Time.now.in_time_zone("Paris") %>
 				</li>
 			</ul>
 

@@ -23,30 +23,50 @@ class ToolsController < ApplicationController
       # capture output
       @stream = capture_stdout do
         @importes = @errors = 0 
-
         index = 1
 
-        CSV.foreach(file_with_path, headers:true, col_sep:';', quote_char:'"', encoding:'iso-8859-1:UTF-8') do |row|
+        CSV.foreach(file_with_path, headers: true, col_sep: ';', quote_char:'"', encoding: 'UTF-8') do |row|
           index += 1
 
-          # passe si pas de valeur dans le champs date
-          next unless row['Date']
-          
           intervenant = nil
           if row['Intervenant']
-            nom = row['Intervenant'].strip.split(' ').first.upcase
-            intervenant = Intervenant.where(nom:nom).first_or_initialize
-            if intervenant.new_record?
-              puts "Intervenant #{intervenant.nom} sera créé. Ne pas tenir compte du message intervenant_id doit être rempli."
-              intervenant.prenom = row['Intervenant'].strip.split(' ').last
-              intervenant.email = "?"
-              intervenant.save if params[:save] == 'true'
+            if row['Intervenant'] == 'A CONFIRMER'
+              intervenant = Intervenant.where(nom:'A CONFIRMER').first
+            else  
+              nom = row['Intervenant'].strip.split(' ').first.upcase
+              prenom = row['Intervenant'].strip.split(' ').last
+              intervenant = Intervenant.where(nom:nom, prenom:prenom).first_or_initialize
+              if intervenant.new_record?
+                puts "Intervenant #{intervenant.nom} #{intervenant.prenom} sera créé. Ne pas tenir compte du message intervenant_id doit être rempli."
+                intervenant.email = "?"
+                intervenant.save if params[:save] == 'true'
+              end
             end
           end
 
-          debut = Time.parse(row['Date'] + " " + row['Heure début'] + 'UTC')
-          fin   = Time.parse(row['Date'] + " " + row['Heure fin'] + 'UTC')
-          cours = Cour.new(debut:debut, fin:fin, duree:((fin - debut)/3600), formation_id:params[:formation_id], intervenant:intervenant, ue:row['UE'].try(:strip), nom:row['Intitulé'])
+          # MAJ cours existant ? si l'id est égal à 0 => c'est une création
+          if update_mode = (row['id'].to_i != 0)
+            cours = Cour.find(row['id'])
+          else
+            cours = Cour.new
+          end
+
+          debut = Time.parse(row['Date début'] + " " + row['Heure début'] + 'UTC')
+          fin   = Time.parse(row['Date fin'] + " " + row['Heure fin'] + 'UTC')
+          cours.debut = debut
+          cours.fin = fin
+          cours.duree = ((fin - debut)/3600)
+          cours.intervenant_id = intervenant.id
+          cours.formation_id = params[:formation_id]
+          cours.ue = row['UE'].try(:strip)
+          cours.nom = row['Intitulé']
+
+          if update_mode
+            puts "Ligne ##{index} | COURS UPDATE => changes:#{cours.changes} | Source: #{row} \n\r"
+          else
+            puts "Ligne ##{index} | COURS NEW => #{cours.inspect} | Source: #{row} \n\r"
+          end
+
           if cours.valid? 
             cours.save if params[:save] == 'true'
             @importes += 1
@@ -352,14 +372,14 @@ class ToolsController < ApplicationController
             new_cours.debut = Time.parse(current_date.to_s + " 9:00 UTC")
             new_cours.fin = eval("new_cours.debut + #{new_cours.duree}.hour")
           elsif params[:pm]
-            new_cours.duree = 4
+            new_cours.duree = 3
             new_cours.debut = Time.parse(current_date.to_s + " 13:00 UTC")
             new_cours.fin = eval("new_cours.debut + #{new_cours.duree}.hour")
           end
           # création du cours de l'après midi si besoin
           if (params[:am] && params[:pm])
             new_cours_pm = Cour.new(formation_id:params[:formation_id], intervenant_id:params[:intervenant_id], nom:nom_cours, salle_id:salle_id)
-            new_cours_pm.duree = 4
+            new_cours_pm.duree = 3
             new_cours_pm.debut = Time.parse(current_date.to_s + " 13:00 UTC")
             new_cours_pm.fin = eval("new_cours_pm.debut + #{new_cours_pm.duree}.hour")
           end  

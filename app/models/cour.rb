@@ -141,7 +141,9 @@ class Cour < ActiveRecord::Base
 
   def progress_bar_pct(planning_date)
     # calcul le % de réalisation du cours
-    ((planning_date.to_datetime.to_f - self.debut.to_f) / (self.fin.to_f - self.debut.to_f) * 100).to_i
+    # ((planning_date.to_datetime.to_i - self.debut.to_i) / (self.fin.to_i - self.debut.to_i) * 100).to_i
+    @now = Time.now + 2.hours
+    ((@now.to_f - self.debut.to_f) / (self.fin.to_f - self.debut.to_f) * 100).to_i
   end
 
   def range
@@ -162,22 +164,25 @@ class Cour < ActiveRecord::Base
   def self.generate_csv(cours, binome)
     require 'csv'
     
-    CSV.generate(col_sep:';', encoding:'UTF-8') do | csv |
+    CSV.generate(col_sep:';', quote_char:'"', encoding:'UTF-8') do | csv |
         csv << ['id','Date début','Heure début','Date fin','Heure fin','Formation_id','Formation','Code_Analytique','Intervenant_id','Intervenant','UE','Nom du cours','Etat','Salle','Durée','Hors service statutaire(HSS)','Taux_TD','HETD','Cours créé le','Par','Cours modifié le']
     
         cours.each do |c|
           hetd = c.duree * (c.formation.Taux_TD || 0)
           fields_to_export = [c.id, c.debut.to_date.to_s, c.debut.to_s(:time), c.fin.to_date.to_s, c.fin.to_s(:time), 
-            c.formation_id, c.formation.nom_promo, c.formation.Code_Analytique, c.intervenant_id, c.intervenant.nom_prenom, c.ue, c.nom, c.etat, 
+            c.formation_id, c.formation.nom_promo, c.formation.Code_Analytique, 
+            c.intervenant_id, c.intervenant.nom_prenom, c.ue, c.nom, c.etat, 
             (c.salle ? c.salle.nom : ""), 
-            c.duree.to_s.gsub(/\./, ','), 
+            c.duree.to_s,
             c.hors_service_statutaire,
             c.formation.Taux_TD,
-            hetd.to_s.gsub(/\./, ','), 
+            hetd.to_s,
             c.created_at,
             c.audits.first.user.try(:email),
             c.updated_at
           ]
+          #c.duree.to_s.gsub(/\./, ','),
+          #hetd.to_s.gsub(/\./, ','),
           
           csv << fields_to_export
           

@@ -1,5 +1,8 @@
 <div class="page-header">
-  <h1>Import logs</h1>
+  <h1>
+    <span class="glyphicon glyphicon-inbox"></span>  
+    Import logs
+  </h1>
 </div>
 
 <div class="table-responsive">
@@ -22,17 +25,18 @@
         <td><%= l(import_log.created_at.in_time_zone('Paris')) %></td>
         <td><%= import_log.model_type %></td>
         <td>
-           <% if import_log.etat == "succès" %>
-              <span class="glyphicon glyphicon-ok-circle"></span>
-            <% else %>
-              <span class="glyphicon glyphicon-remove-circle"></span>
-            <% end %>
+          <span class="<%= import_log.icon_etat %>"></span>
+          <%= import_log.etat.humanize %>
         </td>
         <td><%= import_log.nbr_lignes %></td>
         <td><%= import_log.lignes_importees %></td>
         <td><%= import_log.message %></td>
         <td><%= link_to "Télécharger", download_imported_file_import_log_path(import_log) %></td>
-        <td><%= link_to 'Voir', import_log %></td>
+        <td>
+          <%= link_to import_log, class:"btn btn-default" do %>
+            <i class="glyphicon glyphicon-zoom-in"></i>
+          <% end %>
+        </td>
       <% end %>
     </tbody>
   </table>

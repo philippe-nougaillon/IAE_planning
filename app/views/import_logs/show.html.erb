@@ -3,7 +3,10 @@
     <span class="glyphicon glyphicon-list-alt"></span>
     Retour
   <% end %>
-  <h1>Import log</h1>
+  <h1>
+    <span class="glyphicon glyphicon-inbox"></span>
+    Import log #<%= @import_log.id %>
+  </h1>
 </div>
 
 <dl class="dl-horizontal">
@@ -14,7 +17,10 @@
   <dd><%= @import_log.model_type %></dd>
 
   <dt>Etat:</dt>
-  <dd><%= @import_log.etat %></dd>
+  <dd>
+    <span class="<%= @import_log.icon_etat %>"></span>
+    <%= @import_log.etat.humanize %>
+  </dd>
 
   <dt>Lignes:</dt>
   <dd><%= @import_log.nbr_lignes %></dd>
@@ -45,13 +51,7 @@
     <tbody>
       <%= content_tag_for(:tr, @import_log.import_log_lines) do |import_log_line| %>
         <td><%= import_log_line.num_ligne %></td>
-        <td>
-           <% if import_log_line.etat == "succès" %>
-              <span class="glyphicon glyphicon-ok-circle"></span>
-            <% else %>
-              <span class="glyphicon glyphicon-remove-circle"></span>
-            <% end %>
-        </td>
+        <td><span class="<%= import_log_line.icon_etat %>"></span></td>
         <td><%= import_log_line.message %></td>
       <% end %>
     </tbody>

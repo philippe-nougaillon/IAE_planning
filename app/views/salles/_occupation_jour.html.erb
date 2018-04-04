@@ -5,6 +5,7 @@
         <th>Salle</th>
         <th>Places</th>
         <th>Cours</th>
+        <th>Formations</th> 
         <% Cour.etendue_horaire.each_with_index do |heure, index| %>
           <th><%= heure %>h</th>
           <% if [4,9].include?(index) %><th /><% end %>
@@ -22,12 +23,13 @@
       <% @salles.each do |salle| %>
         <% @cours = Cour.where(etat: Cour.etats.values_at(:confirmé, :réalisé)) %>
         <% @cours = @cours.where("salle_id = ? AND cours.debut BETWEEN DATE(?) AND DATE(?)", salle.id, @date, @date + 1.day).order(:debut) %>
+        <% @formations = @cours.select(:formation_id).uniq.pluck(:formation_id) %> 
 
         <% if bloc != salle.nom[0] %>
           <% bloc = salle.nom[0] %>
           <thead>
             <tr>
-              <th /><th /><th />
+              <th /><th /><th /><th />
               <% Cour.etendue_horaire.each_with_index do |heure, index| %>
                 <th><%= heure %>h</th>
                 <% if [4,9].include?(index) %><th /><% end %>
@@ -40,10 +42,17 @@
           <td><b><%= salle.nom[0..6] %></b></td>
           <td><%= salle.places %></td>
           <td>
-            <%= link_to_unless @cours.count.zero?, 
-                              @cours.count, 
-                              cours_path(ids:@cours.pluck(:id), view:'list', from:'occupation')
-            %>
+            <%= link_to_unless @cours.count.zero?, @cours.count, 
+                              cours_path(ids:@cours.pluck(:id), view:'list', from:'occupation') %>
+          </td>
+          <td>
+            <% @formations.each do |id| %> 
+                <% formation = Formation.find(id) %> 
+                <span style="background-color:<%= formation.color %>;padding-left: 7px;"></span> 
+                <span style="padding-left:5px;"></span> 
+                <%= formation.abrg %> 
+                <span style="padding-right:10px;"></span> 
+              <% end %> 
           </td>
 
           <% if @date %>

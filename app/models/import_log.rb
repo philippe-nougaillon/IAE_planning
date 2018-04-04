@@ -8,4 +8,12 @@ class ImportLog < ActiveRecord::Base
 
     enum etat: [:succès, :echec]
 
+    def icon_etat
+        if self.etat == "succès"
+          "glyphicon glyphicon-ok-circle text-success"
+        else
+          "glyphicon glyphicon-remove-circle text-danger"
+        end
+      end  
+    
 end

@@ -67,6 +67,12 @@
 			<br>
 
 			<li>
+				<span class="glyphicon glyphicon-inbox"></span>
+				<%= link_to "Import log", import_logs_path %>
+			</li>
+			<br>
+
+			<li>
 				<span class="glyphicon glyphicon-export"></span>
 				<%= link_to "Export de cours", tools_export_path %>
 			</li>
@@ -102,7 +108,7 @@
 				<br>
 
 				<li>
-					<span class="glyphicon glyphicon-download-alt"></span>
+					<span class="glyphicon glyphicon-random"></span>
 					<%= link_to "Intervertir deux intervenants", tools_swap_intervenant_path %>
 				</li>
 				<br>
@@ -120,7 +126,8 @@
 				<br>
 
 				<li>
-					Time (Paris): <%= Time.now.in_time_zone("Paris") %>
+					Time.now.in_time_zone("Paris") :<br>
+					<%= Time.now.in_time_zone("Paris") %>
 				</li>
 			</ul>
 

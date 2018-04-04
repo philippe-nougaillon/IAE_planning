@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  import_log_id: 
+  num_ligne: 1
+  etat: 1
+  message: MyString
+
+two:
+  import_log_id: 
+  num_ligne: 1
+  etat: 1
+  message: MyString

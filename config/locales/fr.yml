@@ -51,6 +51,7 @@ fr:
       short: "%a %e %b"
       long: "%A %e %B %Y"
       month: "%B"
+      day: "%a"
     month_names:
     -
     - janvier

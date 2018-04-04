@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180319165741) do
+ActiveRecord::Schema.define(version: 20180404113041) do
 
   create_table "audits", force: :cascade do |t|
     t.integer  "auditable_id",    limit: 4
@@ -116,6 +116,28 @@ ActiveRecord::Schema.define(version: 20180319165741) do
   add_index "formations", ["archive"], name: "index_formations_on_archive", using: :btree
   add_index "formations", ["user_id"], name: "index_formations_on_user_id", using: :btree
 
+  create_table "import_log_lines", force: :cascade do |t|
+    t.integer  "import_log_id", limit: 4
+    t.integer  "num_ligne",     limit: 4
+    t.integer  "etat",          limit: 4
+    t.text     "message",       limit: 65535
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+  end
+
+  add_index "import_log_lines", ["import_log_id"], name: "index_import_log_lines_on_import_log_id", using: :btree
+
+  create_table "import_logs", force: :cascade do |t|
+    t.string   "model_type",       limit: 255
+    t.integer  "etat",             limit: 4
+    t.integer  "nbr_lignes",       limit: 4
+    t.integer  "lignes_importees", limit: 4
+    t.string   "fichier",          limit: 255
+    t.string   "message",          limit: 255
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+  end
+
   create_table "intervenants", force: :cascade do |t|
     t.string   "nom",                   limit: 255
     t.datetime "created_at",                        null: false
@@ -185,4 +207,5 @@ ActiveRecord::Schema.define(version: 20180319165741) do
   add_index "users", ["formation_id"], name: "index_users_on_formation_id", using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
+  add_foreign_key "import_log_lines", "import_logs"
 end

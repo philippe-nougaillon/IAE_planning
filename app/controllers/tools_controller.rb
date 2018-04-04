@@ -11,71 +11,78 @@ class ToolsController < ApplicationController
 
   def import_do
     if params[:upload] and !params[:formation_id].blank?
-    	
-      # Enregistre le fichier localement
-      file_with_path = Rails.root.join('public', 'tmp', params[:upload].original_filename)
+      
+      # Enregistre le fichier localement (format = Date + nom du fichier)
+      filename = I18n.l(Time.now, format: :long) + ' - ' + params[:upload].original_filename
+      file_with_path = Rails.root.join('public', 'tmp', filename)
       File.open(file_with_path, 'wb') do |file|
         file.write(params[:upload].read)
       end
 
-      # capture output
-      @stream = capture_stdout do
-        @importes = @errors = 0 
-        index = 1
+      log = ImportLog.new(model_type:'Cours', fichier: filename)
 
-        CSV.foreach(file_with_path, headers: true, col_sep: ';', quote_char:'"', encoding: 'UTF-8') do |row|
-          index += 1
+      @importes = @errors = 0 
+      index = 1
 
-          intervenant = nil
-          if row['Intervenant']
-            if row['Intervenant'] == 'A CONFIRMER'
-              intervenant = Intervenant.where(nom:'A CONFIRMER').first
-            else  
-              nom = row['Intervenant'].strip.split(' ').first.upcase
-              prenom = row['Intervenant'].strip.split(' ').last
-              intervenant = Intervenant.where(nom:nom, prenom:prenom).first_or_initialize
-              if intervenant.new_record?
-                puts "Intervenant #{intervenant.nom} #{intervenant.prenom} sera créé. Ne pas tenir compte du message intervenant_id doit être rempli."
-                intervenant.email = "?"
-                intervenant.save if params[:save] == 'true'
-              end
+      CSV.foreach(file_with_path, headers: true, col_sep: ';', quote_char:'"', encoding: 'UTF-8') do |row|
+        index += 1
+
+        intervenant = nil
+        if row['Intervenant']
+          if row['Intervenant'] == 'A CONFIRMER'
+            intervenant = Intervenant.where(nom:'A CONFIRMER').first
+          else  
+            nom = row['Intervenant'].strip.split(' ').first.upcase
+            prenom = row['Intervenant'].strip.split(' ').last
+            intervenant = Intervenant.where(nom:nom, prenom:prenom).first_or_initialize
+            if intervenant.new_record?
+              intervenant.email = "?"
+              intervenant.save if params[:save] == 'true'
             end
           end
-
-          # MAJ cours existant ? si l'id est égal à 0 => c'est une création
-          if update_mode = (row['id'].to_i != 0)
-            cours = Cour.find(row['id'])
-          else
-            cours = Cour.new
-          end
-
-          debut = Time.parse(row['Date début'] + " " + row['Heure début'] + 'UTC')
-          fin   = Time.parse(row['Date fin'] + " " + row['Heure fin'] + 'UTC')
-          cours.debut = debut
-          cours.fin = fin
-          cours.duree = ((fin - debut)/3600)
-          cours.intervenant_id = intervenant.id
-          cours.formation_id = params[:formation_id]
-          cours.ue = row['UE'].try(:strip)
-          cours.nom = row['Intitulé']
-
-          puts "Ligne ##{index} | COURS #{update_mode ? 'UPDATE' : 'NEW'} => changes:#{cours.changes} | Source: #{row} \n\r"
-
-          if cours.valid? 
-            cours.save if params[:save] == 'true'
-            @importes += 1
-          else
-            @errors += 1
-            puts "Ligne ##{index} | COURS INVALIDE !! Erreur => #{cours.errors.messages} | Source: #{row} \n\r"
-          end
-          puts
         end
-        puts "=" * 80
-        puts "Les modifications n'ont pas été enregistrées !" unless params[:save] == 'true'
-        puts
-        puts "Lignes importées: #{@importes} | Lignes ignorées: #{@errors}"
-        puts "=" * 80
+
+        # MAJ cours existant ? si l'id est égal à 0 => c'est une création
+        if update_mode = (row['id'].to_i != 0)
+          cours = Cour.find(row['id'])
+        else
+          cours = Cour.new
+        end
+
+        debut = Time.parse(row['Date début'] + " " + row['Heure début'] + 'UTC')
+        fin   = Time.parse(row['Date fin'] + " " + row['Heure fin'] + 'UTC')
+        cours.debut = debut
+        cours.fin = fin
+        cours.duree = ((fin - debut)/3600)
+        cours.intervenant_id = intervenant.id
+        cours.formation_id = params[:formation_id]
+        cours.ue = row['UE'].try(:strip)
+        cours.nom = row['Intitulé']
+
+        msg = "COURS #{update_mode ? 'UPDATE' : 'NEW'} => changes:#{cours.changes}"
+
+        if cours.valid? 
+          cours.save if params[:save] == 'true'
+          @importes += 1
+          _ligne_importée = true
+        else
+          @errors += 1
+          _ligne_importée = false
+          msg += "COURS INVALIDE !! Erreur => #{cours.errors.messages}"
+          # puts msg
+        end
+        _etat = ( _ligne_importée ? ImportLogLine.etats[:succès] : ImportLogLine.etats[:echec]) 
+        log.import_log_lines.build(etat: _etat, num_ligne: index, message: msg)
       end
+
+      _etat = (@error != 0 ? ImportLog.etats[:succès] : ImportLog.etats[:echec]) 
+      log.update(etat: _etat, nbr_lignes: @importes + @errors, lignes_importees: @importes)
+      log.update(message: (params[:save] == 'true' ? "Importation" : "Simulation") )
+      log.update(message: log.message + " | Formation: #{Formation.find(params[:formation_id]).try(:nom)}" )
+      log.save
+      
+      flash[:notice] = "L'importation a bien été exécutée"
+      redirect_to import_logs_path
     else
       flash[:alert] = "Manque le fichier source ou la formation pour pouvoir lancer l'importation !"
       redirect_to action: 'import'

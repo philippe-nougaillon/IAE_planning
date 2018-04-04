@@ -5,9 +5,11 @@
         <th>Salle</th>
         <th>Places</th>
         <th>Cours</th>
-        <th>Formations</th>
         <% (@date..(@date + 6.day)).each do |d| %>
-                <th><%= d.strftime('%a') %></th>
+          <th>
+            <%= l(d, format: :day).humanize %>
+            <%= d.day %>
+           </th>
         <% end %> 
       </tr>
     </thead>
@@ -22,15 +24,17 @@
       <% @salles.each do |salle| %>
         <% @cours = Cour.where(etat: Cour.etats.values_at(:confirmé, :réalisé)) %>
         <% @cours = @cours.where("salle_id = ? AND cours.debut BETWEEN DATE(?) AND DATE(?)", salle.id, @date, @date + 6.day).order(:debut) %>
-        <% @formations = @cours.select(:formation_id).uniq.pluck(:formation_id) %>
 
         <% if bloc != salle.nom[0] %>
           <% bloc = salle.nom[0] %>
           <thead>
             <tr>
-              <th /><th /><th /><th />
+              <th /><th /><th />
               <% (@date..(@date + 6.day)).each do |d| %>
-                <th><%= d.strftime('%a') %></th>
+                <th>
+                  <%= l(d, format: :day).humanize %>
+                  <%= d.day %>
+                </th>
               <% end %> 
             </tr>
           </thead>
@@ -39,16 +43,11 @@
         <tr>
           <td><b><%= salle.nom[0..6] %></b></td>
           <td><%= salle.places %></td>
-          <td><%= link_to_unless @cours.count.zero?, @cours.count, cours_path(ids:@cours.pluck(:id), view:'list', from:'occupation') %>
-          </td>
           <td>
-              <% @formations.each do |id| %>
-                <% formation = Formation.find(id) %>
-                <span style="background-color:<%= formation.color %>;padding-left: 7px;"></span>
-                <span style="padding-right:7px;"></span>
-              <% end %>
+            <%= link_to_unless @cours.count.zero?, 
+                @cours.count, cours_path(ids:@cours.pluck(:id), view:'list', from:'occupation') 
+            %>
           </td>
-
           <% (@date..(@date + 6.day)).each do |d| %>
             <% cours = @cours.where("cours.debut BETWEEN DATE(?) AND DATE(?)", d, d + 1.day) %>
             <td>

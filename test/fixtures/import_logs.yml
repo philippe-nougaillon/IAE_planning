@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  type: 
+  etat: 1
+  nbr_lignes: 1
+  lignes_importees: 1
+  fichier: MyString
+  message: MyString
+
+two:
+  type: 
+  etat: 1
+  nbr_lignes: 1
+  lignes_importees: 1
+  fichier: MyString
+  message: MyString

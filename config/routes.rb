@@ -1,6 +1,13 @@
 Rails.application.routes.draw do
   
+  resources :import_logs do
+    member do
+      get 'download_imported_file'
+    end
+  end
+
   resources :etudiants
+  
   get 'tools/index'
   get 'tools/import'
   post 'tools/import_do'

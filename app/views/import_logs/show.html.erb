@@ -1,0 +1,59 @@
+<div class="page-header">
+  <%= link_to import_logs_path, class: 'btn btn-default' do %>
+    <span class="glyphicon glyphicon-list-alt"></span>
+    Retour
+  <% end %>
+  <h1>Import log</h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt>Date:</dt>
+  <dd><%= @import_log.created_at.in_time_zone('Paris') %></dd>
+
+  <dt>Type:</dt>
+  <dd><%= @import_log.model_type %></dd>
+
+  <dt>Etat:</dt>
+  <dd><%= @import_log.etat %></dd>
+
+  <dt>Lignes:</dt>
+  <dd><%= @import_log.nbr_lignes %></dd>
+
+  <dt>Importées:</dt>
+  <dd><%= @import_log.lignes_importees %></dd>
+
+  <dt>Message:</dt>
+  <dd><%= @import_log.message %></dd>
+
+  <dt>Fichier:</dt>
+  <dd>
+      <%= @import_log.fichier %>
+      <%= link_to "Télécharger", download_imported_file_import_log_path(@import_log) %>
+  </dd>
+</dl>
+
+<div class="table-responsive">
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+        <th>Ligne</th>
+        <th>Etat</th>
+        <th>Message</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <%= content_tag_for(:tr, @import_log.import_log_lines) do |import_log_line| %>
+        <td><%= import_log_line.num_ligne %></td>
+        <td>
+           <% if import_log_line.etat == "succès" %>
+              <span class="glyphicon glyphicon-ok-circle"></span>
+            <% else %>
+              <span class="glyphicon glyphicon-remove-circle"></span>
+            <% end %>
+        </td>
+        <td><%= import_log_line.message %></td>
+      <% end %>
+    </tbody>
+  </table>
+</div>

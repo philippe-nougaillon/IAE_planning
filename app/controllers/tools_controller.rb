@@ -655,4 +655,81 @@ class ToolsController < ApplicationController
     end
   end
 
+  def nouvelle_saison
+    case params[:saison]
+    when '2018/2019'
+      @date_debut = Date.parse('2018-09-03')
+      @date_fin = Date.parse('2019-07-15')
+    when '2019/2020'
+    end
+
+    if @date_debut and @date_fin
+      @jours = (@date_debut..@date_fin).select{|j| j.wday == 1}
+    end
+
+    unless params[:formation_id].blank?
+      @formation_id = params[:formation_id]
+    end
+  end
+
+  def nouvelle_saison_create
+    @date_debut = Date.parse(params[:date_debut])
+    @date_fin = Date.parse(params[:date_fin])
+    @formation = Formation.find(params[:formation_id])
+    _intervenant = Intervenant.find(445) # A CONFIRMER
+    _semaines = params[:semaine].try(:keys)
+
+    if _semaines
+      @jours = []
+
+      (@date_debut..@date_fin).each do |j|
+        if _semaines.include?(j.cweek.to_s)
+          wday = j.wday
+          ok_jours = ((params[:lundi] && wday == 1) || (params[:mardi] && wday == 2) || 
+                      (params[:mercredi] && wday == 3) || (params[:jeudi] && wday == 4) || 
+                      (params[:vendredi] && wday == 5) || (params[:samedi] && wday == 6))
+
+           
+          if ok_jours
+            @jours << j
+            création_cours(@formation, j, _intervenant, true, true)
+          end
+        end  
+      end
+    end
+  end
+
+  def création_cours(formation, jour, intervenant, am, pm)
+    new_cours = Cour.new(formation: formation, intervenant: intervenant)
+    if am || pm
+      if am
+        new_cours.duree = 3
+        new_cours.debut = Time.parse(jour.to_s + " 9:00 UTC")
+        new_cours.fin = eval("new_cours.debut + #{new_cours.duree}.hour")
+      elsif pm
+        new_cours.duree = 3
+        new_cours.debut = Time.parse(jour.to_s + " 13:00 UTC")
+        new_cours.fin = eval("new_cours.debut + #{new_cours.duree}.hour")
+      end
+      # création du cours de l'après midi si besoin
+      if (am && pm)
+        new_cours_pm = Cour.new(formation: formation, intervenant: intervenant)
+        new_cours_pm.duree = 3
+        new_cours_pm.debut = Time.parse(jour.to_s + " 13:00 UTC")
+        new_cours_pm.fin = eval("new_cours_pm.debut + #{new_cours_pm.duree}.hour")
+      end  
+    else
+      # calcul de la date & heure de début et de fin  
+      new_cours.duree = duree
+      new_cours.debut = Time.parse(jour.to_s + " #{params[:cours]["start_date(4i)"]}:#{params[:cours]["start_date(5i)"]} UTC")
+      new_cours.fin = eval("new_cours.debut + #{new_cours.duree}.hour")
+    end
+
+    new_cours.save if new_cours.valid?
+
+    if new_cours_pm
+      new_cours_pm.save if new_cours_pm.valid?
+    end    
+  end
+
 end

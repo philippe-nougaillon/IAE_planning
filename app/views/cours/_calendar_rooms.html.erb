@@ -1,11 +1,14 @@
 <div class="row">
   <div class="col-md-12">
     <%= calendar partial: 'simple_calendar/week_rooms_calendar', 
-            events: @cours.where(salle_id:nil), salle_id:0, number_of_days:6 do |date, meetings| %>
+                  start_date_param: :calendar_rooms_starts_at,
+                  events: @cours.where(salle_id:nil), 
+                  salle_id:0, 
+                  number_of_days:6 do |date, meetings| %>
       <% meetings.each do |meeting| %>
           <span class="label <%= meeting.style %>"><%= meeting.etat.humanize %></span><br>
           <b><%= l(meeting.debut, format: :heures_min) %></b>  
-          - <%= l(meeting.fin, format: :heures_min) %>
+           - <%= l(meeting.fin, format: :heures_min) %>
           <br>
           <% if meeting.formation.abrg %>
             <% if meeting.salle_id == nil %>
@@ -30,7 +33,10 @@
       <% end %>
 
       <%= calendar partial: 'simple_calendar/week_rooms_calendar', 
-                    events: @cours.where(salle_id:salle.id), salle_id:salle.id, number_of_days: 6 do |date, meetings| %>
+                    start_date_param: :calendar_rooms_starts_at,
+                    events: @cours.where(salle_id:salle.id), 
+                    salle_id:salle.id, 
+                    number_of_days: 6 do |date, meetings| %>
 
         <% meetings.each do |meeting| %>
           <!--- chercher si conflit de salle ! -->
@@ -44,7 +50,7 @@
 
           <div style="height:<%= 30 + (15 * meeting.duree) %>px;border-left:6px;border-left-style:solid;border-left-color:<%= meeting.formation.color %>;padding-left:5px;">
             <b><%= l(meeting.debut, format: :heures_min) %></b>  
-            - <%= l(meeting.fin, format: :heures_min) %>
+             - <%= l(meeting.fin, format: :heures_min) %>
             <br>
 
             <% if meeting.formation.abrg %>

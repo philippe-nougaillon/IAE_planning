@@ -71,6 +71,7 @@ gem 'web-console', '~> 2.0', group: :development
 group :development do
   # Call 'debugger' anywhere in the code to stop execution and get a debugger console
   gem 'debugger'
+  gem 'pry'
   
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'

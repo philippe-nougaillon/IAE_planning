@@ -56,35 +56,31 @@ class CoursController < ApplicationController
       end
     end
     params[:start_date] = @date.to_s
-
+  
     case params[:view]
       when 'list'
         unless params[:filter] == 'all'
           unless params[:semaine].blank?
             @cours = @cours.where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 7.day)
           else
-            #if request.variant == [:phone] && ((!params[:formation_id].blank?) || (!params[:intervenant_id].blank?))
-              # ne voir que la journée si vue depuis un mobile       
-            #  @cours = @cours.where("DATE(cours.debut) = DATE(?)", @date)
-            #else
-              @cours = @cours.where("cours.debut >= DATE(?)", @date)
-            #end  
+            @cours = @cours.where("cours.debut >= DATE(?)", @date)
           end
         else
           @date = nil
         end
       when 'calendar_rooms'
-        @date = Date.parse(params[:start_date]).beginning_of_week(start_day = :monday)
-        @cours = @cours.where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 7.day)
+        _date = Date.parse(params[:start_date]).beginning_of_week(start_day = :monday)
+        @cours = @cours.where(debut: (_date .. _date + 7.day))
+        params[:calendar_rooms_starts_at] = _date
       when 'calendar_week'
-        @date = Date.parse(params[:start_date]).beginning_of_week(start_day = :monday)
-        @cours = @cours.where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 7.day)
+        _date = Date.parse(params[:start_date]).beginning_of_week(start_day = :monday)
+        @cours = @cours.where("cours.debut BETWEEN DATE(?) AND DATE(?)", _date, _date + 7.day)
+        params[:calendar_week_starts_at] = _date
       when 'calendar_month'
-        @date = Date.parse(params[:start_date]).beginning_of_month
-        @cours = @cours.where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 1.month)
+        _date = Date.parse(params[:start_date]).beginning_of_month
+        @cours = @cours.where("cours.debut BETWEEN DATE(?) AND DATE(?)", _date, _date + 1.month)
     end
-    params[:start_date] = @date.to_s
-
+  
     unless params[:formation_id].blank?
       params[:formation] = Formation.find(params[:formation_id]).nom.rstrip 
     end
@@ -96,7 +92,7 @@ class CoursController < ApplicationController
 
     unless params[:intervenant].blank?
       intervenant = params[:intervenant].strip
-    intervenant_id = Intervenant.find_by(nom:intervenant.split(' ').first, prenom:intervenant.split(' ').last.rstrip)
+      intervenant_id = Intervenant.find_by(nom:intervenant.split(' ').first, prenom:intervenant.split(' ').last.rstrip)
       @cours = @cours.where("intervenant_id = ? OR intervenant_binome_id = ?", intervenant_id, intervenant_id)
     end
 

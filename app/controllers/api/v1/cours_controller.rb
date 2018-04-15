@@ -28,12 +28,12 @@ module Api
 				# 		methods:[:duree_json, :salle_json, :matiere_json, :formation_json, :intervenant_json],
 				# 		except:[:created_at, :updated_at, :id, :salle_id, :formation_id, :intervenant_id, :intervenant_binome_id, :etat, :duree, :ue, :nom]
 				
-				d = DateTime.parse(params[:d] + 'T8:00:00')
-				f = DateTime.parse(params[:d] + 'T22:00:00')
+				d = DateTime.parse(params[:d] + 'T6:00:00')
+				f = DateTime.parse(params[:d] + 'T23:00:00')
 
-				render json: [{debut: d, fin: f, duree_json: 900.0, salle_json: "?", 
-								matiere_json: "Attention: Maintenance en cours !",
-								intervenant_json: "Le planning des cours est sur",
+				render json: [{debut: d, fin: f, duree_json: 1020.0, salle_json: "!", 
+								matiere_json: "Appli en cours de maintenance",
+								intervenant_json: "Retrouvez le planning sur",
 								formation_json: "http://planning.iae-paris.com" }] 
 			end	
 							

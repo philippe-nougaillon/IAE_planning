@@ -24,7 +24,7 @@
 
             <%= label_tag "Formation" %>    
             <%= select_tag :formation_id, 
-                options_from_collection_for_select(Formation.all, :id, :nom_promo, params[:formation_id]), class:"form-control select2", include_blank:true, onchange:'this.form.submit()' %>
+                options_from_collection_for_select(Formation.where("nom like '%2018/2019%'", ), :id, :nom_promo, params[:formation_id]), class:"form-control select2", include_blank:true, onchange:'this.form.submit()' %>
             <br>
                    
             <div class="actions" style="display:none">
@@ -56,7 +56,7 @@
               </div>
               <br>
               
-              <table class="table table-striped table-bordered table-condensed ">
+              <table class="table table-striped table-bordered table-condensed table-hover">
                   <% @jours.each do |j| %>
                       <tr>
                           <td><%= l(j, format: :long) %></td>

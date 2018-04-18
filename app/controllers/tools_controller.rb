@@ -84,7 +84,7 @@ class ToolsController < ApplicationController
       flash[:notice] = "L'importation a bien été exécutée"
       redirect_to import_logs_path
     else
-      flash[:alert] = "Manque le fichier source ou la formation pour pouvoir lancer l'importation !"
+      flash[:error] = "Manque le fichier source ou la formation pour pouvoir lancer l'importation !"
       redirect_to action: 'import'
     end  
   end
@@ -161,7 +161,7 @@ class ToolsController < ApplicationController
       #@now = DateTime.now.to_s
       #File.open("public/Documents/Import_logements-#{@now}.txt", "w") { |file| file.write @out }
     else
-      flash[:alert] = "Manque le fichier source pour lancer l'importation !"
+      flash[:error] = "Manque le fichier source pour lancer l'importation !"
       redirect_to action: 'import_intervenants'
     end  
   end
@@ -223,7 +223,7 @@ class ToolsController < ApplicationController
       #@now = DateTime.now.to_s
       #File.open("public/Documents/Import_logements-#{@now}.txt", "w") { |file| file.write @out }
     else
-      flash[:alert] = "Manque le fichier source ou la formation pour pouvoir lancer l'importation !"
+      flash[:error] = "Manque le fichier source ou la formation pour pouvoir lancer l'importation !"
       redirect_to action: 'import_utilisateurs'
     end  
   end
@@ -278,7 +278,7 @@ class ToolsController < ApplicationController
       #@now = DateTime.now.to_s
       #File.open("public/Documents/Import_logements-#{@now}.txt", "w") { |file| file.write @out }
     else
-      flash[:alert] = "Manque le fichier source ou la formation pour pouvoir lancer l'importation !"
+      flash[:error] = "Manque le fichier source ou la formation pour pouvoir lancer l'importation !"
       redirect_to action: 'import_etudiants'
     end  
   end
@@ -315,7 +315,7 @@ class ToolsController < ApplicationController
       end
 
     else
-      flash[:alert] = "Manque les intervenants afin de lancer la modification !"
+      flash[:error] = "Manque les intervenants afin de lancer la modification !"
       redirect_to action: 'swap_intervenant'
     end  
 
@@ -673,30 +673,38 @@ class ToolsController < ApplicationController
   end
 
   def nouvelle_saison_create
-    @date_debut = Date.parse(params[:date_debut])
-    @date_fin = Date.parse(params[:date_fin])
-    @formation = Formation.find(params[:formation_id])
+    _date_debut = Date.parse(params[:date_debut])
+    _date_fin = Date.parse(params[:date_fin])
+    _formation = Formation.find(params[:formation_id])
     _intervenant = Intervenant.find(445) # A CONFIRMER
     _semaines = params[:semaine].try(:keys)
+    _errors = 0
+    _jours = []
 
     if _semaines
-      @jours = []
-
-      (@date_debut..@date_fin).each do |j|
+      (_date_debut.._date_fin).each do |j|
         if _semaines.include?(j.cweek.to_s)
           wday = j.wday
           ok_jours = ((params[:lundi] && wday == 1) || (params[:mardi] && wday == 2) || 
                       (params[:mercredi] && wday == 3) || (params[:jeudi] && wday == 4) || 
                       (params[:vendredi] && wday == 5) || (params[:samedi] && wday == 6))
-
-           
           if ok_jours
-            @jours << j
-            création_cours(@formation, j, _intervenant, true, true)
+            _jours << j
+            unless création_cours(_formation, j, _intervenant, true, true)
+              _errors = _errors + 1 
+            end
           end
         end  
       end
     end
+
+    if _errors.zero?
+      flash[:notice] = "#{_jours.count} cours créés"
+    else
+      flash[:error] = "#{_jours.count} cours créés + #{_errors} erreurs (ces cours n'ont pas été créés) !"
+    end  
+    redirect_to cours_path(formation_id: _formation, etat: Cour.etats[:plannifié])
+
   end
 
   def création_cours(formation, jour, intervenant, am, pm)
@@ -725,11 +733,22 @@ class ToolsController < ApplicationController
       new_cours.fin = eval("new_cours.debut + #{new_cours.duree}.hour")
     end
 
-    new_cours.save if new_cours.valid?
+    _ok = true  
+    if new_cours.valid?
+      new_cours.save
+    else
+      _ok = false 
+    end
 
     if new_cours_pm
-      new_cours_pm.save if new_cours_pm.valid?
-    end    
+      if new_cours_pm.valid?
+        new_cours_pm.save 
+      else
+        _ok = false
+      end
+    end
+    
+    return _ok
   end
 
 end

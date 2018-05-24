@@ -24,7 +24,7 @@ class ToolsController < ApplicationController
       @importes = @errors = 0 
       index = 1
 
-      CSV.foreach(file_with_path, headers: true, col_sep: ';', quote_char:'"', encoding: 'UTF-8') do |row|
+      CSV.foreach(file_with_path, headers: true, col_sep: ';', quote_char:'"', encoding: 'iso-8859-1:UTF-8') do |row|
         index += 1
 
         intervenant = nil
@@ -459,7 +459,7 @@ class ToolsController < ApplicationController
   end
 
   def export_intervenants_do
-  	@csv_string = CSV.generate(col_sep:';', encoding:'UTF-8') do | csv |
+  	@csv_string = CSV.generate(col_sep:';', encoding:'iso-8859-1:UTF-8') do | csv |
       csv << ["id", "nom","prenom", "email", "status", "remise_dossier_srh", "linkedin_url", "titre1", "titre2", "spécialité", "téléphone_fixe", "téléphone_mobile", "bureau", "adresse", "cp", "ville",'cree le', 'modifie le' ]
       
       Intervenant.all.each do |c|
@@ -484,7 +484,7 @@ class ToolsController < ApplicationController
       @etudiants = @etudiants.where(formation_id:params[:formation_id])
     end
 
-  	@csv_string = CSV.generate(col_sep:';', encoding:'UTF-8') do | csv |
+  	@csv_string = CSV.generate(col_sep:';', encoding:'iso-8859-1:UTF-8') do | csv |
       csv << ["id", "nom","prénom", "email", "mobile", "formation_id", "formation_nom","créé le", "modifié le"]
       
       @etudiants.all.each do |c|

@@ -72,6 +72,7 @@
     <div class="col-sm-5">
       <%= f.text_field :nom, class:"form-control", placeholder:"Nom du cours (si vide; sera remplacé par le nom de l'UE)" %>
     </div>
+    <span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" title="Pour ZOOM, saisir le lien ZOOM puis l'intitulé du cours séparé par un espace"></span>
   </div>
 
   <% if current_user.admin? || current_user.reserver? %>

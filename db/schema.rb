@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180404113041) do
+ActiveRecord::Schema.define(version: 20180614141342) do
 
   create_table "audits", force: :cascade do |t|
     t.integer  "auditable_id",    limit: 4
@@ -136,7 +136,10 @@ ActiveRecord::Schema.define(version: 20180404113041) do
     t.string   "message",          limit: 255
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
+    t.integer  "user_id",          limit: 4
   end
+
+  add_index "import_logs", ["user_id"], name: "index_import_logs_on_user_id", using: :btree
 
   create_table "intervenants", force: :cascade do |t|
     t.string   "nom",                   limit: 255
@@ -208,4 +211,5 @@ ActiveRecord::Schema.define(version: 20180404113041) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   add_foreign_key "import_log_lines", "import_logs"
+  add_foreign_key "import_logs", "users"
 end

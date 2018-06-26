@@ -45,7 +45,11 @@
         <%= label_tag :intervenant_id, "Intervenant" %>
         <%= select_tag :intervenant_id,
               options_from_collection_for_select(Intervenant.all, :id, :nom_prenom), include_blank:true, class:"form-control select2" %>
-        <br>      
+
+        <%= check_box_tag :binome, true, true %>
+        <%= label_tag "Exporter les binômes ?" %>
+        
+        <br><br>      
 
         <div class="actions">
           <%= submit_tag "Exporter", class: "btn btn-success" %>

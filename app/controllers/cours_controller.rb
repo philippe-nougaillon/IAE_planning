@@ -92,7 +92,11 @@ class CoursController < ApplicationController
 
     unless params[:intervenant].blank?
       intervenant = params[:intervenant].strip
-      intervenant_id = Intervenant.find_by(nom:intervenant.split(' ').first, prenom:intervenant.split(' ').last.rstrip)
+      if intervenant == "A CONFIRMER"
+        intervenant_id = Intervenant.find_by(nom:"A CONFIRMER")
+      else  
+        intervenant_id = Intervenant.find_by(nom:intervenant.split(' ').first, prenom:intervenant.split(' ').last.rstrip)
+      end
       @cours = @cours.where("intervenant_id = ? OR intervenant_binome_id = ?", intervenant_id, intervenant_id)
     end
 
@@ -133,7 +137,8 @@ class CoursController < ApplicationController
     end
 
     @week_numbers =  ((Date.today.cweek.to_s..'52').to_a << ('1'..(Date.today.cweek - 1).to_s).to_a).flatten
-    
+    @les_ue = 15.times.map{|i| 'UE' + i.to_s}
+
     session[:formation] = params[:formation]
     session[:intervenant] = params[:intervenant]
     session[:start_date] = params[:start_date]

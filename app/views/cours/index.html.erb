@@ -24,7 +24,12 @@
               <%= select_tag :formation, grouped_options_for_select(Formation.for_select, params[:formation]), class:"form-control select2", include_blank:true, onchange:'this.form.submit()' %>
           </div>
 
-          <div class="col-sm-6">
+          <div class="col-sm-2">
+              <%= label_tag :ue, "U.E." %>   
+              <%= select_tag :ue, options_for_select(@les_ue, params[:ue]), class:"form-control select2", include_blank:true, onchange:'this.form.submit()' %>
+          </div>
+
+          <div class="col-sm-5">
               <%= label_tag "Intervenant" %>    
               <div class="input-group">
                 <%= select_tag :intervenant, grouped_options_for_select(Intervenant.for_select, params[:intervenant]), class:"form-control select2", include_blank:true, onchange:'this.form.submit()' %>

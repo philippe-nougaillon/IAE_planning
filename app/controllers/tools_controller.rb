@@ -19,7 +19,7 @@ class ToolsController < ApplicationController
         file.write(params[:upload].read)
       end
 
-      log = ImportLog.new(model_type:'Cours', fichier: filename)
+      log = ImportLog.new(model_type: 'Cours', fichier: filename, user_id: current_user.id)
 
       @importes = @errors = 0 
       index = 1
@@ -441,14 +441,19 @@ class ToolsController < ApplicationController
     end
 
     unless params[:intervenant_id].blank?
-      @cours = @cours.where(intervenant_id:params[:intervenant_id])
+      intervenant_id = params[:intervenant_id]
+      if params[:binome].present?
+        @cours = @cours.where("intervenant_id = ? OR intervenant_binome_id = ?", intervenant_id, intervenant_id)
+      else
+        @cours = @cours.where(intervenant_id: intervenant_id)
+      end
     end
 
     unless params[:etat].blank?
       @cours = @cours.where(etat:params[:etat])
     end
 
-    @csv_string = Cour.generate_csv(@cours, !params[:intervenant_id])  
+    @csv_string = Cour.generate_csv(@cours, params[:binome].present?)  
     filename = "Export_Cours_#{Date.today.to_s}"
     response.headers['Content-Disposition'] = 'attachment; filename="' + filename + '.csv"'
     render "export_do.csv.erb"
@@ -500,27 +505,23 @@ class ToolsController < ApplicationController
   end
 
   def etats_services
-  end
-
-  def etats_services_do
-    unless params[:intervenant_id].blank? 
-      @intervenant = Intervenant.find(params[:intervenant_id])
-      @cours = Cour.where(etat:Cour.etats[:réalisé]).order(:debut)
-      @cours = @cours.where("intervenant_id = ? OR intervenant_binome_id = ?", @intervenant.id, @intervenant.id)
-    else 
-      flash[:error] = "Oups... Il faudrait le nom de l'intervenant"
-      redirect_to action: 'etats_services'
-      return
-    end
-
     unless params[:start_date].blank? || params[:end_date].blank?
       @start_date = params[:start_date]
       @end_date = params[:end_date]
-      @cours = @cours.where("debut between ? and ?", @start_date, @end_date)
-    else
-      flash[:error] = "Oups... Il faut une date de début et une date de fin"
-      redirect_to tools_etats_services_path(params)  
-      return
+      @cours = Cour.where(etat:Cour.etats[:réalisé]).where("debut between ? and ?", @start_date, @end_date)
+    end
+
+    unless params[:status].blank?
+      ids = @cours.distinct(:intervenant_id).pluck(:intervenant_id)
+      ids << @cours.distinct(:intervenant_binome_id).pluck(:intervenant_binome_id)
+      @intervenants = Intervenant.where(doublon: false).where(id: ids)
+      @intervenants = @intervenants.where(status: params[:status])
+    end 
+
+    unless params[:intervenant_id].blank? 
+      @intervenant = Intervenant.find(params[:intervenant_id])
+      @cours = @cours.where(etat:Cour.etats[:réalisé]).order(:debut)
+      @cours = @cours.where("intervenant_id = ? OR intervenant_binome_id = ?", @intervenant.id, @intervenant.id)
     end
     @cumul_hetd = 0
   end

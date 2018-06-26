@@ -11,6 +11,7 @@
       <tr>
         <th>Date</th>
         <th>Type</th>
+        <th>Qui</th>
         <th>Etat</th>
         <th>Lignes</th>
         <th>Importées</th>
@@ -24,6 +25,7 @@
       <%= content_tag_for(:tr, @import_logs) do |import_log| %>
         <td><%= l(import_log.created_at.in_time_zone('Paris')) %></td>
         <td><%= import_log.model_type %></td>
+        <td><%= import_log.try(:user).try(:nom) %></td>
         <td>
           <span class="<%= import_log.icon_etat %>"></span>
           <%= import_log.etat.humanize %>

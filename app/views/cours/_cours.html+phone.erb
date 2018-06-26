@@ -18,10 +18,13 @@
         <%= cours.intervenant_binome.nom_prenom %>
       <% end %>
 
-      <% if cours.url? %>
-        <%= link_to cours.nom, cours.nom, target:"_blank" %>
+      <% if cours.url? && cours.elearning?  %>
+          <%= link_to cours.nom.split(' ').first, target:"_blank" do %>
+              <%= cours.nom.split(' ').last %>
+              <span class="glyphicon glyphicon-link"></span>
+          <% end %>
       <% else %>         
-        <i><%= cours.nom_ou_ue %></i><br>
+          <i><%= cours.nom_ou_ue %></i>
       <% end %>
       
       <% if (cours.debut.to_date == Date.today && cours_progress_bar_pct > 0 && cours_progress_bar_pct < 100) %> 

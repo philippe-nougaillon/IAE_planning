@@ -15,18 +15,21 @@
           <%= text_field_tag :search, params[:search], include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
         </div>
 
-        <div class="col-sm-2">
-          <%= label_tag :reserver, "Réserver salle ?" %>
-          <br>    
-          <%= check_box_tag :reserver, 1, params[:reserver], onchange:'this.form.submit()', class:"form-control" %>
+        <div class="col-sm-3">
+          <br>
+          <div class="checkbox">
+            <label>
+              <%= check_box_tag :reserver, 1, params[:reserver], onchange:'this.form.submit()', class:"form-control" %>
+              Peut réserver une salle ?
+            </label>
+          </div>
+          <div class="checkbox">
+            <label>
+              <%= check_box_tag :admin, 1, params[:admin], onchange:'this.form.submit()', class:"form-control" %>
+              Peut administrer ?
+            </label>
+          </div>
         </div>
-
-        <div class="col-sm-2">
-          <%= label_tag :Administrateur, "Administrer ?" %>
-          <br>    
-          <%= check_box_tag :admin, 1, params[:admin], onchange:'this.form.submit()', class:"form-control" %>
-        </div>
-
       </div>
     </div>  
   <% end %>
@@ -39,8 +42,8 @@
         <th>Nom</th>
         <th>Prénom</th>
         <th>Courriel</th>
-        <th>Réserver</th>
-        <th>Administrer</th>
+        <th>Réserver salle ?</th>
+        <th>Administrer ?</th>
         <th></th>
       </tr>
     </thead>

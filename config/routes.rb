@@ -24,7 +24,6 @@ Rails.application.routes.draw do
   get 'tools/swap_intervenant'
   post 'tools/swap_intervenant_do'
   get 'tools/etats_services'
-  post 'tools/etats_services_do'
   get 'tools/audits'
   get 'tools/import_etudiants'
   post 'tools/import_etudiants_do'

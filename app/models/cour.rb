@@ -125,6 +125,14 @@ class Cour < ActiveRecord::Base
     self.nom_ou_ue
   end
 
+  def elearning?
+    if self.salle
+      self.salle.nom[0..3] == 'ZOOM'
+    else
+      false
+    end
+  end
+
   def Taux_TD
     # Taux particuliers
     if ["Jeu d'entreprise", "Pratique de l'entreprise", "Simulation de gestion"].include?(self.nom)
@@ -161,35 +169,33 @@ class Cour < ActiveRecord::Base
     (user.id == self.audits.first.user_id) or (user.admin?)
   end  
 
-  def self.generate_csv(cours, binome)
+  def self.generate_csv(cours, exporter_binome)
     require 'csv'
     
     CSV.generate(col_sep:';', quote_char:'"', encoding:'UTF-8') do | csv |
-        csv << ['id','Date début','Heure début','Date fin','Heure fin','Formation_id','Formation','Code_Analytique','Intervenant_id','Intervenant','UE','Nom du cours','Etat','Salle','Durée','Hors service statutaire(HSS)','Taux_TD','HETD','Cours créé le','Par','Cours modifié le']
+        csv << ['id','Date début','Heure début','Date fin','Heure fin','Formation_id','Formation','Code_Analytique','Intervenant_id','Intervenant','UE','Nom du cours','Binôme?','Etat','Salle','Durée','HSS ? (Hors Service Statutaire)','Taux_TD','HETD','Cours créé le','Par','Cours modifié le']
     
         cours.each do |c|
           hetd = c.duree * (c.formation.Taux_TD || 0)
           fields_to_export = [c.id, c.debut.to_date.to_s, c.debut.to_s(:time), c.fin.to_date.to_s, c.fin.to_s(:time), 
             c.formation_id, c.formation.nom_promo, c.formation.Code_Analytique, 
-            c.intervenant_id, c.intervenant.nom_prenom, c.ue, c.nom, c.etat, 
-            (c.salle ? c.salle.nom : ""), 
-            c.duree.to_s,
-            c.hors_service_statutaire,
+            c.intervenant_id, c.intervenant.nom_prenom, c.ue, c.nom, 
+            (c.intervenant_binome ? "#{c.intervenant.nom}/#{c.intervenant_binome.nom}" : ''), 
+            c.etat, (c.salle ? c.salle.nom : ""), 
+            c.duree.to_s.gsub(/\./, ','),
+            (c.hors_service_statutaire ? "OUI" : ''),
             c.formation.Taux_TD,
-            hetd.to_s,
+            hetd.to_s.gsub(/\./, ','),
             c.created_at,
             c.audits.first.user.try(:email),
             c.updated_at
           ]
-          #c.duree.to_s.gsub(/\./, ','),
-          #hetd.to_s.gsub(/\./, ','),
-          
           csv << fields_to_export
           
-          # creer une ligne d'export supplémentaire si binome sauf si l'utilisateur ne veut que les cours d'un intervenant 
-          if c.intervenant_binome and binome
-            fields_to_export[7] = c.intervenant_binome_id
-            fields_to_export[8] = c.intervenant_binome.nom_prenom 
+          # créer une ligne d'export supplémentaire pour le cours en binome
+          if exporter_binome and c.intervenant_binome
+            fields_to_export[8] = c.intervenant_binome_id
+            fields_to_export[9] = c.intervenant_binome.nom_prenom 
             csv << fields_to_export
           end  
         end

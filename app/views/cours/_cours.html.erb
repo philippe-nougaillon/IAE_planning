@@ -34,16 +34,13 @@
         <% end %>
     </td>
     <td>
-        <% if cours.url? %>
-        <% if cours_ue = cours.formation.unites.find_by(num:cours.ue.upcase) %>
-            <%= link_to cours_ue.nom, cours %>
-        <% end %>
-        <br>
-        <%= link_to cours.nom, target:"_blank" do %>
-            (e-learning) <span class="glyphicon glyphicon-new-window"></span>
-        <% end %>
+        <% if cours.url? && cours.elearning?  %>
+            <%= link_to cours.nom.split(' ').first, target:"_blank" do %>
+                <%= cours.nom.split(' ').last %>
+                <span class="glyphicon glyphicon-link"></span>
+            <% end %>
         <% else %>         
-        <%= link_to cours.nom_ou_ue, cours %>
+            <%= link_to cours.nom_ou_ue, cours %>
         <% end %>
     </td>
     <td>

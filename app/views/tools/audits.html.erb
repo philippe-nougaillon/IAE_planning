@@ -68,7 +68,7 @@
         <% end %>
 
         <tr>
-            <td><%= l(audit.created_at, format: :short) %></td>
+            <td><%= l(audit.created_at.localtime("+02:00"), format: :long) %></td>
             <td><%= User.find(audit.user_id).email.split('@').first if audit.user_id %></td>
             <td><%= audit.action %></td>
             <td><%= audit.auditable_type %></td>

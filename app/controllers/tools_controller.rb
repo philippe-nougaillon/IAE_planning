@@ -453,7 +453,7 @@ class ToolsController < ApplicationController
       @cours = @cours.where(etat:params[:etat])
     end
 
-    @csv_string = Cour.generate_csv(@cours, params[:binome].present?)  
+    @csv_string = Cour.generate_csv(@cours, params[:binome].present?, true)  
     filename = "Export_Cours_#{Date.today.to_s}"
     response.headers['Content-Disposition'] = 'attachment; filename="' + filename + '.csv"'
     render "export_do.csv.erb"
@@ -524,6 +524,17 @@ class ToolsController < ApplicationController
       @cours = @cours.where("intervenant_id = ? OR intervenant_binome_id = ?", @intervenant.id, @intervenant.id)
     end
     @cumul_hetd = 0
+
+    respond_to do |format|
+      format.html
+      format.csv do
+        @csv_string = Cour.generate_etats_services_csv(@cours)
+        filename = "Etats_de_services_#{Date.today.to_s}"
+        response.headers['Content-Disposition'] = 'attachment; filename="' + filename + '.csv"'
+        render "tools/etats_services.csv.erb"
+      end
+    end
+
   end
 
   def audits

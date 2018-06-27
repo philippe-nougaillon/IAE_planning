@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180614141342) do
+ActiveRecord::Schema.define(version: 20180626150412) do
 
   create_table "audits", force: :cascade do |t|
     t.integer  "auditable_id",    limit: 4
@@ -50,6 +50,8 @@ ActiveRecord::Schema.define(version: 20180614141342) do
     t.decimal  "duree",                               precision: 4, scale: 2, default: 0.0
     t.integer  "intervenant_binome_id",   limit: 4
     t.boolean  "hors_service_statutaire", limit: 1
+    t.string   "commentaires",            limit: 255
+    t.boolean  "elearning",               limit: 1
   end
 
   add_index "cours", ["debut"], name: "index_cours_on_debut", using: :btree

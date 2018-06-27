@@ -10,7 +10,7 @@
 </div>
 
 <div>
-  <h3>Récapitule les cours réalisés sur une période donnée par un intervenant</h3>
+  <h3>Récapitule les cours <b>réalisés</b> sur une période donnée par un intervenant</h3>
   <i>(Formations archivées comprises)</i>
 </div>
 <br>
@@ -43,7 +43,7 @@
                             options_from_collection_for_select(@intervenants, :id, :nom_prenom, params[:intervenant_id]), 
                                                                 include_blank:true, onchange:'this.form.submit()', class:"form-control select2" %>
                         <span class="input-group-btn">
-                        <%= submit_tag 'Filtrer', class:"btn btn-success" %>
+                        <%= submit_tag 'Afficher', class:"btn btn-success" %>
                         </span>
                     </div>
                </div>
@@ -70,8 +70,10 @@
             <th>Formation</th>
             <th>Code</th>
             <th>Intitulé</th>
+            <th></th>
             <th>Durée</th>
             <th>HSS?</th>
+            <th>E-learning?</th>
             <th>Taux</th>
             <th>HETD</th>
             <th>Cumul HETD</th>
@@ -79,18 +81,30 @@
 
         <% @cours.each do |c| %>
             <% unless c.hors_service_statutaire %>
-            <% @cumul_hetd += c.HETD %>
+                <% @cumul_hetd += c.HETD %>
             <% end %>
             <% formation = Formation.unscoped.find(c.formation_id) %>
             <tr>
-                <td><%= l(c.debut, format: :short) %></td>
+                <td><%= l(c.debut, format: :perso) %></td>
                 <td><%= link_to formation.nom, edit_formation_path(formation), target:"_new" %></td>
                 <td><%= formation.Code_Analytique %></td>
                 <td><%= link_to c.nom_ou_ue, edit_cour_path(c), target:"_new" %></td>
-                <td><%= c.duree.to_f %></td>
                 <td>
+                    <% if c.commentaires %>
+                        <i class="glyphicon glyphicon-comment" 
+                                data-toggle="tooltip" data-placement="top"
+                                title=<%= c.commentaires %> >
+                    <% end %>
+                </td>
+                <td><%= c.duree.to_f %></td>
+                <td class="text-center">
                     <% if c.hors_service_statutaire %>
                         <span class="glyphicon glyphicon-remove">
+                    <% end %>
+                </td>
+                <td class="text-center">
+                    <% if c.elearning %>
+                        <span class="glyphicon glyphicon-ok-circle">
                     <% end %>
                 </td>
                 <td><%= c.Taux_TD %></td>
@@ -101,14 +115,18 @@
 
         <tfoot>
             <th colspan="2">Total: <%= @cours.count %> cours</th>
-            <th /><th />
-            <th><%= @cours.sum(:duree) %>h</th>
             <th /><th /><th />
+            <th><%= @cours.sum(:duree) %>h</th>
+            <th /><th /><th /><th />
             <th><%= @cumul_hetd %>h</th>
             <% if @intervenant.nbr_heures_statutaire %>
                <th>Solde: <%= @cumul_hetd - @intervenant.nbr_heures_statutaire %>h</th>
             <% end %>
         </tfoot>
     </table>
-    Heures statutaires: <%= @intervenant.nbr_heures_statutaire %><br>
+    <%= link_to url_for(params.merge(format:'csv')) , class: 'btn btn-primary' do %>
+        <span class="glyphicon glyphicon-share"></span>
+        Export CSV
+    <% end %>
+    <br><br>
 <% end %>

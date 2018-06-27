@@ -261,7 +261,7 @@ class CoursController < ApplicationController
         end
       end
     when "Exporter vers Excel"
-      @csv_string = Cour.generate_csv(@cours, true)
+      @csv_string = Cour.generate_csv(@cours, true, true)
       request.format = 'csv'
     when "Exporter vers iCalendar"
       @calendar = Cour.generate_ical(@cours)
@@ -398,6 +398,7 @@ class CoursController < ApplicationController
     def cour_params
       params.require(:cour).permit(:debut, :fin, :formation_id, :intervenant_id, 
                                     :salle_id, :ue, :nom, :etat, :duree,
-                                    :intervenant_binome_id, :hors_service_statutaire)
+                                    :intervenant_binome_id, :hors_service_statutaire,
+                                    :commentaires, :elearning)
     end
 end

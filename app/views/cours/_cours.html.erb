@@ -34,9 +34,10 @@
         <% end %>
     </td>
     <td>
-        <% if cours.url? && cours.elearning?  %>
+        <% if cours.url? && cours.elearning  %>
             <%= link_to cours.nom.split(' ').first, target:"_blank" do %>
                 <%= cours.nom.split(' ').last %>
+                (E-learning)
                 <span class="glyphicon glyphicon-link"></span>
             <% end %>
         <% else %>         
@@ -48,27 +49,32 @@
     </td>
     <td>
         <% if cours.salle %>
-        <%= link_to cours.salle.nom, cours_url(start_date:cours.debut.to_date, view:'calendar_rooms', anchor:cours.salle.nom), target: :_blank %>
-        <% if cours.manque_de_places? && user_signed_in? %>
-            <i class="glyphicon glyphicon-warning-sign glyph-custom-alert" 
-                data-toggle="tooltip" data-placement="bottom"
-                title="Manque <%= cours_formation.nbr_etudiants - cours.salle.places %> place.s">
-            </i>
-        <% end %>
+            <%= link_to cours.salle.nom, cours_url(start_date:cours.debut.to_date, view:'calendar_rooms', anchor:cours.salle.nom), target: :_blank %>
+            <% if cours.manque_de_places? && user_signed_in? %>
+                <i class="glyphicon glyphicon-warning-sign glyph-custom-alert" 
+                    data-toggle="tooltip" data-placement="bottom"
+                    title="Manque <%= cours_formation.nbr_etudiants - cours.salle.places %> place.s">
+                </i>
+            <% end %>
         <% else %>
-        <% if cours.confirmé? && user_signed_in? %>
-            <i class="glyphicon glyphicon-warning-sign glyph-custom-warning" 
-                data-toggle="tooltip" data-placement="top"
-                title="Pas de salle réservée !">
+            <% if cours.confirmé? && user_signed_in? %>
+                <i class="glyphicon glyphicon-warning-sign glyph-custom-warning" 
+                    data-toggle="tooltip" data-placement="top"
+                    title="Pas de salle réservée !">
+            <% end %>
         <% end %>
+        <% if user_signed_in? && cours.commentaires %>
+            <i class="glyphicon glyphicon-comment" 
+                    data-toggle="tooltip" data-placement="top"
+                    title=<%= cours.commentaires %> >
         <% end %>
     </td>
 
     <% if user_signed_in? %>
         <td>
-        <%= link_to edit_cour_path(cours, from:params[:from]), class:"btn btn-default" do %>
-            <i class="glyphicon glyphicon-pencil"></i>
-        <% end %>
+            <%= link_to edit_cour_path(cours, from:params[:from]), class:"btn btn-default" do %>
+                <i class="glyphicon glyphicon-pencil"></i>
+            <% end %>
         </td>
     <% end %>
 </tr>

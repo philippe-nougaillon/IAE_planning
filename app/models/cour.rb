@@ -86,7 +86,7 @@ class Cour < ActiveRecord::Base
           end        
         end  
       else
-        self.nom 
+        "#{self.nom} #{self.elearning ? "(E-learning)" : ''}"
       end
     rescue Exception => e 
       "erreur => #{e}"
@@ -125,13 +125,13 @@ class Cour < ActiveRecord::Base
     self.nom_ou_ue
   end
 
-  def elearning?
-    if self.salle
-      self.salle.nom[0..3] == 'ZOOM'
-    else
-      false
-    end
-  end
+  # def elearning?
+  #   if self.salle
+  #     self.salle.nom[0..3] == 'ZOOM'
+  #   else
+  #     false
+  #   end
+  # end
 
   def Taux_TD
     # Taux particuliers
@@ -169,11 +169,11 @@ class Cour < ActiveRecord::Base
     (user.id == self.audits.first.user_id) or (user.admin?)
   end  
 
-  def self.generate_csv(cours, exporter_binome)
+  def self.generate_csv(cours, exporter_binome, voir_champs_privés = false)
     require 'csv'
     
-    CSV.generate(col_sep:';', quote_char:'"', encoding:'UTF-8') do | csv |
-        csv << ['id','Date début','Heure début','Date fin','Heure fin','Formation_id','Formation','Code_Analytique','Intervenant_id','Intervenant','UE','Nom du cours','Binôme?','Etat','Salle','Durée','HSS ? (Hors Service Statutaire)','Taux_TD','HETD','Cours créé le','Par','Cours modifié le']
+    CSV.generate(col_sep:';', quote_char:'"', encoding:'iso8859-1') do | csv |
+        csv << ['id','Date début','Heure début','Date fin','Heure fin','Formation_id','Formation','Code_Analytique','Intervenant_id','Intervenant','UE','Nom du cours','Binôme?','Etat','Salle','Durée','HSS ? (Hors Service Statutaire)','E-learning','Taux_TD','HETD','Commentaires','Cours créé le','Par','Cours modifié le']
     
         cours.each do |c|
           hetd = c.duree * (c.formation.Taux_TD || 0)
@@ -184,8 +184,10 @@ class Cour < ActiveRecord::Base
             c.etat, (c.salle ? c.salle.nom : ""), 
             c.duree.to_s.gsub(/\./, ','),
             (c.hors_service_statutaire ? "OUI" : ''),
-            c.formation.Taux_TD,
-            hetd.to_s.gsub(/\./, ','),
+            (c.elearning ? "OUI" : ''), 
+            (voir_champs_privés ? c.formation.Taux_TD : ''),
+            (voir_champs_privés ? hetd.to_s.gsub(/\./, ',') : ''),
+            (voir_champs_privés ? c.commentaires : ''),
             c.created_at,
             c.audits.first.user.try(:email),
             c.updated_at
@@ -216,6 +218,36 @@ class Cour < ActiveRecord::Base
       calendar.add_event(event)
     end  
      return calendar
+  end
+
+  def self.generate_etats_services_csv(cours)
+    require 'csv'
+
+    @cumul_hetd = 0.0
+    CSV.generate(col_sep:';', quote_char:'"', encoding:'iso8859-1') do | csv |
+        csv << ['Le','Formation','Code','Intitulé','Commentaires','Durée','HSS?','E-learning?','Taux_TD','HETD','Cumul']
+    
+        cours.each do |c|
+          hetd = c.duree * (c.formation.Taux_TD || 0)
+          unless c.hors_service_statutaire
+            @cumul_hetd += c.HETD
+          end
+
+          fields_to_export = [
+            I18n.l(c.debut, format: :perso),
+            c.formation.nom_promo, c.formation.Code_Analytique, 
+            c.nom_ou_ue, 
+            c.commentaires,
+            c.duree.to_s.gsub(/\./, ','),
+            (c.hors_service_statutaire ? "OUI" : ''),
+            (c.elearning ? "OUI" : ''), 
+            c.formation.Taux_TD.to_s.gsub(/\./, ','),
+            hetd.to_s.gsub(/\./, ','),
+            @cumul_hetd.to_s.gsub(/\./, ',')
+          ]
+          csv << fields_to_export
+        end
+    end
   end
 
   private

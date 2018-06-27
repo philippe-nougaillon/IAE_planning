@@ -63,7 +63,7 @@
                     title="Pas de salle réservée !">
             <% end %>
         <% end %>
-        <% if user_signed_in? && cours.commentaires %>
+        <% if user_signed_in? && !cours.commentaires.blank? %>
             <i class="glyphicon glyphicon-comment" 
                     data-toggle="tooltip" data-placement="top"
                     title=<%= cours.commentaires %> >

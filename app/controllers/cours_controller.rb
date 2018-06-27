@@ -23,6 +23,7 @@ class CoursController < ApplicationController
     if params[:commit] && params[:commit][0..2] == 'RàZ'
       session[:formation] = params[:formation] = nil
       session[:intervenant] = params[:intervenant] = nil
+      session[:ue] = params[:ue] = nil
       session[:start_date] = params[:start_date] = Date.today.to_s
       session[:etat] = params[:etat] = nil
       session[:view] = params[:view] = 'list'
@@ -33,6 +34,7 @@ class CoursController < ApplicationController
     params[:start_date] ||= session[:start_date]
     params[:formation] ||= session[:formation]
     params[:intervenant] ||= session[:intervenant]
+    params[:ue] ||= session[:ue]
     params[:etat] ||= session[:etat]
     params[:view] ||= session[:view]
     params[:filter] ||= session[:filter]
@@ -92,11 +94,7 @@ class CoursController < ApplicationController
 
     unless params[:intervenant].blank?
       intervenant = params[:intervenant].strip
-      if intervenant == "A CONFIRMER"
-        intervenant_id = Intervenant.find_by(nom:"A CONFIRMER")
-      else  
-        intervenant_id = Intervenant.find_by(nom:intervenant.split(' ').first, prenom:intervenant.split(' ').last.rstrip)
-      end
+      intervenant_id = Intervenant.find_by(nom: intervenant.split(' ').first, prenom: intervenant.split(' ').last.rstrip)
       @cours = @cours.where("intervenant_id = ? OR intervenant_binome_id = ?", intervenant_id, intervenant_id)
     end
 
@@ -141,6 +139,7 @@ class CoursController < ApplicationController
 
     session[:formation] = params[:formation]
     session[:intervenant] = params[:intervenant]
+    session[:ue] = params[:ue]
     session[:start_date] = params[:start_date]
     session[:etat] = params[:etat]
     session[:view] = params[:view]

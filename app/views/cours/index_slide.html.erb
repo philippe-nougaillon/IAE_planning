@@ -53,15 +53,18 @@
               <h3><%= cours.formation.nom_promo %></h3>
               <h4><%= link_to cours.nom_ou_ue, cours %></h4>
 
-              <% if cours.progress_bar_pct(@planning_date) > 0 %>
-                <div class="progress">
-                  <div class="progress-bar progress-bar-striped active" 
-                       role="progressbar" aria-valuemin="0" aria-valuemax="100" 
-                       style="width:<%= cours.progress_bar_pct(@planning_date) %>%">
+              <% if true %>
+                <% pct = cours.progress_bar_pct(@nil) %>
+                <% if pct >= 0 && pct <= 100 %>
+                  <div class="progress">
+                    <div class="progress-bar progress-bar-striped active" 
+                        role="progressbar" aria-valuemin="0" aria-valuemax="100" 
+                        style="width:<%= pct %>%">
+                    </div>
                   </div>
-                </div>
-              <% else %>
-                <br><br>
+                <% else %>
+                  <br><br>
+                <% end %>
               <% end %>
 
             </td>
@@ -90,7 +93,7 @@
               <% end %>
             </td>
           </tr>
-        <% end %>
+          <% end %>
       </tbody>
   </table>
 <% else %>

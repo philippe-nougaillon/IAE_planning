@@ -37,8 +37,15 @@
           </div>
         </div>
 
-        <%= f.text_field :promo %>
-        <%= f.text_field :diplome, label:"Diplôme" %>
+        <div class="row">
+          <div class="col-sm-6">
+            <%= f.text_field :promo %>
+          </div>
+          <div class="col-sm-6">
+            <%= f.text_field :diplome, label:"Diplôme" %>
+          </div>  
+        </div>
+
         <%= f.text_field :domaine %>
         <%= f.check_box :apprentissage, label:"Apprentissage ?" %>
         
@@ -49,77 +56,91 @@
 
       <div class="col-sm-6">
         <%= f.collection_select :user_id, User.where.not(admin:true).order(:email), :id, :email, {include_blank: true, label:"Gestionnaire de formation"} %>
-        <%= f.number_field :nbr_etudiants, label:"Nombre d'étudiants prévus" %>
-        <%= f.number_field :nbr_heures, label:"Nombre d'heures prévues" %>
+        
+        <div class="row">
+          <div class="col-sm-5">
+            <%= f.number_field :nbr_etudiants, label:"Nombre d'étudiants prévus" %>
+          </div>  
+          <div class="col-sm-5">
+            <%= f.number_field :nbr_heures, label:"Nombre d'heures prévues" %>
+          </div>  
+        </div>  
 
         <div class="row">
-          <div class="col-sm-4">
+          <div class="col-sm-5">
             <%= f.text_field :Code_Analytique, label:"Code Analytique" %>
           </div>
-          <div class="col-sm-4">
+          <div class="col-sm-5">
             <%= f.text_field :Taux_TD, label:"Taux TD" %>
           </div>
         </div>  
 
         <%= f.text_area :memo, label:"Mémo" %>
+
         <%= f.submit class: "btn btn-primary" %>     
       </div>
     </div>
-
   </div>
 
-  <h4>
-    <a href="#UE" data-toggle="collapse">Liste des UE</a>
-    | 
-    <a href="#Etudiants" data-toggle="collapse">Liste des étudiants</a>
-  </h4>
-  
+  <a href="#UE" data-toggle="collapse" class="btn btn-success btn-md">Afficher la liste des UE</a>
+  | <a href="#Etudiants" data-toggle="collapse" class="btn btn-info btn-md">Afficher la liste des étudiants</a>
+
   <div id="UE" class="collapse">
-      <ul>
-        <%= f.fields_for :unites do |ue| %>
-          <div class="row">
-            <li>
-              <div class="col-sm-3">
-                <%= ue.text_field :num, placeholder:"UE# ex:UE3", label:"Code" %>
-              </div>  
-              <div class="col-sm-7">
-                <%= ue.text_field :nom %>
-              </div>
-              <div class="col-sm-2">
-                <br>
-                <%= ue.check_box :_destroy, label:"Supprimer ?" %>
-              </div>
-            </li> 
-          </div>
-        <% end %>
-      </ul>
+    <div class="page-header"> 
+      <h4>Unités d'enseignements</h4>
+    </div> 
+    <ul>
+      <%= f.fields_for :unites do |ue| %>
+        <div class="row">
+          <li>
+            <div class="col-sm-3">
+              <%= ue.text_field :num, placeholder:"UE# ex:UE3", label:"Code" %>
+            </div>  
+            <div class="col-sm-7">
+              <%= ue.text_field :nom %>
+            </div>
+            <div class="col-sm-2">
+              <br>
+              <%= ue.check_box :_destroy, label:"Supprimer ?" %>
+            </div>
+          </li> 
+        </div>
+      <% end %>
+    </ul>
+    <%= f.submit "Enregistrer", class: "btn btn-primary" %>
+    <br>    
   </div>
   
   <div id="Etudiants" class="collapse">
-      <ul>
-        <%= f.fields_for :etudiants do |etudiant| %>
-          <div class="row">
-            <li>
-              <div class="col-sm-2">
-                <%= etudiant.text_field :nom %>
-              </div>  
-              <div class="col-sm-2">
-                <%= etudiant.text_field :prénom %>
-              </div>
-              <div class="col-sm-4">
-                <%= etudiant.text_field :email %>
-              </div>
-              <div class="col-sm-2">
-                <%= etudiant.text_field :mobile %>
-              </div>
-              <div class="col-sm-2">
-                <br>
-                <%= etudiant.check_box :_destroy, label:"Supprimer ?" %>
-              </div>
-            </li> 
-          </div>
-        <% end %>
-      </ul>
+    <div class="page-header"> 
+      <h4>Etudiants</h4>
+    </div>
+    <ul>
+      <%= f.fields_for :etudiants do |etudiant| %>
+        <div class="row">
+          <li>
+            <div class="col-sm-2">
+              <%= etudiant.text_field :nom %>
+            </div>  
+            <div class="col-sm-2">
+              <%= etudiant.text_field :prénom %>
+            </div>
+            <div class="col-sm-4">
+              <%= etudiant.text_field :email %>
+            </div>
+            <div class="col-sm-2">
+              <%= etudiant.text_field :mobile %>
+            </div>
+            <div class="col-sm-2">
+              <br>
+              <%= etudiant.check_box :_destroy, label:"Supprimer ?" %>
+            </div>
+          </li> 
+        </div>
+      <% end %>
+    </ul>
+    <%= f.submit class: "btn btn-primary" %>    
+    <br>
   </div>
 
 <% end %>

@@ -1,0 +1,18 @@
+<h2>
+    <%= @cours.first.formation.nom %>
+</h2>
+<br>
+
+<table class="table_pdf">
+    <tr>
+        <th>Le</th>
+        <th>Intervenant</th>
+        <th>UE</th>
+        <th>Intitulé</th>
+        <th></th>
+    </tr>
+    
+    <% @cours.each do |cours| %>
+        <%= render partial: 'cours', locals: {cours: cours, cours_formation: cours.formation } %>
+    <% end %>
+</table>

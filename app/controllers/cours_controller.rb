@@ -163,6 +163,7 @@ class CoursController < ApplicationController
         headers['Content-Type'] = "text/calendar; charset=UTF-8"
         render text:@calendar.to_ical
       end
+
     end
   end
 
@@ -265,7 +266,11 @@ class CoursController < ApplicationController
     when "Exporter vers iCalendar"
       @calendar = Cour.generate_ical(@cours)
       request.format = 'ics'
+    when "Exporter en PDF"
+      request.format = 'pdf'
     end 
+
+    filename = "Export_Planning_#{Date.today.to_s}"
 
     respond_to do |format|
       format.html do
@@ -276,17 +281,21 @@ class CoursController < ApplicationController
       end
 
       format.csv do
-        filename = "Export_Cours_#{Date.today.to_s}"
         response.headers['Content-Disposition'] = 'attachment; filename="' + filename + '.csv"'
         render "cours/action_do.csv.erb"
       end
 
       format.ics do
-        filename = "Export_iCalendar_#{Date.today.to_s}"
         response.headers['Content-Disposition'] = 'attachment; filename="' + filename + '.ics"'
         headers['Content-Type'] = "text/calendar; charset=UTF-8"
-        render text:@calendar.to_ical
+        render text: @calendar.to_ical
       end
+
+      format.pdf do
+        render pdf: filename, :layout => 'pdf.html'
+
+      end
+
     end
   end
 

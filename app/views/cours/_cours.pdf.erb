@@ -1,0 +1,29 @@
+<tr>
+    <td>
+        <b><%= l(cours.debut, format: :long) %></b>
+        - <%= l(cours.fin, format: :heures_min) %>
+    </td>
+    <td>    
+        <b><%= cours.intervenant.nom_prenom %></b>
+        <% if cours.intervenant_binome %>
+            <br>
+            <%= cours.intervenant_binome.nom_prenom %>
+        <% end %>
+    </td>
+    <td>
+        <%= cours.try(:ue) %>
+    </td>
+    <td>
+        <% if cours.url? && cours.elearning  %>
+            <%= cours.nom %>
+            (E-learning)
+        <% else %>         
+            <%= cours.nom_ou_ue %>
+        <% end %>
+    </td>
+    <td>
+        <% if user_signed_in? && !cours.commentaires.blank? %>
+            <%= cours.commentaires %>
+        <% end %>
+    </td>
+</tr>

@@ -54,6 +54,10 @@ gem 'serviceworker-rails'
 gem 'sucker_punch'
 gem "select2-rails"
 
+# generate PDF
+gem 'wicked_pdf'
+gem 'wkhtmltopdf-binary'
+
 #gem 'capture-output'
 
 # Use ActiveModel has_secure_password

@@ -64,38 +64,19 @@
 <br>
 
 <div id="audit" class="collapse">
-	<% if current_user.admin? %>
-		<% if Audited.audit_class.any? %>
-			<h3>Audit des modifications</h3>
-			<table class="table table-condensed table-striped">
-				<thead>
-					<th>ID</th>
-					<th style="width:100px">Date</th>
-					<th>Table</th>
-					<th>Action</th>
-					<th>Changes</th>
-				</thead>
-				<% @audits.each do |audit| %>
-					<tr>
-						<td><%= audit.id %></td>
-						<td><%= l(audit.created_at, format: :short) %></td>
-						<td><%= audit.auditable_type %></td>
-						<td><%= audit.action %></td>
-						<td>
-							<% begin %>
-							<%= audit.try(:audited_changes) %>
-							<% rescue %>
-								???
-							<% end %>
-						</td>
-					</tr>  
-				<% end %>
-			</table>
-			<div class="page_info">
-					<%= page_entries_info  @audits %>
-				</div>
-
-				<%= will_paginate @audits, renderer: BootstrapPagination::Rails %>
-		<% end %>
-	<% end %>
-</div>
+  <% if current_user.admin? %>
+    <% if @user.audits.any? %>
+      <h3>Audit des modifications</h3>
+      <table class="table table-condensed">
+        <% @user.audits.includes(:user).reverse.each do |audit| %>
+          <tr>
+            <td><%= l(audit.created_at, format: :short) %></td>
+            <td><%= audit.user.email if audit.user %></td>
+            <td><%= audit.action %></td>
+            <td><%= sanitize audit.pretty_changes %></td>
+          </tr>  
+        <% end %>
+      </table>
+    <% end %>
+  <% end %>
+</div> 

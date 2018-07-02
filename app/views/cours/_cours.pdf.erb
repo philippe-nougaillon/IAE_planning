@@ -1,10 +1,16 @@
 <tr>
+    <td style="width:250px;">
+        <%= l(cours.debut.to_date, format: :long) %>
+    </td>
     <td>
-        <b><%= l(cours.debut, format: :long) %></b>
-        - <%= l(cours.fin, format: :heures_min) %>
+        <%= l(cours.debut, format: :heures_min) %>
+        <%= l(cours.fin, format: :heures_min) %>
+    </td>
+    <td>
+        <%= number_with_precision(cours.duree, precision: 1) %>h
     </td>
     <td>    
-        <b><%= cours.intervenant.nom_prenom %></b>
+        <%= cours.intervenant.nom_prenom %>
         <% if cours.intervenant_binome %>
             <br>
             <%= cours.intervenant_binome.nom_prenom %>
@@ -21,9 +27,11 @@
             <%= cours.nom_ou_ue %>
         <% end %>
     </td>
-    <td>
-        <% if user_signed_in? && !cours.commentaires.blank? %>
-            <%= cours.commentaires %>
-        <% end %>
-    </td>
+    <% if show_comments %>
+        <td>
+            <% if user_signed_in? && !cours.commentaires.blank? %>
+                <%= cours.commentaires %>
+            <% end %>
+        </td>
+    <% end %>
 </tr>

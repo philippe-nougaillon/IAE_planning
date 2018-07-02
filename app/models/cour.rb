@@ -32,12 +32,12 @@ class Cour < ActiveRecord::Base
     Cour.styles[Cour.etats[self.etat]]
   end
   
-  def self.actions_admin
-    ["Changer de salle", "Changer d'état", "Changer d'intervenant", "Exporter vers Excel", "Exporter vers iCalendar", "Exporter en PDF", "Supprimer"]
-  end
-
   def self.actions
     ["Changer d'intervenant", "Exporter vers Excel", "Exporter vers iCalendar", "Exporter en PDF"]
+  end
+
+  def self.actions_admin
+    ["Changer de salle", "Changer d'état", "Changer de date", "Changer d'intervenant", "Exporter vers Excel", "Exporter vers iCalendar", "Exporter en PDF", "Supprimer"]
   end
 
   def self.etendue_horaire
@@ -161,7 +161,11 @@ class Cour < ActiveRecord::Base
        range << hour
     end 
 
-    return range[0..-2] # enlève le dernier créneau horaire
+    if range.size == 1  
+      return range # afficher le créneau même si le cours ne dure qu'une demi-heure
+    else
+      return range[0..-2] # enlève le dernier créneau horaire pour ne pas afficher la dernière heure comme occupée
+    end
   end
 
   def can_be_destroy_by(user)
@@ -171,7 +175,7 @@ class Cour < ActiveRecord::Base
   def self.generate_csv(cours, exporter_binome, voir_champs_privés = false)
     require 'csv'
     
-    CSV.generate(col_sep:';', quote_char:'"', encoding:'iso8859-1') do | csv |
+    CSV.generate(col_sep:';', quote_char:'"', encoding:'iso-8859-1:UTF-8') do | csv |
         csv << ['id','Date début','Heure début','Date fin','Heure fin','Formation_id','Formation','Code_Analytique','Intervenant_id','Intervenant','UE','Nom du cours','Binôme?','Etat','Salle','Durée','HSS ? (Hors Service Statutaire)','E-learning','Taux_TD','HETD','Commentaires','Cours créé le','Par','Cours modifié le']
     
         cours.each do |c|
@@ -223,7 +227,7 @@ class Cour < ActiveRecord::Base
     require 'csv'
 
     @cumul_hetd = 0.0
-    CSV.generate(col_sep:';', quote_char:'"', encoding:'iso8859-1') do | csv |
+    CSV.generate(col_sep:';', quote_char:'"', encoding:'iso-8859-1:UTF-8') do | csv |
         csv << ['Le','Formation','Code','Intitulé','Commentaires','Durée','HSS?','E-learning?','Taux_TD','HETD','Cumul']
     
         cours.each do |c|

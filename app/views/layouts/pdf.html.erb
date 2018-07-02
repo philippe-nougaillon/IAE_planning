@@ -8,11 +8,10 @@
     <div class="header">
       <%= wicked_pdf_image_tag 'logo_iae.png' %>
     </div>
+    <div class="content">
+      <%= yield %>
+    </div>
   </body>
-  <div class="content">
-    <%= yield %>
-  </div>
-
 </html>
 
 

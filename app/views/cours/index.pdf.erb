@@ -11,13 +11,11 @@
         <th>Intervenant</th>
         <th>UE</th>
         <th>Intitulé</th>
-        <th></th>
     </tr>
     
     <% @cours.each do |cours| %>
-        <%= render partial: 'cours', locals: {cours: cours, cours_formation: cours.formation, show_comments: true } %>
+        <%= render partial: 'cours', locals: {cours: cours, cours_formation: cours.formation, show_comments: false } %>
     <% end %>
 </table>
 <br>
 <i>Le: <%= l Date.today, format: :long %></i>
-

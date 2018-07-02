@@ -164,6 +164,12 @@ class CoursController < ApplicationController
         render text:@calendar.to_ical
       end
 
+      format.pdf do
+        filename = "Export_Planning_#{Date.today.to_s}"
+        response.headers['Content-Disposition'] = 'attachment; filename="' + filename + '.pdf"'
+        render pdf: filename, :layout => 'pdf.html'
+      end
+
     end
   end
 
@@ -243,6 +249,30 @@ class CoursController < ApplicationController
         c.save
         ## envoyer de mail par défaut (after_validation:true) sauf si envoyer email pas coché
         #c.save(validate:params[:email].present?)
+      end
+    when "Changer de date"
+      unless params[:new_date].blank?
+        new_date = params[:new_date].to_date
+      end
+      unless params[:add_n_days].blank?
+        add_n_days = params[:add_n_days].to_i 
+      end
+      
+      @cours.each do |c|
+        if add_n_days.present?
+          new_date = c.debut + add_n_days.days
+        end
+        if new_date.present?
+          c.debut = c.debut.change(year: new_date.year, month: new_date.month, day: new_date.day)
+          c.fin = c.fin.change(year: new_date.year, month: new_date.month, day: new_date.day)
+        end
+        if add_n_days.present? || new_date.present?
+          unless c.save
+            flash[:error] = c.errors.messages
+          end
+        else
+          flash[:error] = "Aucun cours mis à jour"
+        end    
       end
     when "Changer d'intervenant"
       @cours.each do |c|

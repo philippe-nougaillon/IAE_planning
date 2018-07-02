@@ -64,6 +64,20 @@
       <br><br><br>
     </div>
 
+  <% elsif params[:action_name] == "Changer de date" %>
+    <div class="col-sm-2">
+      <%= label_tag "Nouvelle date" %>    
+      <%= text_field_tag :new_date, params[:new_date], type:'date', class:"form-control" %>
+    </div>
+    <div class="col-sm-1">
+      OU
+    </div>
+    <div class="col-sm-6">
+      <%= label_tag "Décaler de x jours" %><br>
+      <%= number_field_tag :add_n_days %>
+    </div>
+    <br><br><br><br>
+
   <% elsif params[:action_name] == "Changer d'intervenant" %>
     <div class="col-sm-6">
       <%= label_tag "Nouvel intervenant" %>    

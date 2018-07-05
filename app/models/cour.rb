@@ -175,7 +175,7 @@ class Cour < ActiveRecord::Base
   def self.generate_csv(cours, exporter_binome, voir_champs_privés = false)
     require 'csv'
     
-    CSV.generate(col_sep:';', quote_char:'"', encoding:'iso-8859-1:UTF-8') do | csv |
+    CSV.generate(col_sep:';', quote_char:'"', encoding:'UTF-8') do | csv |
         csv << ['id','Date début','Heure début','Date fin','Heure fin','Formation_id','Formation','Code_Analytique','Intervenant_id','Intervenant','UE','Nom du cours','Binôme?','Etat','Salle','Durée','HSS ? (Hors Service Statutaire)','E-learning','Taux_TD','HETD','Commentaires','Cours créé le','Par','Cours modifié le']
     
         cours.each do |c|
@@ -227,7 +227,7 @@ class Cour < ActiveRecord::Base
     require 'csv'
 
     @cumul_hetd = 0.0
-    CSV.generate(col_sep:';', quote_char:'"', encoding:'iso-8859-1:UTF-8') do | csv |
+    CSV.generate(col_sep:';', quote_char:'"', encoding:'UTF-8') do | csv |
         csv << ['Le','Formation','Code','Intitulé','Commentaires','Durée','HSS?','E-learning?','Taux_TD','HETD','Cumul']
     
         cours.each do |c|

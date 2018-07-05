@@ -200,6 +200,29 @@
   </div>
 <% end %>
 
+<% if @formation.vacations.any? %>
+    <div class="page-header"> 
+      <h3>Vacations</h3>
+    </div>
+    <ul>
+      <% @formation.vacations.each do |vacation| %>
+        <div class="row">
+          <li>
+            <div class="col-sm-3">
+              <%= vacation.intervenant.nom %>
+            </div>  
+            <div class="col-sm-5">
+              <%= vacation.titre %>
+            </div>
+            <div class="col-sm-2">
+              <%= vacation.forfaithtd %> h
+            </div>
+          </li> 
+        </div>
+      <% end %>
+    </ul>
+<% end %>
+
 <div id="audit" class="collapse">
   <% if current_user.admin? %>
     <% if @formation.audits.any? %>

@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  formation_id: 
+  intervenant_id: 
+  titre: MyString
+  forfaithtd: 9.99
+
+two:
+  formation_id: 
+  intervenant_id: 
+  titre: MyString
+  forfaithtd: 9.99

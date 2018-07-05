@@ -25,8 +25,6 @@
         <%= f.check_box :doublon, label:"Autoriser les doublons(groupe et non individu) sur le même créneau horaire ?" %>
       <% end %>
       <br>
-
-      <%= f.submit class: "btn btn-primary" %>
     </div>
 
     <div class="col-sm-1">
@@ -64,11 +62,36 @@
       <div class="col-sm-6">
         <%= f.text_field :téléphone_mobile %>
       </div>
-  
       <!---
       <%= f.file_field :photo %>
       -->
     </div>   
   </div>
 
+  <div class="page-header"> 
+    <h4>Responsabilités</h4>
+  </div> 
+  <ul>
+    <%= f.fields_for :responsabilites do |r| %>
+      <div class="row">
+        <li>
+          <div class="col-sm-7">
+            <%= r.text_field :titre, placeholder:"Donnez un titre (ex: Chargé de mission)", label:"Titre" %>
+          </div>  
+          <div class="col-sm-3">
+            <%= r.text_field :heures, label:"Nombre d'heures attribuées" %>
+          </div>
+          <div class="col-sm-2">
+            <br>
+            <%= r.check_box :_destroy, label:"Supprimer ?" %>
+          </div>
+        </li> 
+      </div>
+    <% end %>
+  </ul>
+
+  <%= f.submit class: "btn btn-primary" %>
+
 <% end %>
+
+

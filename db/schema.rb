@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180626150412) do
+ActiveRecord::Schema.define(version: 20180705095502) do
 
   create_table "audits", force: :cascade do |t|
     t.integer  "auditable_id",    limit: 4
@@ -168,6 +168,16 @@ ActiveRecord::Schema.define(version: 20180626150412) do
     t.string   "memo",                  limit: 255
   end
 
+  create_table "responsabilites", force: :cascade do |t|
+    t.integer  "intervenant_id", limit: 4
+    t.string   "titre",          limit: 255
+    t.decimal  "heures",                     precision: 5, scale: 2
+    t.datetime "created_at",                                         null: false
+    t.datetime "updated_at",                                         null: false
+  end
+
+  add_index "responsabilites", ["intervenant_id"], name: "index_responsabilites_on_intervenant_id", using: :btree
+
   create_table "salles", force: :cascade do |t|
     t.string   "nom",        limit: 255
     t.integer  "places",     limit: 4
@@ -212,6 +222,21 @@ ActiveRecord::Schema.define(version: 20180626150412) do
   add_index "users", ["formation_id"], name: "index_users_on_formation_id", using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
+  create_table "vacations", force: :cascade do |t|
+    t.integer  "formation_id",   limit: 4
+    t.integer  "intervenant_id", limit: 4
+    t.string   "titre",          limit: 255
+    t.decimal  "forfaithtd",                 precision: 5, scale: 2
+    t.datetime "created_at",                                         null: false
+    t.datetime "updated_at",                                         null: false
+  end
+
+  add_index "vacations", ["formation_id"], name: "index_vacations_on_formation_id", using: :btree
+  add_index "vacations", ["intervenant_id"], name: "index_vacations_on_intervenant_id", using: :btree
+
   add_foreign_key "import_log_lines", "import_logs"
   add_foreign_key "import_logs", "users"
+  add_foreign_key "responsabilites", "intervenants"
+  add_foreign_key "vacations", "formations"
+  add_foreign_key "vacations", "intervenants"
 end

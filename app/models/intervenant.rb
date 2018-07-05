@@ -6,6 +6,10 @@ class Intervenant < ActiveRecord::Base
 
 	has_many :cours
 	has_many :formations, through: :cours
+	has_many :responsabilites
+	accepts_nested_attributes_for :responsabilites, allow_destroy:true, reject_if: lambda {|attributes| attributes['titre'].blank?}
+
+	has_many :vacations
 
 	validates_uniqueness_of :nom, scope: :email, case_sensitive: false
 	validates :nom, :email, :prenom, :status, presence: true

@@ -68,7 +68,6 @@
           <br><strong>Doublons autorisés !</strong>
       </p>
     <% end %>
-
   </div>
 
   <div class="col-sm-3">
@@ -104,9 +103,46 @@
       <%= @intervenant.cp %> <%= @intervenant.ville %>
     </p>
   </div>
-
 </div>
-<br>
+
+<div class="page-header"> 
+  <h3>Responsabilités</h3>
+</div> 
+<ul>
+  <% @intervenant.responsabilites.each do |r| %>
+    <div class="row">
+      <li>
+        <div class="col-sm-7">
+          <%= r.titre %>
+        </div>  
+        <div class="col-sm-3">
+          <%= r.heures %> h
+        </div>
+      </li> 
+    </div>
+  <% end %>
+</ul>
+
+<div class="page-header"> 
+  <h3>Vacations</h3>
+</div>
+<ul>
+  <% @intervenant.vacations.each do |vacation| %>
+    <div class="row">
+      <li>
+        <div class="col-sm-3">
+          <%= vacation.formation.nom %>
+        </div>  
+        <div class="col-sm-5">
+          <%= vacation.titre %>
+        </div>
+        <div class="col-sm-2">
+          <%= vacation.forfaithtd %> h
+        </div>
+      </li> 
+    </div>
+  <% end %>
+</ul>
 
 <div id="audit" class="collapse">
   <% if current_user.admin? %>

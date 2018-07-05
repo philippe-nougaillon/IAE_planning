@@ -13,6 +13,9 @@ class Formation < ActiveRecord::Base
 	has_many :etudiants
 	accepts_nested_attributes_for :etudiants, allow_destroy:true, reject_if: lambda {|attributes| attributes['nom'].blank?}
 
+	has_many :vacations
+	accepts_nested_attributes_for :vacations, allow_destroy:true, reject_if: lambda {|attributes| attributes['titre'].blank?}
+
 	belongs_to :user
 
 	validates :nom, :nbr_etudiants, :nbr_heures, :abrg, presence: true

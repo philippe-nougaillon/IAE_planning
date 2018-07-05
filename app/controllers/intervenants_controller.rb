@@ -36,10 +36,12 @@ class IntervenantsController < ApplicationController
   # GET /intervenants/new
   def new
     @intervenant = Intervenant.new
+    3.times { @intervenant.responsabilites.build }
   end
 
   # GET /intervenants/1/edit
   def edit
+    2.times { @intervenant.responsabilites.build }
   end
 
   # POST /intervenants
@@ -92,6 +94,7 @@ class IntervenantsController < ApplicationController
     def intervenant_params
       params.require(:intervenant).permit(:nom, :prenom, :email, :linkedin_url, :titre1, :titre2, :spécialité,
        :téléphone_fixe, :téléphone_mobile, :bureau, :photo, :status, :remise_dossier_srh, :adresse, :cp, :ville, :doublon,
-       :nbr_heures_statutaire, :date_naissance, :memo)
+       :nbr_heures_statutaire, :date_naissance, :memo,
+       responsabilites_attributes: [:id, :titre, :heures, :_destroy])
     end
 end

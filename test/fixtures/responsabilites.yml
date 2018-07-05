@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  intervenant_id: 
+  titre: MyString
+  heures: 
+  heures: 
+
+two:
+  intervenant_id: 
+  titre: MyString
+  heures: 
+  heures: 

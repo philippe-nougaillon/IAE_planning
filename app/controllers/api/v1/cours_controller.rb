@@ -24,17 +24,19 @@ module Api
 					cours = cours.where("debut >= ?", Date.today)
 				end
 
-				# render json: cours,
-				# 		methods:[:duree_json, :salle_json, :matiere_json, :formation_json, :intervenant_json],
-				# 		except:[:created_at, :updated_at, :id, :salle_id, :formation_id, :intervenant_id, :intervenant_binome_id, :etat, :duree, :ue, :nom]
-				
-				d = DateTime.parse(params[:d] + 'T6:00:00')
-				f = DateTime.parse(params[:d] + 'T23:00:00')
+				if params[:debug] == "1"
+					render json: cours,
+							methods:[:duree_json, :salle_json, :matiere_json, :formation_json, :intervenant_json],
+							except:[:created_at, :updated_at, :id, :salle_id, :formation_id, :intervenant_id, :intervenant_binome_id, :etat, :duree, :ue, :nom]
+				else	
+					d = DateTime.parse(params[:d] + 'T6:00:00')
+					f = DateTime.parse(params[:d] + 'T23:00:00')
 
-				render json: [{debut: d, fin: f, duree_json: 1020.0, salle_json: "!", 
-								matiere_json: "Appli en cours de maintenance",
-								intervenant_json: "Retrouvez le planning sur",
-								formation_json: "http://planning.iae-paris.com" }] 
+					render json: [{debut: d, fin: f, duree_json: 1020.0, salle_json: "!", 
+									matiere_json: "Appli en cours de maintenance",
+									intervenant_json: "Retrouvez le planning sur",
+									formation_json: "http://planning.iae-paris.com" }] 
+				end
 			end	
 							
 		    def show

@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.1'
+gem 'rails', '4.2.8'
 # Use sqlite3 as the database for Active Record
 #gem 'sqlite3'
 
@@ -18,13 +18,13 @@ gem 'coffee-rails', '~> 4.1.0'
 # gem 'therubyracer', platforms: :ruby
 
 gem 'execjs'
-gem 'therubyracer'
+gem 'mini_racer'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
-#gem 'turbolinks'
+gem 'turbolinks'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
@@ -48,7 +48,7 @@ gem 'will_paginate'
 gem 'will_paginate-bootstrap'
 gem 'icalendar'
 gem 'pundit'
-gem 'scout_apm'
+#gem 'scout_apm'
 gem 'dotenv-rails', groups: [:development, :test]
 gem 'serviceworker-rails'
 gem 'sucker_punch'
@@ -74,7 +74,7 @@ gem 'web-console', '~> 2.0', group: :development
   
 group :development do
   # Call 'debugger' anywhere in the code to stop execution and get a debugger console
-  gem 'debugger'
+  # gem 'debugger'
   gem 'pry'
   
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring

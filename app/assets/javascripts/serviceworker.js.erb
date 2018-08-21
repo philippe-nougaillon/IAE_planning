@@ -1,4 +1,4 @@
-var CACHE_VERSION = 'v1.4';
+var CACHE_VERSION = 'v1.5';
 var CACHE_NAME = CACHE_VERSION + ':sw-cache-';
 
 function onInstall(event) {
@@ -10,7 +10,9 @@ function onInstall(event) {
         // make sure serviceworker.js is not required by application.js
         // if you want to reference application.js from here
         '/offline.html',
-        '/logo_iae.png'
+        '/logo_iae.png',
+        '/favicon.ico',
+        "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
       ]);
     })
   );

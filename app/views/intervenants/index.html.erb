@@ -65,9 +65,6 @@
         <% @intervenants.includes(:cours).each do |intervenant| %>
           <tr>
             <td>
-              <% if intervenant.photo.url %>
-                <%= link_to(image_tag(intervenant.photo.url, class: "img-circle", size:'45x45'), intervenant) %>
-              <% end %>
             </td>
             <td><b><%= link_to intervenant.nom_prenom, intervenant %></b></td>
             <td><%= intervenant.status.humanize if intervenant.status %></td>

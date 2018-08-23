@@ -18,7 +18,7 @@ class Intervenant < ActiveRecord::Base
 
 	default_scope { order(:nom, :prenom) } 
 
-    mount_uploader :photo, AvatarUploader
+    #mount_uploader :photo, AvatarUploader
 
 	def self.for_select
 		{

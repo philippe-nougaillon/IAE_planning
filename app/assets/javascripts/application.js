@@ -12,8 +12,6 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require bootstrap
-//= require bootstrap-sprockets
 //= require serviceworker-companion
 //= require select2
 //= require_tree .

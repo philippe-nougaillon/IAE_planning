@@ -2,7 +2,7 @@ class Document < ActiveRecord::Base
   
   audited
 
-  mount_uploader :fichier, DocumentUploader
+  # mount_uploader :fichier, DocumentUploader
 
   belongs_to :formation
   belongs_to :intervenant

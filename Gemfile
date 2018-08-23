@@ -31,17 +31,18 @@ gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
 
-gem 'bootstrap-sass', '~> 3.2.0'
+#gem 'bootstrap-sass', '~> 3.2.0'
 #gem 'autoprefixer-rails'
-gem 'bootstrap-generators', '~> 3.3.4'
-gem 'bootstrap_form'
+#gem 'bootstrap-generators', '~> 3.3.4'
+#gem 'bootstrap_form'
+gem "bootstrap_form", "~> 2.7"
 gem 'simple_calendar', '~> 2.0'
 gem 'devise', '3.4.1'
 gem 'devise-i18n'
 gem 'audited', '~> 4.3'
 gem 'rack-cors'
 gem 'carrierwave', '0.11.0'
-gem 'rmagick'
+#gem 'rmagick'
 gem 'capture_stdout'
 gem 'rails-erd'
 gem 'will_paginate'

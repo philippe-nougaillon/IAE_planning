@@ -14,13 +14,6 @@
         <span style="padding-left:5px;"></span>
         <%= link_to cours_formation.nom, cours_formation %>
     </td>
-    <!--
-    <td>
-        <% if cours.intervenant.photo.url %>
-        <%= link_to(image_tag(cours.intervenant.photo.url, class: "img-circle", size:'45x45'), cours.intervenant) %>
-        <% end %>
-    </td>
-    -->
     <td>
         <%= link_to cours.intervenant.nom_prenom, cours.intervenant %>
         <% if cours.intervenant_binome %>

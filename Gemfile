@@ -41,7 +41,7 @@ gem 'devise', '3.4.1'
 gem 'devise-i18n'
 gem 'audited', '~> 4.3'
 gem 'rack-cors'
-gem 'carrierwave', '0.11.0'
+#gem 'carrierwave', '0.11.0'
 #gem 'rmagick'
 gem 'capture_stdout'
 gem 'rails-erd'
@@ -51,7 +51,7 @@ gem 'icalendar'
 gem 'pundit'
 #gem 'scout_apm'
 gem 'dotenv-rails', groups: [:development, :test]
-gem 'serviceworker-rails'
+#gem 'serviceworker-rails'
 gem 'sucker_punch'
 gem "select2-rails"
 

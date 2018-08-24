@@ -12,6 +12,5 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require serviceworker-companion
 //= require select2
 //= require_tree .

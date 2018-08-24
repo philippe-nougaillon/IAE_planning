@@ -1,18 +1,20 @@
 <div class="page-header">
-  <%= link_to etudiants_path, class: 'btn btn-default' do %>
-    <span class="glyphicon glyphicon-list-alt"></span>
-    Retour
-  <% end %>
+  <div class="btn-group pull-right">
+    <%= link_to edit_etudiant_path(@etudiant), class: 'btn btn-primary' do %>
+      <span class="glyphicon glyphicon-pencil"></span>
+      Modification
+    <% end %>
 
-  <a href="#audit" data-toggle="collapse" class='btn btn-default'>
-    <span class="glyphicon glyphicon-search"></span>
-    Audit
-  </a>
+    <a href="#audit" data-toggle="collapse" class='btn btn-default'>
+      <span class="glyphicon glyphicon-search"></span>
+      Audit
+    </a>
 
-  <%= link_to edit_etudiant_path(@etudiant), class: 'btn btn-primary' do %>
-    <span class="glyphicon glyphicon-pencil"></span>
-    Modification
-  <% end %>
+    <%= link_to etudiants_path, class: 'btn btn-default' do %>
+      <span class="glyphicon glyphicon-list-alt"></span>
+      Retour
+    <% end %>
+  </div>
   <br><br>
 </div>
 

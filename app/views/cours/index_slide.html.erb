@@ -66,15 +66,9 @@
                   <br><br>
                 <% end %>
               <% end %>
-
             </td>
             <td style="vertical-align: middle;">
               <h3>
-                <!---
-                <% if cours.intervenant.photo.url %>
-                  <%= image_tag(cours.intervenant.photo.url, class: "img-circle", size: '80x80') %>
-                <% end %>
-                -->
                 <%= cours.intervenant.nom_prenom %>
                 <% if cours.intervenant_binome_id %>
                     / <%= cours.intervenant_binome.nom_prenom %>

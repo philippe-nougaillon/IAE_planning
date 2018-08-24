@@ -1,12 +1,14 @@
 <div class="page-header">
-  <%= link_to users_path, class: 'btn btn-default' do %>
-    <span class="glyphicon glyphicon-list-alt"></span>
-    Retour
-  <% end %>
-  <%= link_to @user, class: 'btn btn-primary' do %>
-    <span class="glyphicon glyphicon-info-sign"></span>
-    Voir
-  <% end %>
+  	<div class="btn-group pull-right">
+	  <%= link_to @user, class: 'btn btn-primary' do %>
+	    <span class="glyphicon glyphicon-info-sign"></span>
+	    Voir
+	  <% end %>
+	  <%= link_to users_path, class: 'btn btn-default' do %>
+	    <span class="glyphicon glyphicon-list-alt"></span>
+	    Retour
+	  <% end %>
+	</div>
   <h1>Modification utilisateur</h1>
 </div>
 

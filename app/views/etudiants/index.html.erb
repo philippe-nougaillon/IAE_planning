@@ -3,10 +3,12 @@
 </script>
 
 <div class="page-header">
-  <%= link_to new_etudiant_path, class: 'btn btn-primary' do %>
-    <span class="glyphicon glyphicon-plus"></span>
-    Etudiant
-  <% end %>
+  <div class="btn-group pull-right">
+    <%= link_to new_etudiant_path, class: 'btn btn-primary' do %>
+      <span class="glyphicon glyphicon-plus"></span>
+      Etudiant
+    <% end %>
+  </div>
   <h1>
     <span class="glyphicon glyphicon-education"></span>
     Liste des étudiants

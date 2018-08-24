@@ -1,8 +1,10 @@
 <div class="page-header">
-  <%= link_to new_formation_path, class: 'btn btn-primary' do %>
-    <span class="glyphicon glyphicon-plus"></span>
-    Formation
-  <% end %>
+  <div class="btn-group pull-right">
+    <%= link_to new_formation_path, class: 'btn btn-primary' do %>
+      <span class="glyphicon glyphicon-plus"></span>
+      Formation
+    <% end %>
+  </div>
   <h1>
     <span class="glyphicon glyphicon-briefcase"></span>
     Liste des formations
@@ -38,7 +40,7 @@
           -->
 
           <div class="col-sm-2">
-            <%= label_tag :catalogue, "Formations catalogue ?" %>
+            <%= label_tag :catalogue, "Catalogue ?" %>
             <br>
             <%= radio_button_tag :catalogue, "yes", (params[:catalogue]=='yes'), onchange:'this.form.submit()' %>
             Oui 

@@ -1,25 +1,27 @@
 <div class="page-header">
-  <%= link_to cours_path, class: 'btn btn-default' do %>
-    <span class="glyphicon glyphicon-list-alt"></span>
-    Retour
-  <% end %>
-
-  <a href="#audit" data-toggle="collapse" class='btn btn-default'>
-    <span class="glyphicon glyphicon-search"></span>
-    Audit
-  </a>
-
-  <% if current_user.admin? %>
-    <%= link_to(@cour, method: :delete, data:{confirm: 'Confirmez-vous la suppression définitive de ce cours ?'}, class:"btn btn-warning") do %>
-      <span class="glyphicon glyphicon-remove"></span>
-      Supprimer
+  <div class="btn-group pull-right">
+    <%= link_to edit_cour_path(@cour), class: 'btn btn-primary' do %>
+      <span class="glyphicon glyphicon-pencil"></span>
+      Modifier
     <% end %>
-  <% end %>
 
-  <%= link_to edit_cour_path(@cour), class: 'btn btn-primary' do %>
-    <span class="glyphicon glyphicon-pencil"></span>
-    Modifier
-  <% end %>
+    <% if current_user.admin? %>
+      <%= link_to(@cour, method: :delete, data:{confirm: 'Confirmez-vous la suppression définitive de ce cours ?'}, class:"btn btn-warning") do %>
+        <span class="glyphicon glyphicon-remove"></span>
+        Supprimer
+      <% end %>
+    <% end %>
+
+    <a href="#audit" data-toggle="collapse" class='btn btn-default'>
+      <span class="glyphicon glyphicon-search"></span>
+      Audit
+    </a>
+
+    <%= link_to cours_path, class: 'btn btn-default' do %>
+      <span class="glyphicon glyphicon-list-alt"></span>
+      Retour
+    <% end %>
+  </div>
   
   <h2>
     <%= l(@cour.debut, format: :long) %>

@@ -1,14 +1,16 @@
 <div class="page-header">
-  <% if current_user.admin? %>
-    <%= link_to salles_path, class: 'btn btn-default' do %>
-      <span class="glyphicon glyphicon-list-alt"></span>
-      Retour
+  <div class="btn-group pull-right">
+    <% if current_user.admin? %>
+      <%= link_to edit_salle_path(@salle), class: 'btn btn-primary' do %>
+        <span class="glyphicon glyphicon-pencil"></span>
+        Modifier
+      <% end %>
+      <%= link_to salles_path, class: 'btn btn-default' do %>
+        <span class="glyphicon glyphicon-list-alt"></span>
+        Retour
+      <% end %>
     <% end %>
-    <%= link_to edit_salle_path(@salle), class: 'btn btn-primary' do %>
-      <span class="glyphicon glyphicon-pencil"></span>
-      Modifier
-    <% end %>
-  <% end %>
+  </div>
   
   <h2>
     <%= @salle.nom %>

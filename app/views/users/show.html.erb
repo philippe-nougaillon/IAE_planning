@@ -1,20 +1,22 @@
 <div class="page-header">
-  <% if current_user.try(:admin?) %>	
-	  <%= link_to users_path, class: 'btn btn-default' do %>
-	    <span class="glyphicon glyphicon-list-alt"></span>
-	    Retour
-	  <% end %>
+    <div class="btn-group pull-right">
+	  <% if current_user.try(:admin?) %>	
+
+	  	<%= link_to edit_user_path(@user), class: 'btn btn-primary' do %>
+	    	<span class="glyphicon glyphicon-pencil"></span>
+	    	Modifier
+	  	<% end %>
 
 		<a href="#audit" data-toggle="collapse" class='btn btn-default'>
-      <span class="glyphicon glyphicon-search"></span>
-      Audit
-    </a>
-
-	  <%= link_to edit_user_path(@user), class: 'btn btn-primary' do %>
-	    <span class="glyphicon glyphicon-pencil"></span>
-	    Modifier
+	      <span class="glyphicon glyphicon-search"></span>
+	      Audit
+	    </a>
+	  	<%= link_to users_path, class: 'btn btn-default' do %>
+	    	<span class="glyphicon glyphicon-list-alt"></span>
+	    	Retour
+	  	<% end %>
 	  <% end %>
-  <% end %>	  
+	</div>	  
   <h1><%= @user.email %></h1>
 </div>
 

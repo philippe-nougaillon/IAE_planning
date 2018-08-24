@@ -1,12 +1,14 @@
 <div class="page-header">
-  <%= link_to cours_path, class: 'btn btn-default' do %>
-    <span class="glyphicon glyphicon-list-alt"></span>
-    Retour
-  <% end %>
-  <%= link_to @cour, class: 'btn btn-primary' do %>
-    <span class="glyphicon glyphicon-info-sign"></span>
-    Voir
-  <% end %>
+	<div class="btn-group pull-right">
+	  <%= link_to @cour, class: 'btn btn-primary' do %>
+	    <span class="glyphicon glyphicon-info-sign"></span>
+	    Voir
+	  <% end %>
+	  <%= link_to cours_path, class: 'btn btn-default' do %>
+	    <span class="glyphicon glyphicon-list-alt"></span>
+	    Retour
+	  <% end %>
+	</div>
   <h1>Modification Cours</h1>
 </div>
 

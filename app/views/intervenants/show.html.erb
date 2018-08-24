@@ -1,20 +1,22 @@
 <div class="page-header">
-  <% if current_user.admin? %>
-    <%= link_to intervenants_path, class: 'btn btn-default' do %>
-      <span class="glyphicon glyphicon-list-alt"></span>
-      Retour
-    <% end %>
-    
-    <a href="#audit" data-toggle="collapse" class='btn btn-default'>
-      <span class="glyphicon glyphicon-search"></span>
-      Audit
-    </a>
+  <div class="btn-group pull-right">
+    <% if current_user.admin? %>
+      <%= link_to edit_intervenant_path(@intervenant), class: 'btn btn-primary' do %>
+        <span class="glyphicon glyphicon-pencil"></span>
+        Modifier
+      <% end %>
 
-    <%= link_to edit_intervenant_path(@intervenant), class: 'btn btn-primary' do %>
-      <span class="glyphicon glyphicon-pencil"></span>
-      Modifier
+      <a href="#audit" data-toggle="collapse" class='btn btn-default'>
+        <span class="glyphicon glyphicon-search"></span>
+        Audit
+      </a>
+
+      <%= link_to intervenants_path, class: 'btn btn-default' do %>
+        <span class="glyphicon glyphicon-list-alt"></span>
+        Retour
+      <% end %>
     <% end %>
-  <% end %>
+  </div>
   <br><br>  
 </div>
 

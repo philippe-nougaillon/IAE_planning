@@ -43,7 +43,7 @@ class ToolsController < ApplicationController
         end
 
         # MAJ cours existant ? si l'id est égal à 0 => c'est une création
-        if update_mode = (row['id'].to_i != 0)
+        if update_mode = (row['id'].to_i != 0 && Cour.exists?(row['id']))
           cours = Cour.find(row['id'])
         else
           cours = Cour.new

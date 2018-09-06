@@ -99,13 +99,23 @@
         <div style="margin-right:50px"> 
           <ul class="nav navbar-nav navbar-right">
             <% unless user_signed_in? %>
-              <li><a href="/users/sign_in"><span class="glyphicon glyphicon-log-in"></span> Connexion</a></li>
+              <%= link_to guide_index_path do %>
+                <span class="glyphicon glyphicon-info-sign"></span>
+                Guide
+              <% end %>
+              | 
+              <a href="/users/sign_in"><span class="glyphicon glyphicon-log-in"></span> Connexion</a>
             <% else %>
               <%= "#{current_user.email.split('@').first} #{current_user.admin? ? "(admin)" : '' }" %>
               |
               <%= link_to tools_index_path do %>
                 <span class="glyphicon glyphicon-wrench"></span>
                 Outils
+              <% end %>
+              |
+              <%= link_to guide_index_path do %>
+                <span class="glyphicon glyphicon-info-sign"></span>
+                Guide
               <% end %>
               |
               <%= link_to "/users/sign_out", method: :delete do %> 

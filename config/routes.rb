@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   
+  get 'guide/index'
+
   resources :import_logs do
     member do
       get 'download_imported_file'

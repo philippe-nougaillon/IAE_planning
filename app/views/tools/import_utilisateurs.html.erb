@@ -10,7 +10,8 @@
     <h3>Cette fonction permet l'importation des utilisateurs à partir d'un fichier CSV</h3>
     <ul>
         <li>Le fichier source peut avoir les colonnes suivantes: <b>email;nom;prénom;mobile</b></li>
-        <li>Ce fichier doit être au format CSV, Encodage=iso-8859-1, Séparateur=Point-virgule, Noms colonnes=Première ligne</li>
+        <li>Ce fichier doit être au format CSV, Encodage: <b>UTF-8</b>, Séparateur: <b>Point-virgule</b>, Noms des colonnes: <b>Première ligne</b>
+        </li>
         <li>Exemple de fichier conforme : <%= link_to "exemple_import_utilisateurs.csv", "/exemple_import_utilisateurs.csv" %></li>
     </ul>
     <b><i>Chaque nouvel utilisateur sera averti de la création de son compte par l'envoi d'un email contenant son mot de passe</i></b> 

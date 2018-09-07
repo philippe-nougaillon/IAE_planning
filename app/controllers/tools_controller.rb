@@ -43,10 +43,15 @@ class ToolsController < ApplicationController
         end
 
         # MAJ cours existant ? si l'id est égal à 0 => c'est une création
-        if update_mode = (row['id'].to_i != 0 && Cour.exists?(row['id'].to_i))
-          cours = Cour.find(row['id'])
-        else
+        id = row['id'].strip.to_i 
+        if id == 0
           cours = Cour.new
+        else
+          if Cour.exists?(id)
+            cours = Cour.find(id)
+          else
+            cours = Cour.new
+          end
         end
 
         debut = Time.parse(row['Date début'] + " " + row['Heure début'] + 'UTC')
@@ -59,7 +64,7 @@ class ToolsController < ApplicationController
         cours.ue = row['UE'].try(:strip)
         cours.nom = row['Intitulé']
 
-        msg = "COURS #{update_mode ? 'UPDATE' : 'NEW'} => changes:#{cours.changes}"
+        msg = "COURS #{cours.new_record? ? 'NEW' : 'UPDATE'} => id:#{id} changes:#{cours.changes}"
 
         if cours.valid? 
           cours.save if params[:save] == 'true'
@@ -68,7 +73,7 @@ class ToolsController < ApplicationController
         else
           @errors += 1
           _ligne_importée = false
-          msg += "COURS INVALIDE !! Erreur => #{cours.errors.messages}"
+          msg += " | COURS INVALIDE ! Erreur:#{cours.errors.messages}"
           # puts msg
         end
         _etat = ( _ligne_importée ? ImportLogLine.etats[:succès] : ImportLogLine.etats[:echec]) 
@@ -76,6 +81,7 @@ class ToolsController < ApplicationController
       end
 
       _etat = (@error != 0 ? ImportLog.etats[:succès] : ImportLog.etats[:echec]) 
+      
       log.update(etat: _etat, nbr_lignes: @importes + @errors, lignes_importees: @importes)
       log.update(message: (params[:save] == 'true' ? "Importation" : "Simulation") )
       log.update(message: log.message + " | Formation: #{Formation.find(params[:formation_id]).try(:nom)}" )

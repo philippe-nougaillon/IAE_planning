@@ -36,12 +36,14 @@
   <dd>
     <% if @import_log.nbr_lignes - @import_log.lignes_importees > 0 %>
       <span class="btn btn-warning">
-        <%= @import_log.nbr_lignes - @import_log.lignes_importees %> lignes rejetées 
+        <%= "#{@import_log.nbr_lignes - @import_log.lignes_importees} lignes rejetées" %>
       </span>
+      <%= link_to "Voir", import_log_path(@import_log, filter: true) %> 
     <% else %>
       0
     <% end %>
   </dd>
+  <br>
 
   <dt>Message:</dt>
   <dd><%= @import_log.message %></dd>
@@ -64,7 +66,7 @@
     </thead>
 
     <tbody>
-      <%= content_tag_for(:tr, @import_log.import_log_lines) do |import_log_line| %>
+      <%= content_tag_for(:tr, @import_log_lines) do |import_log_line| %>
         <td><%= import_log_line.num_ligne %></td>
         <td><span class="<%= import_log_line.icon_etat %>"></span></td>
         <td><%= import_log_line.message %></td>

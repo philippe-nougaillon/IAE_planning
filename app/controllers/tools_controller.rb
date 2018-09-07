@@ -43,7 +43,7 @@ class ToolsController < ApplicationController
         end
 
         # MAJ cours existant ? si l'id est égal à 0 => c'est une création
-        id = row['id'].strip.to_i 
+        id = row[0].to_i 
         if id == 0
           cours = Cour.new
         else

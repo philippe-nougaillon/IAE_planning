@@ -1,8 +1,13 @@
 <div class="page-header">
-  <h1>Guide de l'utilisateur IAE_planning</h1>
+  <h1>
+    <span class="glyphicon glyphicon-info-sign"></span> 
+    Guide de l'utilisateur IAE_planning
+  </h1>
 </div>
 
-<h2>Application web de planification de cours, collaborative, flexible et simple d'utilisation.</h2>
+<h2>Application web de planification de cours</h2>
+<h3>Collaborative, flexible et simple d'utilisation :)</h3>
+<br>
 
 <div class="row">
   <div class="col-md-4">
@@ -219,15 +224,24 @@
 
 <h3>Importation des données</h3>
 <ul>
-    <li>Les cours, formations, intervenants, étudiants et les utilisateurs peuvent être importés en masse à 	partir de fichiers CSV issues de tableaux Excel.
+    <li>Les cours, formations, intervenants, étudiants et les utilisateurs peuvent être importés en masse à 	   partir de fichiers CSV issues de tableaux Excel.
     </li>
-    <li>Ce fichier doit être au format CSV, Encodage: <b>UTF-8</b>, Séparateur: <b>Point-virgule</b>, Noms 		des colonnes: <b>Première ligne</b>
+    <li>Ce fichier doit être au format CSV, Encodage: <b>UTF-8</b>, Séparateur: <b>Point-virgule</b>, Noms 		   des colonnes: <b>Première ligne</b>
   	</li>
+      <ul>
+          <li>
+            Si besoin, utilisez un 
+            <a href="https://subtitletools.com/convert-text-files-to-utf8-online">
+              convertisseur UTF8 en ligne 
+            </a>
+        </li>
+      </ul>
     <ul>
 	  	<li>
 	    	<b>Importation de cours:</b> le fichier source doit contenir les colonnes suivantes: <br>
 	    	<pre>id;Date début (format:'JJ/MM/AAAA');Heure début (format:'09:30');Date fin;Heure fin;UE;Intervenant (format:'NOM Prénom');Intitulé</pre>
 	    	<b>Si id est égal à 0, c'est une création de cours, sinon c'est une mise à jour du cours ayant comme identifiant unique l'id donné. Si le cours ayant cet id n'existe plus, il sera créé.</b>
+        La colonnne id doit être en première position.
 	  	</li>
 	  	<br>
         <li>

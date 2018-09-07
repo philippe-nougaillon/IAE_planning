@@ -1,8 +1,11 @@
 <div class="page-header">
-  <%= link_to import_logs_path, class: 'btn btn-default' do %>
-    <span class="glyphicon glyphicon-list-alt"></span>
-    Retour
-  <% end %>
+  <div class="btn-group pull-right">
+    <%= link_to import_logs_path, class: 'btn btn-default' do %>
+      <span class="glyphicon glyphicon-list-alt"></span>
+      Retour
+    <% end %>
+  </div>
+  
   <h1>
     <span class="glyphicon glyphicon-inbox"></span>
     Import log #<%= @import_log.id %>
@@ -20,13 +23,25 @@
   <dd>
     <span class="<%= @import_log.icon_etat %>"></span>
     <%= @import_log.etat.humanize %>
+    (Succès => Le fichier a bien été traité) 
   </dd>
 
-  <dt>Lignes:</dt>
+  <dt>Total lignes du fichier:</dt>
   <dd><%= @import_log.nbr_lignes %></dd>
 
-  <dt>Importées:</dt>
+  <dt>Total importées:</dt>
   <dd><%= @import_log.lignes_importees %></dd>
+
+  <dt>Echec à la création:</dt>
+  <dd>
+    <% if @import_log.nbr_lignes - @import_log.lignes_importees > 0 %>
+      <span class="btn btn-warning">
+        <%= @import_log.nbr_lignes - @import_log.lignes_importees %> lignes rejetées 
+      </span>
+    <% else %>
+      0
+    <% end %>
+  </dd>
 
   <dt>Message:</dt>
   <dd><%= @import_log.message %></dd>

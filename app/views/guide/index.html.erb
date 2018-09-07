@@ -1,7 +1,8 @@
 <div class="page-header">
   <h1>Guide de l'utilisateur IAE_planning</h1>
 </div>
-<h2>Application web de planification de cours. Collaborative, flexible et simple d'utilisation.</h2>
+
+<h2>Application web de planification de cours, collaborative, flexible et simple d'utilisation.</h2>
 
 <div class="row">
   <div class="col-md-4">
@@ -86,6 +87,15 @@
 <ul>
     <li>Chaque formation est associée à un code couleur pour un répérage rapide dans le planning</li>
     <li>Gestion des UE (une liste d'UE est associée à chaque formation, avec indication du nombre d'heures)</li>
+    <li>Archivage des formations</li>
+    <ul>
+		<li>
+			<b>Pour archiver une formation :</b>		
+			<br>
+			Pour faire disparaitre du planning (temporairement) une formation, allez dans Formations/Choisir la formation à archiver/Modifier => Cocher "Archivée" et Enregistrez. Cette formation ne sera plus visible dans toute l'application.
+			Pour faire réapparaitre une formation archivée, allez dans Formations/Cocher Archivées pour filtrer les formations archivées puis modifier la formation à faire réapparaitre, décochez "Archivée ?" et enregistrez. Cette formation est alors de nouveau visible dans toute l'application.
+		</li>    	
+    </ul>
 </ul>
 
 <h3>Gestion des Etudiants</h3>
@@ -96,6 +106,15 @@
 <h3>Gestion des Intervenants</h3>
 <ul>
     <li>Profil des intervenants avec photo, status, formations dispensées (affichage dynamique basé sur les cours enregistrés, avec le nombre d'heures planifiées et la date du premier cours)</li>
+    <ul>
+		<li>
+			<b>Filtrer les cours;</b> Pour que la recherche d'intervenant soit fructueuse :
+			<br>
+			Comme le système cherche un intervenant qui se nomme NOM+Espace+PRENOM, il ne faut donc pas d’espace, ni dans le nom, ni dans le prénom.
+			Ex: "A et CONFIRMER" sera compris comme nom=A, prénom=CONFIRMER. Il convient donc de remplacer l'espace par un "_", ce qui donnera "A_CONFIRMER".
+			Le nom et le prénom sont obligatoires. Remplissez un champ vide par un point si besoin.
+		</li>
+	</ul>
 </ul>
 
 <h3>Gestion des Salles</h3>

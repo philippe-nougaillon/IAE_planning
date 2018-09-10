@@ -50,7 +50,7 @@ module ToolsHelper
 
     def convertir_id_salles(audit)
 
-        if audit.audited_changes.include?("salle_id") 
+        if audit.audited_changes.include?("salle_id") && audit.action !=  'destroy'
             salle_id = audit.audited_changes["salle_id"] 
             if salle_id.class.name == "Array" 
                 if salle_id_was = salle_id.first 

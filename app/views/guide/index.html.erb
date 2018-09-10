@@ -5,13 +5,13 @@
   </h1>
 </div>
 
-<h2></h2>
 <blockquote>
   <p>Application web de planification de cours. Collaborative, flexible et simple d'utilisation :)</p>
   <footer></footer>
 </blockquote>
+<br>
 
-<h3>Gestion des Cours</h3>
+<h3>Cours</h3>
 <ul>
     <li>Chaque cours est associé à une Formation, un ou deux Intervenants, une Salle et un Etat (Planifié, Confirmé, Reporté, Annulé, Réalisé)</li>
     <li>Affichage des cours sous forme de Liste, de Calendrier (semaine/mois) ou Etat d'Occupation des salles</li>
@@ -89,7 +89,7 @@
   </div>
 </div>
 
-<h3>Gestion des Formations</h3>
+<h3>Formations</h3>
 <ul>
     <li>Chaque formation est associée à un code couleur pour un répérage rapide dans le planning</li>
     <li>Gestion des UE (une liste d'UE est associée à chaque formation, avec indication du nombre d'heures)</li>
@@ -139,7 +139,7 @@
   </div>
 </div>
 
-<h3>Gestion des Intervenants</h3>
+<h3>Intervenants</h3>
 <ul>
     <li>Profil des intervenants avec photo (option), status, formations dispensées (affichage dynamique basé sur les cours enregistrés, avec le nombre d'heures planifiées et la date du premier cours)</li>
     <li>Gestion des responsabilités (Titre, nbr heures attribuées)</li>
@@ -187,7 +187,7 @@
   </div>
 </div>
 
-<h3>Gestion des Etudiants</h3>
+<h3>Etudiants</h3>
 <ul>
     <li>Chaque étudiant est associé à une formation</li>
     <li>La saisie des coordonnées permet l'envoi d'emails/SMS en cas d'annulation de cours</li>
@@ -226,7 +226,7 @@
   </div>
 </div>
 
-<h3>Gestion des Salles</h3>
+<h3>Salles</h3>
 <ul>
     <li>Gestion de la capacité (alerte si dépassement)</li>
     <li>Visualisation des créneaux horaires libres/occupés pour une date, une salle</li>
@@ -276,7 +276,7 @@
 
 </div>
 
-<h3>Gestion des Utilisateurs</h3>
+<h3>Utilisateurs</h3>
 <ul>
     <li>Le profil 'admin' permet d'administrer les cours (suppression) et les utilisateurs</li>
 </ul>
@@ -285,17 +285,9 @@
 <ul>
   <li>Gestion des jours de fermeture</li>
   <li>Réservation de créneaux horaires</li>
-  <li>Planning pour afficheur (Slide)</li>
   <li>Etats de services</li>
-  <li>Taux d'occupation jours</li>
-  <li>Taux d'occupation salles</li>
-	<li>Import de cours</li>
-	<li>Import d'intervenants</li>
-	<li>Import d'étudiants</li>
-	<li>Import log</li>
-	<li>Export de cours</li>
-	<li>Export d'intervenants</li>
-	<li>Export d'étudiants</li>
+  <li>Taux d'occupation jours ou salles</li>
+	<li>Import/Export de cours, intervenants, étudiants</li>
   <li>Outils pour le rôle admin :</li>
   <ul>
   	<li>Gestion des Utilisateurs</li>
@@ -308,6 +300,16 @@
 </ul>
 
 <div class="row">
+  <div class="col-md-4">
+    <div class="thumbnail">
+      <a href="/Images/guide/outils.png">
+        <img src="/Images/guide/outils.png" alt="Outils" style="width:100%">
+        <div class="caption">
+          <p>Les outils</p>
+        </div>
+      </a>
+    </div>
+  </div>
   <div class="col-md-4">
     <div class="thumbnail">
       <a href="/Images/guide/reservation.png">
@@ -328,16 +330,6 @@
       </a>
     </div>
   </div>
-  <div class="col-md-4">
-    <div class="thumbnail">
-      <a href="/Images/guide/audit.png">
-        <img src="/Images/guide/audit.png" alt="Audit des modifications" style="width:100%">
-        <div class="caption">
-          <p>Audit des modifications</p>
-        </div>
-      </a>
-    </div>
-  </div>
 </div>
 
 <div class="row">
@@ -353,20 +345,20 @@
   </div>
   <div class="col-md-4">
     <div class="thumbnail">
-      <a href="/Images/guide/audit.png">
-        <img src="/Images/guide/audit.png" alt="Audit des modifications" style="width:100%">
+      <a href="/Images/guide/reservation-saison.png">
+        <img src="/Images/guide/reservation-saison.png" alt="Réservation créneaux sur une saison" style="width:100%">
         <div class="caption">
-          <p>Audit des modifications</p>
+          <p>Réservation de créneaux horaires pour une saison</p>
         </div>
       </a>
     </div>
   </div>
   <div class="col-md-4">
     <div class="thumbnail">
-      <a href="/Images/guide/reservation-saison.png">
-        <img src="/Images/guide/reservation-saison.png" alt="Réservation créneaux sur une saison" style="width:100%">
+      <a href="/Images/guide/audit1.png">
+        <img src="/Images/guide/audit1.png" alt="Audit des modifications" style="width:100%">
         <div class="caption">
-          <p>Réservation de créneaux horaires pour une saison</p>
+          <p>Audit des modifications</p>
         </div>
       </a>
     </div>
@@ -412,6 +404,40 @@
 <ul>
     <li>Chaque modification apportée aux données est enregistrée dans un journal, avec la date, l'utilisateur, la table, le champs et la valeur avant/après modification</li>
 </ul>
+
+<div class="row">
+  <div class="col-md-4">
+    <div class="thumbnail">
+      <a href="/Images/guide/audit1.png">
+        <img src="/Images/guide/audit1.png" alt="Liste des modifications" style="width:100%">
+        <div class="caption">
+          <p>Audit des modifications</p>
+        </div>
+      </a>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="thumbnail">
+      <a href="/Images/guide/audit2.png">
+        <img src="/Images/guide/audit2.png" alt="Audit des modifications cours" style="width:100%">
+        <div class="caption">
+          <p>Audit des cours modifiés </p>
+        </div>
+      </a>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="thumbnail">
+      <a href="/Images/guide/audit3.png">
+        <img src="/Images/guide/audit3.png" alt="Que les changements de salle" style="width:100%">
+        <div class="caption">
+          <p>Audit des changements de salle</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+
 
 <h3>RH</h3>
 <ul>

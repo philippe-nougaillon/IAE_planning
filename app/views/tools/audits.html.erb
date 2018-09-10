@@ -7,31 +7,31 @@
 
 <div class='container-fluid'>
     <%= form_tag request.path, method: :get do %>
-      <div class="form-group">
-        <div class="row">
-          <div class="col-sm-2">
-              <%= label_tag "Type" %>   
-              <%= select_tag :type, 
-                    options_for_select(@types, params[:type]), include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
-          </div>
-          <div class="col-sm-4">
-              <%= label_tag "Rechercher" %>
-              <div class="input-group">       
-                <%= text_field_tag :search, params[:search], class:"form-control" %>
-                <span class="input-group-btn">
-                  <%= submit_tag 'Filtrer', class:"btn btn-success" %>
-                </span>
+        <div class="form-group">
+            <div class="row">
+              <div class="col-sm-2">
+                  <%= label_tag "Type" %>   
+                  <%= select_tag :type, 
+                        options_for_select(@types, params[:type]), include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
+              </div>
+              <div class="col-sm-4">
+                  <%= label_tag "Rechercher" %>
+                  <div class="input-group">       
+                    <%= text_field_tag :search, params[:search], class:"form-control" %>
+                    <span class="input-group-btn">
+                      <%= submit_tag 'Filtrer', class:"btn btn-success" %>
+                    </span>
+                  </div>
+              </div>
+              <% if params[:type] == 'Cour' %>
+                <div class="col-sm-5">
+                    <br>
+                    <%= check_box_tag :chgt_salle, 1, params[:chgt_salle], onchange:'this.form.submit()' %>
+                    <%= label_tag :chgt_salle, "Ne voir que les changements de salle ?" %>
+                </div>
+              <% end %>    
             </div>
-
-          </div>
-        <div class="col-sm-4">
-            <%= label_tag :chgt_salle, "Ne voir que les changements de salle ?" %>
-            <br>    
-            <%= check_box_tag :chgt_salle, 1, params[:chgt_salle], 
-                  onchange:'this.form.submit()', class:"form-control" %>
-          </div>
-        </div>
-      </div>  
+        </div>  
     <% end %>
 </div>
 
@@ -42,7 +42,7 @@
             <th>Utilisateur</th>            
             <th>Action</th>
             <th>Type</th>
-            <th>ID</th>
+            <th>Id</th>
             <th>Modifications</th>
             <th>Salle</th>
         </tr>
@@ -55,7 +55,7 @@
             <td><%= User.find(audit.user_id).email.split('@').first if audit.user_id %></td>
             <td><%= audit.action %></td>
             <td><%= audit.auditable_type %></td>
-            <td><%= link_to_if audited_view_path(audit), audit.auditable_id, audited_view_path(audit) %></td>
+            <td style="text-align: right;"><%= link_to_if audited_view_path(audit), audit.auditable_id, audited_view_path(audit) %></td>
             <td><%= sanitize prettify(audit).join('<br>') %></td>
             <td><%= convertir_id_salles(audit) %></td>
         </tr>

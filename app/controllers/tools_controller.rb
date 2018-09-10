@@ -545,19 +545,18 @@ class ToolsController < ApplicationController
 
   def audits
     @audits = Audited::Audit.order("id DESC")
-    @types = Audited::Audit.select(:auditable_type).uniq.pluck(:auditable_type)
+    @types  = Audited::Audit.select(:auditable_type).uniq.pluck(:auditable_type)
     
-    unless params[:chgt_salle].blank?
-      salle_id_nil = "\"salle_id\"=>nil"
-      @audits = @audits.where(auditable_type:'Cour')
-    else
-      unless params[:type].blank?
-        @audits = @audits.where(auditable_type:params[:type])
-      end
+    unless params[:type].blank?
+      @audits = @audits.where(auditable_type:params[:type])
+    end
 
-      unless params[:search].blank?
-        @audits = @audits.where("audited_changes like ?", "%#{params[:search]}%")
-      end
+    unless params[:search].blank?
+      @audits = @audits.where("audited_changes like ?", "%#{params[:search]}%")
+    end
+
+    unless params[:chgt_salle].blank?
+      @audits = @audits.where("audited_changes like ?", "%salle_id%")
     end
 
     @audits = @audits.paginate(page:params[:page], per_page:10)

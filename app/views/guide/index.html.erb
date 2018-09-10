@@ -5,17 +5,41 @@
   </h1>
 </div>
 
-<h2>Application web de planification de cours</h2>
-<h3>Collaborative, flexible et simple d'utilisation :)</h3>
-<br>
+<h2></h2>
+<blockquote>
+  <p>Application web de planification de cours. Collaborative, flexible et simple d'utilisation :)</p>
+  <footer></footer>
+</blockquote>
+
+<h3>Gestion des Cours</h3>
+<ul>
+    <li>Chaque cours est associé à une Formation, un ou deux Intervenants, une Salle et un Etat (Planifié, Confirmé, Reporté, Annulé, Réalisé)</li>
+    <li>Affichage des cours sous forme de Liste, de Calendrier (semaine/mois) ou Etat d'Occupation des salles</li>
+    <li>Affichage d'alerte si dépassement de capacité de la salle</li>
+    <li>Impossibilité de saisir un nouveau cours ayant lieu un dimanche ou un jour de fermeture de l'établissement</li>
+    <li>Pas de chevauchement horaire pour un même intervenant. Il est pas possible de saisir un nouveau cours si le formateur intervient déjà sur un autre cours aux même heures</li>
+    <li>Recheche multi-critères (Filtre sur Date, Formation, Intervenant, Etat, Cours passés ou futurs)</li>
+    <li>Sélection d'un groupe de cours pour une action (Changement d'état, Changement de salle, Export CSV/PDF, Supression...)</li>
+    <li>Export des cours vers Excel (CSV), Outlook/Google Agenda(iCal), PDF</li>
+</ul>
 
 <div class="row">
+  <div class="col-md-4">
+    <div class="thumbnail">
+      <a href="/Images/guide/cours_new.png">
+        <img src="/Images/guide/cours_new.png" alt="Planning mensuel" style="width:100%">
+        <div class="caption">
+          <p>Ajout d'un cours et réservation de salle</p>
+        </div>
+      </a>
+    </div>
+  </div>
   <div class="col-md-4">
     <div class="thumbnail">
       <a href="/Images/guide/cours1.png">
         <img src="/Images/guide/cours1.png" alt="Planning journalier" style="width:100%">
         <div class="caption">
-          <p>Planning journalier</p>
+          <p>Liste des cours</p>
         </div>
       </a>
     </div>
@@ -23,19 +47,9 @@
   <div class="col-md-4">
     <div class="thumbnail">
       <a href="/Images/guide/cours_selection.png">
-        <img src="/Images/guide/cours_selection.png" alt="Planning journalier" style="width:100%">
+        <img src="/Images/guide/cours_selection.png" alt="Occupation des salles" style="width:100%">
         <div class="caption">
-          <p>Planning journalier. Sélection d'une formation</p>
-        </div>
-      </a>
-    </div>
-  </div>
-  <div class="col-md-4">
-    <div class="thumbnail">
-      <a href="/Images/guide/cours3.png">
-        <img src="/Images/guide/cours3.png" alt="Planning hebdomadaire" style="width:100%">
-        <div class="caption">
-          <p>Planning hebdomadaire</p>
+          <p>Liste des cours. Sélection d'une formation</p>
         </div>
       </a>
     </div>
@@ -45,8 +59,18 @@
 <div class="row">
   <div class="col-md-4">
     <div class="thumbnail">
-      <a href="/Images/guide/cours5.png">
-        <img src="/Images/guide/cours5.png" alt="Planning mensuel" style="width:100%">
+      <a href="/Images/guide/planning_semaine.png">
+        <img src="/Images/guide/planning_semaine.png" alt="Planning hebdomadaire" style="width:100%">
+        <div class="caption">
+          <p>Planning hebdomadaire</p>
+        </div>
+      </a>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="thumbnail">
+      <a href="/Images/guide/planning_mensuel.png">
+        <img src="/Images/guide/planning_mensuel.png" alt="Planning mensuel" style="width:100%">
         <div class="caption">
           <p>Planning mensuel</p>
         </div>
@@ -63,35 +87,14 @@
       </a>
     </div>
   </div>
-  <div class="col-md-4">
-    <div class="thumbnail">
-      <a href="/Images/guide/salles2.png">
-        <img src="/Images/guide/salles2.png" alt="Occupation des salles" style="width:100%">
-        <div class="caption">
-          <p>Occupation des salles (semaine)</p>
-        </div>
-      </a>
-    </div>
-  </div>
 </div>
-
-
-<h3>Gestion des Cours</h3>
-<ul>
-    <li>Chaque cours est associé à une Formation, un ou deux Intervenants, une Salle et un Etat (Planifié, Confirmé, Reporté, Annulé, Réalisé)</li>
-    <li>Affichage des cours sous forme de Liste, de Calendrier (semaine/mois) ou Etat d'Occupation des salles</li>
-    <li>Affichage d'alerte si dépassement de capacité de la salle</li>
-    <li>Impossibilité de saisir un nouveau cours ayant lieu un dimanche ou un jour de fermeture de l'établissement</li>
-    <li>Pas de chevauchement horaire pour un même intervenant. Il est pas possible de saisir un nouveau cours si le formateur intervient déjà sur un autre cours aux même heures</li>
-    <li>Recheche multi-critères (Filtre sur Date, Formation, Intervenant, Etat, Cours passés ou futurs)</li>
-    <li>Manipulation d'un groupe de cours (Changement d'Etat, changement de Salle, Export...)</li>
-    <li>Export des cours vers Excel (CSV), Outlook/Google Agenda(iCal), PDF</li>
-</ul>
 
 <h3>Gestion des Formations</h3>
 <ul>
     <li>Chaque formation est associée à un code couleur pour un répérage rapide dans le planning</li>
     <li>Gestion des UE (une liste d'UE est associée à chaque formation, avec indication du nombre d'heures)</li>
+    <li>Gestion des étudiants liés à la formation</li>
+    <li>Gestion des vacations votées (nom de l'intervenant, nbr heures)</li>
     <li>Archivage des formations</li>
     <ul>
 		<li>
@@ -103,17 +106,46 @@
     </ul>
 </ul>
 
-<h3>Gestion des Etudiants</h3>
-<ul>
-    <li>Chaque étudiant est associé à une formation</li>
-</ul>
+<div class="row">
+  <div class="col-md-4">
+    <div class="thumbnail">
+      <a href="/Images/guide/formations.png">
+        <img src="/Images/guide/formations.png" alt="Liste des formations" style="width:100%">
+        <div class="caption">
+          <p>Liste des formations</p>
+        </div>
+      </a>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="thumbnail">
+      <a href="/Images/guide/formation.png">
+        <img src="/Images/guide/formation.png" alt="Une formation en détail" style="width:100%">
+        <div class="caption">
+          <p>Une formation en détail</p>
+        </div>
+      </a>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="thumbnail">
+      <a href="/Images/guide/formation_form.png">
+        <img src="/Images/guide/formation_form.png" alt="Ajout d'une formation" style="width:100%">
+        <div class="caption">
+          <p>Ajout d'une formation</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
 
 <h3>Gestion des Intervenants</h3>
 <ul>
-    <li>Profil des intervenants avec photo, status, formations dispensées (affichage dynamique basé sur les cours enregistrés, avec le nombre d'heures planifiées et la date du premier cours)</li>
+    <li>Profil des intervenants avec photo (option), status, formations dispensées (affichage dynamique basé sur les cours enregistrés, avec le nombre d'heures planifiées et la date du premier cours)</li>
+    <li>Gestion des responsabilités (Titre, nbr heures attribuées)</li>
     <ul>
 		<li>
-			<b>Filtrer les cours;</b> Pour que la recherche d'un intervenant soit fructueuse :
+			<b>Filtrage des cours par intervenant;</b> Pour que la recherche d'un intervenant soit fructueuse :
 			<br>
 			Comme le système cherche un intervenant qui se nomme NOM+Espace+PRENOM, il ne faut donc pas d’espace, ni dans le nom, ni dans le prénom.
 			Ex: "A et CONFIRMER" sera compris comme nom=A, prénom=CONFIRMER. Il convient donc de remplacer l'espace par un "_", ce qui donnera "A_CONFIRMER".
@@ -122,11 +154,127 @@
 	</ul>
 </ul>
 
+<div class="row">
+  <div class="col-md-4">
+    <div class="thumbnail">
+      <a href="/Images/guide/intervenant.png">
+        <img src="/Images/guide/intervenant.png" alt="Liste des intervenants" style="width:100%">
+        <div class="caption">
+          <p>Liste des intervenants</p>
+        </div>
+      </a>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="thumbnail">
+      <a href="/Images/guide/intervenant_form.png">
+        <img src="/Images/guide/intervenant_form.png" alt="Un intervenant en détail" style="width:100%">
+        <div class="caption">
+          <p>Un intervenant en détail</p>
+        </div>
+      </a>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="thumbnail">
+      <a href="/Images/guide/intervenant_show.png">
+        <img src="/Images/guide/intervenant_show.png" alt="Audit des modifications" style="width:100%">
+        <div class="caption">
+          <p>Récapitulatif Intervenant avec audit des modifications</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<h3>Gestion des Etudiants</h3>
+<ul>
+    <li>Chaque étudiant est associé à une formation</li>
+    <li>La saisie des coordonnées permet l'envoi d'emails/SMS en cas d'annulation de cours</li>
+</ul>
+
+<div class="row">
+  <div class="col-md-4">
+    <div class="thumbnail">
+      <a href="/Images/guide/etudiant.png">
+        <img src="/Images/guide/etudiant.png" alt="Liste des étudiants" style="width:100%">
+        <div class="caption">
+          <p>Liste des étudiants</p>
+        </div>
+      </a>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="thumbnail">
+      <a href="/Images/guide/etudiant_form.png">
+        <img src="/Images/guide/etudiant_form.png" alt="Un étudiant en détail" style="width:100%">
+        <div class="caption">
+          <p>Un étudiant en détail</p>
+        </div>
+      </a>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="thumbnail">
+      <a href="/Images/guide/etudiant_show.png">
+        <img src="/Images/guide/etudiant_show.png" alt="Audit des modifications" style="width:100%">
+        <div class="caption">
+          <p>Récapitulatif étudiant avec audit des modifications</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+
 <h3>Gestion des Salles</h3>
 <ul>
     <li>Gestion de la capacité (alerte si dépassement)</li>
     <li>Visualisation des créneaux horaires libres/occupés pour une date, une salle</li>
 </ul>
+
+<div class="row">
+  <div class="col-md-3">
+    <div class="thumbnail">
+      <a href="/Images/guide/salles1.png">
+        <img src="/Images/guide/salles1.png" alt="Occupation des salles jour" style="width:100%">
+        <div class="caption">
+          <p>Occupation des salles (jour)</p>
+        </div>
+      </a>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="thumbnail">
+      <a href="/Images/guide/salles2.png">
+        <img src="/Images/guide/salles2.png" alt="Occupation des salles semaine" style="width:100%">
+        <div class="caption">
+          <p>Occupation des salles (semaine)</p>
+        </div>
+      </a>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="thumbnail">
+      <a href="/Images/guide/cours3.png">
+        <img src="/Images/guide/cours3.png" alt="Occupation des salles semaine détail" style="width:100%">
+        <div class="caption">
+          <p>Occupation salles en détail (semaine)</p>
+        </div>
+      </a>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="thumbnail">
+      <a href="/Images/guide/cours4.png">
+        <img src="/Images/guide/cours4.png" alt="Occupation des salles semaine détail" style="width:100%">
+        <div class="caption">
+          <p>Occupation salles en détail (semaine)</p>
+        </div>
+      </a>
+    </div>
+  </div>
+
+</div>
 
 <h3>Gestion des Utilisateurs</h3>
 <ul>
@@ -135,12 +283,12 @@
 
 <h3>Outils</h3>
 <ul>
-    <li>Gestion des jours de fermeture</li>
-    <li>Réservation de créneaux horaires</li>
-    <li>Planning pour afficheur (Slide)</li>
-    <li>Etats de services</li>
-    <li>Taux d'occupation jours</li>
-    <li>Taux d'occupation salles</li>
+  <li>Gestion des jours de fermeture</li>
+  <li>Réservation de créneaux horaires</li>
+  <li>Planning pour afficheur (Slide)</li>
+  <li>Etats de services</li>
+  <li>Taux d'occupation jours</li>
+  <li>Taux d'occupation salles</li>
 	<li>Import de cours</li>
 	<li>Import d'intervenants</li>
 	<li>Import d'étudiants</li>
@@ -148,12 +296,15 @@
 	<li>Export de cours</li>
 	<li>Export d'intervenants</li>
 	<li>Export d'étudiants</li>
-	<li>Utilisateurs</li>
-	<li>Import des utilisateurs</li>
-	<li>Intervertir deux intervenants</li>
-	<li>Audit des modifications</li>
-	<li>Gestion des Salles</li>
-	<li>Nouvelle saison</li>
+  <li>Outils pour le rôle admin :</li>
+  <ul>
+  	<li>Gestion des Utilisateurs</li>
+  	<li>Import des utilisateurs</li>
+  	<li>Intervertir deux intervenants</li>
+  	<li>Audit des modifications</li>
+  	<li>Gestion des Salles</li>
+  	<li>Nouvelle saison (Réservation de cours sur une année)</li>
+  </ul>
 </ul>
 
 <div class="row">

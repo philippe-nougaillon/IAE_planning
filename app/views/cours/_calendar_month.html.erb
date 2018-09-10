@@ -8,12 +8,18 @@
         <% meetings.each do |meeting| %>
           <div class="meeting">
             <b>
-              <%= "#{l(meeting.debut, format: :heures_min)}-#{l(meeting.fin, format: :heures_min)}" %>
-              <%= "(#{meeting.salle.nom})" if meeting.salle %>  
+              <%= l(meeting.debut, format: :heures_min) %>
             </b>
+            -
+            <%= l(meeting.fin, format: :heures_min) %>
+            <%= "| Salle: #{meeting.salle.nom}" if meeting.salle %>  
             <br>
-            <%= link_to meeting.formation.nom, meeting %> / 
-            <%= link_to meeting.intervenant.nom_prenom, meeting %>
+            <% if params[:formation].blank? %>
+              <%= link_to meeting.formation.nom, meeting %><br>
+            <% end %> 
+            <%= link_to meeting.intervenant.nom_prenom, url_for(params.merge(intervenant_id:meeting.intervenant_id)) %>
+            <br>
+            <%= meeting.nom_ou_ue %>
           </div>
         <% end %>
       <% end %>

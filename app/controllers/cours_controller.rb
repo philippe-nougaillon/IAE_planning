@@ -291,7 +291,7 @@ class CoursController < ApplicationController
         end
       end
     when "Exporter vers Excel"
-      @csv_string = Cour.generate_csv(@cours, true, true)
+      @csv_string = Cour.generate_csv(@cours.includes(:formation, :intervenant, :salle, :audits), true, true)
       request.format = 'csv'
     when "Exporter vers iCalendar"
       @calendar = Cour.generate_ical(@cours)

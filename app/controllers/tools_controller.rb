@@ -433,33 +433,34 @@ class ToolsController < ApplicationController
   end
 
   def export_do
-	  @cours = Cour.includes(:formation, :intervenant, :salle).order(:debut)
+	  cours = Cour.includes(:formation, :intervenant, :salle, :audits).order(:debut)
 
     unless params[:start_date].blank? and params[:end_date].blank? 
       @start_date = Date.parse(params[:start_date])
       @end_date = Date.parse(params[:end_date])
 
-      @cours = @cours.where("cours.debut BETWEEN DATE(?) AND DATE(?)", @start_date, @end_date)
+      cours = cours.where("cours.debut BETWEEN DATE(?) AND DATE(?)", @start_date, @end_date)
     end
 
     unless params[:formation_id].blank?
-      @cours = @cours.where(formation_id:params[:formation_id])
+      cours = cours.where(formation_id:params[:formation_id])
     end
 
     unless params[:intervenant_id].blank?
       intervenant_id = params[:intervenant_id]
       if params[:binome].present?
-        @cours = @cours.where("intervenant_id = ? OR intervenant_binome_id = ?", intervenant_id, intervenant_id)
+        cours = cours.where("intervenant_id = ? OR intervenant_binome_id = ?", intervenant_id, intervenant_id)
       else
-        @cours = @cours.where(intervenant_id: intervenant_id)
+        cours = cours.where(intervenant_id: intervenant_id)
       end
     end
 
     unless params[:etat].blank?
-      @cours = @cours.where(etat:params[:etat])
+      cours = cours.where(etat:params[:etat])
     end
 
-    @csv_string = Cour.generate_csv(@cours, params[:binome].present?, true)  
+    @csv_string = Cour.generate_csv(cours, params[:binome].present?, true)  
+
     filename = "Export_Cours_#{Date.today.to_s}"
     response.headers['Content-Disposition'] = 'attachment; filename="' + filename + '.csv"'
     render "export_do.csv.erb"

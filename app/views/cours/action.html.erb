@@ -11,21 +11,19 @@
 
       <ul class="list-group">
         <% if @action_ids %>
-          <% @action_ids.each do |id| %>
-            <% @cours = Cour.find(id) %>
-            
+          <% Cour.unscoped.where(id: @action_ids).each do |cours| %>
             <li class="list-group-item">
-              <%= check_box_tag "[cours_id][#{@cours.id}]", true, true %>
-              <%= l(@cours.debut.to_date) %>
-              <%= "#{l(@cours.debut, format: :heures_min)}-#{l(@cours.fin, format: :heures_min)}" %> |
-              <%= @cours.formation.nom_promo %> |
-              <%= @cours.intervenant.nom_prenom %> |
-              <% if @cours.intervenant_binome %>
-                <%= @cours.intervenant_binome.nom_prenom %> |
+              <%= check_box_tag "[cours_id][#{cours.id}]", true, true %>
+              <%= l(cours.debut.to_date) %>
+              <%= "#{l(cours.debut, format: :heures_min)}-#{l(cours.fin, format: :heures_min)}" %> |
+              <%= cours.formation.nom_promo %> |
+              <%= cours.intervenant.nom_prenom %> |
+              <% if cours.intervenant_binome %>
+                <%= cours.intervenant_binome.nom_prenom %> |
               <% end %>
-              <span class="label <%= @cours.style %>"><%= @cours.etat.humanize %></span> |
-              <%= "Salle: #{@cours.salle.nom} |" if @cours.salle %>
-              <%= "Créé par #{@cours.audits.first.user.try(:email)}" %>
+              <span class="label <%= cours.style %>"><%= cours.etat.humanize %></span> |
+              <%= "Salle: #{cours.salle.nom} |" if cours.salle %>
+              <%= "Créé par #{cours.audits.first.user.try(:email)}" %>
             </li>
           <% end %>
         <% end %>

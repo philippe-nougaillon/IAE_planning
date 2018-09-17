@@ -33,20 +33,21 @@
 
   <% if params[:action_name] == "Changer de salle" %>  
     <div class="row">
-    <div class="col-sm-3">
-      <%= label_tag "Nouvelle Salle" %>    
-      <%= select_tag :salle_id, 
-            options_from_collection_for_select(Salle.order(:nom), :id, :nom, params[:salle_id]), 
-            include_blank:true, class:"form-control" %>
+      <div class="col-sm-3">
+        <%= label_tag "Nouvelle Salle" %>    
+        <%= select_tag :salle_id, 
+              options_from_collection_for_select(Salle.order(:nom), :id, :nom, params[:salle_id]), 
+              include_blank:true, class:"form-control" %>
+      </div>
+      <div class="col-sm-3">
+        <br><br>
+        <% date_debut = Cour.unscoped.find(@action_ids.first).debut.to_date %>
+        <%= link_to(salles_occupation_path(date: date_debut), target:"_new") do %>
+              <span class="glyphicon glyphicon-blackboard"></span>
+              Afficher l'occupation des salles
+        <% end %>
+      </div>
     </div>
-    <div class="col-sm-3">
-      <br><br>
-      <%= link_to(salles_occupation_path(date:@cours.debut.to_date), target:"_new") do %>
-            <span class="glyphicon glyphicon-blackboard"></span>
-            Afficher l'occupation des salles
-      <% end %>
-    </div>
-  </div>
 
   <% elsif params[:action_name] == "Changer d'état" %>
     <div class="col-sm-2">

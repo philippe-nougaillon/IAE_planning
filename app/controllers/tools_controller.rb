@@ -68,6 +68,8 @@ class ToolsController < ApplicationController
 
         if cours.valid? 
           cours.save if params[:save] == 'true'
+        else
+          msg << " || ERREURS: " + cours.errors.messages.map{|m| "#{m.first} => #{m.last}"}.join(',')
         end
 
         _etat = ( cours.valid? ? ImportLogLine.etats[:succès] : ImportLogLine.etats[:echec]) 

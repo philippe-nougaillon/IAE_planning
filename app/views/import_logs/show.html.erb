@@ -13,36 +13,34 @@
 </div>
 
 <dl class="dl-horizontal">
-  <dt>Date:</dt>
+  <dt>Le:</dt>
   <dd><%= @import_log.created_at.in_time_zone('Paris') %></dd>
 
   <dt>Type:</dt>
   <dd><%= @import_log.model_type %></dd>
 
+  <dt>Par:</dt>
+  <dd><%= @import_log.user.username if @import_log.user %></dd>
+  <br>
+
   <dt>Etat:</dt>
   <dd>
     <span class="<%= @import_log.icon_etat %>"></span>
     <%= @import_log.etat.humanize %>
-    (Succès => Le fichier a bien été traité) 
   </dd>
 
-  <dt>Total lignes du fichier:</dt>
+  <dt>Nbr lignes à importer:</dt>
   <dd><%= @import_log.nbr_lignes %></dd>
 
-  <dt>Total importées:</dt>
-  <dd><%= @import_log.lignes_importees %></dd>
+  <% if @import_log.etat == "warning" %>
+    <dt>Lignes rejetées:</dt>
+    <dd>
+      <%= link_to @import_log.nbr_lignes - @import_log.lignes_importees, import_log_path(@import_log, filter: true) %> 
+    </dd>
+  <% end %>
 
-  <dt>Echec à la création:</dt>
-  <dd>
-    <% if @import_log.nbr_lignes - @import_log.lignes_importees > 0 %>
-      <span class="btn btn-warning">
-        <%= "#{@import_log.nbr_lignes - @import_log.lignes_importees} lignes rejetées" %>
-      </span>
-      <%= link_to "Voir", import_log_path(@import_log, filter: true) %> 
-    <% else %>
-      0
-    <% end %>
-  </dd>
+  <dt>Total lignes importées:</dt>
+  <dd><%= @import_log.lignes_importees %></dd>
   <br>
 
   <dt>Message:</dt>
@@ -50,7 +48,7 @@
 
   <dt>Fichier:</dt>
   <dd>
-      <%= @import_log.fichier %>
+      <%= @import_log.fichier %> |
       <%= link_to "Télécharger", download_imported_file_import_log_path(@import_log) %>
   </dd>
 </dl>

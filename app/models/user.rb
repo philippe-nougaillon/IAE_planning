@@ -15,4 +15,8 @@ class User < ActiveRecord::Base
 
   default_scope { order(:nom, :prénom) } 
 
+  def username 
+  	"#{self.email.split('@').first} #{self.admin? ? "(admin)" : '' }"
+  end
+
 end

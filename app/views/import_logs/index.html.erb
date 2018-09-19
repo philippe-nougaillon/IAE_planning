@@ -10,36 +10,23 @@
     <thead>
       <tr>
         <th />
-        <th>Date</th>
+        <th>Le</th>
         <th>Type</th>
-        <th>Qui</th>
+        <th>Par</th>
         <th>Etat</th>
-        <th>Lignes</th>
-        <th>Importées</th>
-        <th>Rejets</th>
         <th>Message</th>
-        <th>Fichier</th>
         <th></th>
       </tr>
     </thead>
 
     <tbody>
       <%= content_tag_for(:tr, @import_logs) do |import_log| %>
-        <td>
-          <i class="btn-lg <%= import_log.icon_etat %>"></i>
-        </td>
-        <td><%= l(import_log.created_at.in_time_zone('Paris')) %></td>
+        <td><i class="btn-lg <%= import_log.icon_etat %>"></i></td>
+        <td><%= l(import_log.created_at.in_time_zone('Paris'), format: :short) %></td>
         <td><%= import_log.model_type %></td>
-        <td><%= import_log.try(:user).try(:nom) %></td>
+        <td><%= import_log.user.username if import_log.user %></td>
         <td><%= import_log.etat.humanize %></td>
-        <td style="text-align: right;"><%= import_log.nbr_lignes %></td>
-        <td style="text-align: right;"><%= import_log.lignes_importees %></td>
-        <td style="text-align: right;">
-          <%= import_log.nbr_lignes - import_log.lignes_importees %> 
-          lignes rejetées
-        </td>
         <td><%= import_log.message %></td>
-        <td><%= link_to "Télécharger", download_imported_file_import_log_path(import_log) %></td>
         <td>
           <%= link_to import_log, class:"btn btn-default" do %>
             <i class="glyphicon glyphicon-zoom-in"></i>

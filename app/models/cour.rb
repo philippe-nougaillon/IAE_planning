@@ -13,6 +13,7 @@ class Cour < ActiveRecord::Base
   validate :check_chevauchement_intervenant
   validate :check_chevauchement, if: Proc.new {|cours| cours.salle_id }
   validate :jour_fermeture
+  validate :reservation_dates_must_make_sense
 
   before_validation :update_date_fin
   before_validation :sunday_morning_praise_the_dawning
@@ -289,9 +290,11 @@ class Cour < ActiveRecord::Base
       #end 
     end  
 
-    def la_fin_apres_le_debut
-      errors.add(:debut, "du cours ne peut pas être après la fin !") if self.debut > self.fin
-    end  
+    def reservation_dates_must_make_sense
+      if fin <= debut 
+        errors.add(:fin, "du cours ne peut pas être avant son commencement !")
+      end
+    end
 
     def check_chevauchement
 

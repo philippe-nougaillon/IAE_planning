@@ -2,17 +2,21 @@
 
 class ImportLog < ActiveRecord::Base
 
+  belongs_to :user
   has_many :import_log_lines
 
   validates :model_type, :etat, presence: true
 
-  enum etat: [:succès, :echec]
+  enum etat: [:succès, :echec, :warning]
 
   def icon_etat
-    if self.etat == "succès"
+    case self.etat
+    when "succès"
       "glyphicon glyphicon-ok-circle text-success"
-    else
+    when "echec"
       "glyphicon glyphicon-remove-circle text-danger"
+    when "warning"
+      "glyphicon glyphicon-remove-circle text-warning"
     end
   end  
     

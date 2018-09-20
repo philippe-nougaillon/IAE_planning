@@ -30,7 +30,7 @@
   </dd>
 
   <dt>Nbr lignes à importer:</dt>
-  <dd><%= @import_log.nbr_lignes %></dd>
+  <dd><%= link_to @import_log.nbr_lignes, import_log_path(@import_log) %></dd>
 
   <% if @import_log.etat == "warning" %>
     <dt>Lignes rejetées:</dt>
@@ -60,6 +60,7 @@
         <th>Ligne</th>
         <th>Etat</th>
         <th>Message</th>
+        <th>Erreur</th>
       </tr>
     </thead>
 
@@ -67,7 +68,8 @@
       <%= content_tag_for(:tr, @import_log_lines) do |import_log_line| %>
         <td><%= import_log_line.num_ligne %></td>
         <td><span class="<%= import_log_line.icon_etat %>"></span></td>
-        <td><%= import_log_line.message %></td>
+        <td><%= import_log_line.pretiffy_message.first %></td>
+        <td><%= import_log_line.pretiffy_message.last %></td>
       <% end %>
     </tbody>
   </table>

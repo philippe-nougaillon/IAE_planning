@@ -61,7 +61,8 @@ class ToolsController < ApplicationController
         cours.duree = ((fin - debut)/3600)
         cours.intervenant_id = intervenant.id
         cours.formation_id = params[:formation_id]
-        cours.ue = row['UE'].try(:strip)
+
+        cours.ue = row['UE'] ? row['UE'].gsub(' ','') : ""
         cours.nom = row['Intitulé']
 
         msg = "COURS #{cours.new_record? ? 'NEW' : 'UPDATE'} => id:#{id} changes:#{cours.changes}"
@@ -91,8 +92,8 @@ class ToolsController < ApplicationController
       log.update(etat: _etat, nbr_lignes: @importes + @errors, lignes_importees: @importes)
       log.update(message: (params[:save] == 'true' ? "Importation" : "Simulation") )
       log.update(message: log.message + " | Formation: #{Formation.find(params[:formation_id]).try(:nom)}" )
-      if (@importes + @errors) > 0
-        log.update(message: log.message + " | #{(@importes + @errors)} lignes rejetées !")
+      if @errors > 0
+        log.update(message: log.message + " | #{@errors} lignes rejetées !")
       end   
       log.save
       

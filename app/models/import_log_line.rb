@@ -11,6 +11,14 @@ class ImportLogLine < ActiveRecord::Base
     else
       "glyphicon glyphicon-remove-circle text-danger"
     end
-  end  
+  end
+
+  def pretiffy_message   
+  	if self.message.include?('||')	
+		[self.message.split('|| ERREURS:').first, self.message.split('|| ERREURS:').last]
+	else
+		[self.message, nil]
+	end
+  end	
 
 end

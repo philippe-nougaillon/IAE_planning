@@ -177,7 +177,7 @@ class Cour < ActiveRecord::Base
     require 'csv'
     
     CSV.generate(col_sep:';', quote_char:'"', encoding:'UTF-8') do | csv |
-        csv << ['id','Date début','Heure début','Date fin','Heure fin','Formation_id','Formation','Code_Analytique','Intervenant_id','Intervenant','UE','Nom du cours','Binôme?','Etat','Salle','Durée','HSS ? (Hors Service Statutaire)','E-learning','Taux_TD','HETD','Commentaires','Cours créé le','Par','Cours modifié le']
+        csv << ['id','Date début','Heure début','Date fin','Heure fin','Formation_id','Formation','Code_Analytique','Intervenant_id','Intervenant','UE','Intitulé','Binôme?','Etat','Salle','Durée','HSS ? (Hors Service Statutaire)','E-learning','Taux_TD','HETD','Commentaires','Cours créé le','Par','Cours modifié le']
     
         cours.each do |c|
           hetd = c.duree * (c.formation.Taux_TD || 0)

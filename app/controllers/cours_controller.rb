@@ -222,10 +222,18 @@ class CoursController < ApplicationController
 
   def action
     unless params[:cours_id].blank? or params[:action_name].blank?
-      @action_ids = []
-      params[:cours_id].keys.each do |id|
-        @action_ids << id
-      end
+      @action_ids = params[:cours_id].keys
+
+      # Afficher les salles disponibles, si un seul cours à déplacer
+      if params[:action_name] == 'Changer de salle' && @action_ids.size == 1
+        cours = Cour.find(@action_ids.first)
+        @salles = []
+        Salle.all.each do |s|
+          cours.salle = s 
+          @salles << s.nom if cours.valid?
+        end
+      end  
+    
     else
       redirect_to cours_path, alert:'Veuillez choisir des cours et une action à appliquer !'
     end

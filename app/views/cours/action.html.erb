@@ -1,5 +1,5 @@
-
 <%= form_tag(cours_action_do_path) do %>
+
 	<h2><%= params[:action_name] %></h2>
   <br>
 
@@ -32,6 +32,9 @@
   </div>
 
   <% if params[:action_name] == "Changer de salle" %>  
+
+    Salles dispos : <%= @salles.join(', ') %>
+
     <div class="row">
       <div class="col-sm-3">
         <%= label_tag "Nouvelle Salle" %>    
@@ -47,6 +50,7 @@
               Afficher l'occupation des salles
         <% end %>
       </div>
+
     </div>
 
   <% elsif params[:action_name] == "Changer d'état" %>

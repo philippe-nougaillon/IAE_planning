@@ -526,6 +526,9 @@ class ToolsController < ApplicationController
       @start_date = params[:start_date]
       @end_date = params[:end_date]
       @cours = Cour.where(etat:Cour.etats[:réalisé]).where("debut between ? and ?", @start_date, @end_date)
+    else
+      params[:start_date] ||= Date.today.at_beginning_of_month.last_month
+      params[:end_date] ||= Date.today.at_end_of_month.last_month
     end
 
     unless params[:status].blank?
@@ -539,8 +542,13 @@ class ToolsController < ApplicationController
       @intervenant = Intervenant.find(params[:intervenant_id])
       @cours = @cours.where(etat:Cour.etats[:réalisé]).order(:debut)
       @cours = @cours.where("intervenant_id = ? OR intervenant_binome_id = ?", @intervenant.id, @intervenant.id)
+      @vacations = Vacation.where(formation_id: Cour.where(intervenant_id: 74).joins(:formation).pluck("formations.id").uniq.sort, intervenant: @intervenant) 
+      @responsabilites = @intervenant.responsabilites.where("debut < DATE(?) AND fin > DATE(?)", @end_date, @start_date)
     end
+
     @cumul_hetd = 0
+    @cumul_vacations = 0
+    @cumul_resps = 0
 
     respond_to do |format|
       format.html

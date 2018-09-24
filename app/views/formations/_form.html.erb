@@ -149,17 +149,17 @@
 
   <div id="Vacations" class="collapse">
     <div class="page-header"> 
-      <h4>Vacations</h4>
+      <h4>Vacations ou autres activités</h4>
     </div>
     <ul>
       <%= f.fields_for :vacations do |vacation| %>
         <div class="row">
           <li>
             <div class="col-sm-3">
-              <%= vacation.collection_select :intervenant_id, Intervenant.where(doublon:false), :id, :nom, {include_blank: true, label:"Intervenant"} %>
+              <%= vacation.collection_select :intervenant_id, Intervenant.where(doublon:false), :id, :nom, {include_blank: true, label: "Intervenant", class: "select2"} %>
             </div>  
             <div class="col-sm-5">
-              <%= vacation.text_field :titre %>
+              <%= vacation.text_field :titre, placeholder: 'Tutorat' %>
             </div>
             <div class="col-sm-2">
               <%= vacation.text_field :forfaithtd, label:"Forfait HTD" %>

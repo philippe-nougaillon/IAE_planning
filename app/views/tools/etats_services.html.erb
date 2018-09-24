@@ -64,16 +64,20 @@
 <% end %>
 
 <% if @intervenant && @cours %>
-    <table class="table table-hover">
+    <div class="page-header"> 
+      <h3>Cours</h3>
+    </div> 
+    <table class="table table-hover table-striped table-bordered">
         <thead>
             <th>Le</th>
             <th>Formation</th>
             <th>Code</th>
             <th>Intitulé</th>
-            <th></th>
+            <th>Comment.</th>
             <th>Durée</th>
             <th>HSS?</th>
             <th>E-learning?</th>
+            <th>CM/TD</th>
             <th>Taux</th>
             <th>HETD</th>
             <th>Cumul HETD</th>
@@ -86,9 +90,9 @@
             <% formation = Formation.unscoped.find(c.formation_id) %>
             <tr>
                 <td><%= l(c.debut, format: :perso) %></td>
-                <td><%= link_to formation.nom, edit_formation_path(formation), target:"_new" %></td>
+                <td><%= link_to formation.nom, formation_path(formation), target:"_new" %></td>
                 <td><%= formation.Code_Analytique %></td>
-                <td><%= link_to c.nom_ou_ue, edit_cour_path(c), target:"_new" %></td>
+                <td><%= link_to "#{c.ue} #{c.nom_ou_ue}", edit_cour_path(c), target:"_new" %></td>
                 <td>
                     <% if c.commentaires %>
                         <i class="glyphicon glyphicon-comment" 
@@ -107,6 +111,7 @@
                         <span class="glyphicon glyphicon-ok-circle">
                     <% end %>
                 </td>
+                <td><%= c.Taux_TD == 1.5 ? 'CM' : 'TD' %></td>
                 <td><%= c.Taux_TD %></td>
                 <td><%= c.HETD %></td>
                 <td><%= @cumul_hetd %></td>
@@ -124,6 +129,74 @@
             <% end %>
         </tfoot>
     </table>
+
+    <% if @vacations %>
+        <div class="page-header"> 
+          <h3>Vacations</h3>
+        </div> 
+        <table class="table table-hover table-striped table-bordered">
+            <thead>
+                <th />
+                <th>Formation</th>
+                <th>Code A.</th>
+                <th>Forfait HTD</th>
+                <th>Cumul HTD</th>
+            </thead>
+
+            <% @vacations.each do |vacation| %>
+                <% @cumul_vacations += vacation.forfaithtd %> 
+                <tr>
+                    <td><b><%= vacation.titre %></b></td>
+                    <td><%= link_to vacation.formation.nom, vacation.formation %></td>
+                    <td><%= vacation.formation.Code_Analytique %></td>
+                    <td><%= vacation.forfaithtd %></td>
+                    <td><%= @cumul_vacations %></td>
+                </tr>
+            <% end %>
+
+            <tfoot>
+                <th /><th /><th /><th />
+                <th><%= @cumul_vacations %>h</th>
+            </tfoot>
+        </table>
+    <% end %>
+
+    <% if @responsabilites %>
+        <div class="page-header"> 
+          <h3>Responsabilités</h3>
+        </div> 
+        <table class="table table-hover table-striped table-bordered">
+            <thead>
+                <th />
+                <th>Formation</th>
+                <th>Code A.</th>
+                <th>Début</th>
+                <th>Fin</th>
+                <th>Heures</th>
+                <th>Cumul</th>
+            </thead>
+
+            <% @responsabilites.each do |resp| %>
+                <% @cumul_resps += resp.heures %>
+                <tr>
+                    <td><b><%= resp.titre %></b></td>
+                    <td><%= link_to resp.formation.nom, resp.formation %></td>
+                    <td><%= resp.formation.Code_Analytique %></td>
+                    <td><%= l resp.debut %></td>
+                    <td><%= l resp.fin %></td>
+                    <td><%= resp.heures %></td>
+                    <td><%= @cumul_resps %></td>
+                </tr>
+            <% end %>
+
+            <tfoot>
+                <th /><th /><th /><th /><th /><th />
+                <th><%= @cumul_resps %>h</th>
+            </tfoot>
+        </table>
+    <% end %>
+    <br>
+
     <%= link_to url_for(params.merge(format:'csv')) , class: 'btn btn-success' do %>
         <span class="glyphicon glyphicon-share"></span>
         Export CSV

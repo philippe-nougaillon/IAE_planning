@@ -75,11 +75,23 @@
     <%= f.fields_for :responsabilites do |r| %>
       <div class="row">
         <li>
-          <div class="col-sm-7">
+          <div class="col-sm-2">
+            <%= r.date_field :debut %>
+          </div>
+
+          <div class="col-sm-2">
+            <%= r.date_field :fin %>
+          </div>
+
+          <div class="col-sm-2">
             <%= r.text_field :titre, placeholder:"Donnez un titre (ex: Chargé de mission)", label:"Titre" %>
-          </div>  
+          </div>
           <div class="col-sm-3">
-            <%= r.text_field :heures, label:"Nombre d'heures attribuées" %>
+            <%= r.collection_select :formation_id, Formation.where(hors_catalogue: false), :id, :nom, {include_blank: true, label: "Formation"} %>
+          </div>  
+  
+          <div class="col-sm-1">
+            <%= r.text_field :heures, label:"Heures" %>
           </div>
           <div class="col-sm-2">
             <br>

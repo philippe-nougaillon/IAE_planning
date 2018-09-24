@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180705095502) do
+ActiveRecord::Schema.define(version: 20180924104313) do
 
   create_table "audits", force: :cascade do |t|
     t.integer  "auditable_id",    limit: 4
@@ -49,9 +49,9 @@ ActiveRecord::Schema.define(version: 20180705095502) do
     t.integer  "etat",                    limit: 4,                           default: 0
     t.decimal  "duree",                               precision: 4, scale: 2, default: 0.0
     t.integer  "intervenant_binome_id",   limit: 4
-    t.boolean  "hors_service_statutaire", limit: 1
+    t.boolean  "hors_service_statutaire"
     t.string   "commentaires",            limit: 255
-    t.boolean  "elearning",               limit: 1
+    t.boolean  "elearning"
   end
 
   add_index "cours", ["debut"], name: "index_cours_on_debut", using: :btree
@@ -99,7 +99,7 @@ ActiveRecord::Schema.define(version: 20180705095502) do
     t.string   "promo",           limit: 255
     t.string   "diplome",         limit: 255
     t.string   "domaine",         limit: 255
-    t.boolean  "apprentissage",   limit: 1
+    t.boolean  "apprentissage"
     t.datetime "created_at",                                                           null: false
     t.datetime "updated_at",                                                           null: false
     t.string   "memo",            limit: 255
@@ -111,8 +111,8 @@ ActiveRecord::Schema.define(version: 20180705095502) do
     t.string   "Forfait_HETD",    limit: 255
     t.decimal  "Taux_TD",                     precision: 10, scale: 2, default: 0.0
     t.string   "Code_Analytique", limit: 255
-    t.boolean  "hors_catalogue",  limit: 1,                            default: false
-    t.boolean  "archive",         limit: 1
+    t.boolean  "hors_catalogue",                                       default: false
+    t.boolean  "archive"
   end
 
   add_index "formations", ["archive"], name: "index_formations_on_archive", using: :btree
@@ -162,7 +162,7 @@ ActiveRecord::Schema.define(version: 20180705095502) do
     t.string   "adresse",               limit: 255
     t.string   "cp",                    limit: 255
     t.string   "ville",                 limit: 255
-    t.boolean  "doublon",               limit: 1
+    t.boolean  "doublon"
     t.integer  "nbr_heures_statutaire", limit: 4
     t.date     "date_naissance"
     t.string   "memo",                  limit: 255
@@ -174,8 +174,12 @@ ActiveRecord::Schema.define(version: 20180705095502) do
     t.decimal  "heures",                     precision: 5, scale: 2
     t.datetime "created_at",                                         null: false
     t.datetime "updated_at",                                         null: false
+    t.date     "debut"
+    t.date     "fin"
+    t.integer  "formation_id",   limit: 4
   end
 
+  add_index "responsabilites", ["formation_id"], name: "index_responsabilites_on_formation_id", using: :btree
   add_index "responsabilites", ["intervenant_id"], name: "index_responsabilites_on_intervenant_id", using: :btree
 
   create_table "salles", force: :cascade do |t|
@@ -210,12 +214,12 @@ ActiveRecord::Schema.define(version: 20180705095502) do
     t.string   "last_sign_in_ip",        limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "admin",                  limit: 1,   default: false
+    t.boolean  "admin",                              default: false
     t.integer  "formation_id",           limit: 4
     t.string   "nom",                    limit: 255
     t.string   "prénom",                 limit: 255
     t.string   "mobile",                 limit: 255
-    t.boolean  "reserver",               limit: 1
+    t.boolean  "reserver"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
@@ -236,6 +240,7 @@ ActiveRecord::Schema.define(version: 20180705095502) do
 
   add_foreign_key "import_log_lines", "import_logs"
   add_foreign_key "import_logs", "users"
+  add_foreign_key "responsabilites", "formations"
   add_foreign_key "responsabilites", "intervenants"
   add_foreign_key "vacations", "formations"
   add_foreign_key "vacations", "intervenants"

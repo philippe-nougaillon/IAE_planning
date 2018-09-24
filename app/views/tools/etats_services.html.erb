@@ -111,7 +111,7 @@
                         <span class="glyphicon glyphicon-ok-circle">
                     <% end %>
                 </td>
-                <td><%= c.Taux_TD == 1.5 ? 'CM' : 'TD' %></td>
+                <td><%= c.CMTD? %></td>
                 <td><%= c.Taux_TD %></td>
                 <td><%= c.HETD %></td>
                 <td><%= @cumul_hetd %></td>
@@ -122,7 +122,7 @@
             <th colspan="2">Total: <%= @cours.count %> cours</th>
             <th /><th /><th />
             <th><%= @cours.sum(:duree) %>h</th>
-            <th /><th /><th /><th />
+            <th /><th /><th /><th /><th />  
             <th><%= @cumul_hetd %>h</th>
             <% if @intervenant.nbr_heures_statutaire %>
                <th>Solde: <%= @cumul_hetd - @intervenant.nbr_heures_statutaire %>h</th>
@@ -147,7 +147,7 @@
                 <% @cumul_vacations += vacation.forfaithtd %> 
                 <tr>
                     <td><b><%= vacation.titre %></b></td>
-                    <td><%= link_to vacation.formation.nom, vacation.formation %></td>
+                    <td><%= link_to vacation.formation.nom, vacation.formation, target:"_new" %></td>
                     <td><%= vacation.formation.Code_Analytique %></td>
                     <td><%= vacation.forfaithtd %></td>
                     <td><%= @cumul_vacations %></td>
@@ -180,7 +180,7 @@
                 <% @cumul_resps += resp.heures %>
                 <tr>
                     <td><b><%= resp.titre %></b></td>
-                    <td><%= link_to resp.formation.nom, resp.formation %></td>
+                    <td><%= link_to resp.formation.nom, resp.formation, target:"_new" %></td>
                     <td><%= resp.formation.Code_Analytique %></td>
                     <td><%= l resp.debut %></td>
                     <td><%= l resp.fin %></td>

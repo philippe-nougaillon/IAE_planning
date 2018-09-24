@@ -148,6 +148,10 @@ class Cour < ActiveRecord::Base
     self.duree * self.Taux_TD.to_f
   end
 
+  def CMTD?
+    self.Taux_TD == 1.5 ? 'CM' : 'TD'
+  end  
+
   def progress_bar_pct(planning_date = nil)
     # calcul le % de réalisation du cours
     @now = DateTime.now.in_time_zone("Paris") + 2.hours
@@ -177,7 +181,10 @@ class Cour < ActiveRecord::Base
     require 'csv'
     
     CSV.generate(col_sep:';', quote_char:'"', encoding:'UTF-8') do | csv |
-        csv << ['id','Date début','Heure début','Date fin','Heure fin','Formation_id','Formation','Code_Analytique','Intervenant_id','Intervenant','UE','Intitulé','Binôme?','Etat','Salle','Durée','HSS ? (Hors Service Statutaire)','E-learning','Taux_TD','HETD','Commentaires','Cours créé le','Par','Cours modifié le']
+        csv << ['id','Date début','Heure début','Date fin','Heure fin','Formation_id','Formation',
+                'Code_Analytique','Intervenant_id','Intervenant','UE','Intitulé','Binôme?','Etat',
+                'Salle','Durée','HSS ? (Hors Service Statutaire)','E-learning', 'Taux_TD','HETD',
+                'Commentaires','Cours créé le','Par','Cours modifié le']
     
         cours.each do |c|
           hetd = c.duree * (c.formation.Taux_TD || 0)
@@ -229,7 +236,8 @@ class Cour < ActiveRecord::Base
 
     @cumul_hetd = 0.0
     CSV.generate(col_sep:';', quote_char:'"', encoding:'UTF-8') do | csv |
-        csv << ['Le','Formation','Code','Intitulé','Commentaires','Durée','HSS?','E-learning?','Taux_TD','HETD','Cumul']
+        csv << ['Le','Formation','Code','Intitulé','Commentaires','Durée','HSS?','E-learning?',
+                'CM/TD?', 'Taux_TD','HETD','Cumul']
     
         cours.each do |c|
           hetd = c.duree * (c.formation.Taux_TD || 0)
@@ -245,6 +253,7 @@ class Cour < ActiveRecord::Base
             c.duree.to_s.gsub(/\./, ','),
             (c.hors_service_statutaire ? "OUI" : ''),
             (c.elearning ? "OUI" : ''), 
+            c.CMTD?, 
             c.formation.Taux_TD.to_s.gsub(/\./, ','),
             hetd.to_s.gsub(/\./, ','),
             @cumul_hetd.to_s.gsub(/\./, ',')

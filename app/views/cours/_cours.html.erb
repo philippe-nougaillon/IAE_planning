@@ -43,7 +43,7 @@
     <td>
         <% if cours.salle %>
             <%= link_to cours.salle.nom, cours_url(start_date:cours.debut.to_date, view:'calendar_rooms', anchor:cours.salle.nom), target: :_blank %>
-            <% if cours.manque_de_places? && user_signed_in? %>
+            <% if cours_formation.nbr_etudiants > cours.salle.places && user_signed_in? %>
                 <i class="glyphicon glyphicon-warning-sign glyph-custom-alert" 
                     data-toggle="tooltip" data-placement="bottom"
                     title="Manque <%= cours_formation.nbr_etudiants - cours.salle.places %> place.s">

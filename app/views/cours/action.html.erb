@@ -7,7 +7,7 @@
 
   <div class="row">
     <div class="col-sm-12">
-      <h4>Cours sélectionnés</h4>
+      <h4>Cours sélectionnés :</h4>
 
       <ul class="list-group">
         <% if @action_ids %>
@@ -33,7 +33,13 @@
 
   <% if params[:action_name] == "Changer de salle" %>  
 
-    Salles dispos : <%= @salles.join(', ') %>
+    <h3>Salles disponibles :</h3>
+    <h4>
+      <% @salles.each do |salle| %>
+        <span class="label label-success"><%= salle %></span>
+      <% end %> 
+    </h4>
+    <br>
 
     <div class="row">
       <div class="col-sm-3">
@@ -42,16 +48,16 @@
               options_from_collection_for_select(Salle.order(:nom), :id, :nom, params[:salle_id]), 
               include_blank:true, class:"form-control" %>
       </div>
-      <div class="col-sm-3">
+      <div class="col-sm-6">
         <br><br>
         <% date_debut = Cour.unscoped.find(@action_ids.first).debut.to_date %>
         <%= link_to(salles_occupation_path(date: date_debut), target:"_new") do %>
               <span class="glyphicon glyphicon-blackboard"></span>
-              Afficher l'occupation des salles
+              Voir l'occupation des salles du <%= l date_debut %>
         <% end %>
-      </div>
-
+      </div>  
     </div>
+    <br>
 
   <% elsif params[:action_name] == "Changer d'état" %>
     <div class="col-sm-2">

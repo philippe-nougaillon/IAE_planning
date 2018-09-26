@@ -177,37 +177,45 @@ class CoursController < ApplicationController
     # page courante
     session[:page_slide] ||= 0
 
-    @cours = Cour.where(etat: Cour.etats.values_at(:planifié, :confirmé))
-    @now = Time.now.in_time_zone("Paris")
+    now = Time.now.in_time_zone("Paris")
     
     if params[:planning_date]
       # Afficher tous les cours du jours
       @planning_date = Date.parse(params[:planning_date])
       # si date du jour, on ajoute l'heure qu'il est
-      @planning_date = @now if @planning_date == Date.today
+      @planning_date = now if @planning_date == Date.today
     else
       # afficher tous les cours du jour à heure H-4 jusqu'à minuit
-      @planning_date = @now 
+      @planning_date = now 
     end
-    limite_debut = @planning_date - 4.hour
-    limite_fin = (@planning_date.beginning_of_day) + 1.day  
-    @cours = @cours.where("(debut between ? and ?) and fin >= ?", limite_debut, limite_fin, @planning_date).order(:debut)
 
-    if @cours.any?
-      @cours = @cours.includes(:formation).order("formations.nom")
+    logger.debug "[DENUG] now = #{now} planning_date = #{@planning_date}"
 
+    #limite_debut = @planning_date - 4.hour
+    #limite_fin = (@planning_date.beginning_of_day) + 1.day  
+
+    @cours = Cour.where(etat: Cour.etats.values_at(:planifié, :confirmé))
+                 .where("DATE(debut) = ? AND fin > ?", @planning_date.to_date, @planning_date.to_s)
+                 .order(:debut)
+
+    @cours_count = @cours.count
+
+    unless @cours_count.zero?
+      
       if request.variant.include?(:desktop) and !params[:planning_date]
         # effectuer une rotation de x pages de 6 cours 
         per_page = 6
-        @max_page_slide = (@cours.count / per_page)
-        @max_page_slide += 1 unless @cours.count.%(per_page).zero?
+        @max_page_slide = (@cours_count / per_page)
+        @max_page_slide += 1 unless @cours_count.%(per_page).zero?
 
         if session[:page_slide].to_i < @max_page_slide
           session[:page_slide] = session[:page_slide].to_i + 1
         else
           session[:page_slide] = 1
         end
+
         @cours = @cours.paginate(page:session[:page_slide], per_page:per_page)
+
       end
     else
       # Affiche un papier peint si pas de cours à afficher

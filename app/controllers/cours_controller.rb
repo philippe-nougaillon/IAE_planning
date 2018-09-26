@@ -189,10 +189,7 @@ class CoursController < ApplicationController
       @planning_date = @now 
     end
 
-    logger.debug "[SLIDE DENUG] now = #{@now} planning_date = #{@planning_date} planning_date.to_s = #{@planning_date.to_s}"
-
-    #limite_debut = @planning_date - 4.hour
-    #limite_fin = (@planning_date.beginning_of_day) + 1.day  
+    #logger.debug "[SLIDE DENUG] now = #{@now} planning_date = #{@planning_date} planning_date.to_s = #{@planning_date.to_s}"
 
     @cours = Cour.where(etat: Cour.etats.values_at(:planifié, :confirmé))
                  .where("DATE(fin) = ? AND fin > ?", @planning_date.to_date, @planning_date.to_s)

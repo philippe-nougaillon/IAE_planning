@@ -177,25 +177,25 @@ class CoursController < ApplicationController
     # page courante
     session[:page_slide] ||= 0
 
-    now = Time.now.in_time_zone("Paris")
+    @now = Time.now.in_time_zone("Paris")
     
     if params[:planning_date]
       # Afficher tous les cours du jours
       @planning_date = Date.parse(params[:planning_date])
       # si date du jour, on ajoute l'heure qu'il est
-      @planning_date = now if @planning_date == Date.today
+      @planning_date = @now if @planning_date == Date.today
     else
-      # afficher tous les cours du jour à heure H-4 jusqu'à minuit
-      @planning_date = now 
+      # afficher tous les cours du jour 
+      @planning_date = @now 
     end
 
-    logger.debug "[DENUG] now = #{now} planning_date = #{@planning_date}"
+    logger.debug "[SLIDE DENUG] now = #{@now} planning_date = #{@planning_date} planning_date.to_s = #{@planning_date.to_s}"
 
     #limite_debut = @planning_date - 4.hour
     #limite_fin = (@planning_date.beginning_of_day) + 1.day  
 
     @cours = Cour.where(etat: Cour.etats.values_at(:planifié, :confirmé))
-                 .where("DATE(debut) = ? AND fin > ?", @planning_date.to_date, @planning_date.to_s)
+                 .where("DATE(fin) = ? AND fin > ?", @planning_date.to_date, @planning_date.to_s)
                  .order(:debut)
 
     @cours_count = @cours.count

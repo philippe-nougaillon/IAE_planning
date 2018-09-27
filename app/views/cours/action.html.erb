@@ -33,13 +33,15 @@
 
   <% if params[:action_name] == "Changer de salle" %>  
 
-    <h3>Salles disponibles :</h3>
-    <h4>
-      <% @salles.each do |salle| %>
-        <span class="label label-success"><%= salle %></span>
-      <% end %> 
-    </h4>
-    <br>
+    <% if @salles %>
+      <h3>Salles disponibles :</h3>
+      <h4>
+        <% @salles.each do |salle| %>
+          <span class="label label-success"><%= salle %></span>
+        <% end %> 
+      </h4>
+      <br>
+    <% end %>
 
     <div class="row">
       <div class="col-sm-3">

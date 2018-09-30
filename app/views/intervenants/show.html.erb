@@ -102,53 +102,58 @@
   </div>
 </div>
 
-<div class="page-header"> 
-  <h3>Responsabilités</h3>
-</div> 
-<ul>
-  <% @intervenant.responsabilites.each do |r| %>
-    <div class="row">
-      <li>
-        <div class="col-sm-2">
-          <%= l r.debut %>
-        </div>  
-        <div class="col-sm-2">
-          <%= l r.fin %>
-        </div>  
-        <div class="col-sm-3">
-          <%= r.titre %>
-        </div>  
-        <div class="col-sm-3">
-          <%= r.formation.nom if r.formation %>
-        </div>  
-        <div class="col-sm-1">
-          <%= r.heures %> h
-        </div>
-      </li> 
-    </div>
-  <% end %>
-</ul>
+<% if @intervenant.responsabilites.any? %>
+  <div class="page-header"> 
+    <h3>Responsabilités</h3>
+  </div> 
 
-<div class="page-header"> 
-  <h3>Vacations ou autres activités</h3>
-</div>
-<ul>
-  <% @intervenant.vacations.each do |vacation| %>
-    <div class="row">
-      <li>
-        <div class="col-sm-3">
-          <%= vacation.formation.nom %>
-        </div>  
-        <div class="col-sm-5">
-          <%= vacation.titre %>
-        </div>
-        <div class="col-sm-4">
-          <%= vacation.forfaithtd %> h
-        </div>
-      </li> 
-    </div>
-  <% end %>
-</ul>
+  <ul>
+    <% @intervenant.responsabilites.each do |r| %>
+      <div class="row">
+        <li>
+          <div class="col-sm-2">
+            <%= l r.debut %>
+          </div>  
+          <div class="col-sm-2">
+            <%= l r.fin %>
+          </div>  
+          <div class="col-sm-3">
+            <%= r.titre %>
+          </div>  
+          <div class="col-sm-3">
+            <%= r.formation.nom if r.formation %>
+          </div>  
+          <div class="col-sm-1">
+            <%= r.heures %> h
+          </div>
+        </li> 
+      </div>
+    <% end %>
+  </ul>
+<% end %>
+
+<% if @intervenant.vacations.any? %>
+  <div class="page-header"> 
+    <h3>Vacations ou autres activités</h3>
+  </div>
+  <ul>
+    <% @intervenant.vacations.each do |vacation| %>
+      <div class="row">
+        <li>
+          <div class="col-sm-3">
+            <%= vacation.formation.nom %>
+          </div>  
+          <div class="col-sm-5">
+            <%= vacation.titre %>
+          </div>
+          <div class="col-sm-4">
+            <%= vacation.forfaithtd %> h
+          </div>
+        </li> 
+      </div>
+    <% end %>
+  </ul>
+<% end %>
 
 <div id="audit" class="collapse">
   <% if current_user.admin? %>

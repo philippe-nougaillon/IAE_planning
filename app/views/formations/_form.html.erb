@@ -21,10 +21,10 @@
 
         <div class="row">
           <div class="col-sm-6">
-            <%= f.text_field :abrg, label:'Abr.' %>
+            <%= f.text_field :abrg, label: 'Abr.' %>
           </div>
           <div class="col-sm-6">
-            <%= f.color_field :color, label:'Couleur' %>
+            <%= f.color_field :color, label: 'Couleur' %>
           </div>
         </div>
 
@@ -33,7 +33,9 @@
             <%= f.check_box :hors_catalogue, label:"Hors catalogue ?" %>
           </div>
           <div class="col-sm-6">
-            <%= f.check_box :archive, label:"Archivée ?" %>
+            <% if @formation.cours.where("DATE(debut) >= ?", Date.today).count.zero? %>
+              <%= f.check_box :archive, label: "Archivée ?" %>
+            <% end %>  
           </div>
         </div>
 
@@ -42,12 +44,12 @@
             <%= f.text_field :promo %>
           </div>
           <div class="col-sm-6">
-            <%= f.text_field :diplome, label:"Diplôme" %>
+            <%= f.text_field :diplome, label: "Diplôme" %>
           </div>  
         </div>
 
         <%= f.text_field :domaine %>
-        <%= f.check_box :apprentissage, label:"Apprentissage ?" %>
+        <%= f.check_box :apprentissage, label: "Apprentissage ?" %>
         
       </div>
 

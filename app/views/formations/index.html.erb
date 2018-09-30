@@ -26,19 +26,6 @@
             </div> 
           </div>
 
-          <!--
-            <div class="col-sm-3">
-              <%= label_tag "Diplôme" %>    
-              <div class="input-group">
-                <%= select_tag :diplome, 
-                    options_for_select(@diplomes, params[:diplome]), include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
-                  <span class="input-group-btn">
-                  <%= submit_tag 'Filtrer', class:"btn btn-success" %>
-                </span>
-              </div> 
-            </div>
-          -->
-
           <div class="col-sm-2">
             <%= label_tag :catalogue, "Catalogue ?" %>
             <br>
@@ -72,16 +59,14 @@
 
 <% if @formations.any? %>
   <div class="table-responsive">
-    <table class="table table-hover">
+    <table class="table table-hover table-striped">
       <thead>
         <tr>
           <th>Nom</th>
           <th>Abr.</th>
-          <th>Promo</th>
-          <th>Etudiants prévus</th>
-          <th>Code Analytique</th>
-          <th>Taux</th>
-          <th>Cours à planifier</th>
+          <th>Etudiants</th>
+          <th>Code</th>
+          <th>Planifiés</th>
           <th>Confirmés</th>
           <th>Réalisés</th>
           <th colspan="2"></th>
@@ -90,7 +75,7 @@
 
       <tfoot>
         <tr>
-          <% 11.times do %><th><% end %>
+          <% 9.times do %><th><% end %>
         </tr>
       </tfoot>
 
@@ -98,16 +83,15 @@
         <% @formations.includes(:cours).each do |formation| %>
           <% formation_cours = formation.cours %>
           <% formation_cours_planifié_count = formation_cours.planifié.count %>
-          <tr class=<%= formation_cours_planifié_count != 0 ? 'info' : '' %>>
+          <tr class=<%= formation_cours_planifié_count != 0 ? 'warning' : '' %>>
             <td>
               <span style="background-color:<%= formation.color %>;padding-left: 7px;"></span>
               <span style="padding-left: 10px;"></span>
-              <%= link_to formation.nom, formation %></td>
+              <%= link_to formation.nom, formation %>
+            </td>
             <td><%= formation.abrg %></td>
-            <td><%= formation.promo %></td>
             <td><%= formation.nbr_etudiants %></td>
             <td><%= formation.Code_Analytique %></td>
-            <td><%= formation.Taux_TD %></td>
             <td>
               <%= link_to_unless formation_cours_planifié_count.zero?, formation_cours_planifié_count, cours_path(ids:formation_cours.planifié.pluck(:id)) %>
             </td>
@@ -142,7 +126,6 @@
       </div>
       <%= will_paginate @formations, renderer: BootstrapPagination::Rails %>
     <% end %>  
-
   </div>
 <% end %>
 <br>

@@ -35,12 +35,14 @@
 
     <% if @salles %>
       <h3>Salles disponibles :</h3>
-      <h4>
-        <% @salles.each do |salle| %>
-          <span class="label label-success"><%= salle %></span>
-        <% end %> 
-      </h4>
-      <br>
+      <% @salles.each do |salle| %>
+        <%= link_to salle, 
+                    cours_action_do_path(cours_id: {@action_ids.first => true}, 
+                                         salle_id: Salle.where(nom: salle).first,
+                                         action_name: params[:action_name]),
+                    method: :post, 
+                    class: "btn btn-success btn-sm" %>
+      <% end %> 
     <% end %>
 
     <div class="row">

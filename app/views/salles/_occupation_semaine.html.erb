@@ -25,7 +25,7 @@
         <% @cours = Cour.where(etat: Cour.etats.values_at(:confirmé, :réalisé)) %>
         <% @cours = @cours.where("salle_id = ? AND cours.debut BETWEEN DATE(?) AND DATE(?)", salle.id, @date, @date + 6.day).order(:debut) %>
 
-        <% if bloc != salle.nom[0] %>
+        <% if bloc != salle.nom[0] || salle.nom.size > 3 %>
           <% bloc = salle.nom[0] %>
           <thead>
             <tr>
@@ -41,7 +41,7 @@
         <% end %>
 
         <tr>
-          <td><b><%= salle.nom[0..6] %></b></td>
+          <td><b><%= salle.nom[0..9] %></b></td>
           <td><%= salle.places %></td>
           <td>
             <%= link_to_unless @cours.count.zero?, 

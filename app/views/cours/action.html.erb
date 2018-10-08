@@ -33,35 +33,36 @@
 
   <% if params[:action_name] == "Changer de salle" %>  
 
-    <% if @salles %>
-      <h3>Salles disponibles :</h3>
-      <% @salles.each do |salle| %>
-        <%= link_to salle, 
-                    cours_action_do_path(cours_id: {@action_ids.first => true}, 
-                                         salle_id: Salle.where(nom: salle).first,
-                                         action_name: params[:action_name]),
-                    method: :post, 
-                    class: "btn btn-success btn-sm" %>
-      <% end %> 
-    <% end %>
-
     <div class="row">
-      <!--
-      <div class="col-sm-3">
-        <%= label_tag "Nouvelle Salle" %>    
-        <%= select_tag :salle_id, 
-              options_from_collection_for_select(Salle.order(:nom), :id, :nom, params[:salle_id]), 
-              include_blank:true, class:"form-control" %>
-      </div>
-      -->
-      <div class="col-sm-6">
-        <br>
-        <% date_debut = Cour.unscoped.find(@action_ids.first).debut.to_date %>
-        <%= link_to(salles_occupation_path(date: date_debut), target:"_new") do %>
-              <span class="glyphicon glyphicon-blackboard"></span>
-              Voir l'occupation des salles du <%= l date_debut %>
-        <% end %>
-      </div>  
+      <% if @salles %>
+        <div class="col-sm-12">
+          <h3>Salles disponibles :</h3>
+          <% @salles.each do |salle| %>
+            <%= link_to salle, 
+                        cours_action_do_path(cours_id: {@action_ids.first => true}, 
+                                             salle_id: Salle.where(nom: salle).first,
+                                             action_name: params[:action_name]),
+                        method: :post, 
+                        class: "btn btn-success btn-sm" %>
+          <% end %>
+        </div> 
+      <% else %>      
+        <div class="col-sm-3">
+          <%= label_tag "Nouvelle Salle" %>    
+          <%= select_tag :salle_id, 
+                options_from_collection_for_select(Salle.order(:nom), :id, :nom, params[:salle_id]), 
+                include_blank:true, class:"form-control" %>
+        </div>
+
+        <div class="col-sm-6">
+          <br>
+          <% date_debut = Cour.unscoped.find(@action_ids.first).debut.to_date %>
+          <%= link_to(salles_occupation_path(date: date_debut), target:"_new") do %>
+                <span class="glyphicon glyphicon-blackboard"></span>
+                Voir l'occupation des salles du <%= l date_debut %>
+          <% end %>
+        </div>
+      <% end %>
     </div>
     <br>
 

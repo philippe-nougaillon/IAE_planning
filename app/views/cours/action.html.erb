@@ -1,70 +1,43 @@
 <%= form_tag(cours_action_do_path) do %>
 
-	<h2><%= params[:action_name] %></h2>
-  <br>
+  <div class="page-header">
+  	<h2><%= params[:action_name] %></h2>
+  </div>
 
 	<%= hidden_field_tag :action_name, params[:action_name] %>
 
-  <div class="row">
-    <div class="col-sm-12">
-      <h4>Cours sélectionnés</h4>
+  <h3>Cours sélectionnés</h3>
 
-      <ul class="list-group">
-        <% if @action_ids %>
-          <% Cour.unscoped.where(id: @action_ids).each do |cours| %>
-            <li class="list-group-item">
-              <%= check_box_tag "[cours_id][#{cours.id}]", true, true %>
-              <%= l(cours.debut.to_date) %>
-              <%= "#{l(cours.debut, format: :heures_min)}-#{l(cours.fin, format: :heures_min)}" %> |
-              <%= cours.formation.nom_promo %> |
-              <%= cours.intervenant.nom_prenom %> |
-              <% if cours.intervenant_binome %>
-                <%= cours.intervenant_binome.nom_prenom %> |
-              <% end %>
-              <span class="label <%= cours.style %>"><%= cours.etat.humanize %></span> |
-              <%= "Salle: #{cours.salle.nom} |" if cours.salle %>
-              <%= "Créé par #{cours.audits.first.user.try(:email)}" %>
-            </li>
+  <table class="table table-hover table-condensed">
+    <% Cour.unscoped.where(id: @action_ids).each do |cours| %>
+      <tr>
+        <td><%= check_box_tag "[cours_id][#{cours.id}]", true, true %></td>                
+        <td><%= l(cours.debut.to_date) %></td>
+        <td><%= "#{l(cours.debut, format: :heures_min)}-#{l(cours.fin, format: :heures_min)}" %></td>
+        <td><%= cours.formation.nom_promo %></td>
+        <td><%= cours.intervenant.nom_prenom %>
+          <% if cours.intervenant_binome %>
+            <%= cours.intervenant_binome.nom_prenom %>
           <% end %>
-        <% end %>
-      </ul>
-    </div>
-  </div>
+        </td>
+        <td><span class="label <%= cours.style %>"><%= cours.etat.humanize %></span></td>
+        <td><%= cours.salle.nom if cours.salle %></td>
+        <td>Créé par <%= cours.audits.first.user.try(:email) %></td>
+      </tr>
+    <% end %>
+  </table>
 
   <% if params[:action_name] == "Changer de salle" %>  
-
-    <div class="row">
-      <% if @salles %>
-        <div class="col-sm-12">
-          <h3>Salles disponibles</h3>
-          <% @salles.each do |salle| %>
-            <%= link_to salle, 
-                        cours_action_do_path(cours_id: {@action_ids.first => true}, 
-                                             salle_id: Salle.find_by(nom: salle),
-                                             action_name: params[:action_name]),
-                        method: :post, 
-                        class: "btn btn-success btn-sm" %>
-          <% end %>
-        </div> 
-      <% else %>      
-        <div class="col-sm-3">
-          <%= label_tag "Nouvelle Salle" %>    
-          <%= select_tag :salle_id, 
-                options_from_collection_for_select(Salle.order(:nom), :id, :nom, params[:salle_id]), 
-                include_blank:true, class:"form-control" %>
-        </div>
-
-        <div class="col-sm-6">
-          <br>
-          <br>
-          <% date_debut = Cour.unscoped.find(@action_ids.first).debut.to_date %>
-          <%= link_to(salles_occupation_path(date: date_debut), target:"_new") do %>
-                <span class="glyphicon glyphicon-blackboard"></span>
-                Voir l'occupation des salles du <%= l date_debut %>
-          <% end %>
-        </div>
+    <% if @salles_dispos %>
+      <h3>Salles disponibles</h3>
+      <% @salles_dispos.each do |salle| %>
+        <%= link_to salle, 
+                    cours_action_do_path(params.merge(salle_id: Salle.find_by(nom: salle))),
+                    method: :post, 
+                    class: "btn btn-success btn-xs" %>
       <% end %>
-  </div>
+      <br><br>
+    <% end %>
 
   <% elsif params[:action_name] == "Changer d'état" %>
     <div class="col-sm-2">

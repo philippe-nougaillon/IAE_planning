@@ -229,13 +229,17 @@ class CoursController < ApplicationController
     unless params[:cours_id].blank? or params[:action_name].blank?
       @action_ids = params[:cours_id].keys
 
-      # Afficher les salles disponibles, si un seul cours à déplacer
-      if params[:action_name] == 'Changer de salle' && @action_ids.size == 1
-        cours = Cour.find(@action_ids.first)
-        @salles = []
-        Salle.all.each do |s|
-          cours.salle = s 
-          @salles << s.nom if cours.valid?
+      # Afficher les salles disponibles
+      if params[:action_name] == 'Changer de salle'
+        @salles_dispos = []
+        @action_ids.each do |id|
+          cours = Cour.find(id)
+          salles = []
+          Salle.all.each do |s|
+            cours.salle = s 
+            salles << s.nom if cours.valid?
+          end
+          @salles_dispos = @salles_dispos && salles
         end
       end  
     
@@ -246,8 +250,7 @@ class CoursController < ApplicationController
 
   def action_do
     action_name = params[:action_name]
-    ids = params[:cours_id].keys
-    @cours = Cour.where(id:ids)
+    @cours = Cour.where(id: params[:cours_id].keys)
 
     case action_name 
     when 'Changer de salle'

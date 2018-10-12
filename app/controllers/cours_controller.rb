@@ -189,7 +189,7 @@ class CoursController < ApplicationController
       @planning_date = @now 
     end
 
-    #logger.debug "[SLIDE DENUG] now = #{@now} planning_date = #{@planning_date} planning_date.to_s = #{@planning_date.to_s}"
+    #logger.debug "[SLIDE DEBUG] now = #{@now} planning_date = #{@planning_date} planning_date.to_s = #{@planning_date.to_s}"
 
     @cours = Cour.where(etat: Cour.etats.values_at(:planifié, :confirmé))
                  .where("DATE(fin) = ? AND fin > ?", @planning_date.to_date, @planning_date.to_s)
@@ -231,7 +231,7 @@ class CoursController < ApplicationController
 
       # Afficher les salles disponibles
       if params[:action_name] == 'Changer de salle'
-        @salles_dispos = []
+        @salles_dispos = Salle.pluck(:nom)
         @action_ids.each do |id|
           cours = Cour.find(id)
           salles = []
@@ -239,7 +239,12 @@ class CoursController < ApplicationController
             cours.salle = s 
             salles << s.nom if cours.valid?
           end
-          @salles_dispos = @salles_dispos && salles
+          #logger.debug "[DEBUG] cours = #{cours.id}"
+          #logger.debug "[DEBUG] dispos avant = #{@salles_dispos} #{@salles_dispos.count}"
+          @salles_dispos = @salles_dispos & salles
+          #logger.debug "[DEBUG] salles = #{salles}"
+          #logger.debug "[DEBUG] dispos après = #{@salles_dispos} #{@salles_dispos.count}"
+          #logger.debug "[DEBUG] --------------------------------------------------------"
         end
       end  
     

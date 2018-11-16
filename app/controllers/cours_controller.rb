@@ -303,7 +303,7 @@ class CoursController < ApplicationController
     when "Supprimer" 
       if !params[:delete].blank?      
         @cours.each do |c|
-          if c.can_be_destroy_by(current_user) # supprimer ce cours que si c'est son créateur qui le demande ou un admin !
+          if c.can_be_destroy_by(current_user)
             c.destroy
           else 
             flash[:error] = "Vous ne pouvez pas supprimer ce cours (##{c.id}) ! Opération annulée"

@@ -77,11 +77,11 @@
     </div>
 
   <% elsif params[:action_name] == "Supprimer" %>
-    <div class="col-sm-6">
+    <div class="col-sm-8">
       <%= label_tag "Confirmation :" %><br>
       <%= check_box_tag :delete %> Suppression définitive de tous les cours sélectionnés ?
-      <br>
-      <i>Les cours ne peuvent être supprimés que par leur créateur ou un administrateur</i>
+      <br><br>
+      <i>Notez que les cours ne peuvent être supprimés que par leur créateur, le gestionnaire ou un administrateur</i>
       <br><br>
     </div>
   <% end %>

@@ -30,7 +30,7 @@ class ToolsController < ApplicationController
         intervenant = nil
         if row['Intervenant']
           if row['Intervenant'] == 'A CONFIRMER'
-            intervenant = Intervenant.where(nom:'A CONFIRMER').first
+            intervenant = Intervenant.where(nom:'A', prenom:'CONFIRMER').first
           else  
             nom = row['Intervenant'].strip.split(' ').first.upcase
             prenom = row['Intervenant'].strip.split(' ').last

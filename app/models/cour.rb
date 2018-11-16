@@ -174,7 +174,8 @@ class Cour < ActiveRecord::Base
   end
 
   def can_be_destroy_by(user)
-    (user.id == self.audits.first.user_id) or (user.admin?)
+    # on peut supprimer ce cours si c'est son créateur qui le demande ou le gestionnaire de formation ou un admin !
+    (user.id == self.audits.first.user_id) or (self.formation.user == user) or (user.admin?) 
   end  
 
   def self.generate_csv(cours, exporter_binome, voir_champs_privés = false)

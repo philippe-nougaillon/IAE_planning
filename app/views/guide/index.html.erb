@@ -170,8 +170,8 @@
 		<li>
 			<b>Filtrage des cours par intervenant;</b> Pour que la recherche d'un intervenant soit fructueuse :
 			<br>
-			Comme le système cherche un intervenant qui se nomme NOM+Espace+PRENOM, il ne faut donc pas d’espace, ni dans le nom, ni dans le prénom.
-			Ex: "A et CONFIRMER" sera compris comme nom=A, prénom=CONFIRMER. Il convient donc de remplacer l'espace par un "_", ce qui donnera "A_CONFIRMER".
+			Comme le système cherche un intervenant qui se nomme NOM + 'Espace' + PRENOM, il ne faut donc pas d’espace, ni dans le nom, ni dans le prénom.
+			Ex: "DE LA MARRE Henry" sera compris comme nom=DE, prénom=LA MARRE Henry. Il convient donc de remplacer l'espace par un '_', ce qui donnera "DE_LA_MARRE Henry".
 			Le nom et le prénom sont obligatoires. Remplissez un champ vide par un point si besoin.
 		</li>
     <li>Cochez 'Autoriser les doublons' si vous souhaitez que l'intervenant puisse être sur plusieurs cours sur le même créneau horaire. C'est généralement le cas pour les groupes et non les individus.</li>
@@ -254,6 +254,7 @@
 <ul>
     <li>Gestion de la capacité (alerte si dépassement)</li>
     <li>Visualisation des créneaux horaires libres/occupés pour une date, une salle</li>
+    <strong>Pour autoriser les doublons: entrez 0 dans capacité</strong>
 </ul>
 
 <div class="row">

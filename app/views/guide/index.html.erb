@@ -1,15 +1,12 @@
 <div class="page-header">
   <h1>
     <span class="glyphicon glyphicon-info-sign"></span> 
-    Mémo utilisateur de l'application 'IAE_planning'
+    Mémo application Planning
   </h1>
+  <blockquote>
+    <p>Outil web de planification de cours. Collaboratif, flexible et simple d'utilisation :)</p>
+  </blockquote>
 </div>
-
-<blockquote>
-  <p>Application web de planification de cours. Collaborative, flexible et simple d'utilisation :)</p>
-  <footer></footer>
-</blockquote>
-<br>
 
 <h3>Cours</h3>
 <ul>
@@ -124,7 +121,7 @@
   			<br>
   			Pour faire disparaitre une formation du planning (sans la supprimer), allez dans Formations/Choisir la formation à archiver/Modifier => Cocher "Archivée" et Enregistrez. Cette formation ne sera plus visible dans toute l'application.
   			Pour faire réapparaitre une formation archivée, allez dans Formations/Cocher Archivées pour filtrer les formations archivées puis modifier la formation à faire réapparaitre, décochez "Archivée ?" et enregistrez. Cette formation est alors de nouveau visible dans toute l'application.
-        <strong>Attention: une formation ayant encore des cours à venir ne pourra pas être archivée !</strong>
+        <strong>Attention: une formation ayant des cours à venir ne pourra pas être archivée  (l'option sera désactivée)!</strong>
   		</li>    	
     </ul>
 </ul>
@@ -214,7 +211,7 @@
 <h3>Etudiants</h3>
 <ul>
     <li>Chaque étudiant est associé à une formation</li>
-    <li>La saisie des coordonnées permet l'envoi d'emails/SMS en cas d'annulation de cours</li>
+    <li>La saisie des coordonnées de l'étudiant permet de lui envoyer une notification par email/SMS en cas d'annulation de cours (option)</li>
 </ul>
 
 <div class="row">
@@ -395,14 +392,14 @@
     </li>
     <li>Ce fichier doit être au format CSV, Encodage: <b>UTF-8</b>, Séparateur: <b>Point-virgule</b>, Noms 		   des colonnes: <b>Première ligne</b>
   	</li>
-      <ul>
-          <li>
-            Si besoin, utilisez un 
-            <a href="https://subtitletools.com/convert-text-files-to-utf8-online">
-              convertisseur UTF8 en ligne 
-            </a>
-        </li>
-      </ul>
+        <ul>
+            <li>
+              Si besoin, utilisez un 
+              <a href="https://subtitletools.com/convert-text-files-to-utf8-online">
+                convertisseur UTF8 en ligne 
+              </a>
+          </li>
+        </ul>
     <ul>
 	  	<li>
 	    	<b>Importation de cours:</b> le fichier source doit contenir les colonnes suivantes: <br>
@@ -463,19 +460,20 @@
 </div>
 
 
-<h3>RH</h3>
+<h3>Service RH</h3>
 <ul>
-    <li>Etat récapitulatif mensuel des cours effectués</li>
+    <li>Etat récapitulatif des cours effectués</li>
 </ul>
 
 <h3>API</h3>
 <ul>
-    <li>Une API fournit les données du planning au format JSON aux applications tierces/mobiles</li>
+    <li>Une API fournit les données du planning au format JSON aux applications mobiles</li>
 </ul>
 
 <h3>Notification</h3>
 <ul>
-    <li>Les chargés de scolarité et les étudiants peuvent recevoir une notification par email/SMS(à venir) lors de l'annulation de cours</li>
+    <li>Les chargés de scolarité et les étudiants peuvent recevoir une notification par email/SMS(à venir) lors de l'annulation de cours(option)</li>
+    <li>Chaque fin de semaine, les intervenants recoivent leur planning de la semaine à venir (option)</li>
 </ul>
 
 <h3>Mobile & Responsive Design</h3>
@@ -520,7 +518,7 @@
 
 <h3>Affichage sur panneaux lumineux</h3>
 <ul>
-    <li>Planning du jour optimisé pour les grands écrans</li>
+    <li>Planning du jour optimisé pour la diffusion sur un grand écran installé dans les couloirs ou près de l'accueil.</li>
 </ul>
 
 <div class="row">
@@ -548,7 +546,7 @@
 
 <h3>Et ensuite ?</h3>
 <p>
-  <kbd>Vos commentaires et propositions sont les bienvenus. Ils m'aident à améliorer l'application...
+  <kbd>Vos commentaires et propositions sont les bienvenus, ils m'aident à améliorer l'application...
     <br>
     philippe.nougaillon@gmail.com
   </kbd>

@@ -8,39 +8,7 @@
   </blockquote>
 </div>
 
-<h3>Cours</h3>
-<ul>
-    <li>Chaque cours est associé à une Formation, un ou deux Intervenants, une Salle et un Etat (Planifié, Confirmé, Reporté, Annulé, Réalisé)</li>
-    <li>Affichage des cours sous forme de Liste, de Calendrier (semaine/mois) ou Etat d'Occupation des salles</li>
-    <li>Recheche multi-critères (Filtre sur Date, Formation, Intervenant, Etat, Cours passés ou futurs)</li>
-    <li>Export des cours vers Excel (CSV), Outlook/Google Agenda(iCal), PDF</li>
-    <li>Sélection d'un ensemble de cours pour effectuer une action groupée :</li>
-    <ul>
-      <li>Changement d'état</li>
-      <li>Changement de salle (avec proposition des salles disponibles)</li>
-      <li>Changement de date</li>
-      <li>Changement d'intervenant</li>
-      <li>Export CSV</li>
-      <li>Export iCal</li>
-      <li>Export PDF</li>
-      <li>Supression (Seul le créateur d'un cours peut le supprimer)</li>
-    </ul>
-
-    <li>Saisie d'une réservation :</li>
-    <ul>
-      <li>Cochez <b>HSS?</b> pour que les heures de cours ne soient pas imputées sur l'état de service de l'intervenant (HSS = Hors Service Statutaire)</li>
-      <li>Cochez <b>E-learning?</b> pour indiquer que ce cours est de l'E-learning</li>
-      <li>Pour signaler que le cours utilise l'outil <b>ZOOM</b>; entrez comme nom de cours le lien ZOOM, puis son intitulé, séparés par un espace. Le lien ZOOM sera alors cliquable dans la liste publique des cours (PC/Mobile)</li>  
-    </ul>
-    <li>Impossibilité de saisir un nouveau cours ayant lieu un dimanche ou un jour de fermeture de l'établissement</li>
-    <li>Pas de chevauchement horaire pour un même intervenant. Il n'est pas possible de saisir un nouveau cours si le formateur intervient déjà sur un autre cours aux mêmes heures (sauf si les doublons sont autorisés pour cet intervenant)</li>
-
-    <li>Affichage d'un pictogramme <i class="glyphicon glyphicon-warning-sign glyph-custom-warning"></i> dans les cas suivants :</li>
-    <ul>
-      <li>Dépassement de capacité de la salle (le nbr de places est inférieur au nbr d'étudiants de la formation)</li>
-      <li>Le cours est dans l'état 'Confirmé' mais aucune salle n'a été réservée</li>
-    </ul>
-</ul>
+<h2>Cours</h2>
 
 <div class="row">
   <div class="col-md-4">
@@ -74,7 +42,6 @@
     </div>
   </div>
 </div>
-
 <div class="row">
   <div class="col-md-4">
     <div class="thumbnail">
@@ -108,23 +75,42 @@
   </div>
 </div>
 
-<h3>Formations</h3>
 <ul>
-    <li>Chaque formation est associée à un code couleur pour un répérage rapide dans le planning</li>
-    <li>Gestion des UE (une liste d'UE est associée à chaque formation, avec indication du nombre d'heures)</li>
-    <li>Gestion des étudiants liés à la formation</li>
-    <li>Gestion des vacations votées (nom de l'intervenant, nbr heures)</li>
-    <li>Archivage des formations</li>
+    <li>Chaque cours est associé à une Formation, un ou deux Intervenants, une Salle et un Etat (Planifié, Confirmé, Reporté, Annulé, Réalisé)</li>
+    <li>Affichage des cours sous forme de Liste, de Calendrier (semaine/mois) ou Etat d'Occupation des salles</li>
+    <li>Recheche multi-critères (Filtre sur Date, Formation, Intervenant, Etat, Cours passés ou futurs)</li>
+    <li>Export des cours vers Excel (CSV), Outlook/Google Agenda(iCal), PDF</li>
+    <li>Sélection d'un ensemble de cours pour effectuer une action groupée :</li>
     <ul>
-  		<li>
-  			<b>Pour archiver une formation :</b>		
-  			<br>
-  			Pour faire disparaitre une formation du planning (sans la supprimer), allez dans Formations/Choisir la formation à archiver/Modifier => Cocher "Archivée" et Enregistrez. Cette formation ne sera plus visible dans toute l'application.
-  			Pour faire réapparaitre une formation archivée, allez dans Formations/Cocher Archivées pour filtrer les formations archivées puis modifier la formation à faire réapparaitre, décochez "Archivée ?" et enregistrez. Cette formation est alors de nouveau visible dans toute l'application.
-        <strong>Attention: une formation ayant des cours à venir ne pourra pas être archivée  (l'option sera désactivée)!</strong>
-  		</li>    	
+      <li>Changement d'état</li>
+      <li>Changement de salle (avec proposition des salles disponibles)</li>
+      <li>Changement de date</li>
+      <li>Changement d'intervenant</li>
+      <li>Export CSV</li>
+      <li>Export iCal</li>
+      <li>Export PDF</li>
+      <li>Supression (Seul le créateur d'un cours peut le supprimer)</li>
+    </ul>
+
+    <li>Saisie d'une réservation :</li>
+    <ul>
+      <li>Cochez <b>HSS?</b> pour que les heures de cours ne soient pas imputées sur l'état de service de l'intervenant (HSS = Hors Service Statutaire)</li>
+      <li>Cochez <b>E-learning?</b> pour indiquer que ce cours est de l'E-learning</li>
+      <li>Pour signaler que le cours utilise l'outil <b>ZOOM</b>; entrez comme nom de cours le lien ZOOM, puis son intitulé, séparés par un espace. Le lien ZOOM sera alors cliquable dans la liste publique des cours (PC/Mobile)</li>  
+    </ul>
+    <li>Impossibilité de saisir un nouveau cours ayant lieu un dimanche ou un jour de fermeture de l'établissement</li>
+    <li>Pas de chevauchement horaire pour un même intervenant. Il n'est pas possible de saisir un nouveau cours si le formateur intervient déjà sur un autre cours aux mêmes heures (sauf si les doublons sont autorisés pour cet intervenant)</li>
+
+    <li>Affichage d'un pictogramme <i class="glyphicon glyphicon-warning-sign glyph-custom-warning"></i> dans les cas suivants :</li>
+    <ul>
+      <li>Dépassement de capacité de la salle (le nbr de places est inférieur au nbr d'étudiants de la formation)</li>
+      <li>Le cours est dans l'état 'Confirmé' mais aucune salle n'a été réservée</li>
     </ul>
 </ul>
+<br>
+
+
+<h2>Formations</h2>
 
 <div class="row">
   <div class="col-md-4">
@@ -159,21 +145,26 @@
   </div>
 </div>
 
-<h3>Intervenants</h3>
 <ul>
-    <li>Profil des intervenants avec photo (option), status, formations dispensées (affichage dynamique basé sur les cours enregistrés, avec le nombre d'heures planifiées et la date du premier cours)</li>
-    <li>Gestion des responsabilités (Titre, nbr heures attribuées)</li>
+    <li>Chaque formation est associée à un code couleur pour un répérage rapide dans le planning</li>
+    <li>Gestion des UE (une liste d'UE est associée à chaque formation, avec indication du nombre d'heures)</li>
+    <li>Gestion des étudiants liés à la formation</li>
+    <li>Gestion des vacations votées (nom de l'intervenant, nbr heures)</li>
+    <li>Archivage des formations</li>
     <ul>
-		<li>
-			<b>Filtrage des cours par intervenant;</b> Pour que la recherche d'un intervenant soit fructueuse :
-			<br>
-			Comme le système cherche un intervenant qui se nomme NOM + 'Espace' + PRENOM, il ne faut donc pas d’espace, ni dans le nom, ni dans le prénom.
-			Ex: "DE LA MARRE Henry" sera compris comme nom=DE, prénom=LA MARRE Henry. Il convient donc de remplacer l'espace par un '_', ce qui donnera "DE_LA_MARRE Henry".
-			Le nom et le prénom sont obligatoires. Remplissez un champ vide par un point si besoin.
-		</li>
-    <li>Cochez 'Autoriser les doublons' si vous souhaitez que l'intervenant puisse être sur plusieurs cours sur le même créneau horaire. C'est généralement le cas pour les groupes et non les individus.</li>
-	</ul>
+      <li>
+        <b>Pour archiver une formation :</b>    
+        <br>
+        Pour faire disparaitre une formation du planning (sans la supprimer), allez dans Formations/Choisir la formation à archiver/Modifier => Cocher "Archivée" et Enregistrez. Cette formation ne sera plus visible dans toute l'application.
+        Pour faire réapparaitre une formation archivée, allez dans Formations/Cocher Archivées pour filtrer les formations archivées puis modifier la formation à faire réapparaitre, décochez "Archivée ?" et enregistrez. Cette formation est alors de nouveau visible dans toute l'application.
+        <strong>Attention: une formation ayant des cours à venir ne pourra pas être archivée  (l'option sera désactivée)!</strong>
+      </li>     
+    </ul>
 </ul>
+<br>
+
+
+<h2>Intervenants</h2>
 
 <div class="row">
   <div class="col-md-4">
@@ -208,11 +199,24 @@
   </div>
 </div>
 
-<h3>Etudiants</h3>
 <ul>
-    <li>Chaque étudiant est associé à une formation</li>
-    <li>La saisie des coordonnées de l'étudiant permet de lui envoyer une notification par email/SMS en cas d'annulation de cours (option)</li>
+    <li>Profil des intervenants avec photo (option), status, formations dispensées (affichage dynamique basé sur les cours enregistrés, avec le nombre d'heures planifiées et la date du premier cours)</li>
+    <li>Gestion des responsabilités (Titre, nbr heures attribuées)</li>
+    <ul>
+  		<li>
+  			<b>Filtrage des cours par intervenant;</b> Pour que la recherche d'un intervenant soit fructueuse :
+  			<br>
+  			Comme le système cherche un intervenant qui se nomme NOM + 'Espace' + PRENOM, il ne faut donc pas d’espace, ni dans le nom, ni dans le prénom.
+  			Ex: "DE LA MARRE Henry" sera compris comme nom=DE, prénom=LA MARRE Henry. Il convient donc de remplacer l'espace par un '_', ce qui donnera "DE_LA_MARRE Henry".
+  			Le nom et le prénom sont obligatoires. Remplissez un champ vide par un point si besoin.
+  		</li>
+      <li>Cochez 'Autoriser les doublons' si vous souhaitez que l'intervenant puisse être sur plusieurs cours sur le même créneau horaire. C'est généralement le cas pour les groupes et non les individus.</li>
+	</ul>
 </ul>
+<br>
+
+
+<h2>Etudiants</h2>
 
 <div class="row">
   <div class="col-md-4">
@@ -247,12 +251,13 @@
   </div>
 </div>
 
-<h3>Salles</h3>
 <ul>
-    <li>Gestion de la capacité (alerte si dépassement)</li>
-    <li>Visualisation des créneaux horaires libres/occupés pour une date, une salle</li>
-    <strong>Pour autoriser les doublons: entrez 0 dans capacité</strong>
+    <li>Chaque étudiant est associé à une formation</li>
+    <li>La saisie des coordonnées de l'étudiant permet de lui envoyer une notification par email/SMS en cas d'annulation de cours (option)</li>
 </ul>
+<br>
+
+<h2>Salles</h2>
 
 <div class="row">
   <div class="col-md-3">
@@ -296,29 +301,20 @@
     </div>
   </div>
 </div>
+<ul>
+    <li>Gestion de la capacité (alerte si dépassement)</li>
+    <li>Visualisation des créneaux horaires libres/occupés pour une date, une salle</li>
+    <strong>Pour autoriser les doublons: entrez 0 dans capacité</strong>
+</ul>
+<br>
 
-<h3>Utilisateurs</h3>
+<h2>Utilisateurs</h2>
 <ul>
     <li>Seul le profil 'admin' peut administrer les cours (suppression) et les utilisateurs</li>
 </ul>
+<br>
 
-<h3>Outils</h3>
-<ul>
-  <li>Gestion des jours de fermeture</li>
-  <li>Réservation de créneaux horaires</li>
-  <li>Etats de services</li>
-  <li>Taux d'occupation jours ou salles</li>
-	<li>Import/Export de cours, intervenants, étudiants</li>
-  <li>Outils pour le rôle admin :</li>
-  <ul>
-  	<li>Gestion des Utilisateurs</li>
-  	<li>Import des utilisateurs</li>
-  	<li>Intervertir deux intervenants</li>
-  	<li>Audit des modifications</li>
-  	<li>Gestion des Salles</li>
-  	<li>Nouvelle saison (Réservation de cours sur une année)</li>
-  </ul>
-</ul>
+<h2>Outils</h2>
 
 <div class="row">
   <div class="col-md-4">
@@ -386,45 +382,60 @@
   </div>
 </div>
 
-<h3>Importation des données</h3>
+<ul>
+  <li>Gestion des jours de fermeture</li>
+  <li>Réservation de créneaux horaires</li>
+  <li>Etats de services</li>
+  <li>Taux d'occupation jours ou salles</li>
+  <li>Import/Export de cours, intervenants, étudiants</li>
+  <li>Outils pour le rôle admin :</li>
+  <ul>
+    <li>Gestion des Utilisateurs</li>
+    <li>Import des utilisateurs</li>
+    <li>Intervertir deux intervenants</li>
+    <li>Audit des modifications</li>
+    <li>Gestion des Salles</li>
+    <li>Nouvelle saison (Réservation de cours sur une année)</li>
+  </ul>
+</ul>
+<br>
+
+<h2>Importation des données</h2>
 <ul>
     <li>Les cours, formations, intervenants, étudiants et les utilisateurs peuvent être importés en masse à 	   partir de fichiers CSV issues de tableaux Excel.
     </li>
     <li>Ce fichier doit être au format CSV, Encodage: <b>UTF-8</b>, Séparateur: <b>Point-virgule</b>, Noms 		   des colonnes: <b>Première ligne</b>
   	</li>
-        <ul>
-            <li>
-              Si besoin, utilisez un 
-              <a href="https://subtitletools.com/convert-text-files-to-utf8-online">
-                convertisseur UTF8 en ligne 
-              </a>
-          </li>
-        </ul>
     <ul>
-	  	<li>
-	    	<b>Importation de cours:</b> le fichier source doit contenir les colonnes suivantes: <br>
-	    	<pre>id;Date début (format:'JJ/MM/AAAA');Heure début (format:'09:30');Date fin;Heure fin;UE;Intervenant (format:'NOM Prénom');Intitulé</pre>
-	    	<b>Si id est égal à 0, c'est une création de cours, sinon c'est une mise à jour du cours ayant comme identifiant unique l'id donné. Si le cours ayant cet id n'existe plus, il sera créé.</b>
-        La colonnne id doit être en première position.
-	  	</li>
-	  	<br>
         <li>
-	    	<b>Importation d'utilisateurs:</b> le fichier source doit contenir les colonnes suivantes: <br>
-	    	<pre>email;nom;prénom;mobile</pre>
-    	    <b><i>Chaque nouvel utilisateur sera averti de la création de son compte par l'envoi d'un email contenant son mot de passe</i></b> 
-	    </li>
-	</ul>
+          Si besoin, utilisez un 
+          <a href="https://subtitletools.com/convert-text-files-to-utf8-online">
+            convertisseur UTF8 en ligne 
+          </a>
+        </li>
+    </ul>
+  	<li>
+    	<b>Importation de cours:</b> le fichier source doit contenir les colonnes suivantes: <br>
+    	<pre>id;Date début (format:'JJ/MM/AAAA');Heure début (format:'09:30');Date fin;Heure fin;UE;Intervenant (format:'NOM Prénom');Intitulé</pre>
+    	<b>Si id est égal à 0, c'est une création de cours, sinon c'est une mise à jour du cours ayant comme identifiant unique l'id donné. Si le cours ayant cet id n'existe plus, il sera créé.</b>
+      La colonnne id doit être en première position.
+  	</li>
+  	<br>
+      <li>
+    	<b>Importation d'utilisateurs:</b> le fichier source doit contenir les colonnes suivantes: <br>
+    	<pre>email;nom;prénom;mobile</pre>
+  	    <b><i>Chaque nouvel utilisateur sera averti de la création de son compte par l'envoi d'un email contenant son mot de passe</i></b> 
+    </li>
 </ul>
+<br>
 
-<h3>Export des données</h3>
+<h2>Export des données</h2>
 <ul>
     <li>Toutes les données sont exportables au format CSV</li>
 </ul>
+<br>
 
-<h3>Historique des modifications</h3>
-<ul>
-    <li>Chaque modification apportée aux données est enregistrée dans un journal, avec la date, l'utilisateur, la table, le champs et la valeur avant/après modification</li>
-</ul>
+<h2>Historique des modifications</h2>
 
 <div class="row">
   <div class="col-md-4">
@@ -459,29 +470,29 @@
   </div>
 </div>
 
+<ul>
+    <li>Chaque modification apportée aux données est enregistrée dans un journal, avec la date, l'utilisateur, la table, le champs et la valeur avant/après modification</li>
+</ul>
+<br>
 
-<h3>Service RH</h3>
+<h2>Service RH</h2>
+
 <ul>
     <li>Etat récapitulatif des cours effectués</li>
 </ul>
 
-<h3>API</h3>
+<h2>API</h2>
 <ul>
     <li>Une API fournit les données du planning au format JSON aux applications mobiles</li>
 </ul>
 
-<h3>Notification</h3>
+<h2>Notification</h2>
 <ul>
     <li>Les chargés de scolarité et les étudiants peuvent recevoir une notification par email/SMS(à venir) lors de l'annulation de cours(option)</li>
     <li>Chaque fin de semaine, les intervenants recoivent leur planning de la semaine à venir (option)</li>
 </ul>
 
-<h3>Mobile & Responsive Design</h3>
-<ul>    
-	<li>Le planning peut être visualisé sur différents supports (Responsive Design)</li>
-	<li>Vue planning adaptée aux écrans de smartphones</li>
-    <li>Adapté au standard PWA (Progressive Web App)</li>
-</ul>
+<h2>Mobile & Responsive Design</h2>
 
 <div class="row">
   <div class="col-md-4">
@@ -516,10 +527,14 @@
   </div>
 </div>
 
-<h3>Affichage sur panneaux lumineux</h3>
-<ul>
-    <li>Planning du jour optimisé pour la diffusion sur un grand écran installé dans les couloirs ou près de l'accueil.</li>
+<ul>    
+  <li>Le planning peut être visualisé sur différents supports (Responsive Design)</li>
+  <li>Vue planning adaptée aux écrans de smartphones</li>
+    <li>Adapté au standard PWA (Progressive Web App)</li>
 </ul>
+<br>
+
+<h2>Affichage sur panneaux lumineux</h2>
 
 <div class="row">
   <div class="col-md-6">
@@ -543,8 +558,12 @@
     </div>
   </div>
 </div>
+<ul>
+    <li>Planning du jour optimisé pour la diffusion sur un grand écran installé dans les couloirs ou près de l'accueil.</li>
+</ul>
+<br>
 
-<h3>Et ensuite ?</h3>
+<h2>Et ensuite ?</h2>
 <p>
   <kbd>Vos commentaires et propositions sont les bienvenus, ils m'aident à améliorer l'application...
     <br>

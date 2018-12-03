@@ -154,7 +154,7 @@ class Cour < ActiveRecord::Base
 
   def progress_bar_pct(planning_date = nil)
     # calcul le % de réalisation du cours
-    @now = DateTime.now.in_time_zone("Paris") + 2.hours
+    @now = DateTime.now.in_time_zone("Paris") + 1.hours
     ((@now.to_f - self.debut.to_f) / (self.fin.to_f - self.debut.to_f) * 100).to_i
   end
 

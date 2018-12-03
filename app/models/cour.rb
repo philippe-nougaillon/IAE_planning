@@ -188,16 +188,17 @@ class Cour < ActiveRecord::Base
                 'Commentaires','Cours créé le','Par','Cours modifié le']
     
         cours.each do |c|
-          hetd = c.duree * (c.formation.Taux_TD || 0)
+          formation = Formation.unscoped.find(c.formation_id)
+          hetd = c.duree * (formation.Taux_TD || 0)
           fields_to_export = [c.id, c.debut.to_date.to_s, c.debut.to_s(:time), c.fin.to_date.to_s, c.fin.to_s(:time), 
-            c.formation_id, c.formation.nom_promo, c.formation.Code_Analytique, 
+            c.formation_id, formation.nom_promo, formation.Code_Analytique, 
             c.intervenant_id, c.intervenant.nom_prenom, c.ue, c.nom, 
             (c.intervenant_binome ? "#{c.intervenant.nom}/#{c.intervenant_binome.nom}" : ''), 
             c.etat, (c.salle ? c.salle.nom : ""), 
             c.duree.to_s.gsub(/\./, ','),
             (c.hors_service_statutaire ? "OUI" : ''),
             (c.elearning ? "OUI" : ''), 
-            (voir_champs_privés ? c.formation.Taux_TD : ''),
+            (voir_champs_privés ? formation.Taux_TD : ''),
             (voir_champs_privés ? hetd.to_s.gsub(/\./, ',') : ''),
             (voir_champs_privés ? c.commentaires : ''),
             c.created_at,

@@ -30,7 +30,8 @@
 
             <div class="col-sm-2">
                 <%= label_tag :status, "Statut" %>
-                <%= select_tag :status, options_for_select(Intervenant.statuses, 
+                <%= select_tag :status, 
+                    options_for_select(Intervenant.statuses, 
                     params[:status]), include_blank:true,
                     class:"form-control", onchange:'this.form.submit()' %>
             </div>
@@ -49,157 +50,170 @@
                </div>
             <% end %>
         </div>
-
-        <!--
-        <div class="field">
-            <b>Envoyer à l'intervenant ?</b><br>
-            <%= radio_button_tag :mailer, true %>
-            <%= label :mailer, "Oui, envoyer par email", value:"true" %>
-            <br>
-            <%= radio_button_tag :mailer, false, checked:true %>
-            <%= label :mailer, "Non", value:"false" %>
-        </div>
-        -->
     </div>
 <% end %>
 
-<% if @intervenant && @cours %>
-    <div class="page-header"> 
-      <h3>Cours</h3>
-    </div> 
-    <table class="table table-hover table-striped table-bordered">
-        <thead>
-            <th>Le</th>
-            <th>Formation</th>
-            <th>Code</th>
-            <th>Intitulé</th>
-            <th>Comment.</th>
-            <th>Durée</th>
-            <th>HSS?</th>
-            <th>E-learning?</th>
-            <th>CM/TD</th>
-            <th>Taux</th>
-            <th>HETD</th>
-            <th>Cumul HETD</th>
-        </thead>
+<% if @cours %>
 
-        <% @cours.each do |c| %>
-            <% unless c.hors_service_statutaire %>
-                <% @cumul_hetd += c.HETD %>
+    <% @cours.joins(:intervenant).reorder("intervenants.nom, cours.debut").group(:intervenant_id).pluck(:intervenant_id).each do | intervenant_id | %>
+        <% next if intervenant_id == 445 %>
+
+        <% intervenant = Intervenant.find(intervenant_id) %>
+
+        <% cours = @cours.where(intervenant: intervenant).order(:debut) %>
+
+        <% if intervenant && cours %>
+            <% @vacations = Vacation.where(formation_id: Cour.where(intervenant: intervenant).joins(:formation).pluck("formations.id").uniq.sort, intervenant: intervenant) %>
+
+            <% @responsabilites = intervenant.responsabilites.where("debut < DATE(?) AND fin > DATE(?)", @end_date, @start_date) %>
+
+            <% cumul_hetd = cumul_vacations = cumul_resps = 0 %>
+
+            <div class="page-header"> 
+                <h2><%= intervenant.nom_prenom %></h2>
+            </div> 
+
+            <table class="table table-hover table-striped table-bordered">
+                <thead>
+                    <th>Le</th>
+                    <th>Formation</th>
+                    <th>Code</th>
+                    <th>Intitulé</th>
+                    <th></th>
+                    <th>Durée</th>
+                    <th>HSS?</th>
+                    <th>E-learning?</th>
+                    <th>CM/TD</th>
+                    <th>Taux</th>
+                    <th>HETD</th>
+                    <th>Cumul HETD</th>
+                </thead>
+
+                <% cours.each do |c| %>
+                    <% unless c.hors_service_statutaire %>
+                        <% cumul_hetd += c.HETD %>
+                    <% end %>
+                    <% formation = Formation.unscoped.find(c.formation_id) %>
+                    <tr>
+                        <td><%= l(c.debut, format: :short) %></td>
+                        <td><%= link_to formation.nom, formation_path(formation), target:"_new" %></td>
+                        <td><%= formation.Code_Analytique %></td>
+                        <td><%= link_to "#{c.ue} #{c.nom_ou_ue}", edit_cour_path(c), target:"_new" %></td>
+                        <td>
+                            <% unless c.commentaires.blank? %>
+                                <span class="glyphicon glyphicon-comment" title=<%= c.commentaires %> >
+                            <% end %>
+                        </td>
+                        <td class="text-right"><%= c.duree.to_f %></td>
+                        <td class="text-center">
+                            <% if c.hors_service_statutaire %>
+                                <span class="glyphicon glyphicon-remove">
+                            <% end %>
+                        </td>
+                        <td class="text-center">
+                            <% if c.elearning %>
+                                <span class="glyphicon glyphicon-ok-circle">
+                            <% end %>
+                        </td>
+                        <td class="text-center"><%= c.CMTD? %></td>
+                        <td class="text-right"><%= c.Taux_TD %></td>
+                        <td class="text-right"><%= c.HETD %></td>
+                        <td class="text-right"><%= cumul_hetd %></td>
+                    </tr>
+                <% end %>
+
+                <tfoot>
+                    <tr>
+                        <th colspan="2">Total: <%= cours.count %> cours</th>
+                        <th /><th /><th />
+                        <th class="text-right"><%= cours.sum(:duree) %></th>
+                        <th /><th /><th /><th /><th />  
+                        <th class="text-right"><%= cumul_hetd %></th>
+                    <tr>
+                    <% unless intervenant.nbr_heures_statutaire.blank? %>
+                        <tr>
+                            <th colspan="8" />
+                            <th colspan="4">
+                                NbrHeuresStatutaires: <%= intervenant.nbr_heures_statutaire %>
+                                | Solde: <%= intervenant.nbr_heures_statutaire - cumul_hetd  %>
+                            </th>
+                        </tr>
+                    <% end %>
+                </tfoot>
+            </table>
+
+            <% if @vacations.any? %>
+                <div class="page-header"> 
+                  <h3>Vacations</h3>
+                </div> 
+                <table class="table table-hover table-striped table-bordered">
+                    <thead>
+                        <th />
+                        <th>Formation</th>
+                        <th>Code A.</th>
+                        <th>Forfait HTD</th>
+                        <th>Cumul HTD</th>
+                    </thead>
+
+                    <% @vacations.each do |vacation| %>
+                        <% cumul_vacations += vacation.forfaithtd %> 
+                        <tr>
+                            <td><b><%= vacation.titre %></b></td>
+                            <td><%= link_to vacation.formation.nom, vacation.formation, target:"_new" %></td>
+                            <td><%= vacation.formation.Code_Analytique %></td>
+                            <td><%= vacation.forfaithtd %></td>
+                            <td><%= cumul_vacations %></td>
+                        </tr>
+                    <% end %>
+
+                    <tfoot>
+                        <th /><th /><th /><th />
+                        <th><%= cumul_vacations %>h</th>
+                    </tfoot>
+                </table>
             <% end %>
-            <% formation = Formation.unscoped.find(c.formation_id) %>
-            <tr>
-                <td><%= l(c.debut, format: :perso) %></td>
-                <td><%= link_to formation.nom, formation_path(formation), target:"_new" %></td>
-                <td><%= formation.Code_Analytique %></td>
-                <td><%= link_to "#{c.ue} #{c.nom_ou_ue}", edit_cour_path(c), target:"_new" %></td>
-                <td>
-                    <% if c.commentaires %>
-                        <i class="glyphicon glyphicon-comment" 
-                                data-toggle="tooltip" data-placement="top"
-                                title=<%= c.commentaires %> >
+
+            <% if @responsabilites.any? %>
+                <div class="page-header"> 
+                  <h3>Responsabilités</h3>
+                </div> 
+                <table class="table table-hover table-striped table-bordered">
+                    <thead>
+                        <th />
+                        <th>Formation</th>
+                        <th>Code A.</th>
+                        <th>Début</th>
+                        <th>Fin</th>
+                        <th>Heures</th>
+                        <th>Cumul</th>
+                    </thead>
+
+                    <% @responsabilites.each do |resp| %>
+                        <% cumul_resps += resp.heures %>
+                        <tr>
+                            <td><b><%= resp.titre %></b></td>
+                            <td><%= link_to resp.formation.nom, resp.formation, target:"_new" %></td>
+                            <td><%= resp.formation.Code_Analytique %></td>
+                            <td><%= l resp.debut %></td>
+                            <td><%= l resp.fin %></td>
+                            <td><%= resp.heures %></td>
+                            <td><%= cumul_resps %></td>
+                        </tr>
                     <% end %>
-                </td>
-                <td><%= c.duree.to_f %></td>
-                <td class="text-center">
-                    <% if c.hors_service_statutaire %>
-                        <span class="glyphicon glyphicon-remove">
-                    <% end %>
-                </td>
-                <td class="text-center">
-                    <% if c.elearning %>
-                        <span class="glyphicon glyphicon-ok-circle">
-                    <% end %>
-                </td>
-                <td><%= c.CMTD? %></td>
-                <td><%= c.Taux_TD %></td>
-                <td><%= c.HETD %></td>
-                <td><%= @cumul_hetd %></td>
-            </tr>
+
+                    <tfoot>
+                        <th /><th /><th /><th /><th /><th />
+                        <th><%= cumul_resps %>h</th>
+                    </tfoot>
+                </table>
+            <% end %>
+            <span class="pull-right">
+                <%= link_to url_for(params.merge(format:'csv', intervenant_id: intervenant_id)) , class: 'btn btn-default' do %>
+                    <span class="glyphicon glyphicon-share"></span>
+                    Export CSV
+                <% end %>
+            </span>
+            <br>
         <% end %>
-
-        <tfoot>
-            <th colspan="2">Total: <%= @cours.count %> cours</th>
-            <th /><th /><th />
-            <th><%= @cours.sum(:duree) %>h</th>
-            <th /><th /><th /><th /><th />  
-            <th><%= @cumul_hetd %>h</th>
-            <% if @intervenant.nbr_heures_statutaire %>
-               <th>Solde: <%= @cumul_hetd - @intervenant.nbr_heures_statutaire %>h</th>
-            <% end %>
-        </tfoot>
-    </table>
-
-    <% if @vacations %>
-        <div class="page-header"> 
-          <h3>Vacations</h3>
-        </div> 
-        <table class="table table-hover table-striped table-bordered">
-            <thead>
-                <th />
-                <th>Formation</th>
-                <th>Code A.</th>
-                <th>Forfait HTD</th>
-                <th>Cumul HTD</th>
-            </thead>
-
-            <% @vacations.each do |vacation| %>
-                <% @cumul_vacations += vacation.forfaithtd %> 
-                <tr>
-                    <td><b><%= vacation.titre %></b></td>
-                    <td><%= link_to vacation.formation.nom, vacation.formation, target:"_new" %></td>
-                    <td><%= vacation.formation.Code_Analytique %></td>
-                    <td><%= vacation.forfaithtd %></td>
-                    <td><%= @cumul_vacations %></td>
-                </tr>
-            <% end %>
-
-            <tfoot>
-                <th /><th /><th /><th />
-                <th><%= @cumul_vacations %>h</th>
-            </tfoot>
-        </table>
     <% end %>
-
-    <% if @responsabilites %>
-        <div class="page-header"> 
-          <h3>Responsabilités</h3>
-        </div> 
-        <table class="table table-hover table-striped table-bordered">
-            <thead>
-                <th />
-                <th>Formation</th>
-                <th>Code A.</th>
-                <th>Début</th>
-                <th>Fin</th>
-                <th>Heures</th>
-                <th>Cumul</th>
-            </thead>
-
-            <% @responsabilites.each do |resp| %>
-                <% @cumul_resps += resp.heures %>
-                <tr>
-                    <td><b><%= resp.titre %></b></td>
-                    <td><%= link_to resp.formation.nom, resp.formation, target:"_new" %></td>
-                    <td><%= resp.formation.Code_Analytique %></td>
-                    <td><%= l resp.debut %></td>
-                    <td><%= l resp.fin %></td>
-                    <td><%= resp.heures %></td>
-                    <td><%= @cumul_resps %></td>
-                </tr>
-            <% end %>
-
-            <tfoot>
-                <th /><th /><th /><th /><th /><th />
-                <th><%= @cumul_resps %>h</th>
-            </tfoot>
-        </table>
-    <% end %>
-    <br>
-
-    <%= link_to url_for(params.merge(format:'csv')) , class: 'btn btn-success' do %>
-        <span class="glyphicon glyphicon-share"></span>
-        Export CSV
-    <% end %>
-    <br><br>
 <% end %>

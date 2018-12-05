@@ -534,17 +534,15 @@ class ToolsController < ApplicationController
     unless params[:status].blank?
       ids = @cours.distinct(:intervenant_id).pluck(:intervenant_id)
       ids << @cours.distinct(:intervenant_binome_id).pluck(:intervenant_binome_id)
-      @intervenants = Intervenant.where(doublon: false).where(id: ids)
-      @intervenants = @intervenants.where(status: params[:status])
-    end 
+      @intervenants = Intervenant.where(status: params[:status]).where(doublon: false).where(id: ids)
 
-    unless params[:intervenant_id].blank? 
-      @intervenant = Intervenant.find(params[:intervenant_id])
-      @cours = @cours.where(etat:Cour.etats[:réalisé]).order(:debut)
-      @cours = @cours.where("intervenant_id = ? OR intervenant_binome_id = ?", @intervenant.id, @intervenant.id)
-      @vacations = Vacation.where(formation_id: Cour.where(intervenant_id: 74).joins(:formation).pluck("formations.id").uniq.sort, intervenant: @intervenant) 
-      @responsabilites = @intervenant.responsabilites.where("debut < DATE(?) AND fin > DATE(?)", @end_date, @start_date)
-    end
+      @cours = @cours.where(etat:Cour.etats[:réalisé]).where("intervenant_id IN (?) OR intervenant_binome_id IN (?)", @intervenants.pluck(:id), @intervenants.pluck(:id))
+
+      unless params[:intervenant_id].blank? 
+        @intervenant = Intervenant.find(params[:intervenant_id])
+        @cours = @cours.where("intervenant_id = ? OR intervenant_binome_id = ?", @intervenant.id, @intervenant.id)
+      end
+    end 
 
     @cumul_hetd = 0
     @cumul_vacations = 0
@@ -559,7 +557,6 @@ class ToolsController < ApplicationController
         render "tools/etats_services.csv.erb"
       end
     end
-
   end
 
   def audits

@@ -5,27 +5,26 @@
 <div class="page-header">
   <h1>
   	<span class="glyphicon glyphicon-calendar"></span>
-  	Réservation de créneaux horaires pour toute une saison 
+  	Réservation de créneaux horaires sur toute une année scolaire
   </h1>
 </div>
 
-<div>
-  <h3>Cette fonction permet la création de créneaux horaires réservés</h3>
-</div>
+<h4>
+  Permet de créer des cours (matin et après-midi), pour une formation, sur une année scolaire, en indiquant simplement les jours et les semaines de présence.<br>
+</h4>
 
 <%= form_tag(request.path, method: :get) do %>
   <div class="form-group">
     <div class="row">
 
         <div class="col-sm-5">
-            <%= label_tag :saison, "Saison" %>
+            <%= label_tag :saison, "Année scolaire" %>
             <%= select_tag :saison, 
-                options_for_select(['2018/2019'], params[:saison]), include_blank:false, class:"form-control", onchange:'this.form.submit()' %>
+                options_for_select(['2018/2019','2019/2020'], params[:saison]), include_blank:false, class:"form-control", onchange:'this.form.submit()' %>
 
             <%= label_tag "Formation" %>    
             <%= select_tag :formation_id, 
                 options_from_collection_for_select(Formation.where(hors_catalogue:false), :id, :nom_promo_full, params[:formation_id]), class:"form-control select2", include_blank:true, onchange:'this.form.submit()' %>
-            <br>
                    
             <div class="actions" style="display:none">
                 <%= submit_tag "Afficher", class: "btn btn-success" %>
@@ -38,7 +37,7 @@
 
 <% if @jours %>
   <div class="row">
-      <div class="col-sm-5">
+      <div class="col-sm-6">
           <%= form_tag({action: "nouvelle_saison_create", method: :post}) do %>
 
               <%= hidden_field_tag :date_debut, @date_debut %>
@@ -46,7 +45,7 @@
               <%= hidden_field_tag :formation_id, @formation_id %>
 
               <div class="field">
-                  <%= label_tag :jours, nil %>:
+                  <%= label_tag "Jours de présence", nil %><br>
                   <%= check_box_tag :lundi, '1', true %> Lundi 
                   <%= check_box_tag :mardi, '1', true %> Mardi 
                   <%= check_box_tag :mercredi, '1', true %> Mercredi
@@ -55,13 +54,19 @@
                   <%= check_box_tag :samedi,  '1', false %> Samedi
               </div>
               <br>
-              
+
+              <%= label_tag "Semaines de présence", nil %><br>
               <table class="table table-striped table-bordered table-condensed table-hover">
+                  <tr>
+                    <th>N°</th>
+                    <th>Premier jour de la semaine</th>
+                    <th>Présence</th>
+                  </tr>
                   <% @jours.each do |j| %>
                       <tr>
+                          <td class="text-center"><%= j.cweek %></td>
                           <td><%= l(j, format: :long) %></td>
-                          <td><%= j.cweek %></td>
-                          <td><%= check_box_tag "[semaine][#{j.cweek}]", '1', false %></td>
+                          <td class="text-center"><%= check_box_tag "[semaine][#{j.cweek}]", '1', false %></td>
                       </tr>
                   <% end %>
               </table>

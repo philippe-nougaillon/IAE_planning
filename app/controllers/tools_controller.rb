@@ -694,6 +694,8 @@ class ToolsController < ApplicationController
       @date_debut = Date.parse('2018-09-03')
       @date_fin = Date.parse('2019-07-15')
     when '2019/2020'
+      @date_debut = Date.parse('2019-09-02')
+      @date_fin = Date.parse('2020-07-15')
     end
 
     if @date_debut and @date_fin

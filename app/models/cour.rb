@@ -236,31 +236,43 @@ class Cour < ActiveRecord::Base
   def self.generate_etats_services_csv(cours)
     require 'csv'
 
-    @cumul_hetd = 0.0
+    total_hetd = 0
     CSV.generate(col_sep:';', quote_char:'"', encoding:'UTF-8') do | csv |
-        csv << ['Le','Formation','Code','Intitulé','Commentaires','Durée','HSS?','E-learning?',
-                'CM/TD?', 'Taux_TD','HETD','Cumul']
+        csv << ['Intervenant','Date','Heure','Formation','Code','Intitulé','Commentaires',
+                'Durée','HSS?','E-learning?','CM/TD?', 'Taux_TD','HETD','Cumul','Total']
     
-        cours.each do |c|
-          hetd = c.duree * (c.formation.Taux_TD || 0)
-          unless c.hors_service_statutaire
-            @cumul_hetd += c.HETD
-          end
+        cours.joins(:intervenant).reorder("intervenants.nom, cours.debut").group(:intervenant_id).pluck(:intervenant_id).each do | intervenant_id |
 
-          fields_to_export = [
-            I18n.l(c.debut, format: :perso),
-            c.formation.nom_promo, c.formation.Code_Analytique, 
-            c.nom_ou_ue, 
-            c.commentaires,
-            c.duree.to_s.gsub(/\./, ','),
-            (c.hors_service_statutaire ? "OUI" : ''),
-            (c.elearning ? "OUI" : ''), 
-            c.CMTD?, 
-            c.formation.Taux_TD.to_s.gsub(/\./, ','),
-            hetd.to_s.gsub(/\./, ','),
-            @cumul_hetd.to_s.gsub(/\./, ',')
-          ]
-          csv << fields_to_export
+          # Passe au suivant si 'A CONFIRMER'
+          next if intervenant_id == 445
+          intervenant = Intervenant.find(intervenant_id)
+          cumul_hetd = 0.0
+          cours.where(intervenant: intervenant).order(:debut).each do |c|
+              hetd = c.duree * (c.formation.Taux_TD || 0)
+              unless c.hors_service_statutaire
+                cumul_hetd += c.HETD
+                total_hetd += c.HETD
+              end
+
+              fields_to_export = [
+                intervenant.nom_prenom,
+                I18n.l(c.debut.to_date),
+                c.debut.strftime("%k:%M"), 
+                c.formation.nom_promo, 
+                c.formation.Code_Analytique, 
+                c.nom_ou_ue, 
+                c.commentaires,
+                c.duree.to_s.gsub(/\./, ','),
+                (c.hors_service_statutaire ? "OUI" : ''),
+                (c.elearning ? "OUI" : ''), 
+                c.CMTD?, 
+                c.formation.Taux_TD.to_s.gsub(/\./, ','),
+                hetd.to_s.gsub(/\./, ','),
+                cumul_hetd.to_s.gsub(/\./, ','),
+                total_hetd.to_s.gsub(/\./, ',')
+              ]
+              csv << fields_to_export
+          end 
         end
     end
   end

@@ -121,7 +121,7 @@
             <%= r.titre %>
           </div>  
           <div class="col-sm-3">
-            <%= r.formation.nom if r.formation %>
+            <%= link_to(r.formation.nom, r.formation) if r.formation %>
           </div>  
           <div class="col-sm-1">
             <%= r.heures %> h

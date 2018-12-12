@@ -14,7 +14,7 @@ class Intervenant < ActiveRecord::Base
 	validates_uniqueness_of :nom, scope: :email, case_sensitive: false
 	validates :nom, :email, :prenom, :status, presence: true
 	
-  	enum status: [:CEV, :Permanent, :PR, :MCF, :MCF_HDR, :PAST, :PRAG, :VAC, :Admin]
+  	enum status: [:CEV, :Permanent, :PR, :MCF, :MCF_HDR, :PAST, :PRAG, :Admin]
 
 	default_scope { order(:nom, :prenom) } 
 

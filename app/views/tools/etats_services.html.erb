@@ -66,7 +66,7 @@
 
             <% @responsabilites = intervenant.responsabilites.where("debut < DATE(?) AND fin > DATE(?)", @end_date, @start_date) %>
 
-            <% cumul_hetd = cumul_vacations = cumul_resps = 0 %>
+            <% cumul_hetd = cumul_vacations = cumul_resps = cumul_tarif = 0 %>
 
             <div class="page-header"> 
                 <h2><%= link_to intervenant.nom_prenom, intervenant %></h2>
@@ -86,12 +86,13 @@
                     <th>CM/TD</th>
                     <th>Taux</th>
                     <th>HETD</th>
-                    <th>Cumul HETD</th>
+                    <th>Total €</th>
                 </thead>
 
                 <% cours.each do |c| %>
                     <% unless c.hors_service_statutaire %>
-                        <% cumul_hetd += c.HETD %>
+                        <% cumul_hetd  += c.HETD %>
+                        <% cumul_tarif += c.HETD * Cour.Tarif %>
                     <% end %>
                     <% formation = Formation.unscoped.find(c.formation_id) %>
                     <tr>
@@ -119,7 +120,7 @@
                         <td class="text-center"><%= c.CMTD? %></td>
                         <td class="text-right"><%= c.Taux_TD %></td>
                         <td class="text-right"><%= c.HETD %></td>
-                        <td class="text-right"><%= cumul_hetd %></td>
+                        <td class="text-right"><%= c.HETD * Cour.Tarif %> €</td>
                     </tr>
                 <% end %>
 
@@ -127,17 +128,20 @@
                     <th colspan="2">Total: <%= cours.count %> cours</th>
                     <th /><th /><th /><th />
                     <th class="text-right"><%= cours.sum(:duree) %></th>
-                    <th /><th /><th /><th /><th />  
+                    <th /><th /><th /><th /> 
                     <th class="text-right"><%= cumul_hetd %></th>
-                <tr>
+                    <th class="text-right"><%= cumul_tarif %> €</th>    
+                </tr>
                 <% unless intervenant.nbr_heures_statutaire.blank? %>
                     <tr>
-                        <th colspan="13" class="text-right">
-                            NbrHeuresStatutaires: 
-                            <%= intervenant.nbr_heures_statutaire %>
-                            | Solde: 
-                            <%= intervenant.nbr_heures_statutaire - cumul_hetd  %>
-                        </th>
+                        <td colspan="13" class="text-center">
+                            <i>
+                                NbrHeuresStatutaires: 
+                                <%= intervenant.nbr_heures_statutaire %>
+                                | Solde: 
+                                <%= intervenant.nbr_heures_statutaire - cumul_hetd  %>
+                            </i>
+                        </td>
                     </tr>
                 <% end %>
 
@@ -148,13 +152,13 @@
                         <th>Code</th>
                         <th>Intitulé Vacation</th>
                         <th />
-                        <th>Heures</th>
+                        <th>Durée</th>
                         <th colspan="5">
-                        <th>Cumul</th>
+                        <th />
                     </thead>
 
                     <% @vacations.each do |vacation| %>
-                        <% cumul_vacations += vacation.forfaithtd %> 
+                        <% cumul_vacations += vacation.forfaithtd * Cour.Tarif %> 
                         <tr>
                             <td colspan="2" />
                             <td><%= link_to vacation.formation.nom, vacation.formation, target:"_new" %></td>
@@ -163,13 +167,13 @@
                             <td />
                             <td class="text-right"><%= vacation.forfaithtd %></td>
                             <td colspan="5">
-                            <td class="text-right"><%= cumul_vacations %></td>
+                            <td class="text-right"><%= vacation.forfaithtd * Cour.Tarif %> €</td>
                         </tr>
                     <% end %>
 
                     <tr>
                         <th colspan="12" />
-                        <th class="text-right"><%= cumul_vacations %></th>
+                        <th class="text-right"><%= cumul_vacations %> €</th>
                     </tr>
                 <% end %>
 
@@ -181,13 +185,13 @@
                         <th>Code</th>
                         <th>Intitulé Responsabilité</th>
                         <th />
-                        <th>Heures</th>
+                        <th>Durée</th>
                         <th colspan="5">
-                        <th>Cumul</th>
+                        <th />
                     </thead>
 
                     <% @responsabilites.each do |resp| %>
-                        <% cumul_resps += resp.heures %>
+                        <% cumul_resps += resp.heures * Cour.Tarif  %>
                         <tr>
                             <td><%= l resp.debut %></td>
                             <td><%= l resp.fin %></td>
@@ -197,15 +201,18 @@
                             <td />
                             <td class="text-right"><%= resp.heures %></td>
                             <td colspan="5" />
-                            <td class="text-right"><%= cumul_resps %></td>
+                            <td class="text-right"><%= resp.heures * Cour.Tarif %> €</td>
                         </tr>
                     <% end %>
-
                     <tr>
                         <th colspan="12" />
-                        <th class="text-right"><%= cumul_resps %></th>
+                        <th class="text-right"><%= cumul_resps %> €</th>
                     </tr>
                 <% end %>
+                <tfoot>
+                    <th colspan="12" />
+                    <th class="text-right"><%= (cumul_resps + cumul_vacations + cumul_tarif ) %> €</th>
+                </tfoot>
 
             </table>
 
@@ -217,5 +224,5 @@
             Export CSV
         <% end %>
     </span>
-    <br>
+    <br><br><br>
 <% end %>

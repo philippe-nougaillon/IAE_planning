@@ -152,6 +152,10 @@ class Cour < ActiveRecord::Base
     self.Taux_TD == 1.5 ? 'CM' : 'TD'
   end  
 
+  def self.Tarif
+    41.41
+  end
+
   def progress_bar_pct(planning_date = nil)
     # calcul le % de réalisation du cours
     @now = DateTime.now.in_time_zone("Paris") + 1.hours

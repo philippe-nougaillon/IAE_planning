@@ -62,7 +62,7 @@
         <% cours = @cours.where(intervenant: intervenant).order(:debut) %>
 
         <% if intervenant && cours %>
-            <% @vacations = Vacation.where(formation_id: cours.pluck("formation_id").uniq.sort) %>
+            <% @vacations = intervenant.vacations.where(formation_id: cours.pluck("formation_id").uniq.sort) %>
 
             <% @responsabilites = intervenant.responsabilites.where("debut < DATE(?) AND fin > DATE(?)", @end_date, @start_date) %>
 
@@ -78,7 +78,7 @@
                     <th>Heure</th>
                     <th>Formation</th>
                     <th>Code</th>
-                    <th>Intitulé Cours</th>
+                    <th>Intitulé</th>
                     <th></th>
                     <th>Durée</th>
                     <th>HSS?</th>
@@ -86,13 +86,14 @@
                     <th>CM/TD</th>
                     <th>Taux</th>
                     <th>HETD</th>
-                    <th>Total €</th>
+                    <th>Montant</th>
                 </thead>
 
                 <% cours.each do |c| %>
                     <% unless c.hors_service_statutaire %>
                         <% cumul_hetd  += c.HETD %>
-                        <% cumul_tarif += c.HETD * Cour.Tarif %>
+                        <% montant_service = (c.HETD * Cour.Tarif).round(2) %>
+                        <% cumul_tarif += montant_service %>
                     <% end %>
                     <% formation = Formation.unscoped.find(c.formation_id) %>
                     <tr>
@@ -120,98 +121,75 @@
                         <td class="text-center"><%= c.CMTD? %></td>
                         <td class="text-right"><%= c.Taux_TD %></td>
                         <td class="text-right"><%= c.HETD %></td>
-                        <td class="text-right"><%= c.HETD * Cour.Tarif %> €</td>
+                        <td class="text-right"><%= number_to_currency(montant_service) %></td>
                     </tr>
                 <% end %>
 
                 <tr>
-                    <th colspan="2">Total: <%= cours.count %> cours</th>
-                    <th /><th /><th /><th />
+                    <th colspan="5">Total: <%= cours.count %> cours</th>
+                    <th />
                     <th class="text-right"><%= cours.sum(:duree) %></th>
                     <th /><th /><th /><th /> 
                     <th class="text-right"><%= cumul_hetd %></th>
-                    <th class="text-right"><%= cumul_tarif %> €</th>    
+                    <th class="text-right"><%= number_to_currency(cumul_tarif) %></th>    
                 </tr>
-                <% unless intervenant.nbr_heures_statutaire.blank? %>
+
+                <% @vacations.each_with_index do |vacation, index| %>
+                    <% montant_vacation = (vacation.forfaithtd * Cour.Tarif).round(2) %>
+                    <% cumul_vacations += montant_vacation %> 
                     <tr>
-                        <td colspan="13" class="text-center">
-                            <i>
-                                NbrHeuresStatutaires: 
-                                <%= intervenant.nbr_heures_statutaire %>
-                                | Solde: 
-                                <%= intervenant.nbr_heures_statutaire - cumul_hetd  %>
-                            </i>
-                        </td>
+                        <td colspan="2" />
+                        <td><%= link_to vacation.formation.nom, vacation.formation, target:"_new" %></td>
+                        <td><%= vacation.formation.Code_Analytique %></td>
+                        <td><%= vacation.titre %></td>
+                        <td />
+                        <td class="text-right"><%= number_to_currency(vacation.forfaithtd) %></td>
+                        <td colspan="5">
+                        <td class="text-right"><%= number_to_currency(montant_vacation) %></td>
                     </tr>
+
+                    <% if index == @vacations.size - 1 %>
+                    <tr>
+                        <th colspan="12">Total: <%= pluralize(@vacations.count, 'vacation') %></th>
+                        <th class="text-right"><%= number_to_currency(cumul_vacations) %></th>
+                    </tr>
+                    <% end %>
                 <% end %>
 
-                <% if @vacations.any? %>
-                    <thead>
-                        <th colspan="2" />
-                        <th>Formation</th>
-                        <th>Code</th>
-                        <th>Intitulé Vacation</th>
-                        <th />
-                        <th>Durée</th>
-                        <th colspan="5">
-                        <th />
-                    </thead>
-
-                    <% @vacations.each do |vacation| %>
-                        <% cumul_vacations += vacation.forfaithtd * Cour.Tarif %> 
+                <% @responsabilites.each_with_index do |resp, index| %>
+                    <% montant_responsabilite = (resp.heures * Cour.Tarif).round(2) %>
+                    <% cumul_resps += montant_responsabilite %>
+                    <tr>
+                        <td><%= l resp.debut %></td>
+                        <td><%= l resp.fin %></td>
+                        <td><%= link_to resp.formation.nom, resp.formation, target:"_new" %></td>
+                        <td><%= resp.formation.Code_Analytique %></td>
+                        <td><%= resp.titre %></td>
+                        <td />
+                        <td class="text-right"><%= resp.heures %></td>
+                        <td colspan="5" />
+                        <td class="text-right"><%= number_to_currency(montant_responsabilite) %></td>
+                    </tr>
+                    <% if index == @responsabilites.size - 1 %>
                         <tr>
-                            <td colspan="2" />
-                            <td><%= link_to vacation.formation.nom, vacation.formation, target:"_new" %></td>
-                            <td><%= vacation.formation.Code_Analytique %></td>
-                            <td><%= vacation.titre %></td>
-                            <td />
-                            <td class="text-right"><%= vacation.forfaithtd %></td>
-                            <td colspan="5">
-                            <td class="text-right"><%= vacation.forfaithtd * Cour.Tarif %> €</td>
+                            <th colspan="12">Total: <%= pluralize(@responsabilites.count, 'responsabilité') %></th>
+                            <th class="text-right"><%= number_to_currency(cumul_resps) %></th>
                         </tr>
                     <% end %>
-
-                    <tr>
-                        <th colspan="12" />
-                        <th class="text-right"><%= cumul_vacations %> €</th>
-                    </tr>
                 <% end %>
 
-                <% if @responsabilites.any? %>
-                    <thead>
-                        <th>Début</th>
-                        <th>Fin</th>
-                        <th>Formation</th>
-                        <th>Code</th>
-                        <th>Intitulé Responsabilité</th>
-                        <th />
-                        <th>Durée</th>
-                        <th colspan="5">
-                        <th />
-                    </thead>
-
-                    <% @responsabilites.each do |resp| %>
-                        <% cumul_resps += resp.heures * Cour.Tarif  %>
-                        <tr>
-                            <td><%= l resp.debut %></td>
-                            <td><%= l resp.fin %></td>
-                            <td><%= link_to resp.formation.nom, resp.formation, target:"_new" %></td>
-                            <td><%= resp.formation.Code_Analytique %></td>
-                            <td><%= resp.titre %></td>
-                            <td />
-                            <td class="text-right"><%= resp.heures %></td>
-                            <td colspan="5" />
-                            <td class="text-right"><%= resp.heures * Cour.Tarif %> €</td>
-                        </tr>
-                    <% end %>
-                    <tr>
-                        <th colspan="12" />
-                        <th class="text-right"><%= cumul_resps %> €</th>
-                    </tr>
-                <% end %>
                 <tfoot>
-                    <th colspan="12" />
-                    <th class="text-right"><%= (cumul_resps + cumul_vacations + cumul_tarif ) %> €</th>
+                    <th colspan="12" class="text-center">
+                        <% unless intervenant.nbr_heures_statutaire.blank? %>
+                            <i>
+                                Nbr Heures Statutaires: 
+                                <%= number_with_precision(intervenant.nbr_heures_statutaire, precision:1) %>h.
+                                Solde: 
+                                <%= number_with_precision(intervenant.nbr_heures_statutaire - cumul_hetd, precision:1) %>h
+                            </i>
+                        <% end %>
+                    </th>
+                    <th class="text-right"><%= number_to_currency(cumul_resps + cumul_vacations + cumul_tarif ) %></th>
                 </tfoot>
 
             </table>
@@ -219,7 +197,7 @@
         <% end %>
     <% end %>
     <span>
-        <%= link_to url_for(params.merge(format:'csv')) , class: 'btn btn-info' do %>
+        <%= link_to url_for(params.merge(format:'csv')), class: 'btn btn-info' do %>
             <span class="glyphicon glyphicon-share"></span>
             Export CSV
         <% end %>

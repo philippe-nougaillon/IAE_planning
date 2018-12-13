@@ -689,22 +689,36 @@ class ToolsController < ApplicationController
   end
 
   def nouvelle_saison
-    case params[:saison]
-    when '2018/2019'
-      @date_debut = Date.parse('2018-09-03')
-      @date_fin = Date.parse('2019-07-15')
-    when '2019/2020'
-      @date_debut = Date.parse('2019-09-02')
-      @date_fin = Date.parse('2020-07-15')
-    end
 
-    if @date_debut and @date_fin
-      @jours = (@date_debut..@date_fin).select{|j| j.wday == 1}
+    @years ||= ['2018/2019','2019/2020','2020/2021','2021/2022','2022/2023','2023/2024','2024/2025']
+
+    unless params[:saison].blank?
+      @formations = Formation.where(hors_catalogue:false)
+                             .where("nom like ?", "%#{params[:saison]}%")
+      
+      case params[:saison]
+      when @years[0]
+        @date_debut = Date.parse('2018-09-03')
+        @date_fin = Date.parse('2019-07-15')
+      when @years[1]
+        @date_debut = Date.parse('2019-09-02')
+        @date_fin = Date.parse('2020-07-15')
+      else
+        annee_debut = params[:saison].split('/').first
+        annee_fin = params[:saison].split('/').last
+        @date_debut = Date.parse(annee_debut + '-08-30')
+        @date_fin = Date.parse(annee_fin + '-07-15')
+      end
     end
 
     unless params[:formation_id].blank?
       @formation_id = params[:formation_id]
     end
+
+    if (@date_debut and @date_fin) and @formation_id
+      @jours = (@date_debut..@date_fin).select{|j| j.wday == 1}
+    end
+
   end
 
   def nouvelle_saison_create

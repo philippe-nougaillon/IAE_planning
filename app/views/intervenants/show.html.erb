@@ -20,111 +20,97 @@
   <br><br>  
 </div>
 
-<p>
-  <h1>
-    <span class="glyphicon glyphicon-user"></span>
-  <h1>
-</p>
-
-<h2>
-  <%= @intervenant.nom_prenom %> 
-</h2>
 
 <div class="row">
-  <div class="col-sm-6">
-    <p>
-      <b><%= @intervenant.titre1 %></b>
-    </p>
-    <p>
-      <%= @intervenant.titre2 %>
-    </p>
-    <p>
-      <i><%= "Spécialité: #{@intervenant.spécialité}" unless @intervenant.spécialité.blank? %></i>
-    </p>
-    <p>
-      <%= "Statut: #{@intervenant.status.humanize}" if @intervenant.status %>
-    </p>
+  <div class="col-sm-3">
+    <h1 style="font-size: 160px" class="glyphicon glyphicon-user"></h1>
+  </div>  
+
+  <div class="col-sm-3">
+    <h2>
+      <small>Nom</small><br>
+      <%= @intervenant.nom %>
+    </h2>
     <br>
-
-    <p>
-      <strong><%= "Formation".pluralize(@formations.count) %> <%= "dispensée".pluralize(@formations.count) %></strong>
-    </p>
-
-    <% @formations.each do | formation | %>
-      <%= link_to formation.nom, cours_path(formation_id:formation, intervenant_id:@intervenant, intervenant:@intervenant.nom_prenom , filter:'all') %>
-
-      <% cours = formation.cours.where(etat:Cour.etats[:planifié], intervenant_id:@intervenant).order(:debut) %>
-      <% if cours.any? %>
-        (<%= cours.sum(:duree) %>h planifiées, premier cours le: <%= l(cours.first.debut, format: :short) %>)
-      <% end %>
-      <br>
-    <% end %>
-
-    <% if @intervenant.doublon %> 
-      <p> 
-          <br><strong>Doublons autorisés !</strong>
-      </p>
-    <% end %>
-  </div>
-
-  <div class="col-sm-3">
-    <p>
-      <strong>Fixe</strong><br>
-      <%= @intervenant.téléphone_fixe %>
-    </p>
-    <p>
-      <strong>Mobile</strong><br>
+    <h3>
+      <small>Mobile</small><br>
       <%= @intervenant.téléphone_mobile %>
-    </p>
-    <p>
-      <strong>Courriel</strong><br>
-      <%= mail_to @intervenant.email %>
-    </p>
-    <p>
-      <strong>Bureau</strong><br>
-      <%= @intervenant.bureau %>
-    </p>
+    </h3>
   </div>
 
-  <div class="col-sm-3">
-    <p>
-      <strong>Date remise dossier SRH</strong><br>
-      <%= l(@intervenant.remise_dossier_srh.to_date) if @intervenant.remise_dossier_srh %>
-    </p>
-    <p>
-      <strong>Adresse</strong><br>
-      <%= @intervenant.adresse %>
-    </p>
-    <p>
-      <strong>Ville</strong><br>
-      <%= @intervenant.cp %> <%= @intervenant.ville %>
-    </p>
+  <div class="col-sm-6">
+    <h2>
+      <small>Prénom</small><br>
+      <%= @intervenant.prenom %>
+    </h2>
+    <br> 
+    <h3>
+      <small>Courriel</small><br>
+      <%= mail_to @intervenant.email %>
+    </h3>
   </div>
 </div>
 
+<div class="row">
+  <div class="col-sm-12">
+    <h3>
+      <small>Titre</small><br>
+      <%= @intervenant.titre1 %>
+      <%= @intervenant.titre2 %>
+    </h3>
+
+    <h3>
+      <small>Statut</small><br>
+      <%= @intervenant.try(:status).try(:humanize) %>
+    </h3>
+  </div>
+</div>
+
+<% if @formations.any? %>
+  <div class="page-header"> 
+    <h3>
+      <small>
+        <%= "Formation".pluralize(@formations.count) %>
+        <%= "dispensée".pluralize(@formations.count) %>
+      </small>
+    </h3>
+  </div>
+
+  <% @formations.each_with_index do |formation, index| %>
+    <%= link_to formation.nom, 
+                cours_path(formation_id: formation, 
+                            intervenant_id: @intervenant, 
+                            intervenant: @intervenant.nom_prenom,
+                            filter: 'all') %>
+    <%= '|' if index != @formations.size - 1 %>
+  <% end %>
+<% end %>
+
 <% if @intervenant.responsabilites.any? %>
   <div class="page-header"> 
-    <h3>Responsabilités</h3>
+    <h3>
+      <small>Responsabilités</small>
+    </h3>
   </div> 
 
   <ul>
     <% @intervenant.responsabilites.each do |r| %>
       <div class="row">
         <li>
-          <div class="col-sm-2">
+          <div class="col-sm-1">
             <%= l r.debut %>
           </div>  
-          <div class="col-sm-2">
+          <div class="col-sm-1">
             <%= l r.fin %>
           </div>  
-          <div class="col-sm-3">
-            <%= r.titre %>
-          </div>  
-          <div class="col-sm-3">
+          <div class="col-sm-2">
             <%= link_to(r.formation.nom, r.formation) if r.formation %>
           </div>  
+          <div class="col-sm-2">
+            <%= r.titre %>
+          </div>  
           <div class="col-sm-1">
-            <%= r.heures %> h
+            <%= r.heures %>h
           </div>
         </li> 
       </div>
@@ -134,20 +120,23 @@
 
 <% if @intervenant.vacations.any? %>
   <div class="page-header"> 
-    <h3>Vacations ou autres activités</h3>
+    <h3>
+      <small>Vacations</small>
+    </h3>
   </div>
+
   <ul>
     <% @intervenant.vacations.each do |vacation| %>
       <div class="row">
         <li>
-          <div class="col-sm-3">
+          <div class="col-sm-4">
             <%= vacation.formation.nom %>
           </div>  
-          <div class="col-sm-5">
+          <div class="col-sm-2">
             <%= vacation.titre %>
           </div>
-          <div class="col-sm-4">
-            <%= vacation.forfaithtd %> h
+          <div class="col-sm-1">
+            <%= vacation.forfaithtd %>h
           </div>
         </li> 
       </div>
@@ -158,7 +147,7 @@
 <div id="audit" class="collapse">
   <% if current_user.admin? %>
     <% if @intervenant.audits.any? %>
-      <h3>Audit des modifications</h3>
+      <h3><small>Audit des modifications</small></h3>
       <table class="table table-condensed">
         <% @intervenant.audits.includes(:user).reverse.each do |audit| %>
           <tr>

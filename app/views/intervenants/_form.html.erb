@@ -22,21 +22,22 @@
       <%= f.text_field :linkedin_url, label:"Profil LinkedIn", placeholder:'URL du profil public' %>
 
       <% if current_user.admin? %>
-        <%= f.check_box :doublon, label:"Autoriser les doublons(groupe et non individu) sur le même créneau horaire ?" %>
+        <%= f.check_box :doublon, 
+                        label:"Autoriser les doublons ?", 
+                        title:"Autorise les doublons de cours sur un même créneau horaire !" %>
       <% end %>
-      <br>
     </div>
 
     <div class="col-sm-1">
     </div>
 
-    <div class="col-sm-5">
+    <div class="col-sm-6">
       <div class="col-sm-6">
-        <%= f.select :status, Intervenant.statuses.keys.to_a, {include_blank: true} %>
+        <%= f.select :status, Intervenant.statuses.keys.to_a, {include_blank: true, label: 'Statut'} %>
       </div>
 
       <div class="col-sm-6">
-        <%= f.number_field :nbr_heures_statutaire %>
+        <%= f.number_field :nbr_heures_statutaire, label:"Nombre heures statutaires" %>
       </div>
 
       <div class="col-sm-6">
@@ -45,10 +46,14 @@
 
       <div class="col-sm-6">
         <%= f.date_field :remise_dossier_srh, label:"Date remise dossier SRH" %>
+        <br><br><br>
       </div>
 
-      <%= f.text_field :adresse %>
 
+      <div class="col-sm-12">
+        <%= f.text_field :adresse %>
+      </div>
+        
       <div class="col-sm-3">
         <%= f.text_field :cp %>
       </div> 

@@ -91,7 +91,7 @@
 
                 <% cours.each do |c| %>
                     <% unless c.hors_service_statutaire %>
-                        <% cumul_hetd  += c.HETD %>
+                        <% cumul_hetd += c.HETD %>
                         <% montant_service = (c.HETD * Cour.Tarif).round(2) %>
                         <% cumul_tarif += montant_service %>
                     <% end %>
@@ -104,7 +104,7 @@
                         <td><%= link_to "#{c.ue} #{c.nom_ou_ue}", edit_cour_path(c), target:"_new" %></td>
                         <td>
                             <% unless c.commentaires.blank? %>
-                                <span class="glyphicon glyphicon-comment" title=<%= c.commentaires %> >
+                                <span class="glyphicon glyphicon-comment" title="<%= c.commentaires %>" />
                             <% end %>
                         </td>
                         <td class="text-right"><%= c.duree.to_f %></td>
@@ -143,7 +143,7 @@
                         <td><%= vacation.formation.Code_Analytique %></td>
                         <td><%= vacation.titre %></td>
                         <td />
-                        <td class="text-right"><%= number_to_currency(vacation.forfaithtd) %></td>
+                        <td class="text-right"><%= vacation.forfaithtd %></td>
                         <td colspan="5">
                         <td class="text-right"><%= number_to_currency(montant_vacation) %></td>
                     </tr>

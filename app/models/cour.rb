@@ -237,25 +237,29 @@ class Cour < ActiveRecord::Base
      return calendar
   end
 
-  def self.generate_etats_services_csv(cours)
+  def self.generate_etats_services_csv(cours, start_date, end_date)
     require 'csv'
 
     total_hetd = 0
     CSV.generate(col_sep:';', quote_char:'"', encoding:'UTF-8') do | csv |
         csv << ['Intervenant','Date','Heure','Formation','Code','Intitulé','Commentaires',
-                'Durée','HSS?','E-learning?','CM/TD?', 'Taux_TD','HETD','Cumul','Total']
+                'Durée','HSS?','E-learning?','CM/TD?', 'Taux_TD','HETD','Montant']
     
-        cours.joins(:intervenant).reorder("intervenants.nom, cours.debut").group(:intervenant_id).pluck(:intervenant_id).each do | intervenant_id |
+          cours.joins(:intervenant).reorder("intervenants.nom, cours.debut").group(:intervenant_id).pluck(:intervenant_id).each do | intervenant_id |
 
           # Passe au suivant si 'A CONFIRMER'
           next if intervenant_id == 445
           intervenant = Intervenant.find(intervenant_id)
-          cumul_hetd = 0.0
+          cumul_hetd = 0.00
+
+          @vacations = intervenant.vacations.where(formation_id: cours.pluck("formation_id").uniq.sort)
+          @responsabilites = intervenant.responsabilites.where("debut < DATE(?) AND fin > DATE(?)", end_date, start_date)
+
           cours.where(intervenant: intervenant).order(:debut).each do |c|
               hetd = c.duree * (c.formation.Taux_TD || 0)
               unless c.hors_service_statutaire
                 cumul_hetd += c.HETD
-                total_hetd += c.HETD
+                montant_service = (c.HETD * Cour.Tarif).round(2)
               end
 
               fields_to_export = [
@@ -272,11 +276,43 @@ class Cour < ActiveRecord::Base
                 c.CMTD?, 
                 c.formation.Taux_TD.to_s.gsub(/\./, ','),
                 hetd.to_s.gsub(/\./, ','),
-                cumul_hetd.to_s.gsub(/\./, ','),
-                total_hetd.to_s.gsub(/\./, ',')
+                montant_service.to_s.gsub(/\./, ',')
               ]
               csv << fields_to_export
           end 
+
+          @vacations.each do |vacation|
+            montant_vacation = (vacation.forfaithtd * Cour.Tarif).round(2)
+            fields_to_export = [
+                  intervenant.nom_prenom,
+                  nil, nil,
+                  vacation.formation.nom,
+                  vacation.formation.Code_Analytique,
+                  vacation.titre,
+                  nil, 
+                  vacation.forfaithtd.to_s.gsub(/\./, ','),
+                  nil, nil, nil, nil, nil,
+                  montant_vacation.to_s.gsub(/\./, ',')
+                ]
+            csv << fields_to_export
+          end
+
+          @responsabilites.each do |resp|
+            montant_responsabilite = (resp.heures * Cour.Tarif).round(2)
+            fields_to_export = [
+                  intervenant.nom_prenom,
+                  I18n.l(resp.debut),
+                  I18n.l(resp.fin),
+                  resp.formation.nom,
+                  resp.formation.Code_Analytique,
+                  resp.titre,
+                  nil, 
+                  resp.heures.to_s.gsub(/\./, ','), 
+                  nil, nil, nil, nil, nil,
+                  montant_responsabilite.to_s.gsub(/\./, ',')
+                ]
+            csv << fields_to_export
+          end
         end
     end
   end

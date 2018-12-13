@@ -551,7 +551,7 @@ class ToolsController < ApplicationController
     respond_to do |format|
       format.html
       format.csv do
-        @csv_string = Cour.generate_etats_services_csv(@cours)
+        @csv_string = Cour.generate_etats_services_csv(@cours, @start_date, @end_date)
         filename = "Etats_de_services_#{Date.today.to_s}"
         response.headers['Content-Disposition'] = 'attachment; filename="' + filename + '.csv"'
         render "tools/etats_services.csv.erb"

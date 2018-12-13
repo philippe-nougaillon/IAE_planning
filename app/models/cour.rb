@@ -242,7 +242,7 @@ class Cour < ActiveRecord::Base
 
     total_hetd = 0
     CSV.generate(col_sep:';', quote_char:'"', encoding:'UTF-8') do | csv |
-        csv << ['Intervenant','Date','Heure','Formation','Code','Intitulé','Commentaires',
+        csv << ['Type','Intervenant','Date','Heure','Formation','Code','Intitulé','Commentaires',
                 'Durée','HSS?','E-learning?','CM/TD?', 'Taux_TD','HETD','Montant']
     
           cours.joins(:intervenant).reorder("intervenants.nom, cours.debut").group(:intervenant_id).pluck(:intervenant_id).each do | intervenant_id |
@@ -263,6 +263,7 @@ class Cour < ActiveRecord::Base
               end
 
               fields_to_export = [
+                'C',
                 intervenant.nom_prenom,
                 I18n.l(c.debut.to_date),
                 c.debut.strftime("%k:%M"), 
@@ -284,6 +285,7 @@ class Cour < ActiveRecord::Base
           @vacations.each do |vacation|
             montant_vacation = (vacation.forfaithtd * Cour.Tarif).round(2)
             fields_to_export = [
+                  'V',
                   intervenant.nom_prenom,
                   nil, nil,
                   vacation.formation.nom,
@@ -300,6 +302,7 @@ class Cour < ActiveRecord::Base
           @responsabilites.each do |resp|
             montant_responsabilite = (resp.heures * Cour.Tarif).round(2)
             fields_to_export = [
+                  'R',
                   intervenant.nom_prenom,
                   I18n.l(resp.debut),
                   I18n.l(resp.fin),

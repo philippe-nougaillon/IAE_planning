@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180924104313) do
+ActiveRecord::Schema.define(version: 20181214142203) do
 
   create_table "audits", force: :cascade do |t|
     t.integer  "auditable_id",    limit: 4
@@ -233,6 +233,8 @@ ActiveRecord::Schema.define(version: 20180924104313) do
     t.decimal  "forfaithtd",                 precision: 5, scale: 2
     t.datetime "created_at",                                         null: false
     t.datetime "updated_at",                                         null: false
+    t.date     "date"
+    t.integer  "qte",            limit: 4
   end
 
   add_index "vacations", ["formation_id"], name: "index_vacations_on_formation_id", using: :btree

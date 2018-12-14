@@ -39,12 +39,13 @@
 			</li>
 			<br>
 			<br>
-
-			<li>
-				<span class="glyphicon glyphicon-list-alt"></span>
-				<%= link_to "Etats de services", tools_etats_services_path %>
-			</li>
-			<br>
+			<% if ['philippe.nougaillon@gmail.com','cunha.iae@univ-paris1.fr','fitsch-mouras.iae@univ-paris1.fr'].include?(current_user.email) %> 
+				<li>
+					<span class="glyphicon glyphicon-list-alt"></span>
+					<%= link_to "Etats de services", tools_etats_services_path %>
+				</li>
+				<br>
+			<% end %>
 		</ul>
 	</div>
 	

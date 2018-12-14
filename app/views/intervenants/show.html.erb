@@ -103,10 +103,10 @@
           <div class="col-sm-1">
             <%= l r.fin %>
           </div>  
-          <div class="col-sm-2">
+          <div class="col-sm-3">
             <%= link_to(r.formation.nom, r.formation) if r.formation %>
           </div>  
-          <div class="col-sm-2">
+          <div class="col-sm-3">
             <%= r.titre %>
           </div>  
           <div class="col-sm-1">
@@ -129,12 +129,18 @@
     <% @intervenant.vacations.each do |vacation| %>
       <div class="row">
         <li>
-          <div class="col-sm-4">
-            <%= vacation.formation.nom %>
+          <div class="col-sm-2">
+            <%= vacation.date if vacation.date %>
+          </div>  
+          <div class="col-sm-3">
+            <%= link_to(vacation.formation.nom, vacation.formation) %>
           </div>  
           <div class="col-sm-2">
             <%= vacation.titre %>
           </div>
+          <div class="col-sm-1">
+            <%= vacation.qte %>
+          </div>  
           <div class="col-sm-1">
             <%= vacation.forfaithtd %>h
           </div>

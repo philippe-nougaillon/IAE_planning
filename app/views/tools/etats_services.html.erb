@@ -62,7 +62,7 @@
         <% cours = @cours.where(intervenant: intervenant).order(:debut) %>
 
         <% if intervenant && cours %>
-            <% @vacations = intervenant.vacations.where(formation_id: cours.pluck("formation_id").uniq.sort) %>
+            <% @vacations = intervenant.vacations.where("date BETWEEN ? AND ?", @start_date, @end_date) %>
 
             <% @responsabilites = intervenant.responsabilites.where("debut < DATE(?) AND fin > DATE(?)", @end_date, @start_date) %>
 
@@ -135,16 +135,18 @@
                 </tr>
 
                 <% @vacations.each_with_index do |vacation, index| %>
-                    <% montant_vacation = (vacation.forfaithtd * Cour.Tarif).round(2) %>
+                    <% montant_vacation = ((Cour.Tarif * vacation.forfaithtd) * vacation.qte).round(2) %>
                     <% cumul_vacations += montant_vacation %> 
                     <tr>
-                        <td colspan="2" />
+                        <td><%= l vacation.date %></td>
+                        <td />
                         <td><%= link_to vacation.formation.nom, vacation.formation, target:"_new" %></td>
                         <td><%= vacation.formation.Code_Analytique %></td>
                         <td><%= vacation.titre %></td>
                         <td />
+                        <td class="text-right"><%= vacation.qte %></td>
+                        <td colspan="4">
                         <td class="text-right"><%= vacation.forfaithtd %></td>
-                        <td colspan="5">
                         <td class="text-right"><%= number_to_currency(montant_vacation) %></td>
                     </tr>
 

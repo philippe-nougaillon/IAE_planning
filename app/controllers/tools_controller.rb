@@ -522,6 +522,10 @@ class ToolsController < ApplicationController
   end
 
   def etats_services
+
+    # sortir si utilisateur parmi les utilisateurs authorisés
+    exit unless ['philippe.nougaillon@gmail.com','cunha.iae@univ-paris1.fr','fitsch-mouras.iae@univ-paris1.fr'].include?(current_user.email)
+
     unless params[:start_date].blank? || params[:end_date].blank?
       @start_date = params[:start_date]
       @end_date = params[:end_date]

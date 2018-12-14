@@ -283,17 +283,19 @@ class Cour < ActiveRecord::Base
           end 
 
           @vacations.each do |vacation|
-            montant_vacation = (vacation.forfaithtd * Cour.Tarif).round(2)
+            montant_vacation = ((Cour.Tarif * vacation.forfaithtd) * (vacation.qte || 0)).round(2)
             fields_to_export = [
                   'V',
                   intervenant.nom_prenom,
-                  nil, nil,
+                  vacation.date,
+                  nil,
                   vacation.formation.nom,
                   vacation.formation.Code_Analytique,
                   vacation.titre,
                   nil, 
+                  vacation.qte,
+                  nil, nil, nil, nil,
                   vacation.forfaithtd.to_s.gsub(/\./, ','),
-                  nil, nil, nil, nil, nil,
                   montant_vacation.to_s.gsub(/\./, ',')
                 ]
             csv << fields_to_export

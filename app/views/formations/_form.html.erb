@@ -157,17 +157,27 @@
       <%= f.fields_for :vacations do |vacation| %>
         <div class="row">
           <li>
+            <div class="col-sm-2">
+              <%= vacation.date_field :date %>
+            </div>
+
             <div class="col-sm-3">
               <%= vacation.collection_select :intervenant_id, Intervenant.where(doublon:false), :id, :nom, {include_blank: true, label: "Intervenant", class: "select2"} %>
             </div>  
-            <div class="col-sm-5">
+
+            <div class="col-sm-3">
               <%= vacation.text_field :titre, placeholder: 'Tutorat' %>
             </div>
+
+            <div class="col-sm-1">
+              <%= vacation.number_field :qte %>
+            </div>
+
             <div class="col-sm-2">
               <%= vacation.text_field :forfaithtd, label:"Forfait HTD" %>
             </div>
+
             <div class="col-sm-2">
-              <br>
               <%= vacation.check_box :_destroy, label:"Supprimer ?" %>
             </div>
           </li> 

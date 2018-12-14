@@ -211,11 +211,17 @@
       <% @formation.vacations.each do |vacation| %>
         <div class="row">
           <li>
+            <div class="col-sm-1">
+              <%= l vacation.date if vacation.date %>
+            </div>
             <div class="col-sm-3">
               <%= vacation.intervenant.nom %>
             </div>  
             <div class="col-sm-5">
               <%= vacation.titre %>
+            </div>
+            <div class="col-sm-1">
+              <%= vacation.qte %>
             </div>
             <div class="col-sm-2">
               <%= vacation.forfaithtd %> h

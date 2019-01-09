@@ -523,39 +523,39 @@ class ToolsController < ApplicationController
 
   def etats_services
 
-    # sortir si utilisateur parmi les utilisateurs authorisés
+    # quitter si utilisateur pas parmi les utilisateurs autorisés
     exit unless ['philippe.nougaillon@gmail.com','cunha.iae@univ-paris1.fr','fitsch-mouras.iae@univ-paris1.fr'].include?(current_user.email)
+
+    @intervenants ||= []
 
     unless params[:start_date].blank? || params[:end_date].blank?
       @start_date = params[:start_date]
       @end_date = params[:end_date]
-      @cours = Cour.where(etat:Cour.etats[:réalisé]).where("debut between ? and ?", @start_date, @end_date)
     else
       params[:start_date] ||= Date.today.at_beginning_of_month.last_month
-      params[:end_date] ||= Date.today.at_end_of_month.last_month
+      params[:end_date]   ||= Date.today.at_end_of_month.last_month
     end
 
     unless params[:status].blank?
+      @cours =  Cour.where(etat:Cour.etats[:réalisé]).where("debut between ? and ?", @start_date, @end_date)
+
+      # Peupler la liste des intervenants ayant eu des cours en principal ou binome
       ids = @cours.distinct(:intervenant_id).pluck(:intervenant_id)
       ids << @cours.distinct(:intervenant_binome_id).pluck(:intervenant_binome_id)
-      @intervenants = Intervenant.where(status: params[:status]).where(doublon: false).where(id: ids)
-
-      @cours = @cours.where(etat:Cour.etats[:réalisé]).where("intervenant_id IN (?) OR intervenant_binome_id IN (?)", @intervenants.pluck(:id), @intervenants.pluck(:id))
-
-      unless params[:intervenant_id].blank? 
-        @intervenant = Intervenant.find(params[:intervenant_id])
-        @cours = @cours.where("intervenant_id = ? OR intervenant_binome_id = ?", @intervenant.id, @intervenant.id)
-      end
+      @intervenants = Intervenant.where(id: ids).where(status: params[:status]).where(doublon: false)
+      @intervenants_for_select = @intervenants
     end 
 
-    @cumul_hetd = 0
-    @cumul_vacations = 0
-    @cumul_resps = 0
+    unless params[:intervenant_id].blank? 
+      @intervenants = Intervenant.where(id: params[:intervenant_id])
+    end
+
+    @cumul_hetd = @cumul_vacations = @cumul_resps = 0
 
     respond_to do |format|
       format.html
       format.csv do
-        @csv_string = Cour.generate_etats_services_csv(@cours, @start_date, @end_date)
+        @csv_string = Cour.generate_etats_services_csv(@cours, @intervenants, @start_date, @end_date)
         filename = "Etats_de_services_#{Date.today.to_s}"
         response.headers['Content-Disposition'] = 'attachment; filename="' + filename + '.csv"'
         render "tools/etats_services.csv.erb"

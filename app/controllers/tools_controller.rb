@@ -523,8 +523,12 @@ class ToolsController < ApplicationController
 
   def etats_services
 
-    # quitter si utilisateur pas parmi les utilisateurs autorisés
-    exit unless ['philippe.nougaillon@gmail.com','cunha.iae@univ-paris1.fr','fitsch-mouras.iae@univ-paris1.fr'].include?(current_user.email)
+    # quitter si l'utilisateur actuel n'est pas parmi les utilisateurs autorisés
+    exit unless ['philippe.nougaillon@gmail.com',
+                'cunha.iae@univ-paris1.fr',
+                'fitsch-mouras.iae@univ-paris1.fr',
+                'manzano.iae@univ-paris1.fr',
+                'denis.iae@univ-paris1.fr'].include?(current_user.email)
 
     @intervenants ||= []
 

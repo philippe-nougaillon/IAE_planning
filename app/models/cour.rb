@@ -243,12 +243,14 @@ class Cour < ActiveRecord::Base
     total_hetd = 0
     CSV.generate(col_sep:';', quote_char:'"', encoding:'UTF-8') do | csv |
         csv << ['Type','Intervenant','Date','Heure','Formation','Code','Intitulé','Commentaires',
-                'Durée','HSS?','E-learning?','Binôme','CM/TD?', 'Taux_TD','HETD','Montant']
+                'Durée','HSS?','E-learning?','Binôme','CM/TD?', 'Taux_TD','HETD','Montant','Cumul_hetd','Dépassement?']
     
           intervenants.each do | intervenant |
         
             # Passe au suivant si intervenant est 'A CONFIRMER'
             next if intervenant.id == 445
+
+            nbr_heures_statutaire = intervenant.nbr_heures_statutaire || 0
 
             cours_ids = cours.where(intervenant: intervenant).order(:debut).pluck(:id)
             cours_ids << cours.where(intervenant_binome: intervenant).pluck(:id)
@@ -261,8 +263,9 @@ class Cour < ActiveRecord::Base
 
             cours_ids.each do |id|
                 c = Cour.find(id)
+                formation = Formation.unscoped.find(c.formation_id)
 
-                hetd = c.duree * (c.formation.Taux_TD || 0)
+                hetd = c.duree * (formation.Taux_TD || 0)
                 unless c.hors_service_statutaire
                   cumul_hetd += c.HETD
                   montant_service = (c.HETD * Cour.Tarif).round(2)
@@ -273,8 +276,8 @@ class Cour < ActiveRecord::Base
                   intervenant.nom_prenom,
                   I18n.l(c.debut.to_date),
                   c.debut.strftime("%k:%M"), 
-                  c.formation.nom_promo, 
-                  c.formation.Code_Analytique, 
+                  formation.abgr, 
+                  formation.Code_Analytique_avec_indice(c), 
                   c.nom_ou_ue, 
                   c.commentaires,
                   c.duree.to_s.gsub(/\./, ','),
@@ -282,9 +285,12 @@ class Cour < ActiveRecord::Base
                   (c.elearning ? "OUI" : ''), 
                   (c.intervenant && c.intervenant_binome ? "OUI" : ''),
                   c.CMTD?, 
-                  c.formation.Taux_TD.to_s.gsub(/\./, ','),
+                  formation.Taux_TD.to_s.gsub(/\./, ','),
                   hetd.to_s.gsub(/\./, ','),
-                  montant_service.to_s.gsub(/\./, ',')
+                  montant_service.to_s.gsub(/\./, ','),
+                  cumul_hetd.to_s.gsub(/\./, ','),
+                  ((nbr_heures_statutaire > 0) && (cumul_hetd >= nbr_heures_statutaire) ? "OUI" : '')
+
                 ]
                 csv << fields_to_export
             end 

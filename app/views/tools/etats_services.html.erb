@@ -57,6 +57,8 @@
         
         <% next if intervenant.id == 445 %>
 
+        <% nbr_heures_statutaire = intervenant.nbr_heures_statutaire || 0 %>
+
         <% cours_ids = @cours.where(intervenant: intervenant).order(:debut).pluck(:id) %>
         <% cours_ids << @cours.where(intervenant_binome: intervenant).order(:debut).pluck(:id) %>
         <% cours_ids = cours_ids.flatten %>
@@ -83,6 +85,7 @@
                     <th>Taux</th>
                     <th>HETD</th>
                     <th style="width: 100px;">Montant</th>
+                    <th>Cumul_HETD</th>
                 </thead>
 
                 <% cours_ids.each do |id| %>
@@ -97,12 +100,12 @@
                     <tr>
                         <td><%= link_to l(c.debut.to_date), cours_path(start_date:c.debut.to_date) %></td>
                         <td class="text-right"><%= c.debut.strftime("%k:%M") %></td>
-                        <td><%= link_to formation.nom, formation_path(formation), target:"_new" %></td>
-                        <td><%= formation.Code_Analytique %></td>
+                        <td><%= link_to formation.abrg, formation_path(formation), target:"_new", title: formation.nom_promo %></td>
+                        <td><%= formation.Code_Analytique_avec_indice(c) %></td>
                         <td><%= link_to "#{c.ue} #{c.nom_ou_ue}", edit_cour_path(c), target:"_new" %></td>
                         <td class="text-center">
                             <% unless c.commentaires.blank? %>
-                                <span class="glyphicon glyphicon-comment" title="<%= c.commentaires %>" />
+                                <span class="glyphicon Soutenance de Sarah PELLERIN  glyphicon-comment" title="<%= c.commentaires %>" />
                             <% end %>
                             <% if c.elearning %>
                                 <span class="glyphicon glyphicon-home" />
@@ -120,6 +123,12 @@
                         <td class="text-right"><%= c.Taux_TD %></td>
                         <td class="text-right"><%= c.HETD %></td>
                         <td class="text-right"><%= number_to_currency(montant_service) %></td>
+                        <td class="text-right">
+                            <%= cumul_hetd %>
+                            <% if (nbr_heures_statutaire > 0) && (cumul_hetd >= nbr_heures_statutaire) %>
+                                    <i class="glyphicon glyphicon-plus-sign" />
+                            <% end %>
+                        </td>
                     </tr>
                 <% end %>
 
@@ -129,7 +138,8 @@
                     <th class="text-right"><%= cumul_duree %></th>
                     <th /><th /> 
                     <th class="text-right"><%= cumul_hetd %></th>
-                    <th class="text-right"><%= number_to_currency(cumul_tarif) %></th>    
+                    <th class="text-right"><%= number_to_currency(cumul_tarif) %></th> 
+                    <th class="text-right"><%= cumul_hetd %></th>   
                 </tr>
 
                 <% @vacations.each_with_index do |vacation, index| %>
@@ -180,12 +190,14 @@
 
                 <tfoot>
                     <th colspan="10" class="text-center">
-                        <% unless intervenant.nbr_heures_statutaire.blank? %>
+                        <% if nbr_heures_statutaire > 0 %>
                             <i>
                                 Nbr Heures Statutaires: 
-                                <%= number_with_precision(intervenant.nbr_heures_statutaire, precision:1) %>h.
-                                Solde: 
-                                <%= number_with_precision(intervenant.nbr_heures_statutaire - cumul_hetd, precision:1) %>h
+                                <%= number_with_precision(nbr_heures_statutaire, precision:1) %>h
+                                <% if (nbr_heures_statutaire > 0) && (cumul_hetd >= nbr_heures_statutaire) %>
+                                    | Dépassement: 
+                                    <%= number_with_precision((cumul_hetd - nbr_heures_statutaire) , precision:1) %>h
+                                <% end %>
                             </i>
                         <% end %>
                     </th>

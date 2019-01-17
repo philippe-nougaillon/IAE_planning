@@ -618,9 +618,13 @@ class ToolsController < ApplicationController
 
     @nbr_jours = @total_jour = @total_soir = 0
 
-    @@results = []
+
+    @results = []
     # pour chaque jour entre la date de début et la date de fin
     (@start_date.to_date..@end_date.to_date).each do |d|
+
+
+
       # on ne compte pas le dimanche ni les jours de fermetures
       if d.to_date.wday > 0 && !Fermeture.find_by(date:d.to_date)
         # cumul les heures de cours du jour et du soir
@@ -639,7 +643,7 @@ class ToolsController < ApplicationController
         end  
         @nbr_jours += 1
 
-        @@results << [l(d.to_date, format: :long), taux_occupation.first.to_i, taux_occupation.last.to_i]
+        @results << [l(d.to_date, format: :long), taux_occupation.first.to_i, taux_occupation.last.to_i]
       end
     end   
   end

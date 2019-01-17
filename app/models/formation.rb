@@ -36,6 +36,16 @@ class Formation < ActiveRecord::Base
 		self.promo.blank? ? "#{self.nom} (#{self.nbr_etudiants}E)"  : "#{self.nom} - #{self.promo} (#{self.nbr_etudiants}E)" 
 	end
 
+	def Code_Analytique_avec_indice(cours)
+		code = self.Code_Analytique
+		if code.last == '?'
+			indice = ((cours.debut.year - self.cours.first.debut.year) + 1).to_s
+			return code.gsub('?', indice)
+		else
+			return code
+		end	
+	end
+
 	def self.for_select
 		{
 		  'Formations catalogue' => where(hors_catalogue:false).map { |i| i.nom },

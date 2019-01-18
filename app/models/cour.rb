@@ -271,7 +271,7 @@ class Cour < ActiveRecord::Base
                   intervenant.nom_prenom,
                   I18n.l(c.debut.to_date),
                   c.debut.strftime("%k:%M"), 
-                  formation.abgr, 
+                  formation.abrg, 
                   formation.Code_Analytique_avec_indice(c), 
                   c.nom_ou_ue, 
                   c.commentaires,

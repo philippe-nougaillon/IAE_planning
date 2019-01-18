@@ -524,11 +524,7 @@ class ToolsController < ApplicationController
   def etats_services
 
     # quitter si l'utilisateur actuel n'est pas parmi les utilisateurs autorisés
-    exit unless ['philippe.nougaillon@gmail.com',
-                'cunha.iae@univ-paris1.fr',
-                'fitsch-mouras.iae@univ-paris1.fr',
-                'manzano.iae@univ-paris1.fr',
-                'denis.iae@univ-paris1.fr'].include?(current_user.email)
+    authorize :tool, :can_see_RHGroup_private_tool?
 
     @intervenants ||= []
 
@@ -688,7 +684,7 @@ class ToolsController < ApplicationController
     end 
 
     @results = {}
-    Cour.where("debut between DATE(?) AND DATE(?) AND salle_id NOT NULL", @start_date, @end_date).each do | c |
+    Cour.where("debut between DATE(?) AND DATE(?) AND salle_id IS NOT NULL", @start_date, @end_date).each do | c |
       if Salle.salles_de_cours.include?(c.salle)
         salle = c.salle.nom
         if @results[salle]

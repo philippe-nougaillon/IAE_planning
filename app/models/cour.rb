@@ -34,7 +34,7 @@ class Cour < ActiveRecord::Base
   end
   
   def self.actions
-    ["Changer d'intervenant", "Exporter vers Excel", "Exporter vers iCalendar", "Exporter en PDF"]
+    ["Changer d'intervenant", "Exporter vers Excel", "Exporter vers iCalendar", "Exporter en PDF", "Supprimer"]
   end
 
   def self.actions_admin

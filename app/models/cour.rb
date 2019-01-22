@@ -34,11 +34,11 @@ class Cour < ActiveRecord::Base
   end
   
   def self.actions
-    ["Changer d'intervenant", "Exporter vers Excel", "Exporter vers iCalendar", "Exporter en PDF", "Supprimer"]
+    ["Changer d'intervenant", "Exporter vers Excel", "Exporter vers CSV", "Exporter vers iCalendar", "Exporter en PDF", "Supprimer"]
   end
 
   def self.actions_admin
-    ["Changer de salle", "Changer d'état", "Changer de date", "Changer d'intervenant", "Exporter vers Excel", "Exporter vers iCalendar", "Exporter en PDF", "Supprimer"]
+    ["Changer de salle", "Changer d'état", "Changer de date", "Changer d'intervenant", "Exporter vers Excel", "Exporter vers CSV", "Exporter vers iCalendar", "Exporter en PDF", "Supprimer"]
   end
 
   def self.etendue_horaire
@@ -215,6 +215,55 @@ class Cour < ActiveRecord::Base
         end
     end
   end
+
+
+  def self.generate_xlsx(cours, exporter_binome, voir_champs_privés = false)
+    require 'spreadsheet'    
+    
+    Spreadsheet.client_encoding = 'LATIN1//TRANSLIT//IGNORE'
+    book = Spreadsheet::Workbook.new
+    sheet = book.create_worksheet name: 'Export cours planning'
+
+    sheet.row(0).concat %w{id Date\ début Heure\ début Date\ fin Heure\ fin Formation_id Formation
+                Code_Analytique Intervenant_id Intervenant UE Intitulé Binôme? Etat
+                Salle Durée HSS E-learning Taux_TD HETD Commentaires Créé\ le Par Modifié\ le}  
+    
+    cours.each_with_index do |c, index|
+        formation = Formation.unscoped.find(c.formation_id)
+        hetd = c.duree * (formation.Taux_TD || 0)
+        fields_to_export = [c.id, c.debut.to_date.to_s, c.debut.to_s(:time), c.fin.to_date.to_s, c.fin.to_s(:time), 
+            c.formation_id, formation.nom_promo, formation.Code_Analytique, 
+            c.intervenant_id, c.intervenant.nom_prenom, c.ue, c.nom, 
+            (c.intervenant_binome ? "#{c.intervenant.nom}/#{c.intervenant_binome.nom}" : ''), 
+            c.etat, (c.salle ? c.salle.nom : ""), 
+            c.duree.to_s.gsub(/\./, ','),
+            (c.hors_service_statutaire ? "OUI" : ''),
+            (c.elearning ? "OUI" : ''), 
+            (voir_champs_privés ? formation.Taux_TD : ''),
+            (voir_champs_privés ? hetd.to_s.gsub(/\./, ',') : ''),
+            (voir_champs_privés ? c.commentaires : ''),
+            c.created_at,
+            c.audits.first.user.try(:email),
+            c.updated_at
+        ]
+        sheet.row(index).push fields_to_export
+          
+          # créer une ligne d'export supplémentaire pour le cours en binome
+          # if exporter_binome and c.intervenant_binome
+          #   fields_to_export[8] = c.intervenant_binome_id
+          #   fields_to_export[9] = c.intervenant_binome.nom_prenom 
+          #   csv << fields_to_export
+          # end  
+    end
+
+    file = StringIO.new
+    book.set_file_name "cours.xls"
+    book.write( file )
+
+    return file
+
+  end
+
 
   def self.generate_ical(cours)
     require 'icalendar'

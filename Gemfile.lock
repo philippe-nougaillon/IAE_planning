@@ -159,6 +159,7 @@ GEM
       actionpack (>= 4.2.0, < 5.3)
       railties (>= 4.2.0, < 5.3)
     ruby-graphviz (1.2.3)
+    ruby-ole (1.2.12.1)
     ruby-progressbar (1.10.0)
     sass (3.4.25)
     sass-rails (5.0.7)
@@ -174,6 +175,8 @@ GEM
       thor (~> 0.14)
     simple_calendar (2.3.0)
       rails (>= 3.0)
+    spreadsheet (1.1.8)
+      ruby-ole (>= 1.0)
     spring (2.0.2)
       activesupport (>= 4.2)
     sprockets (3.7.2)
@@ -239,6 +242,7 @@ DEPENDENCIES
   sdoc (~> 0.4.0)
   select2-rails
   simple_calendar (~> 2.0)
+  spreadsheet
   spring
   sucker_punch
   turbolinks
@@ -251,4 +255,4 @@ DEPENDENCIES
   yaml_db
 
 BUNDLED WITH
-   1.16.3
+   1.17.1

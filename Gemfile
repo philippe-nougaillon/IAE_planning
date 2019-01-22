@@ -59,6 +59,9 @@ gem "select2-rails"
 gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary'
 
+# generate XLSX sheet
+gem 'spreadsheet'
+
 #gem 'capture-output'
 
 # Use ActiveModel has_secure_password

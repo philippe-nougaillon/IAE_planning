@@ -239,12 +239,7 @@ class CoursController < ApplicationController
             cours.salle = s 
             salles << s.nom if cours.valid?
           end
-          #logger.debug "[DEBUG] cours = #{cours.id}"
-          #logger.debug "[DEBUG] dispos avant = #{@salles_dispos} #{@salles_dispos.count}"
           @salles_dispos = @salles_dispos & salles
-          #logger.debug "[DEBUG] salles = #{salles}"
-          #logger.debug "[DEBUG] dispos après = #{@salles_dispos} #{@salles_dispos.count}"
-          #logger.debug "[DEBUG] --------------------------------------------------------"
         end
       end  
     
@@ -258,67 +253,81 @@ class CoursController < ApplicationController
     @cours = Cour.where(id: params[:cours_id].keys)
 
     case action_name 
-    when 'Changer de salle'
-      salle = !params[:salle_id].blank? ? Salle.find(params[:salle_id]) : nil
-      @cours.each do |c|
-        c.salle = salle
-        flash[:error] = c.errors.messages unless c.save
-      end
-    when "Changer d'état"
-      @cours.each do |c|
-        c.etat = params[:etat].to_i
-        c.save
-        ## envoyer de mail par défaut (after_validation:true) sauf si envoyer email pas coché
-        #c.save(validate:params[:email].present?)
-      end
-    when "Changer de date"
-      unless params[:new_date].blank?
-        new_date = params[:new_date].to_date
-      end
-      unless params[:add_n_days].blank?
-        add_n_days = params[:add_n_days].to_i 
-      end
-      
-      @cours.each do |c|
-        if add_n_days.present?
-          new_date = c.debut + add_n_days.days
-        end
-        if new_date.present?
-          c.debut = c.debut.change(year: new_date.year, month: new_date.month, day: new_date.day)
-          c.fin = c.fin.change(year: new_date.year, month: new_date.month, day: new_date.day)
-        end
-        if add_n_days.present? || new_date.present?
-          unless c.save
-            flash[:error] = c.errors.messages
-          end
-        else
-          flash[:error] = "Aucun cours mis à jour"
-        end    
-      end
-    when "Changer d'intervenant"
-      @cours.each do |c|
-        c.intervenant_id = params[:intervenant_id].to_i
-        c.save
-      end
-    when "Supprimer" 
-      if !params[:delete].blank?      
+
+      when 'Changer de salle'
+        salle = !params[:salle_id].blank? ? Salle.find(params[:salle_id]) : nil
         @cours.each do |c|
-          if policy(c).destroy?
-            c.destroy
-          else 
-            flash[:error] = "Vous ne pouvez pas supprimer ce cours (##{c.id}) ! Opération annulée"
-            next
+          c.salle = salle
+          flash[:error] = c.errors.messages unless c.save
+        end
+
+      when "Changer d'état"
+        @cours.each do |c|
+          c.etat = params[:etat].to_i
+          c.save
+          ## envoyer de mail par défaut (after_validation:true) sauf si envoyer email pas coché
+          #c.save(validate:params[:email].present?)
+        end
+
+      when "Changer de date"
+        unless params[:new_date].blank?
+          new_date = params[:new_date].to_date
+        end
+        unless params[:add_n_days].blank?
+          add_n_days = params[:add_n_days].to_i 
+        end
+        
+        @cours.each do |c|
+          if add_n_days.present?
+            new_date = c.debut + add_n_days.days
+          end
+          if new_date.present?
+            c.debut = c.debut.change(year: new_date.year, month: new_date.month, day: new_date.day)
+            c.fin = c.fin.change(year: new_date.year, month: new_date.month, day: new_date.day)
+          end
+          if add_n_days.present? || new_date.present?
+            unless c.save
+              flash[:error] = c.errors.messages
+            end
+          else
+            flash[:error] = "Aucun cours mis à jour"
+          end    
+        end
+
+      when "Changer d'intervenant"
+        @cours.each do |c|
+          c.intervenant_id = params[:intervenant_id].to_i
+          c.save
+        end
+
+      when "Supprimer" 
+        if !params[:delete].blank?      
+          @cours.each do |c|
+            if policy(c).destroy?
+              c.destroy
+            else 
+              flash[:error] = "Vous ne pouvez pas supprimer ce cours (##{c.id}) ! Opération annulée"
+              next
+            end
           end
         end
-      end
-    when "Exporter vers Excel"
-      @csv_string = Cour.generate_csv(@cours.includes(:formation, :intervenant, :salle, :audits), true, true)
-      request.format = 'csv'
-    when "Exporter vers iCalendar"
-      @calendar = Cour.generate_ical(@cours)
-      request.format = 'ics'
-    when "Exporter en PDF"
-      request.format = 'pdf'
+
+      when "Exporter vers CSV"
+        @csv_string = Cour.generate_csv(@cours.includes(:formation, :intervenant, :salle, :audits), true, true)
+        request.format = 'csv'
+
+      when "Exporter vers Excel"
+        @book = Cour.generate_csv(@cours.includes(:formation, :intervenant, :salle, :audits), true, true)
+        request.format = 'xls'
+
+
+      when "Exporter vers iCalendar"
+        @calendar = Cour.generate_ical(@cours)
+        request.format = 'ics'
+
+      when "Exporter en PDF"
+        request.format = 'pdf'
+
     end 
 
     filename = "Export_Planning_#{Date.today.to_s}"
@@ -334,6 +343,10 @@ class CoursController < ApplicationController
       format.csv do
         response.headers['Content-Disposition'] = 'attachment; filename="' + filename + '.csv"'
         render "cours/action_do.csv.erb"
+      end
+
+      format.xls do
+        response.headers['Content-Disposition'] = 'attachment; filename="' + filename + '.xlsx"'
       end
 
       format.ics do

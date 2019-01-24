@@ -62,6 +62,9 @@ Rails.application.routes.draw do
     namespace :v1 do 
         resources :cours
     end 
+    namespace :v2 do 
+        resources :cours
+    end 
   end 
 
   # The priority is based upon order of creation: first created -> highest priority.

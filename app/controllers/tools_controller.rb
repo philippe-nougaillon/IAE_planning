@@ -469,12 +469,11 @@ class ToolsController < ApplicationController
       cours = cours.where(etat:params[:etat])
     end
 
-    @csv_string = Cour.generate_csv(cours, params[:binome].present?, true)  
-
-    filename = "Export_Cours_#{Date.today.to_s}"
-    response.headers['Content-Disposition'] = 'attachment; filename="' + filename + '.csv"'
-    render "export_do.csv.erb"
-
+    book = Cour.generate_xls(cours, params[:binome].present?, true)  
+    file_contents = StringIO.new
+    book.write file_contents # => Now file_contents contains the rendered file output
+    filename = "Export_Cours.xls"
+    send_data file_contents.string.force_encoding('binary'), filename: filename 
   end
 
   def export_intervenants

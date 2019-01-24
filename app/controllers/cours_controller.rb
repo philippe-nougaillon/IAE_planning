@@ -156,6 +156,14 @@ class CoursController < ApplicationController
         render "cours/action_do.csv.erb"
       end
 
+      format.xls do
+        book = Cour.generate_xls(@cours, !params[:intervenant])
+        file_contents = StringIO.new
+        book.write file_contents # => Now file_contents contains the rendered file output
+        filename = "Export_Cours.xls"
+        send_data file_contents.string.force_encoding('binary'), filename: filename 
+      end
+
       format.ics do
         @calendar = Cour.generate_ical(@cours)
         filename = "Export_iCalendar_#{Date.today.to_s}"
@@ -317,9 +325,7 @@ class CoursController < ApplicationController
         request.format = 'csv'
 
       when "Exporter vers Excel"
-        @book = Cour.generate_csv(@cours.includes(:formation, :intervenant, :salle, :audits), true, true)
         request.format = 'xls'
-
 
       when "Exporter vers iCalendar"
         @calendar = Cour.generate_ical(@cours)
@@ -346,7 +352,11 @@ class CoursController < ApplicationController
       end
 
       format.xls do
-        response.headers['Content-Disposition'] = 'attachment; filename="' + filename + '.xlsx"'
+        book = Cour.generate_xls(@cours, !params[:intervenant])
+        file_contents = StringIO.new
+        book.write file_contents # => Now file_contents contains the rendered file output
+        filename = "Export_Cours.xls"
+        send_data file_contents.string.force_encoding('binary'), filename: filename 
       end
 
       format.ics do

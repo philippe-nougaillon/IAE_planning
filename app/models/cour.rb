@@ -217,18 +217,19 @@ class Cour < ActiveRecord::Base
   end
 
 
-  def self.generate_xlsx(cours, exporter_binome, voir_champs_privés = false)
+  def self.generate_xls(cours, exporter_binome, voir_champs_privés = false)
     require 'spreadsheet'    
     
-    Spreadsheet.client_encoding = 'LATIN1//TRANSLIT//IGNORE'
+    Spreadsheet.client_encoding = 'ISO-8859-1'
     book = Spreadsheet::Workbook.new
-    sheet = book.create_worksheet name: 'Export cours planning'
+    sheet = book.create_worksheet name: 'Planning'
 
     sheet.row(0).concat %w{id Date\ début Heure\ début Date\ fin Heure\ fin Formation_id Formation
                 Code_Analytique Intervenant_id Intervenant UE Intitulé Binôme? Etat
                 Salle Durée HSS E-learning Taux_TD HETD Commentaires Créé\ le Par Modifié\ le}  
     
-    cours.each_with_index do |c, index|
+    index = 1
+    cours.each do |c|
         formation = Formation.unscoped.find(c.formation_id)
         hetd = c.duree * (formation.Taux_TD || 0)
         fields_to_export = [c.id, c.debut.to_date.to_s, c.debut.to_s(:time), c.fin.to_date.to_s, c.fin.to_s(:time), 
@@ -246,22 +247,20 @@ class Cour < ActiveRecord::Base
             c.audits.first.user.try(:email),
             c.updated_at
         ]
-        sheet.row(index).push fields_to_export
-          
-          # créer une ligne d'export supplémentaire pour le cours en binome
-          # if exporter_binome and c.intervenant_binome
-          #   fields_to_export[8] = c.intervenant_binome_id
-          #   fields_to_export[9] = c.intervenant_binome.nom_prenom 
-          #   csv << fields_to_export
-          # end  
+        sheet.row(index).replace fields_to_export
+        #logger.debug "#{index} #{fields_to_export}"
+        index += 1
+
+        # créer une ligne d'export supplémentaire pour le cours en binome
+        if exporter_binome and c.intervenant_binome
+          fields_to_export[8] = c.intervenant_binome_id
+          fields_to_export[9] = c.intervenant_binome.nom_prenom 
+          sheet.row(index).replace fields_to_export
+          index += 1
+        end  
     end
 
-    file = StringIO.new
-    book.set_file_name "cours.xls"
-    book.write( file )
-
-    return file
-
+    return book
   end
 
 

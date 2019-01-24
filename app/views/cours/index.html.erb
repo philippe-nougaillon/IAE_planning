@@ -204,12 +204,16 @@
             <br><br>
           </div>
         <% else %>
-          <% if !params[:formation].blank? || !params[:intervenant].blank? %>
+          <% if params[:formation].present? || params[:intervenant].present? %>
             <div class="pull-right">
               <br>
               <%= link_to cours_url(format: :csv), class: 'btn btn-primary' do %>
                 <span class="glyphicon glyphicon-share"></span>
                 Export CSV
+              <% end %>
+              <%= link_to cours_url(format: :xls), class: 'btn btn-primary' do %>
+                <span class="glyphicon glyphicon-share"></span>
+                Export Excel
               <% end %>
               <%= link_to cours_url(format: :ics), class: 'btn btn-primary' do %>
                 <span class="glyphicon glyphicon-calendar"></span>

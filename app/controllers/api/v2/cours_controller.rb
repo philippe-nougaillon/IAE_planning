@@ -15,7 +15,7 @@ module Api
 				end
 				render json: cours,
 						methods:[:duree_json, :salle_json, :matiere_json, :formation_json, :intervenant_json],
-						except:[:created_at, :updated_at, :id, :salle_id, :formation_id, 
+						except:[:created_at, :updated_at, :salle_id, :formation_id, 
 								:intervenant_id, :intervenant_binome_id, :etat, :duree, :ue, :nom, :elearning, 
 								:commentaires, :hors_service_statutaire]
 			end	

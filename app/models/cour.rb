@@ -139,6 +139,10 @@ class Cour < ActiveRecord::Base
     self.salle.try(:nom)
   end
 
+  def debut_fin_json_v2
+    self.debut.to_s[11..15] + " - " + self.fin.to_s[11..15]
+  end
+
   # ETATS DE SERVICES 
 
   def Taux_TD

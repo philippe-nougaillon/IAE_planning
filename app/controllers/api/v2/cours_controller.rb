@@ -8,21 +8,10 @@ module Api
 		    respond_to :json
 
 			def index
-				@cours = Cour.where(etat: Cour.etats.values_at(:planifié, :confirmé)).order(:debut)
-				
-				if params[:d]
-					@cours = @cours.where("DATE(debut)=?", params[:d])
-				else
-					@cours = @cours.where("debut >= ?", Date.today)
-				end
+				@cours = Cour.where(etat: Cour.etats.values_at(:planifié, :confirmé))
+							 .where("DATE(debut)=?", params[:d])
+							 .order(:debut)
 			end	
-							
-		    def show
-		    	cours = Cour.find(params[:id])
-		    	render json: cours, 
-		    				methods:[:duree, :start_time_short_fr, :nom_ou_ue, :formation_json, :photo_json, :salle_json], 
-		    				except:[:created_at, :updated_at]
-		    end
 		end
 	end
 end

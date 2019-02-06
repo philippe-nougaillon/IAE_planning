@@ -160,6 +160,9 @@
         <strong>Attention: une formation ayant des cours à venir ne pourra pas être archivée  (l'option sera désactivée)!</strong>
       </li>     
     </ul>
+    <li>
+      Code Analytique (EOTP): Quand il s'agit d'une formation de plusieurs années civiles, il faut saisir la racine du code EOTP plus "?" (ex:7322PLHCOFCDFINS?). Le système remplacera le '?' par l'indice (1,2 ou 3) selon l'année de début début des cours de cette promotion (indice = année_du_premier_cours - année_en_cours + 1)  ((2018 - 2018) +1 ) = 1.  
+    </li>
 </ul>
 <br>
 
@@ -203,15 +206,16 @@
     <li>Profil des intervenants avec photo (option), status, formations dispensées (affichage dynamique basé sur les cours enregistrés, avec le nombre d'heures planifiées et la date du premier cours)</li>
     <li>Gestion des responsabilités (Titre, nbr heures attribuées)</li>
     <ul>
-  		<li>
-  			<b>Filtrage des cours par intervenant;</b> Pour que la recherche d'un intervenant soit fructueuse :
-  			<br>
-  			Comme le système cherche un intervenant qui se nomme NOM + 'Espace' + PRENOM, il ne faut donc pas d’espace, ni dans le nom, ni dans le prénom.
-  			Ex: "DE LA MARRE Henry" sera compris comme nom=DE, prénom=LA MARRE Henry. Il convient donc de remplacer l'espace par un '_', ce qui donnera "DE_LA_MARRE Henry".
-  			Le nom et le prénom sont obligatoires. Remplissez un champ vide par un point si besoin.
-  		</li>
+      <li>
+        <b>Filtrage des cours par intervenant;</b> Pour que la recherche d'un intervenant soit fructueuse :
+        <br>
+        Comme le système cherche un intervenant qui se nomme NOM + 'Espace' + PRENOM, il ne faut donc pas d’espace, ni dans le nom, ni dans le prénom.
+        Ex: "DE LA MARRE Henry" sera compris comme nom=DE, prénom=LA MARRE Henry. Il convient donc de remplacer l'espace par un '_', ce qui donnera "DE_LA_MARRE Henry".
+        Le nom et le prénom sont obligatoires. Remplissez un champ vide par un point si besoin.
+      </li>
       <li>Cochez 'Autoriser les doublons' si vous souhaitez que l'intervenant puisse être sur plusieurs cours sur le même créneau horaire. C'est généralement le cas pour les groupes et non les individus.</li>
-	</ul>
+  </ul>
+  <li>La saisie des Responsabilités n'est accessible que par les membres du groupe RH</li>
 </ul>
 <br>
 

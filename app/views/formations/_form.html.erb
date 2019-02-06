@@ -70,7 +70,7 @@
 
         <div class="row">
           <div class="col-sm-5">
-            <%= f.text_field :Code_Analytique, label:"Code Analytique" %>
+            <%= f.text_field :Code_Analytique, label:"Code Analytique (EOTP)" %>
           </div>
           <div class="col-sm-5">
             <%= f.text_field :Taux_TD, label:"Taux TD" %>
@@ -166,11 +166,12 @@
             </div>  
 
             <div class="col-sm-3">
-              <%= vacation.text_field :titre, placeholder: 'Tutorat' %>
+              <%= vacation.text_field :titre, placeholder: 'Tutorat', label: "Activité" %>
+              <%= 
             </div>
 
             <div class="col-sm-1">
-              <%= vacation.number_field :qte %>
+              <%= vacation.number_field :qte, label: "Qté" %>
             </div>
 
             <div class="col-sm-2">

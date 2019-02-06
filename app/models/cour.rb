@@ -99,7 +99,9 @@ class Cour < ActiveRecord::Base
     self.nom =~ /https?:\/\/[\S]+/
   end
 
-  # render json methods:
+  # render json methods
+  # 
+
   def photo_json
     if self.intervenant.photo 
       self.intervenant.photo.url
@@ -126,13 +128,18 @@ class Cour < ActiveRecord::Base
     self.nom_ou_ue
   end
 
-  # def elearning?
-  #   if self.salle
-  #     self.salle.nom[0..3] == 'ZOOM'
-  #   else
-  #     false
-  #   end
-  # end
+  # render json methods V2
+  # 
+
+  def formation_json_v2
+    self.formation.nom
+  end
+
+  def salle_json_v2
+    self.salle.try(:nom)
+  end
+
+  # ETATS DE SERVICES 
 
   def Taux_TD
     # Taux particuliers
@@ -156,6 +163,8 @@ class Cour < ActiveRecord::Base
     41.41
   end
 
+  # SLIDER
+
   def progress_bar_pct(planning_date = nil)
     # calcul le % de réalisation du cours
     @now = DateTime.now.in_time_zone("Paris") + 1.hours
@@ -176,6 +185,9 @@ class Cour < ActiveRecord::Base
       return range[0..-2] # enlève le dernier créneau horaire pour ne pas afficher la dernière heure comme occupée
     end
   end
+
+
+  # CSV 
 
   def self.generate_csv(cours, exporter_binome, voir_champs_privés = false)
     require 'csv'

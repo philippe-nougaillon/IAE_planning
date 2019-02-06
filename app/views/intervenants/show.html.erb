@@ -86,36 +86,38 @@
   <% end %>
 <% end %>
 
-<% if @intervenant.responsabilites.any? %>
-  <div class="page-header"> 
-    <h3>
-      <small>Responsabilités</small>
-    </h3>
-  </div> 
+<% if policy(:tool).can_see_RHGroup_private_tool? %>
+  <% if @intervenant.responsabilites.any? %>
+    <div class="page-header"> 
+      <h3>
+        <small>Responsabilités</small>
+      </h3>
+    </div> 
 
-  <ul>
-    <% @intervenant.responsabilites.each do |r| %>
-      <div class="row">
-        <li>
-          <div class="col-sm-1">
-            <%= l r.debut %>
-          </div>  
-          <div class="col-sm-1">
-            <%= l r.fin %>
-          </div>  
-          <div class="col-sm-3">
-            <%= link_to(r.formation.nom, r.formation) if r.formation %>
-          </div>  
-          <div class="col-sm-3">
-            <%= r.titre %>
-          </div>  
-          <div class="col-sm-1">
-            <%= r.heures %>h
-          </div>
-        </li> 
-      </div>
-    <% end %>
-  </ul>
+    <ul>
+      <% @intervenant.responsabilites.each do |r| %>
+        <div class="row">
+          <li>
+            <div class="col-sm-1">
+              <%= l r.debut %>
+            </div>  
+            <div class="col-sm-1">
+              <%= l r.fin %>
+            </div>  
+            <div class="col-sm-3">
+              <%= link_to(r.formation.nom, r.formation) if r.formation %>
+            </div>  
+            <div class="col-sm-3">
+              <%= r.titre %>
+            </div>  
+            <div class="col-sm-1">
+              <%= r.heures %>h
+            </div>
+          </li> 
+        </div>
+      <% end %>
+    </ul>
+  <% end %>
 <% end %>
 
 <% if @intervenant.vacations.any? %>

@@ -36,6 +36,10 @@ class Formation < ActiveRecord::Base
 		self.promo.blank? ? "#{self.nom} (#{self.nbr_etudiants}E)"  : "#{self.nom} - #{self.promo} (#{self.nbr_etudiants}E)" 
 	end
 
+	def nom_eotp
+		self.Code_Analytique.blank? ? self.nom : "#{self.nom} -> #{self.Code_Analytique}"
+	end
+
 	def Code_Analytique_avec_indice(cours)
 		code = self.Code_Analytique
 		if code.last == '?'

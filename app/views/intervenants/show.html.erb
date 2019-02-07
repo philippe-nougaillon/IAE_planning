@@ -20,7 +20,6 @@
   <br><br>  
 </div>
 
-
 <div class="row">
   <div class="col-sm-3">
     <h1 style="font-size: 160px" class="glyphicon glyphicon-user"></h1>
@@ -67,14 +66,12 @@
 </div>
 
 <% if @formations.any? %>
-  <div class="page-header"> 
-    <h3>
-      <small>
-        <%= "Formation".pluralize(@formations.count) %>
-        <%= "dispensée".pluralize(@formations.count) %>
-      </small>
-    </h3>
-  </div>
+  <h3>
+    <small>
+      <%= "Formation".pluralize(@formations.count) %>
+      <%= "dispensée".pluralize(@formations.count) %>
+    </small>
+  </h3>
 
   <% @formations.each_with_index do |formation, index| %>
     <%= link_to formation.nom, 
@@ -88,11 +85,9 @@
 
 <% if policy(:tool).can_see_RHGroup_private_tool? %>
   <% if @intervenant.responsabilites.any? %>
-    <div class="page-header"> 
-      <h3>
-        <small>Responsabilités</small>
-      </h3>
-    </div> 
+    <h3>
+      <small>Responsabilités</small>
+    </h3>
 
     <ul>
       <% @intervenant.responsabilites.each do |r| %>
@@ -105,10 +100,10 @@
               <%= l r.fin %>
             </div>  
             <div class="col-sm-3">
-              <%= link_to(r.formation.nom, r.formation) if r.formation %>
+              <%= r.titre %>
             </div>  
             <div class="col-sm-3">
-              <%= r.titre %>
+              <%= link_to(r.formation.nom, r.formation) %>
             </div>  
             <div class="col-sm-1">
               <%= r.heures %>h

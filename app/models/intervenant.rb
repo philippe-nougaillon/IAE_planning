@@ -7,7 +7,13 @@ class Intervenant < ActiveRecord::Base
 	has_many :cours
 	has_many :formations, through: :cours
 	has_many :responsabilites
-	accepts_nested_attributes_for :responsabilites, allow_destroy:true, reject_if: lambda {|attributes| attributes['titre'].blank?}
+	accepts_nested_attributes_for :responsabilites, 
+									allow_destroy:true, 
+									reject_if: lambda {|attributes| attributes['titre'].blank? || 
+																	attributes['debut'].blank? ||
+																	attributes['fin'].blank? ||
+																	attributes['formation_id'].blank? ||
+																	 attributes['heures'].blank? }
 
 	has_many :vacations
 
@@ -26,6 +32,30 @@ class Intervenant < ActiveRecord::Base
 		  'Individus' => where("intervenants.doublon = ? OR intervenants.doublon is null", false).map { |i| "#{i.nom} #{i.prenom}"  }
 		}
 	end
+
+	def self.liste_responsabilites
+		["Direction de diplôme",
+        "Gestion d'un groupe d'appentis M1",
+        "Gestion d'un groupe d'appentis M2",
+        "MAE encadrement de groupes FI & FC soirs/par groupe",
+        "Encadrement des groupes FI jour",
+        "Coordination d'une UE du MAE",
+        "Coordination d'une UE thématique en MAE/1 groupe",
+        "Coordination d'une UE thématique en MAE/2 groupes",
+        "Organisation et accompagnement SPI",
+        "Appel d'offre/appel à référencement/conception _ formation",
+        "Développement formation inter/intra",
+        "Coordination de projet de recherche international",
+        "Participation à des salons",
+        "Animation d'un groupe professionnel",
+        "Chargé de mission",
+        "Direction du laboratoire de recherche",
+        "E-learning (conception, suivi, enregistrement)",
+        "Direction de Chaire",
+        "SCORE IAE message",
+        "Co-rédaction d'un cas",
+        "Coordination d'une UE (hors MAE)"]
+    end
 	
 	def nom_prenom
 		self.prenom.blank? ? self.nom.upcase : "#{self.nom} #{self.prenom}" 

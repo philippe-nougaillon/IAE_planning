@@ -65,14 +65,14 @@ class FormationsController < ApplicationController
     @formation = Formation.new
     15.times { @formation.unites.build }
     10.times { @formation.etudiants.build } 
-    5.times { @formation.vacations.build }
+    3.times { @formation.vacations.build }
   end
 
   # GET /formations/1/edit
   def edit
     2.times { @formation.unites.build }
     2.times { @formation.etudiants.build } 
-    3.times { @formation.vacations.build }
+    2.times { @formation.vacations.build }
   end
 
   # POST /formations
@@ -96,7 +96,7 @@ class FormationsController < ApplicationController
   def update
     respond_to do |format|
       if @formation.update(formation_params)
-        format.html { redirect_to formations_url, notice: 'Formation modifiée' }
+        format.html { redirect_to @formation, notice: 'Formation modifiée' }
         format.json { render :show, status: :ok, location: @formation }
       else
         format.html { render :edit }

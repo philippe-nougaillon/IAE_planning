@@ -8,13 +8,20 @@ class Formation < ActiveRecord::Base
 	has_many :documents, dependent: :destroy
 	
 	has_many :unites
-	accepts_nested_attributes_for :unites, allow_destroy:true, reject_if: lambda {|attributes| attributes['num'].blank?}
+	accepts_nested_attributes_for :unites, allow_destroy:true, 
+									reject_if: lambda {|attributes| attributes['num'].blank?}
 
 	has_many :etudiants
-	accepts_nested_attributes_for :etudiants, allow_destroy:true, reject_if: lambda {|attributes| attributes['nom'].blank?}
+	accepts_nested_attributes_for :etudiants, allow_destroy:true, 
+									reject_if: lambda {|attributes| attributes['nom'].blank?}
 
 	has_many :vacations
-	accepts_nested_attributes_for :vacations, allow_destroy:true, reject_if: lambda {|attributes| attributes['titre'].blank?}
+	accepts_nested_attributes_for :vacations, allow_destroy:true, 
+									reject_if: lambda {|attributes| attributes['intervenant_id'].blank? || 
+																	attributes['titre'].blank? ||
+																	attributes['date'].blank? ||
+																	attributes['qte'].blank? ||
+																	attributes['forfaithtd'].blank?	}
 
 	belongs_to :user
 

@@ -83,7 +83,7 @@
         <div class="row">
           <li>
             <div class="col-sm-2">
-              <%= r.date_field :debut %>
+              <%= r.date_field :debut, label:"Début" %>
             </div>
 
             <div class="col-sm-2">
@@ -91,30 +91,7 @@
             </div>
 
             <div class="col-sm-4">
-              <%= r.select :titre, 
-                            options_for_select(["Direction de diplôme",
-                                                "Gestion d'un groupe d'appentis M1",
-                                                "Gestion d'un groupe d'appentis M2",
-                                                "MAE encadrement de groupes FI & FC soirs/par groupe",
-                                                "Encadrement des groupes FI jour",
-                                                "Coordination d'une UE du MAE",
-                                                "Coordination d'une UE thématique en MAE/1 groupe",
-                                                "Coordination d'une UE thématique en MAE/2 groupes",
-                                                "Organisation et accompagnement SPI",
-                                                "Appel d'offre/appel à référencement/conception _ formation",
-                                                "Développement formation inter/intra",
-                                                "Coordination de projet de recherche international",
-                                                "Participation à des salons",
-                                                "Animation d'un groupe professionnel",
-                                                "Chargé de mission",
-                                                "Direction du laboratoire de recherche",
-                                                "E-learning (conception, suivi, enregistrement)",
-                                                "Direction de Chaire",
-                                                "SCORE IAE message",
-                                                "Co-rédaction d'un cas",
-                                                "Coordination d'une UE (hors MAE)"
-                                              ])
-               %>
+              <%= r.select :titre, Intervenant.liste_responsabilites, include_blank: true %>
             </div>
 
             <div class="col-sm-3">
@@ -126,6 +103,7 @@
             <div class="col-sm-1">
               <%= r.text_field :heures, label:"Forfait" %>
             </div>
+            
             <div class="col-sm-2">
               <br>
               <%= r.check_box :_destroy, label:"Supprimer ?" %>

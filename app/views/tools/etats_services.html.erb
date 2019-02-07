@@ -16,202 +16,61 @@
 <br>
 
 <%= form_tag(request.path, method: :get) do %>
-    <div class="form-group">
-        <div class="row">
-            <div class="col-sm-2">
-                <%= label_tag "Du" %>    
-                <%= text_field_tag :start_date, params[:start_date], type:'date', class:"form-control" %>
-            </div>
+    <div class="row">
 
-            <div class="col-sm-2">
-                <%= label_tag "Au" %>    
-                <%= text_field_tag :end_date, params[:end_date], type:'date', class:"form-control" %>
-            </div>
-
-            <div class="col-sm-2">
-                <%= label_tag :status, "Statut" %>
-                <%= select_tag :status, 
-                    options_for_select(Intervenant.statuses, 
-                    params[:status]), include_blank:true,
-                    class:"form-control", onchange:'this.form.submit()' %>
-            </div>
-
-            <% if @intervenants_for_select %>
-                <div class="col-sm-4">
-                    <%= label_tag :intervenant_id, "Intervenant" %>
-                    <div class="input-group">
-                        <%= select_tag :intervenant_id,
-                            options_from_collection_for_select(@intervenants_for_select, :id, :nom_prenom, params[:intervenant_id]), 
-                                include_blank:true, onchange:'this.form.submit()', class:"form-control select2" %>
-                        <span class="input-group-btn">
-                        <%= submit_tag 'Afficher', class:"btn btn-success" %>
-                        </span>
-                    </div>
-               </div>
-            <% end %>
+        <div class="col-sm-2">
+            <%= label_tag "Du" %>    
+            <%= text_field_tag :start_date, params[:start_date], type:'date', class:"form-control" %>
         </div>
+
+        <div class="col-sm-2">
+            <%= label_tag "Au" %>    
+            <%= text_field_tag :end_date, params[:end_date], type:'date', class:"form-control" %>
+        </div>
+
+        <div class="col-sm-2">
+            <%= label_tag :status, "Statut" %>
+            <%= select_tag :status, 
+                options_for_select(Intervenant.statuses, 
+                params[:status]), include_blank:true,
+                class:"form-control", onchange:'this.form.submit()' %>
+        </div>
+
+        <div class="col-sm-4">
+            <% if @intervenants_for_select %>
+                <%= label_tag :intervenant_id, "Intervenant" %>
+                <div class="input-group">
+                    <%= select_tag :intervenant_id,
+                        options_from_collection_for_select(@intervenants_for_select, :id, :nom_prenom, params[:intervenant_id]), 
+                            include_blank:true, onchange:'this.form.submit()', class:"form-control select2" %>
+                    <span class="input-group-btn">
+                    <%= submit_tag 'Afficher', class:"btn btn-success" %>
+                    </span>
+                </div>
+            <% end %>
+       </div>
+
     </div>
 <% end %>
 
 <% @intervenants.each do | intervenant | %>
-        
-        <% next if intervenant.id == 445 %>
+    <% next if intervenant.id == 445 %>
 
-        <% nbr_heures_statutaire = intervenant.nbr_heures_statutaire || 0 %>
-
-        <% cours_ids = @cours.where(intervenant: intervenant).order(:debut).pluck(:id) %>
-        <% cours_ids << @cours.where(intervenant_binome: intervenant).order(:debut).pluck(:id) %>
-        <% cours_ids = cours_ids.flatten %>
-
-        <% if cours_ids %>
-            <% @vacations = intervenant.vacations.where("date BETWEEN ? AND ?", @start_date, @end_date) %>
-            <% @responsabilites = intervenant.responsabilites.where("debut < DATE(?) AND fin > DATE(?)", @end_date, @start_date) %>
-            <% cumul_hetd = cumul_vacations = cumul_resps = cumul_tarif = cumul_duree = 0 %>
-
-            <div class="page-header"> 
-                <h2><%= link_to intervenant.nom_prenom, intervenant %></h2>
-            </div> 
-
-            <table class="table table-hover table-striped table-bordered">
-                <thead>
-                    <th>Date</th>
-                    <th>Heure</th>
-                    <th>Formation</th>
-                    <th>Code</th>
-                    <th>Intitulé</th>
-                    <th></th>
-                    <th>Durée</th>
-                    <th>CM/TD</th>
-                    <th>Taux</th>
-                    <th>HETD</th>
-                    <th style="width: 100px;">Montant</th>
-                    <th>Cumul_HETD</th>
-                </thead>
-
-                <% cours_ids.each do |id| %>
-                    <% c = Cour.find(id) %>
-                    <% unless c.hors_service_statutaire %>
-                        <% cumul_hetd += c.HETD %>
-                        <% montant_service = (c.HETD * Cour.Tarif).round(2) %>
-                        <% cumul_tarif += montant_service %>
-                    <% end %>
-                    <% cumul_duree += c.duree %> 
-                    <% formation = Formation.unscoped.find(c.formation_id) %>
-                    <tr>
-                        <td><%= link_to l(c.debut.to_date), cours_path(start_date:c.debut.to_date) %></td>
-                        <td class="text-right"><%= c.debut.strftime("%k:%M") %></td>
-                        <td><%= link_to formation.abrg, formation_path(formation), target:"_new", title: formation.nom_promo %></td>
-                        <td><%= formation.Code_Analytique_avec_indice(c) %></td>
-                        <td><%= link_to "#{c.ue} #{c.nom_ou_ue}", edit_cour_path(c), target:"_new" %></td>
-                        <td class="text-center">
-                            <% unless c.commentaires.blank? %>
-                                <span class="glyphicon Soutenance de Sarah PELLERIN  glyphicon-comment" title="<%= c.commentaires %>" />
-                            <% end %>
-                            <% if c.elearning %>
-                                <span class="glyphicon glyphicon-home" />
-                            <% end %>
-                            <% if c.hors_service_statutaire %>
-                                <span class="glyphicon glyphicon-remove" />
-                            <% end %>
-                            <% if c.intervenant_id && c.intervenant_binome_id %>
-                                <span class="glyphicon glyphicon-user" title="<%= c.intervenant.nom_prenom %>" />
-                                <span class="glyphicon glyphicon-user" title="<%= c.intervenant_binome.nom_prenom %>" />
-                            <% end %>
-                        </td>
-                        <td class="text-right"><%= c.duree.to_f %></td>
-                        <td class="text-center"><%= c.CMTD? %></td>
-                        <td class="text-right"><%= c.Taux_TD %></td>
-                        <td class="text-right"><%= c.HETD %></td>
-                        <td class="text-right"><%= number_to_currency(montant_service) %></td>
-                        <td class="text-right">
-                            <%= cumul_hetd %>
-                            <% if (nbr_heures_statutaire > 0) && (cumul_hetd >= nbr_heures_statutaire) %>
-                                    <i class="glyphicon glyphicon-plus-sign" />
-                            <% end %>
-                        </td>
-                    </tr>
-                <% end %>
-
-                <tr>
-                    <th colspan="5">Total: <%= cours_ids.count %> cours</th>
-                    <th />
-                    <th class="text-right"><%= cumul_duree %></th>
-                    <th /><th /> 
-                    <th class="text-right"><%= cumul_hetd %></th>
-                    <th class="text-right"><%= number_to_currency(cumul_tarif) %></th> 
-                    <th class="text-right"><%= cumul_hetd %></th>   
-                </tr>
-
-                <% @vacations.each_with_index do |vacation, index| %>
-                    <% montant_vacation = ((Cour.Tarif * vacation.forfaithtd) * vacation.qte).round(2) %>
-                    <% cumul_vacations += montant_vacation %> 
-                    <tr>
-                        <td><%= l vacation.date %></td>
-                        <td />
-                        <td><%= link_to vacation.formation.nom, vacation.formation, target:"_new" %></td>
-                        <td><%= vacation.formation.Code_Analytique %></td>
-                        <td><%= vacation.titre %></td>
-                        <td />
-                        <td class="text-right"><%= vacation.qte %></td>
-                        <td colspan="4">
-                        <td class="text-right"><%= vacation.forfaithtd %></td>
-                        <td class="text-right"><%= number_to_currency(montant_vacation) %></td>
-                    </tr>
-
-                    <% if index == @vacations.size - 1 %>
-                        <tr>
-                            <th colspan="12">Total: <%= pluralize(@vacations.count, 'vacation') %></th>
-                            <th class="text-right"><%= number_to_currency(cumul_vacations) %></th>
-                        </tr>
-                    <% end %>
-                <% end %>
-
-                <% @responsabilites.each_with_index do |resp, index| %>
-                    <% montant_responsabilite = (resp.heures * Cour.Tarif).round(2) %>
-                    <% cumul_resps += montant_responsabilite %>
-                    <tr>
-                        <td><%= l resp.debut %></td>
-                        <td><%= l resp.fin %></td>
-                        <td><%= link_to resp.formation.nom, resp.formation, target:"_new" %></td>
-                        <td><%= resp.formation.Code_Analytique %></td>
-                        <td><%= resp.titre %></td>
-                        <td />
-                        <td class="text-right"><%= resp.heures %></td>
-                        <td colspan="5" />
-                        <td class="text-right"><%= number_to_currency(montant_responsabilite) %></td>
-                    </tr>
-                    <% if index == @responsabilites.size - 1 %>
-                        <tr>
-                            <th colspan="12">Total: <%= pluralize(@responsabilites.count, 'responsabilité') %></th>
-                            <th class="text-right"><%= number_to_currency(cumul_resps) %></th>
-                        </tr>
-                    <% end %>
-                <% end %>
-
-                <tfoot>
-                    <th colspan="10" class="text-center">
-                        <% if nbr_heures_statutaire > 0 %>
-                            <i>
-                                Nbr Heures Statutaires: 
-                                <%= number_with_precision(nbr_heures_statutaire, precision:1) %>h
-                                <% if (nbr_heures_statutaire > 0) && (cumul_hetd >= nbr_heures_statutaire) %>
-                                    | Dépassement: 
-                                    <%= number_with_precision((cumul_hetd - nbr_heures_statutaire) , precision:1) %>h
-                                <% end %>
-                            </i>
-                        <% end %>
-                    </th>
-                    <th class="text-right"><%= number_to_currency(cumul_resps + cumul_vacations + cumul_tarif ) %></th>
-                </tfoot>
-            </table>
-    <% end %>
+    <%= render partial: 'etats_services', locals: {intervenant: intervenant } %>
 
     <div class="text-right">
         <%= link_to url_for(params.merge(intervenant_id: intervenant.id, format:'csv')), 
-            class: 'btn btn-default btn-xs' do %>
-            <span class="glyphicon glyphicon-share"></span>
-            Export CSV
+                            class: 'btn btn-default btn-xs' do %>
+                <span class="glyphicon glyphicon-share"></span>
+                Export CSV
+        <% end %>
+
+        <%= link_to url_for(params.merge(intervenant_id: intervenant.id, format:'pdf')), 
+                            class: 'btn btn-danger btn-xs' do %>
+                <span class="glyphicon glyphicon-share"></span>
+                Export PDF
         <% end %>
     </div>
+
 <% end %>
-<br><br><br>
+<br><br>

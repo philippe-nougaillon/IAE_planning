@@ -75,6 +75,11 @@
           <div class="col-sm-5">
             <%= f.text_field :Taux_TD, label:"Taux TD" %>
           </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-5">
+            <%= f.check_box :hss, label: "HSS?", title: "Cochez pour ne pas imputer dans les états de services" %>
+          </div>
         </div>  
 
         <%= f.text_area :memo, label:"Mémo" %>

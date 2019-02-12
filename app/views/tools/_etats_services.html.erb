@@ -30,13 +30,15 @@
 
         <% cours_ids.each do |id| %>
             <% c = Cour.find(id) %>
-            <% unless c.hors_service_statutaire %>
+            <% cumul_duree += c.duree %> 
+            <% formation = Formation.unscoped.find(c.formation_id) %>
+
+            <% unless c.hors_service_statutaire || formation.hss %>
                 <% cumul_hetd += c.HETD %>
                 <% montant_service = (c.HETD * Cour.Tarif).round(2) %>
                 <% cumul_tarif += montant_service %>
             <% end %>
-            <% cumul_duree += c.duree %> 
-            <% formation = Formation.unscoped.find(c.formation_id) %>
+
             <tr>
                 <td><%= link_to l(c.debut.to_date), cours_path(start_date:c.debut.to_date) %></td>
                 <td class="text-right"><%= c.debut.strftime("%k:%M") %></td>

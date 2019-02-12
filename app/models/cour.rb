@@ -236,7 +236,7 @@ class Cour < ActiveRecord::Base
   def self.generate_xls(cours, exporter_binome, voir_champs_privés = false)
     require 'spreadsheet'    
     
-    Spreadsheet.client_encoding = 'ISO-8859-1'
+    Spreadsheet.client_encoding = 'UTF-8'
     book = Spreadsheet::Workbook.new
     sheet = book.create_worksheet name: 'Planning'
 

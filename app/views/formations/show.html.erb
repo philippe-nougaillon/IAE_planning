@@ -43,6 +43,11 @@
     <% if @formation.hors_catalogue %>
       <p><mark>Hors catalogue</mark></p>
     <% end %>
+
+    <% if @formation.hss? %>
+      <p><mark>Hors états de services</mark></p>
+    <% end %>
+
     <br>
 
     <h3>

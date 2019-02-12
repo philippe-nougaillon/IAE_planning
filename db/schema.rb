@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181214142203) do
+ActiveRecord::Schema.define(version: 20190212114219) do
 
   create_table "audits", force: :cascade do |t|
     t.integer  "auditable_id",    limit: 4
@@ -113,6 +113,7 @@ ActiveRecord::Schema.define(version: 20181214142203) do
     t.string   "Code_Analytique", limit: 255
     t.boolean  "hors_catalogue",                                       default: false
     t.boolean  "archive"
+    t.boolean  "hss"
   end
 
   add_index "formations", ["archive"], name: "index_formations_on_archive", using: :btree

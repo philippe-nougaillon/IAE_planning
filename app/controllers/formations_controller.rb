@@ -125,7 +125,7 @@ class FormationsController < ApplicationController
     def formation_params
       params.require(:formation)
             .permit(:nom, :promo, :diplome, :domaine, :apprentissage, :memo, :nbr_etudiants, :nbr_heures, 
-                    :abrg, :user_id, :color, :Forfait_HETD, :Taux_TD, :Code_Analytique, :catalogue, :archive,
+                    :abrg, :user_id, :color, :Forfait_HETD, :Taux_TD, :Code_Analytique, :catalogue, :archive, :hss,
                     unites_attributes: [:id, :num, :nom, :_destroy],
                     etudiants_attributes: [:id, :nom, :prénom, :email, :mobile, :_destroy],
                     vacations_attributes: [:id, :date, :intervenant_id, :titre, :qte, :forfaithtd, :_destroy])

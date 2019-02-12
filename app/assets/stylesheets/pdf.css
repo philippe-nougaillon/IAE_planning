@@ -43,10 +43,10 @@ h3 {
 .table_pdf th {
     border: 1px solid lightgray;
     color: #9E9E9E;
-    font-size: 10px;
+    font-size: 11px;
 }
 .table_pdf td {
     border: 1px solid gray;
     padding: .5em;
-    font-size: 10px;
+    font-size: 12px;
 }

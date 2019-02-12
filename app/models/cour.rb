@@ -156,7 +156,7 @@ class Cour < ActiveRecord::Base
   end
 
   def HETD
-    self.duree * self.Taux_TD.to_f
+    self.duree * (self.Taux_TD.to_f || 0)
   end
 
   def CMTD?
@@ -166,6 +166,15 @@ class Cour < ActiveRecord::Base
   def self.Tarif
     41.41
   end
+
+  def montant_service
+    self.HETD * Cour.Tarif
+  end
+
+  def imputable?
+    !(self.hors_service_statutaire || Formation.unscoped.find(self.formation_id).hss)
+  end
+
 
   # SLIDER
 
@@ -204,7 +213,6 @@ class Cour < ActiveRecord::Base
     
         cours.each do |c|
           formation = Formation.unscoped.find(c.formation_id)
-          hetd = c.duree * (formation.Taux_TD || 0)
           fields_to_export = [c.id, c.debut.to_date.to_s, c.debut.to_s(:time), c.fin.to_date.to_s, c.fin.to_s(:time), 
             c.formation_id, formation.nom_promo, formation.Code_Analytique, 
             c.intervenant_id, c.intervenant.nom_prenom, c.ue, c.nom, 
@@ -214,7 +222,7 @@ class Cour < ActiveRecord::Base
             (c.hors_service_statutaire ? "OUI" : ''),
             (c.elearning ? "OUI" : ''), 
             (voir_champs_privés ? formation.Taux_TD : ''),
-            (voir_champs_privés ? hetd.to_s.gsub(/\./, ',') : ''),
+            (voir_champs_privés ? c.HETD.to_s.gsub(/\./, ',') : ''),
             (voir_champs_privés ? c.commentaires : ''),
             c.created_at,
             c.audits.first.user.try(:email),
@@ -247,7 +255,6 @@ class Cour < ActiveRecord::Base
     index = 1
     cours.each do |c|
         formation = Formation.unscoped.find(c.formation_id)
-        hetd = c.duree * (formation.Taux_TD || 0)
         fields_to_export = [c.id, c.debut.to_date.to_s, c.debut.to_s(:time), c.fin.to_date.to_s, c.fin.to_s(:time), 
             c.formation_id, formation.nom_promo, formation.Code_Analytique, 
             c.intervenant_id, c.intervenant.nom_prenom, c.ue, c.nom, 
@@ -257,7 +264,7 @@ class Cour < ActiveRecord::Base
             (c.hors_service_statutaire ? "OUI" : ''),
             (c.elearning ? "OUI" : ''), 
             (voir_champs_privés ? formation.Taux_TD : ''),
-            (voir_champs_privés ? hetd.to_s.gsub(/\./, ',') : ''),
+            (voir_champs_privés ? c.HETD.to_s.gsub(/\./, ',') : ''),
             (voir_champs_privés ? c.commentaires : ''),
             c.created_at,
             c.audits.first.user.try(:email),
@@ -322,13 +329,13 @@ class Cour < ActiveRecord::Base
 
             cours_ids.each do |id|
                 c = Cour.find(id)
-                formation = Formation.unscoped.find(c.formation_id)
 
-                hetd = c.duree * (formation.Taux_TD || 0)
-                unless c.hors_service_statutaire
+                if c.imputable?
                   cumul_hetd += c.HETD
-                  montant_service = (c.HETD * Cour.Tarif).round(2)
+                  montant_service = c.montant_service.round(2)
                 end
+
+                formation = Formation.unscoped.find(c.formation_id)
 
                 fields_to_export = [
                   'C',
@@ -345,7 +352,7 @@ class Cour < ActiveRecord::Base
                   (c.intervenant && c.intervenant_binome ? "OUI" : ''),
                   c.CMTD?, 
                   formation.Taux_TD.to_s.gsub(/\./, ','),
-                  hetd.to_s.gsub(/\./, ','),
+                  c.HETD.to_s.gsub(/\./, ','),
                   montant_service.to_s.gsub(/\./, ','),
                   cumul_hetd.to_s.gsub(/\./, ','),
                   ((nbr_heures_statutaire > 0) && (cumul_hetd >= nbr_heures_statutaire) ? "OUI" : '')

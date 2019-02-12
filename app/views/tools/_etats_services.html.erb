@@ -31,13 +31,14 @@
         <% cours_ids.each do |id| %>
             <% c = Cour.find(id) %>
             <% cumul_duree += c.duree %> 
-            <% formation = Formation.unscoped.find(c.formation_id) %>
 
-            <% unless c.hors_service_statutaire || formation.hss %>
+            <% if c.imputable? %>
                 <% cumul_hetd += c.HETD %>
-                <% montant_service = (c.HETD * Cour.Tarif).round(2) %>
+                <% montant_service = c.montant_service.round(2) %>
                 <% cumul_tarif += montant_service %>
             <% end %>
+
+            <% formation = Formation.unscoped.find(c.formation_id) %>
 
             <tr>
                 <td><%= link_to l(c.debut.to_date), cours_path(start_date:c.debut.to_date) %></td>
@@ -52,7 +53,7 @@
                     <% if c.elearning %>
                         <span class="glyphicon glyphicon-home" />
                     <% end %>
-                    <% if c.hors_service_statutaire %>
+                    <% if c.hors_service_statutaire || formation.hss %>
                         <span class="glyphicon glyphicon-remove" />
                     <% end %>
                     <% if c.intervenant_id && c.intervenant_binome_id %>
@@ -136,7 +137,8 @@
         <% end %>
 
         <tfoot>
-            <th colspan="10" class="text-center">
+            <th colspan="10" class="text-right">
+                TOTAL
                 <% if nbr_heures_statutaire > 0 %>
                     <i>
                         Nbr Heures Statutaires: 

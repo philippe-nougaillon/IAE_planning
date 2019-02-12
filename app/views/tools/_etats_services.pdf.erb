@@ -2,45 +2,61 @@
 <% cours_ids << @cours.where(intervenant_binome: intervenant).order(:debut).pluck(:id) %>
 <% cours_ids = cours_ids.flatten %>
 
-<div class="page-header"> 
-    <h3><%= intervenant.nom_prenom %><br>
-        Du <%= l(@start_date.to_date) %> au <%= l(@end_date.to_date) %>
-    </h3>    
-</div> 
+<h2>
+    Etat liquidatif des vacations d'enseignements
+    <%= @start_date.to_date.year %>
+    <br>
+    <small>
+        <i>Décret 87-889 du 29/10/1987 - CA du  6/09/2018</i>
+    </small>
+</h2>
+<h3>    
+    <%= intervenant.nom_prenom %>
+    <br>
+    <small>Du <%= l(@start_date.to_date) %> au <%= l(@end_date.to_date) %></small>
+</h3>    
 
 <% @vacations = intervenant.vacations.where("date BETWEEN ? AND ?", @start_date, @end_date) %>
 <% @responsabilites = intervenant.responsabilites.where("debut < DATE(?) AND fin > DATE(?)", @end_date, @start_date) %>
+
 <% cumul_hetd = cumul_vacations = cumul_resps = cumul_tarif = cumul_duree = 0 %>
 <% nbr_heures_statutaire = intervenant.nbr_heures_statutaire || 0 %>
+<% cumul_eotp = {} %>
 
-<table class="table_pdf">
+<table class="table_pdf" style="width: 100%;">
     <thead>
         <th>Date</th>
-        <th>Heure</th>
+        <th>Début</th>
+        <th>Fin</th>
         <th>Formation</th>
-        <th>Code</th>
+        <th>Code EOTP</th>
         <th>Intitulé</th>
         <th>Durée</th>
         <th>CM/TD</th>
         <th>Taux</th>
         <th>HETD</th>
-        <th>Montant</th>
+        <th style="width: 100px;">Montant</th>
     </thead>
 
     <% cours_ids.each do |id| %>
         <% c = Cour.find(id) %>
-        <% unless c.hors_service_statutaire %>
-            <% cumul_hetd += c.HETD %>
-            <% montant_service = (c.HETD * Cour.Tarif).round(2) %>
-            <% cumul_tarif += montant_service %>
-        <% end %>
         <% cumul_duree += c.duree %> 
         <% formation = Formation.unscoped.find(c.formation_id) %>
+        <% eotp = formation.Code_Analytique_avec_indice(c) %>
+
+        <% if c.imputable? %>
+            <% cumul_hetd += c.HETD %>
+            <% montant_service = c.montant_service.round(2) %>
+            <% cumul_tarif += montant_service %>
+            <% cumul_eotp.keys.include?(eotp) ? cumul_eotp[eotp] += montant_service : cumul_eotp[eotp] = montant_service %>
+        <% end %>
+
         <tr>
             <td><%= l(c.debut.to_date) %></td>
             <td style="text-align: right;"><%= c.debut.strftime("%k:%M") %></td>
+            <td style="text-align: right;"><%= c.fin.strftime("%k:%M") %></td>
             <td><%= formation.abrg %></td>
-            <td><%= formation.Code_Analytique_avec_indice(c) %></td>
+            <td><%= eotp %></td>
             <td><%= c.nom_ou_ue %></td>
             <td style="text-align: right;"><%= c.duree.to_f %></td>
             <td style="text-align: center;"><%= c.CMTD? %></td>
@@ -51,12 +67,13 @@
     <% end %>
 
     <tr>
-        <td colspan="5"><b>Sous-total: <%= cours_ids.count %> cours</b></td>
+        <th colspan="6"><b>Sous-total: <%= cours_ids.count %> cours</b></th>
         <td style="text-align: right;"><b><%= cumul_duree %></b></td>
         <td colspan="2" /> 
         <td style="text-align: right;"><b><%= cumul_hetd %></b></td>
         <td style="text-align: right;"><b><%= number_to_currency(cumul_tarif) %></b></td> 
     </tr>
+
 
     <% @vacations.each_with_index do |vacation, index| %>
         <% montant_vacation = ((Cour.Tarif * vacation.forfaithtd) * vacation.qte).round(2) %>
@@ -64,7 +81,7 @@
         <% formation = Formation.unscoped.find(vacation.formation_id) %> 
         <tr>
             <td><%= l vacation.date %></td>
-            <td />
+            <td /><td />
             <td><%= formation.abrg %></td>
             <td><%= formation.Code_Analytique %></td>
             <td><%= vacation.titre %></td>
@@ -76,9 +93,12 @@
 
         <% if index == @vacations.size - 1 %>
             <tr>
-                <td colspan="9">
-                    <b>Sous-total: <%= pluralize(@vacations.count, 'vacation') %></b>
-                </td>
+                <th colspan="6">
+                    Sous-total: <%= pluralize(@vacations.count, 'vacation') %>
+                </th>
+
+                <th colspan="4"></th>
+
                 <td style="text-align: right;">
                     <b><%= number_to_currency(cumul_vacations) %></b>
                 </td>
@@ -86,10 +106,12 @@
         <% end %>
     <% end %>
 
+
     <% @responsabilites.each_with_index do |resp, index| %>
         <% montant_responsabilite = (resp.heures * Cour.Tarif).round(2) %>
         <% cumul_resps += montant_responsabilite %>
         <tr>
+            <td></td>
             <td><%= l resp.debut %></td>
             <td><%= l resp.fin %></td>
             <td><%= resp.formation.abrg %></td>
@@ -101,9 +123,12 @@
         </tr>
         <% if index == @responsabilites.size - 1 %>
             <tr>
-                <td colspan="9">
-                    <b>Sous-total: <%= pluralize(@responsabilites.count, 'responsabilité') %></b>
-                </td>
+                <th colspan="6">
+                    Sous-total: <%= pluralize(@responsabilites.count, 'responsabilité') %>
+                </th>
+
+                <th colspan="4"></th>
+
                 <td style="text-align: right;">
                     <b><%= number_to_currency(cumul_resps) %></b>
                 </td>
@@ -112,8 +137,8 @@
     <% end %>
 
     <tfoot>
-        <td colspan="9" class="text-center">
-            <b>TOTAL</b>
+        <th colspan="10" style="text-align: right;">
+            TOTAL
             <% if nbr_heures_statutaire > 0 %>
                 <i>
                     Nbr Heures Statutaires: 
@@ -124,9 +149,44 @@
                     <% end %>
                 </i>
             <% end %>
-        </td>
+        </th>
         <td style="text-align: right;">
             <b><%= number_to_currency(cumul_resps + cumul_vacations + cumul_tarif ) %></b>
         </td>
     </tfoot>
+</table>
+
+<br>
+
+<table class="table_pdf">
+    <thead>
+        <th>Code EOTP</th>
+        <th>Total services</th>
+    </thead>
+    <% cumul_eotp.each do |eotp| %>
+        <tr>
+            <th><%= eotp.first %></th>
+            <th style="text-align: right;"><%= number_to_currency(eotp.last) %> </th>
+        </tr>
+    <% end %>
+</table>    
+
+<br><br><br>
+
+<i>Fait à Paris le <%= l(Date.today) %></i>    
+<br><br>
+
+<table style="width: 100%">
+    <tr>
+        <th>
+            Eric LAMARQUE
+            <br>
+            <small>Directeur de l'IAE de Paris</small>
+        </th>
+        <th>
+            Barbara FITSCH-MOURAS
+            <br>
+            <small>Responsable du service Formation et développement</small>
+        </th>
+    </tr>
 </table>

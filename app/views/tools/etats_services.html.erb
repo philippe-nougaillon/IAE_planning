@@ -59,11 +59,14 @@
     <%= render partial: 'etats_services', locals: {intervenant: intervenant } %>
 
     <div class="text-right">
+
+<!--
         <%= link_to url_for(params.merge(intervenant_id: intervenant.id, format:'csv')), 
                             class: 'btn btn-default btn-xs' do %>
                 <span class="glyphicon glyphicon-share"></span>
                 Export CSV
         <% end %>
+-->
 
         <%= link_to url_for(params.merge(intervenant_id: intervenant.id, format:'pdf')), 
                             class: 'btn btn-danger btn-xs' do %>

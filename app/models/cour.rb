@@ -34,11 +34,11 @@ class Cour < ActiveRecord::Base
   end
   
   def self.actions
-    ["Changer d'intervenant", "Exporter vers Excel", "Exporter vers CSV", "Exporter vers iCalendar", "Exporter en PDF", "Supprimer"]
+    ["Changer d'intervenant", "Exporter vers Excel", "Exporter vers iCalendar", "Exporter en PDF", "Supprimer"]
   end
 
   def self.actions_admin
-    ["Changer de salle", "Changer d'état", "Changer de date", "Changer d'intervenant", "Exporter vers Excel", "Exporter vers CSV", "Exporter vers iCalendar", "Exporter en PDF", "Supprimer"]
+    ["Changer de salle", "Changer d'état", "Changer de date", "Changer d'intervenant"] + self.actions
   end
 
   def self.etendue_horaire
@@ -202,43 +202,43 @@ class Cour < ActiveRecord::Base
 
   # CSV 
 
-  def self.generate_csv(cours, exporter_binome, voir_champs_privés = false)
-    require 'csv'
+  # def self.generate_csv(cours, exporter_binome, voir_champs_privés = false)
+  #   require 'csv'
     
-    CSV.generate(col_sep:';', quote_char:'"', encoding:'UTF-8') do | csv |
-        csv << ['id','Date début','Heure début','Date fin','Heure fin','Formation_id','Formation',
-                'Code_Analytique','Intervenant_id','Intervenant','UE','Intitulé','Binôme?','Etat',
-                'Salle','Durée','HSS ? (Hors Service Statutaire)','E-learning', 'Taux_TD','HETD',
-                'Commentaires','Cours créé le','Par','Cours modifié le']
+  #   CSV.generate(col_sep:';', quote_char:'"', encoding:'UTF-8') do | csv |
+  #       csv << ['id','Date début','Heure début','Date fin','Heure fin','Formation_id','Formation',
+  #               'Code_Analytique','Intervenant_id','Intervenant','UE','Intitulé','Binôme?','Etat',
+  #               'Salle','Durée','HSS ? (Hors Service Statutaire)','E-learning', 'Taux_TD','HETD',
+  #               'Commentaires','Cours créé le','Par','Cours modifié le']
     
-        cours.each do |c|
-          formation = Formation.unscoped.find(c.formation_id)
-          fields_to_export = [c.id, c.debut.to_date.to_s, c.debut.to_s(:time), c.fin.to_date.to_s, c.fin.to_s(:time), 
-            c.formation_id, formation.nom_promo, formation.Code_Analytique, 
-            c.intervenant_id, c.intervenant.nom_prenom, c.ue, c.nom, 
-            (c.intervenant_binome ? "#{c.intervenant.nom}/#{c.intervenant_binome.nom}" : ''), 
-            c.etat, (c.salle ? c.salle.nom : ""), 
-            c.duree.to_s.gsub(/\./, ','),
-            (c.hors_service_statutaire ? "OUI" : ''),
-            (c.elearning ? "OUI" : ''), 
-            (voir_champs_privés ? formation.Taux_TD : ''),
-            (voir_champs_privés ? c.HETD.to_s.gsub(/\./, ',') : ''),
-            (voir_champs_privés ? c.commentaires : ''),
-            c.created_at,
-            c.audits.first.user.try(:email),
-            c.updated_at
-          ]
-          csv << fields_to_export
+  #       cours.each do |c|
+  #         formation = Formation.unscoped.find(c.formation_id)
+  #         fields_to_export = [c.id, c.debut.to_date.to_s, c.debut.to_s(:time), c.fin.to_date.to_s, c.fin.to_s(:time), 
+  #           c.formation_id, formation.nom_promo, formation.Code_Analytique, 
+  #           c.intervenant_id, c.intervenant.nom_prenom, c.ue, c.nom, 
+  #           (c.intervenant_binome ? "#{c.intervenant.nom}/#{c.intervenant_binome.nom}" : ''), 
+  #           c.etat, (c.salle ? c.salle.nom : ""), 
+  #           c.duree.to_s.gsub(/\./, ','),
+  #           (c.hors_service_statutaire ? "OUI" : ''),
+  #           (c.elearning ? "OUI" : ''), 
+  #           (voir_champs_privés ? formation.Taux_TD : ''),
+  #           (voir_champs_privés ? c.HETD.to_s.gsub(/\./, ',') : ''),
+  #           (voir_champs_privés ? c.commentaires : ''),
+  #           c.created_at,
+  #           c.audits.first.user.try(:email),
+  #           c.updated_at
+  #         ]
+  #         csv << fields_to_export
           
-          # créer une ligne d'export supplémentaire pour le cours en binome
-          if exporter_binome and c.intervenant_binome
-            fields_to_export[8] = c.intervenant_binome_id
-            fields_to_export[9] = c.intervenant_binome.nom_prenom 
-            csv << fields_to_export
-          end  
-        end
-    end
-  end
+  #         # créer une ligne d'export supplémentaire pour le cours en binome
+  #         if exporter_binome and c.intervenant_binome
+  #           fields_to_export[8] = c.intervenant_binome_id
+  #           fields_to_export[9] = c.intervenant_binome.nom_prenom 
+  #           csv << fields_to_export
+  #         end  
+  #       end
+  #   end
+  # end
 
 
   def self.generate_xls(cours, exporter_binome, voir_champs_privés = false)
@@ -250,7 +250,7 @@ class Cour < ActiveRecord::Base
 
     sheet.row(0).concat %w{id Date\ début Heure\ début Date\ fin Heure\ fin Formation_id Formation
                 Code_Analytique Intervenant_id Intervenant UE Intitulé Binôme? Etat
-                Salle Durée HSS E-learning Taux_TD HETD Commentaires Créé\ le Par Modifié\ le}  
+                Salle Durée E-learning? HSS? Taux_TD HETD Commentaires Créé\ le Par Modifié\ le}  
     
     index = 1
     cours.each do |c|
@@ -261,10 +261,10 @@ class Cour < ActiveRecord::Base
             (c.intervenant_binome ? "#{c.intervenant.nom}/#{c.intervenant_binome.nom}" : ''), 
             c.etat, (c.salle ? c.salle.nom : ""), 
             c.duree.to_s.gsub(/\./, ','),
-            (c.hors_service_statutaire ? "OUI" : ''),
             (c.elearning ? "OUI" : ''), 
-            (voir_champs_privés ? formation.Taux_TD : ''),
-            (voir_champs_privés ? c.HETD.to_s.gsub(/\./, ',') : ''),
+            (!(c.imputable?) ? "OUI" : ''),
+            ((voir_champs_privés && c.imputable?) ? formation.Taux_TD : ''),
+            ((voir_champs_privés && c.imputable?) ? c.HETD.to_s.gsub(/\./, ',') : ''),
             (voir_champs_privés ? c.commentaires : ''),
             c.created_at,
             c.audits.first.user.try(:email),
@@ -311,95 +311,93 @@ class Cour < ActiveRecord::Base
         csv << ['Type','Intervenant','Date','Heure','Formation','Code','Intitulé','Commentaires',
                 'Durée','HSS?','E-learning?','Binôme','CM/TD?', 'Taux_TD','HETD','Montant','Cumul_hetd','Dépassement?']
     
-          intervenants.each do | intervenant |
-        
-            # Passe au suivant si intervenant est 'A CONFIRMER'
-            next if intervenant.id == 445
+        intervenants.each do | intervenant |
+      
+          # Passe au suivant si intervenant est 'A CONFIRMER'
+          next if intervenant.id == 445
 
-            nbr_heures_statutaire = intervenant.nbr_heures_statutaire || 0
+          nbr_heures_statutaire = intervenant.nbr_heures_statutaire || 0
 
-            cours_ids = cours.where(intervenant: intervenant).order(:debut).pluck(:id)
-            cours_ids << cours.where(intervenant_binome: intervenant).pluck(:id)
-            cours_ids = cours_ids.flatten
+          cours_ids = cours.where(intervenant: intervenant).order(:debut).pluck(:id)
+          cours_ids << cours.where(intervenant_binome: intervenant).pluck(:id)
+          cours_ids = cours_ids.flatten
 
-            cumul_hetd = 0.00
+          cumul_hetd = 0.00
 
-            @vacations = intervenant.vacations.where(formation_id: cours.pluck("formation_id").uniq.sort)
-            @responsabilites = intervenant.responsabilites.where("debut < DATE(?) AND fin > DATE(?)", end_date, start_date)
+          @vacations = intervenant.vacations.where(formation_id: cours.pluck("formation_id").uniq.sort)
+          @responsabilites = intervenant.responsabilites.where("debut < DATE(?) AND fin > DATE(?)", end_date, start_date)
 
-            cours_ids.each do |id|
-                c = Cour.find(id)
+          cours_ids.each do |id|
+              c = Cour.find(id)
 
-                if c.imputable?
-                  cumul_hetd += c.HETD
-                  montant_service = c.montant_service.round(2)
-                end
+              if c.imputable?
+                cumul_hetd += c.HETD
+                montant_service = c.montant_service.round(2)
+              end
 
-                formation = Formation.unscoped.find(c.formation_id)
+              formation = Formation.unscoped.find(c.formation_id)
 
-                fields_to_export = [
-                  'C',
+              fields_to_export = [
+                'C',
+                intervenant.nom_prenom,
+                I18n.l(c.debut.to_date),
+                c.debut.strftime("%k:%M"), 
+                formation.abrg, 
+                formation.Code_Analytique_avec_indice(c), 
+                c.nom_ou_ue, 
+                c.commentaires,
+                c.duree.to_s.gsub(/\./, ','),
+                (c.hors_service_statutaire ? "OUI" : ''),
+                (c.elearning ? "OUI" : ''), 
+                (c.intervenant && c.intervenant_binome ? "OUI" : ''),
+                c.CMTD?, 
+                formation.Taux_TD.to_s.gsub(/\./, ','),
+                c.HETD.to_s.gsub(/\./, ','),
+                montant_service.to_s.gsub(/\./, ','),
+                cumul_hetd.to_s.gsub(/\./, ','),
+                ((nbr_heures_statutaire > 0) && (cumul_hetd >= nbr_heures_statutaire) ? "OUI" : '')
+
+              ]
+              csv << fields_to_export
+          end 
+
+          @vacations.each do |vacation|
+            montant_vacation = ((Cour.Tarif * vacation.forfaithtd) * (vacation.qte || 0)).round(2)
+            fields_to_export = [
+                  'V',
                   intervenant.nom_prenom,
-                  I18n.l(c.debut.to_date),
-                  c.debut.strftime("%k:%M"), 
-                  formation.abrg, 
-                  formation.Code_Analytique_avec_indice(c), 
-                  c.nom_ou_ue, 
-                  c.commentaires,
-                  c.duree.to_s.gsub(/\./, ','),
-                  (c.hors_service_statutaire ? "OUI" : ''),
-                  (c.elearning ? "OUI" : ''), 
-                  (c.intervenant && c.intervenant_binome ? "OUI" : ''),
-                  c.CMTD?, 
-                  formation.Taux_TD.to_s.gsub(/\./, ','),
-                  c.HETD.to_s.gsub(/\./, ','),
-                  montant_service.to_s.gsub(/\./, ','),
-                  cumul_hetd.to_s.gsub(/\./, ','),
-                  ((nbr_heures_statutaire > 0) && (cumul_hetd >= nbr_heures_statutaire) ? "OUI" : '')
-
+                  vacation.date,
+                  nil,
+                  vacation.formation.nom,
+                  vacation.formation.Code_Analytique,
+                  vacation.titre,
+                  nil, 
+                  vacation.qte,
+                  nil, nil, nil, nil,
+                  vacation.forfaithtd.to_s.gsub(/\./, ','),
+                  montant_vacation.to_s.gsub(/\./, ',')
                 ]
-                csv << fields_to_export
-            end 
-
-            @vacations.each do |vacation|
-              montant_vacation = ((Cour.Tarif * vacation.forfaithtd) * (vacation.qte || 0)).round(2)
-              fields_to_export = [
-                    'V',
-                    intervenant.nom_prenom,
-                    vacation.date,
-                    nil,
-                    vacation.formation.nom,
-                    vacation.formation.Code_Analytique,
-                    vacation.titre,
-                    nil, 
-                    vacation.qte,
-                    nil, nil, nil, nil,
-                    vacation.forfaithtd.to_s.gsub(/\./, ','),
-                    montant_vacation.to_s.gsub(/\./, ',')
-                  ]
-              csv << fields_to_export
-            end
-
-            @responsabilites.each do |resp|
-              montant_responsabilite = (resp.heures * Cour.Tarif).round(2)
-              fields_to_export = [
-                    'R',
-                    intervenant.nom_prenom,
-                    I18n.l(resp.debut),
-                    I18n.l(resp.fin),
-                    resp.formation.nom,
-                    resp.formation.Code_Analytique,
-                    resp.titre,
-                    nil, 
-                    resp.heures.to_s.gsub(/\./, ','), 
-                    nil, nil, nil, nil, nil,
-                    montant_responsabilite.to_s.gsub(/\./, ',')
-                  ]
-              csv << fields_to_export
-            end
-
+            csv << fields_to_export
           end
 
+          @responsabilites.each do |resp|
+            montant_responsabilite = (resp.heures * Cour.Tarif).round(2)
+            fields_to_export = [
+                  'R',
+                  intervenant.nom_prenom,
+                  I18n.l(resp.debut),
+                  I18n.l(resp.fin),
+                  resp.formation.nom,
+                  resp.formation.Code_Analytique,
+                  resp.titre,
+                  nil, 
+                  resp.heures.to_s.gsub(/\./, ','), 
+                  nil, nil, nil, nil, nil,
+                  montant_responsabilite.to_s.gsub(/\./, ',')
+                ]
+            csv << fields_to_export
+          end
+        end
     end
   end
 

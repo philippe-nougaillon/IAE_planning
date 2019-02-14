@@ -40,30 +40,30 @@
 
     <% cours_ids.each do |id| %>
         <% c = Cour.find(id) %>
-        <% cumul_duree += c.duree %> 
-        <% formation = Formation.unscoped.find(c.formation_id) %>
-        <% eotp = formation.Code_Analytique_avec_indice(c) %>
-
         <% if c.imputable? %>
+            <% cumul_duree += c.duree %> 
+            <% formation = Formation.unscoped.find(c.formation_id) %>
+            <% eotp = formation.Code_Analytique_avec_indice(c) %>
+
             <% cumul_hetd += c.HETD %>
             <% montant_service = c.montant_service.round(2) %>
             <% cumul_tarif += montant_service %>
             <% cumul_eotp.keys.include?(eotp) ? cumul_eotp[eotp] += montant_service : cumul_eotp[eotp] = montant_service %>
-        <% end %>
 
-        <tr>
-            <td><%= l(c.debut.to_date) %></td>
-            <td style="text-align: right;"><%= c.debut.strftime("%k:%M") %></td>
-            <td style="text-align: right;"><%= c.fin.strftime("%k:%M") %></td>
-            <td><%= formation.abrg %></td>
-            <td><%= eotp %></td>
-            <td><%= c.nom_ou_ue %></td>
-            <td style="text-align: right;"><%= c.duree.to_f %></td>
-            <td style="text-align: center;"><%= c.CMTD? %></td>
-            <td style="text-align: right;"><%= c.Taux_TD %></td>
-            <td style="text-align: right;"><%= c.HETD %></td>
-            <td style="text-align: right;"><%= number_to_currency(montant_service) %></td>
-        </tr>
+            <tr>
+                <td><%= l(c.debut.to_date) %></td>
+                <td style="text-align: right;"><%= c.debut.strftime("%k:%M") %></td>
+                <td style="text-align: right;"><%= c.fin.strftime("%k:%M") %></td>
+                <td><%= formation.abrg %></td>
+                <td><%= eotp %></td>
+                <td><%= c.nom_ou_ue %></td>
+                <td style="text-align: right;"><%= c.duree.to_f %></td>
+                <td style="text-align: center;"><%= c.CMTD? %></td>
+                <td style="text-align: right;"><%= c.Taux_TD %></td>
+                <td style="text-align: right;"><%= c.HETD %></td>
+                <td style="text-align: right;"><%= number_to_currency(montant_service) %></td>
+            </tr>
+        <% end %>
     <% end %>
 
     <tr>

@@ -62,6 +62,14 @@ class Cour < ActiveRecord::Base
     return [nombre_heures_cours_jour, nombre_heures_cours_soir]   
   end
 
+
+  def self.xls_headers
+      %w{id Date_début Heure_début Date_fin Heure_fin Formation_id Formation
+          Code_Analytique Intervenant_id Intervenant UE Intitulé Binôme? Etat
+          Salle Durée E-learning? HSS? Taux_TD HETD Commentaires Créé_le Par Modifié_le}  
+  end
+
+
   # Simple_calendar attributes
   def start_time
     self.debut.to_datetime 
@@ -245,12 +253,11 @@ class Cour < ActiveRecord::Base
     require 'spreadsheet'    
     
     Spreadsheet.client_encoding = 'UTF-8'
+    # Spreadsheet.client_encoding = 'Windows-1252' => les accents ne passent pas
     book = Spreadsheet::Workbook.new
     sheet = book.create_worksheet name: 'Planning'
 
-    sheet.row(0).concat %w{id Date\ début Heure\ début Date\ fin Heure\ fin Formation_id Formation
-                Code_Analytique Intervenant_id Intervenant UE Intitulé Binôme? Etat
-                Salle Durée E-learning? HSS? Taux_TD HETD Commentaires Créé\ le Par Modifié\ le}  
+    sheet.row(0).concat Cour.xls_headers
     
     index = 1
     cours.each do |c|

@@ -577,7 +577,7 @@ class ToolsController < ApplicationController
     book = Cour.generate_xls(cours, params[:binome].present?, true)  
     file_contents = StringIO.new
     book.write file_contents # => Now file_contents contains the rendered file output
-    filename = "Export_Cours.xls"
+    filename = "Export_Cours.xlsx"
     send_data file_contents.string.force_encoding('binary'), filename: filename 
   end
 

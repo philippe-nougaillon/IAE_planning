@@ -11,23 +11,15 @@
 
 <%= form_tag({action: "import_do", method: :post}, multipart: true) do %>
   <div>
-    <h3>Cette fonction permet l'importation de cours à partir d'un fichier CSV</h3>
+    <h3>Cette fonction permet l'importation de cours à partir d'un fichier Excel</h3>
     <ul>
       <li>
         Le fichier source doit contenir les colonnes suivantes: <br>
-        <b>id;Date début (format:'JJ/MM/AAAA');Heure début (format:'09:30');Date fin;Heure fin;UE;Intervenant (format:'NOM Prénom');Intitulé</b><br>
-        <i>Si id est égal à 0, c'est une création de cours, sinon c'est une mise à jour du cours ayant comme identifiant unique l'id donné. Si le cours ayant cet id n'existe plus, il sera créé.</i>
+        <b>id;Date début (format:'JJ/MM/AAAA');Heure début (format:'09:30');Date fin;Heure fin;UE;Intervenant (format:'NOM Prénom');Intitulé</b>
       </li>
-      <li>Ce fichier doit être au format CSV, Encodage: <b>UTF-8</b>, Séparateur: <b>Point-virgule</b>, Noms des colonnes: <b>Première ligne</b>
+      <li>
+        Si 'id' est égal à '0', c'est une création de cours, sinon c'est une mise à jour du cours ayant comme identifiant unique l'id' donné. Si le cours ayant cet 'id' n'existe pas, il sera créé.
       </li>
-      <ul>
-            <li>
-              Si besoin, utilisez un 
-              <a href="https://subtitletools.com/convert-text-files-to-utf8-online">
-                convertisseur UTF8 en ligne 
-              </a>
-          </li>
-        </ul>
     </ul>
   </div>
 
@@ -42,7 +34,7 @@
 
   <div class="field">
     <%= label :filename, "Fichier source" %>
-    <%= file_field_tag 'upload', accept: 'text/csv' %>
+    <%= file_field_tag 'upload', accept: '.xlsx' %>
   </div>
   <br>
   

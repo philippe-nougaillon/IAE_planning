@@ -145,6 +145,8 @@ class ToolsController < ApplicationController
           end
         end
 
+        raise
+
         # MAJ cours existant ? si l'id est égal à 0 => c'est une création
         id = row[0].to_i 
         if id == 0
@@ -157,8 +159,11 @@ class ToolsController < ApplicationController
           end
         end
 
-        debut = Time.parse(row[headers.index 'Date_début'] + " " + row[headers.index 'Heure_début'] + 'UTC')
-        fin   = Time.parse(row[headers.index 'Date_fin'] + " " + row[headers.index 'Heure_fin'] + 'UTC')
+        debut = Time.parse(row[headers.index('Date_début')].to_s + ' ' + row[headers.index('Heure_début')].strftime('%R') + 'UTC')
+        fin   = Time.parse(row[headers.index('Date_fin')].to_s + ' ' + row[headers.index('Heure_fin')].strftime('%R') + 'UTC')
+
+        # debut = Time.parse(row[headers.index 'Date_début'] + " " + row[headers.index 'Heure_début'] + 'UTC')
+        # fin   = Time.parse(row[headers.index 'Date_fin'] + " " + row[headers.index 'Heure_fin'] + 'UTC')
 
         cours.debut = debut
         cours.fin = fin
@@ -577,7 +582,7 @@ class ToolsController < ApplicationController
     book = Cour.generate_xls(cours, params[:binome].present?, true)  
     file_contents = StringIO.new
     book.write file_contents # => Now file_contents contains the rendered file output
-    filename = "Export_Cours.xlsx"
+    filename = "Export_Cours.xls"
     send_data file_contents.string.force_encoding('binary'), filename: filename 
   end
 

@@ -192,6 +192,15 @@ class Cour < ActiveRecord::Base
     ((@now.to_f - self.debut.to_f) / (self.fin.to_f - self.debut.to_f) * 100).to_i
   end
 
+  def progress_bar_pct2
+    # calcul le % de réalisation du cours
+    now = DateTime.now.in_time_zone("Paris") + 1.hours
+    pct = ((now.to_f - self.debut.to_f) / (self.fin.to_f - self.debut.to_f) * 100).to_i
+
+    return (pct >= 0 and pct <= 100) ? pct : nil
+
+  end
+
   def range
     # retourne l'étendue d'un cours sous la forme d'une suite d'heures. Ex: 8 9 pour un cours de 8 à 10h
     range = []

@@ -157,11 +157,11 @@ class ToolsController < ApplicationController
           end
         end
 
-        debut = Time.parse(row[headers.index('Date_début')].to_s + ' ' + row[headers.index('Heure_début')].strftime('%R') + 'UTC')
-        fin   = Time.parse(row[headers.index('Date_fin')].to_s + ' ' + row[headers.index('Heure_fin')].strftime('%R') + 'UTC')
+        # debut = Time.parse(row[headers.index('Date_début')].to_s + ' ' + row[headers.index('Heure_début')].strftime('%R') + 'UTC')
+        # fin   = Time.parse(row[headers.index('Date_fin')].to_s + ' ' + row[headers.index('Heure_fin')].strftime('%R') + 'UTC')
 
-        # debut = Time.parse(row[headers.index 'Date_début'] + " " + row[headers.index 'Heure_début'] + 'UTC')
-        # fin   = Time.parse(row[headers.index 'Date_fin'] + " " + row[headers.index 'Heure_fin'] + 'UTC')
+        debut = Time.parse(row[headers.index 'Date_début'] + " " + row[headers.index 'Heure_début'] + 'UTC')
+        fin   = Time.parse(row[headers.index 'Date_fin'] + " " + row[headers.index 'Heure_fin'] + 'UTC')
 
         cours.debut = debut
         cours.fin = fin

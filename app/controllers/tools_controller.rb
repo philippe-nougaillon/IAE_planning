@@ -145,8 +145,6 @@ class ToolsController < ApplicationController
           end
         end
 
-        raise
-
         # MAJ cours existant ? si l'id est égal à 0 => c'est une création
         id = row[0].to_i 
         if id == 0

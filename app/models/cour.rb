@@ -151,6 +151,10 @@ class Cour < ActiveRecord::Base
     self.debut.to_s[11..15] + " - " + self.fin.to_s[11..15]
   end
 
+  def formation_color_json_v2
+      self.formation.color
+  end
+
   # ETATS DE SERVICES 
 
   def Taux_TD

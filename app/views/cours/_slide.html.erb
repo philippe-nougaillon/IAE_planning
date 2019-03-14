@@ -3,24 +3,23 @@
     <h3><%= l(cours.debut, format: :heures_min) %></h3>
     <%= l(cours.fin, format: :heures_min) %>
   </td>
+  
   <td>
     <h3><%= cours.formation.nom_promo %></h3>
     <h4><%= link_to cours.nom_ou_ue, cours %></h4>
 
-    <% if true %>
-      <% pct = cours.progress_bar_pct() %>
-      <% if pct >= 0 && pct <= 100 %>
-        <div class="progress">
-          <div class="progress-bar progress-bar-striped active" 
-              role="progressbar" aria-valuemin="0" aria-valuemax="100" 
-              style="width:<%= pct %>%">
-          </div>
+    <% if pct = cours.progress_bar_pct2 %>
+      <div class="progress">
+        <div class="progress-bar progress-bar-striped active" 
+            role="progressbar" aria-valuemin="0" aria-valuemax="100" 
+            style="width:<%= pct %>%">
         </div>
-      <% else %>
-        <br><br>
-      <% end %>
+      </div>
+    <% else %>
+      <br><br>
     <% end %>
   </td>
+
   <td style="vertical-align: middle;">
     <h3>
       <%= cours.intervenant.nom_prenom %>
@@ -29,6 +28,7 @@
       <% end %>
     </h3>
   </td>
+  
   <td style="text-align: center;vertical-align: middle;">
     <% if salle = cours.salle %>
       <h2>

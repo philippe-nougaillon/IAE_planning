@@ -1,4 +1,3 @@
-
 <div class="page-header">
   <h1>
     <span class="glyphicon glyphicon-info-sign"></span>
@@ -9,7 +8,6 @@
 <div class="jumbotron">
   Aide-mémoire de l'application Planning, à l'usage des utilisateurs et des administrateurs
 </div>
-
 
 <hr />
 
@@ -394,13 +392,35 @@
 
 <ul>
     <li>
-      Les cours, formations, intervenants, étudiants et les utilisateurs peuvent être importés en masse
+      <b>Importation de cours à partir d'un fichier Excel:</b><br> 
+      <ul>
+        <li>
+          Le fichier source doit contenir <b>les mêmes entêtes de colonnes</b> 
+          que le fichier généré lors de l'export Excel: <br>
+            <%= Cour.xls_headers.join(", ") %>
+        </li>
+        <li>
+          Données obligatoires pour que la ligne soit importée : <br>
+          <b>id, Date_début, Heure_début, Date_fin, Heure_fin, Intervenant, UE, Intitulé</b>
+        </li>
+        <li>
+          Si 'id' est égal à '0', c'est une création de cours. Sinon c'est une mise à jour du cours ayant comme identifiant unique l'id' donné. Si le cours ayant cet 'id' n'existe pas, il sera créé.
+        </li>
+      </ul>
     </li>
+    <br>
+    
     <li>
-      Ce fichier doit être au format CSV, Encodage: <b>UTF-8</b>, 
-      Séparateur: <b>Point-virgule</b>, 
-      Noms des colonnes: <b>Première ligne</b>
-  	</li>
+      Les formations, intervenants, étudiants et les utilisateurs peuvent être importés en masse à partir d'un fichier
+    </li>
+    <ul>
+      <li>
+        Ce fichier doit être au format CSV, Encodage: <b>UTF-8</b>, 
+        Séparateur: <b>Point-virgule</b>, 
+        Noms des colonnes: <b>Première ligne</b>
+      </li>
+    </ul>
+
     <ul>
         <li>
           Si besoin, utilisez un 
@@ -410,15 +430,8 @@
         </li>
     </ul>
 
-    <li>
-      <b>Importation de cours:</b><br> 
-      - Le fichier source doit contenir les même colonnes que le fichier généré lors de l'export Excel<br>
-      - Si id est égal à 0, c'est une création de cours, sinon c'est une mise à jour du cours ayant comme identifiant unique l'id donné. Si le cours ayant cet id n'existe plus, il sera créé<br>
-      - La colonnne id doit être en première position
-    </li>
-
   	<br>
-      <li>
+    <li>
     	<b>Importation d'utilisateurs:</b><br> 
       - Le fichier source doit contenir les colonnes suivantes: <br>
     	<pre>email;nom;prénom;mobile</pre>

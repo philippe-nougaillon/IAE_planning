@@ -43,6 +43,7 @@ GEM
     binding_of_caller (0.8.0)
       debug_inspector (>= 0.0.1)
     bootstrap_form (2.7.0)
+    brakeman (4.4.0)
     builder (3.2.3)
     capture_stdout (0.0.1)
     carrierwave (0.11.0)
@@ -220,6 +221,7 @@ PLATFORMS
 DEPENDENCIES
   audited (~> 4.3)
   bootstrap_form (~> 2.7)
+  brakeman
   capture_stdout
   carrierwave (= 0.11.0)
   coffee-rails (~> 4.1.0)

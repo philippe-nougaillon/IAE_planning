@@ -17,3 +17,6 @@
 /tmp
 /public/uploads/
 /public/tmp/
+
+# security warning if this file is in versionning 
+/config/initializers/secret_token.rb

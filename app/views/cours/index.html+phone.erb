@@ -52,7 +52,7 @@
       <% current_date = cours.debut.to_date %>
     <% end %>  
 
-    <%= render partial: 'cours', locals: {cours: cours, cours_progress_bar_pct: cours.progress_bar_pct(DateTime.now) } %>
+    <%= render partial: 'cours', locals: {cours: cours } %>
   <% end %>
   <hr>
 

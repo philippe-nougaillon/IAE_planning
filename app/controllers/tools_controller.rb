@@ -130,20 +130,7 @@ class ToolsController < ApplicationController
       sheet1.each 1 do |row|
         index += 1
 
-        intervenant = nil
-        if row[headers.index 'Intervenant']
-          if row[headers.index 'Intervenant'] == 'A CONFIRMER'
-            intervenant = Intervenant.where(nom:'A', prenom:'CONFIRMER').first
-          else  
-            nom = row[headers.index 'Intervenant'].strip.split(' ').first.upcase
-            prenom = row[headers.index 'Intervenant'].strip.split(' ').last
-            intervenant = Intervenant.where(nom:nom, prenom:prenom).first_or_initialize
-            if intervenant.new_record?
-              intervenant.email = "?"
-              intervenant.save if params[:save] == 'true'
-            end
-          end
-        end
+        next unless row[0]
 
         # MAJ cours existant ? si l'id est égal à 0 => c'est une création
         id = row[0].to_i 
@@ -158,7 +145,14 @@ class ToolsController < ApplicationController
         end
 
         jour_debut = row[headers.index 'Date_début']
+        if jour_debut.class == Date
+          jour_debut = jour_debut.day.to_s + "/" + jour_debut.month.to_s + "/" + jour_debut.year.to_s        
+        end
+          
         jour_fin = row[headers.index 'Date_fin']
+        if jour_fin.class == Date
+          jour_fin = jour_fin.day.to_s + "/" + jour_fin.month.to_s + "/" + jour_fin.year.to_s        
+        end
 
         horaire_debut = row[headers.index 'Heure_début']
         # si Excel converti la colone heure en DateHeure, on ne prend que l'heure et minute
@@ -173,6 +167,21 @@ class ToolsController < ApplicationController
 
         debut = Time.parse(jour_debut + " " + horaire_debut + 'UTC')
         fin   = Time.parse(jour_fin + " " +  horaire_fin + 'UTC')
+
+        intervenant = nil
+        if row[headers.index 'Intervenant']
+          if row[headers.index 'Intervenant'] == 'A CONFIRMER'
+            intervenant = Intervenant.where(nom:'A', prenom:'CONFIRMER').first
+          else  
+            nom = row[headers.index 'Intervenant'].strip.split(' ').first.upcase
+            prenom = row[headers.index 'Intervenant'].strip.split(' ').last
+            intervenant = Intervenant.where(nom:nom, prenom:prenom).first_or_initialize
+            if intervenant.new_record?
+              intervenant.email = "?"
+              intervenant.save if params[:save] == 'true'
+            end
+          end
+        end
 
         cours.debut = debut
         cours.fin = fin

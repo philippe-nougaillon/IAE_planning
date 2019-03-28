@@ -157,11 +157,22 @@ class ToolsController < ApplicationController
           end
         end
 
-        # debut = Time.parse(row[headers.index('Date_début')].to_s + ' ' + row[headers.index('Heure_début')].strftime('%R') + 'UTC')
-        # fin   = Time.parse(row[headers.index('Date_fin')].to_s + ' ' + row[headers.index('Heure_fin')].strftime('%R') + 'UTC')
+        jour_debut = row[headers.index 'Date_début']
+        jour_fin = row[headers.index 'Date_fin']
 
-        debut = Time.parse(row[headers.index 'Date_début'] + " " + row[headers.index 'Heure_début'] + 'UTC')
-        fin   = Time.parse(row[headers.index 'Date_fin'] + " " + row[headers.index 'Heure_fin'] + 'UTC')
+        horaire_debut = row[headers.index 'Heure_début']
+        # si Excel converti la colone heure en DateHeure, on ne prend que l'heure et minute
+        if horaire_debut.class == DateTime
+          horaire_debut = horaire_debut.hour.to_s + ":" + horaire_debut.minute.to_s
+        end  
+
+        horaire_fin = row[headers.index 'Heure_fin']
+        if horaire_fin.class == DateTime
+          horaire_fin = horaire_fin.hour.to_s + ":" + horaire_fin.minute.to_s
+        end  
+
+        debut = Time.parse(jour_debut + " " + horaire_debut + 'UTC')
+        fin   = Time.parse(jour_fin + " " +  horaire_fin + 'UTC')
 
         cours.debut = debut
         cours.fin = fin

@@ -1,6 +1,9 @@
-# IAE_planning
+![logo](public/logo_iae.png "Logo IAE de Paris")
 
-Application web de planification collaborative, flexible et simple d'utilisation.
+# Outil Planning de l'IAE de Paris
+*Application web de planification de cours. Collaborative, flexible et simple d'utilisation*
+
+## Détail des fonctionnalités
 
 ### Gestion des Cours
 - Chaque cours est associé à une Formation, un ou deux Intervenants, une Salle et un Etat (Planifié, Confirmé, Reporté, Annulé, Réalisé) 

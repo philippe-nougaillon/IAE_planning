@@ -266,7 +266,7 @@ class Cour < ActiveRecord::Base
     require 'spreadsheet'    
     
     Spreadsheet.client_encoding = 'UTF-8'
-    #Spreadsheet.client_encoding = 'Windows-1252' # => les accents ne passent pas
+
     book = Spreadsheet::Workbook.new
     sheet = book.create_worksheet name: 'Planning'
 
@@ -275,7 +275,12 @@ class Cour < ActiveRecord::Base
     index = 1
     cours.each do |c|
         formation = Formation.unscoped.find(c.formation_id)
-        fields_to_export = [c.id, c.debut.to_date.to_s, c.debut.to_s(:time), c.fin.to_date.to_s, c.fin.to_s(:time), 
+        fields_to_export = [
+            c.id, 
+            I18n.l(c.debut.to_date), 
+            c.debut.to_s(:time), 
+            I18n.l(c.fin.to_date), 
+            c.fin.to_s(:time), 
             c.formation_id, formation.nom_promo, formation.Code_Analytique, 
             c.intervenant_id, c.intervenant.nom_prenom, c.ue, c.nom, 
             (c.intervenant_binome ? "#{c.intervenant.nom}/#{c.intervenant_binome.nom}" : ''), 

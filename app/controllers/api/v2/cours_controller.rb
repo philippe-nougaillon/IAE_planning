@@ -14,9 +14,9 @@ module Api
 		    respond_to :json
 
 			def index
-				@cours = Cour.where(etat: Cour.etats.values_at(:planifié, :confirmé))
-							 .where("DATE(debut)=?", params[:d])
-							 .order(:debut)
+				#@cours = Cour.where(etat: Cour.etats.values_at(:planifié, :confirmé))
+				@cours = Cour.where("DATE(debut) = ?", params[:d])
+							 .order(:debut, :fin)
 			end	
 		end
 	end

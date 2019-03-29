@@ -169,7 +169,7 @@ class CoursController < ApplicationController
         filename = "Export_iCalendar_#{Date.today.to_s}"
         response.headers['Content-Disposition'] = 'attachment; filename="' + filename + '.ics"'
         headers['Content-Type'] = "text/calendar; charset=UTF-8"
-        render text:@calendar.to_ical
+        render text: @calendar.to_ical
       end
 
       format.pdf do
@@ -197,16 +197,13 @@ class CoursController < ApplicationController
       @planning_date = @now 
     end
 
-    #logger.debug "[SLIDE DEBUG] now = #{@now} planning_date = #{@planning_date} planning_date.to_s = #{@planning_date.to_s}"
-
     @cours = Cour.where(etat: Cour.etats.values_at(:planifié, :confirmé))
-                 .where("DATE(fin) = ? AND fin > ?", @planning_date.to_date, @planning_date.to_s)
+                 .where("DATE(debut) = ?", @planning_date.to_date)
                  .order(:debut)
 
     @cours_count = @cours.count
 
     unless @cours_count.zero?
-      
       if request.variant.include?(:desktop) and !params[:planning_date]
         # effectuer une rotation de x pages de 6 cours 
         per_page = 6

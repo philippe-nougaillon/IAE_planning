@@ -199,9 +199,10 @@ class CoursController < ApplicationController
 
     @cours = Cour.where(etat: Cour.etats.values_at(:planifié, :confirmé))
                  .where("DATE(debut) = ?", @planning_date.to_date)
+                 .includes(:formation, :intervenant, :salle) 
                  .order(:debut)
 
-    @cours_count = @cours.count
+    @cours_count = @cours.size
 
     unless @cours_count.zero?
       if request.variant.include?(:desktop) and !params[:planning_date]
@@ -210,14 +211,14 @@ class CoursController < ApplicationController
         @max_page_slide = (@cours_count / per_page)
         @max_page_slide += 1 unless @cours_count.%(per_page).zero?
 
-        if session[:page_slide].to_i < @max_page_slide
-          session[:page_slide] = session[:page_slide].to_i + 1
+        current_page_slide = session[:page_slide].to_i
+
+        if current_page_slide < @max_page_slide
+          session[:page_slide] = current_page_slide + 1
         else
           session[:page_slide] = 1
         end
-
-        @cours = @cours.paginate(page:session[:page_slide], per_page:per_page)
-
+        @cours = @cours.paginate(page: session[:page_slide], per_page: per_page)
       end
     else
       # Affiche un papier peint si pas de cours à afficher

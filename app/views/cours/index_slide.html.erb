@@ -43,9 +43,11 @@
         </thead>
       </tfoot>
       <tbody>
-        <% @cours.includes(:formation, :intervenant, :salle).each do | cours | %>
-          <%= render partial: 'slide', locals: {cours: cours} %>
-      <% end %>
+        <%= render partial: 'slide', 
+                   collection: @cours, 
+                   as: :cours 
+        %>
+
       </tbody>
   </table>
 <% else %>

@@ -207,7 +207,7 @@ class Cour < ActiveRecord::Base
 
     pct = ((now.to_f - self.debut.to_f) / (self.fin.to_f - self.debut.to_f) * 100).to_i
 
-    return (pct >= 0 and pct <= 100) ? pct : nil
+    return (pct > 0 and pct <= 100) ? pct : nil
   end
 
 

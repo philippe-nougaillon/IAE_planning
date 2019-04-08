@@ -1,3 +1,9 @@
+<% cour_etendue_horaire = Cour.etendue_horaire %>
+<% les_cours = Cour.where(etat: Cour.etats.values_at(:confirmé, :réalisé))
+                   .where("cours.debut BETWEEN DATE(?) AND DATE(?)", @date, @date + 1.day) 
+
+%>
+
 <div class="table-responsive">
   <table class="table table-hover table-striped">
     <thead>
@@ -6,7 +12,7 @@
         <th>Places</th>
         <th>Cours</th>
         <th>Formations</th> 
-        <% Cour.etendue_horaire.each_with_index do |heure, index| %>
+        <% cour_etendue_horaire.each_with_index do |heure, index| %>
           <th><%= heure %>h</th>
           <% if [4,9].include?(index) %><th /><% end %>
         <% end %>
@@ -21,16 +27,15 @@
     <tbody>
       <% bloc = 'A' %>
       <% @salles.each do |salle| %>
-        <% @cours = Cour.where(etat: Cour.etats.values_at(:confirmé, :réalisé)) %>
-        <% @cours = @cours.where("salle_id = ? AND cours.debut BETWEEN DATE(?) AND DATE(?)", salle.id, @date, @date + 1.day).order(:debut) %>
-        <% @formations = @cours.select(:formation_id).uniq.pluck(:formation_id) %> 
+        <% cours = les_cours.where(salle_id: salle.id) %>
+        <% cours_count = cours.size %>
 
         <% if bloc != salle.nom[0] || salle.nom.size > 3 %>
           <% bloc = salle.nom[0] %>
           <thead>
             <tr>
               <th /><th /><th /><th />
-              <% Cour.etendue_horaire.each_with_index do |heure, index| %>
+              <% cour_etendue_horaire.each_with_index do |heure, index| %>
                 <th><%= heure %>h</th>
                 <% if [4,9].include?(index) %><th /><% end %>
               <% end %>
@@ -42,24 +47,23 @@
           <td><b><%= salle.nom[0..9] %></b></td>
           <td><%= salle.places %></td>
           <td>
-            <%= link_to_unless @cours.count.zero?, @cours.count, 
-                              cours_path(ids:@cours.pluck(:id), view:'list', from:'occupation') %>
+            <%= link_to_unless cours_count.zero?, cours_count, 
+                              cours_path(ids:cours.pluck(:id), view:'list', from:'occupation') %>
           </td>
           <td>
-            <% @formations.each do |id| %> 
+            <% cours.pluck(:formation_id).uniq.each do |id| %> 
                 <% formation = Formation.unscoped.find(id) %> 
                 <span style="background-color:<%= formation.color %>;padding-left: 7px;"></span> 
                 <span style="padding-left:5px;"></span> 
                 <%= formation.abrg %> 
                 <span style="padding-right:10px;"></span> 
-              <% end %> 
+            <% end %> 
           </td>
 
           <% if @date %>
             <% range = [] %>
-            <% @cours.each {|cours| range += cours.range } %>
-            
-            <% map = Cour.etendue_horaire.map {|i| range.include?(i) ? 'red' : 'lightgreen' } %>
+            <% cours.each {|cours| range += cours.range } %>
+            <% map = cour_etendue_horaire.map {|i| range.include?(i) ? 'red' : 'lightgreen' } %>
             
             <% map.each_with_index do |color, index| %>
               <td>

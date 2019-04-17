@@ -251,10 +251,10 @@ class ToolsController < ApplicationController
 
   	  	index = 1
 
-    		CSV.foreach(file_with_path, headers:true, col_sep:';', encoding:'UTF-8') do |row|
+    		CSV.foreach(file_with_path, headers: true, col_sep: ';', encoding: 'UTF-8') do |row|
     			index += 1
 
-          intervenant = Intervenant.where("lower(nom) = ? AND email = ?", row['nom'].strip.downcase, row['email']).first_or_initialize
+          intervenant = Intervenant.where("lower(nom) = ? AND lower(prenom) = ?", row['nom'].strip.downcase, row['prenom'].strip.downcase).first_or_initialize
 
           intervenant.nom = row['nom'].strip.upcase 
           intervenant.prenom = row['prénom'].strip

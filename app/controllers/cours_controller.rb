@@ -256,7 +256,11 @@ class CoursController < ApplicationController
 
   def action_do
     action_name = params[:action_name]
-    @cours = Cour.where(id: params[:cours_id].keys)
+
+    @cours = Cour
+                .unscoped
+                .where(id: params[:cours_id].keys)
+                .order(:debut)
 
     case action_name 
 

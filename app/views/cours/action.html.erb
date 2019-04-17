@@ -9,7 +9,12 @@
   <h3>Cours sélectionnés</h3>
 
   <table class="table table-hover table-condensed">
-    <% Cour.unscoped.where(id: @action_ids).each do |cours| %>
+    <% Cour
+            .unscoped
+            .includes(:intervenant, :formation, :salle, :audits)
+            .where(id: @action_ids)
+            .order(:debut)
+            .each do |cours| %>
       <tr>
         <td><%= check_box_tag "[cours_id][#{cours.id}]", true, true %></td>                
         <td><%= l(cours.debut.to_date) %></td>

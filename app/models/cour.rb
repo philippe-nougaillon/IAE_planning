@@ -62,13 +62,11 @@ class Cour < ActiveRecord::Base
     return [nombre_heures_cours_jour, nombre_heures_cours_soir]   
   end
 
-
   def self.xls_headers
       %w{id Date_début Heure_début Date_fin Heure_fin Formation_id Formation
           Code_Analytique Intervenant_id Intervenant UE Intitulé Binôme? Etat
           Salle Durée E-learning? HSS? Taux_TD HETD Commentaires Créé_le Par Modifié_le}  
   end
-
 
   # Simple_calendar attributes
   def start_time

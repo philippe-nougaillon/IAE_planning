@@ -24,6 +24,7 @@ gem 'turbolinks'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
+
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
 
@@ -40,17 +41,9 @@ gem 'will_paginate'
 gem 'will_paginate-bootstrap'
 gem 'icalendar'
 gem 'pundit'
-#gem 'rmagick'
-#gem 'bootstrap-sass', '~> 3.2.0'
-#gem 'autoprefixer-rails'
-#gem 'bootstrap-generators', '~> 3.3.4'
-#gem 'bootstrap_form'
-
-gem 'scout_apm'
 
 gem 'sucker_punch'
 gem "select2-rails"
-#gem 'serviceworker-rails'
 
 # generate PDF
 gem 'wicked_pdf'
@@ -58,8 +51,6 @@ gem 'wkhtmltopdf-binary'
 
 # generate XLSX sheet
 gem 'spreadsheet'
-
-#gem 'capture-output'
 
 gem 'yaml_db'
  
@@ -72,11 +63,13 @@ group :development do
   
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
-	
+  
   gem 'brakeman', require: false
 
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'
+  
+  gem 'scout_apm'
 end
 
 group :test do

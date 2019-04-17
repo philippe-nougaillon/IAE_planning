@@ -700,10 +700,15 @@ class ToolsController < ApplicationController
 
   def audits
     @audits = Audited::Audit.order("id DESC")
-    @types  = Audited::Audit.select(:auditable_type).uniq.pluck(:auditable_type)
+    @types  = @audits.pluck(:auditable_type).uniq
+    @actions= @audits.pluck(:action).uniq
     
     unless params[:type].blank?
-      @audits = @audits.where(auditable_type:params[:type])
+      @audits = @audits.where(auditable_type: params[:type])
+    end
+
+    unless params[:action_name].blank?
+      @audits = @audits.where(action: params[:action_name])
     end
 
     unless params[:search].blank?
@@ -714,7 +719,7 @@ class ToolsController < ApplicationController
       @audits = @audits.where("audited_changes like ?", "%salle_id%")
     end
 
-    @audits = @audits.paginate(page:params[:page], per_page:10)
+    @audits = @audits.includes(:user).paginate(page: params[:page], per_page: 20)
   end
 
   def taux_occupation_jours

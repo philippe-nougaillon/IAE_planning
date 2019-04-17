@@ -41,8 +41,7 @@ footer {
 }
 
 .table_pdf th {
-    border: 1px solid lightgray;
-    color: #9E9E9E;
+    border: 1px solid;
     font-size: 11px;
 }
 .table_pdf td {

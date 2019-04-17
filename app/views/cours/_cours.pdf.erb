@@ -1,3 +1,8 @@
+<% if cours.formation != formation %>
+    <% formation = cours.formation %>
+    <tr><td><b><%= formation.nom %></b></td></tr>
+<% end %>
+
 <tr>
     <td style="width:250px;">
         <%= l(cours.debut.to_date, format: :long) %>
@@ -29,9 +34,7 @@
     </td>
     <% if show_comments %>
         <td>
-            <% if user_signed_in? && !cours.commentaires.blank? %>
-                <%= cours.commentaires %>
-            <% end %>
+            <%= cours.commentaires %>
         </td>
     <% end %>
 </tr>

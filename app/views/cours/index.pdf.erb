@@ -1,5 +1,6 @@
+<% formation = @cours.first.formation %>
 <h2>
-    <%= @cours.first.formation.nom %>
+    <%= formation.nom %>
 </h2>
 <br>
 
@@ -14,8 +15,12 @@
     </tr>
     
     <% @cours.each do |cours| %>
-        <%= render partial: 'cours', locals: {cours: cours, cours_formation: cours.formation, show_comments: false } %>
+        <%= render partial: 'cours', 
+                    locals: {cours: cours, 
+                             formation: formation,   
+                             show_comments: false }
+        %>
     <% end %>
 </table>
 <br>
-<i>Le: <%= l Date.today, format: :long %></i>
+<small><i>Liste au <%= l Date.today, format: :long %></i></small>

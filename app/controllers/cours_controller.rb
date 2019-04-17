@@ -235,8 +235,8 @@ class CoursController < ApplicationController
     unless params[:cours_id].blank? or params[:action_name].blank?
       @action_ids = params[:cours_id].keys
 
-      # Afficher les salles disponibles
       if params[:action_name] == 'Changer de salle'
+        # Afficher les salles disponibles
         @salles_dispos = Salle.pluck(:nom)
         @action_ids.each do |id|
           cours = Cour.find(id)
@@ -247,7 +247,13 @@ class CoursController < ApplicationController
           end
           @salles_dispos = @salles_dispos & salles
         end
-      end  
+      end
+
+      @cours = Cour
+                  .unscoped
+                  .includes(:intervenant, :formation, :salle, :audits)
+                  .where(id: @action_ids)
+                  .order(:debut)
     
     else
       redirect_to cours_path, alert:'Veuillez choisir des cours et une action à appliquer !'

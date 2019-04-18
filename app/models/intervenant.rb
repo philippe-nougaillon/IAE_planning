@@ -66,7 +66,7 @@ class Intervenant < ActiveRecord::Base
 	end
 
 	def self.xls_headers
-		%w{Id Nom Prénom Email Status Remise_dossier_srh Linkedin_url Titre1 Titre2 Spécialité Téléphone_fixe Téléphone_mobile Bureau Adresse CP Ville Créé_le Modifié_le}  
+		%w{Id Nom Prénom Email Statut Remise_dossier_srh Linkedin_url Titre1 Titre2 Spécialité Téléphone_fixe Téléphone_mobile Bureau Adresse CP Ville Créé_le Modifié_le}  
 	end
 
 	def self.generate_xls(intervenants)

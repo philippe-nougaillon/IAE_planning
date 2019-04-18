@@ -239,75 +239,88 @@ class ToolsController < ApplicationController
   def import_intervenants_do
     if params[:upload]
     	
-      # Enregistre le fichier localement
-      file_with_path = Rails.root.join('public', 'tmp', params[:upload].original_filename)
+      # Enregistre le fichier localement (format = Date + nom du fichier)
+      filename = I18n.l(Time.now, format: :long) + ' - ' + params[:upload].original_filename
+
+      file_with_path = Rails.root.join('public', 'tmp', filename)
       File.open(file_with_path, 'wb') do |file|
-          file.write(params[:upload].read)
+        file.write(params[:upload].read)
       end
 
-      # capture output
-      @stream = capture_stdout do
-  	  	@importes = @modifies = @errors = 0	
+      log = ImportLog.new(model_type: 'Intervenants', fichier: filename, user_id: current_user.id)
 
-  	  	index = 1
+      @importes = @errors = 0 
+      index = 1
 
-    		CSV.foreach(file_with_path, headers: true, col_sep: ';', encoding: 'UTF-8') do |row|
-    			index += 1
+      # IMPORT XLS
+      Spreadsheet.client_encoding = 'UTF-8'
+      book = Spreadsheet.open file_with_path
+      sheet1 = book.worksheet 0
+      headers = Intervenant.xls_headers
 
-          intervenant = Intervenant.where("lower(nom) = ? AND lower(prenom) = ?", row['nom'].strip.downcase, row['prenom'].strip.downcase).first_or_initialize
+      sheet1.each 1 do |row|
+        index += 1
 
-          intervenant.nom = row['nom'].strip.upcase 
-          intervenant.prenom = row['prénom'].strip
-          intervenant.email = row['email']
-          intervenant.linkedin_url = row['linkedin_url']
-          intervenant.titre1 = row['titre1']
-          intervenant.titre2 = row['titre2']
-          intervenant.status = row['statut']
-          intervenant.spécialité = row['spécialité']
-          intervenant.téléphone_fixe = row['téléphone_fixe']
-          intervenant.téléphone_mobile = row['téléphone_mobile']
-          intervenant.bureau = row['bureau']
+        next unless row[0]
 
-          unless intervenant.new_record?
-            if intervenant.changes.any?
-              puts "Intervenant '#{intervenant.nom}' MODIFIE => #{intervenant.changes}" 
-              puts
-              @modifies += 1
-            end
-          end
+        intervenant = Intervenant
+                            .where("lower(nom) = ? AND lower(prenom) = ?", 
+                              row[headers.index 'Nom'].strip.downcase, 
+                              row[headers.index 'Prénom'].strip.downcase)
+                            .first_or_initialize
 
-    			if intervenant.valid? 
-            if intervenant.changes.any? and intervenant.new_record?
-    				  puts "Intervenant '#{intervenant.nom}' AJOUTE => #{intervenant.changes}"
-              puts
-              @importes += 1
-            end
-  				  intervenant.save if params[:save] == 'true'
-    			else
-            puts "Ligne ##{index}"
-            puts "!! Intervenant INVALIDE !! Erreur => #{intervenant.errors.messages} | Source: #{row}"
-            puts
-            # puts intervenant.changes
-            puts "- -" * 40
-            puts
-    				@errors += 1
-          end
-    		end
-    	  puts "----------- Les modifications n'ont pas été enregistrées ! ---------------" unless params[:save] == 'true'
-    	  puts
+        intervenant.nom = row[headers.index 'Nom'].strip.upcase 
+        intervenant.prenom = row[headers.index 'Prénom'].strip
+        intervenant.email = row[headers.index 'Email']
+        intervenant.linkedin_url = row[headers.index 'Linkedin_url']
+        intervenant.titre1 = row[headers.index 'Titre1']
+        intervenant.titre2 = row[headers.index 'Titre2']
+        intervenant.status = row[headers.index 'Statut']
+        intervenant.spécialité = row[headers.index 'Spécialité']
+        intervenant.téléphone_fixe = row[headers.index 'Téléphone_fixe']
+        intervenant.téléphone_mobile = row[headers.index 'Téléphone_mobile']
+        intervenant.bureau = row[headers.index 'Bureau']
 
-    		puts "=" * 70
-    		puts "Lignes traitées: #{index} | Lignes importées: #{@importes} | Lignes modifiées: #{@modifies} | Lignes ignorées: #{@errors}"
-    		puts "=" * 70
+        # MAJ existant ? si l'id est égal à 0 => c'est une création
+        msg = "INTERVENANT #{intervenant.new_record? ? 'NEW' : 'UPDATE'} => id:#{intervenant.id} changes:#{intervenant.changes}"
+
+        if intervenant.valid? 
+          intervenant.save if params[:save] == 'true'
+        else
+          msg << " || ERREURS: " + intervenant.errors.messages.map{|m| "#{m.first} => #{m.last}"}.join(',')
+        end
+
+        _etat = ( intervenant.valid? ? ImportLogLine.etats[:succès] : ImportLogLine.etats[:echec]) 
+        log.import_log_lines.build(etat: _etat, num_ligne: index, message: msg)
+
+        intervenant.valid? ? @importes += 1 : @errors += 1 
       end
 
-      # save output            
-      #@now = DateTime.now.to_s
-      #File.open("public/Documents/Import_logements-#{@now}.txt", "w") { |file| file.write @out }
+      _etat = if @errors.zero?
+        ImportLog.etats[:succès] 
+      else 
+        if @errors < @importes 
+          ImportLog.etats[:warning]
+        else
+          ImportLog.etats[:echec]
+        end
+      end   
+      
+      log.update(etat: _etat, nbr_lignes: @importes + @errors, lignes_importees: @importes)
+      log.update(message: (params[:save] == 'true' ? "Importation" : "Simulation") )
+ 
+      if @errors > 0
+        log.update(message: log.message + " | #{@errors} lignes rejetées !")
+      end   
+      log.save
+      
+      flash[:notice] = "L'importation a bien été exécutée"
+      redirect_to import_logs_path
     else
-      flash[:error] = "Manque le fichier source pour lancer l'importation !"
-      redirect_to action: 'import_intervenants'
+      flash[:error] = "Manque le fichier source pour pouvoir lancer l'importation !"
+      redirect_to action: 'import'
     end  
+
   end
 
   def import_utilisateurs
@@ -377,54 +390,86 @@ class ToolsController < ApplicationController
   end
 
   def import_etudiants_do
-    
-    if params[:upload]
-      # Enregistre le fichier localement
-      file_with_path = Rails.root.join('public', 'tmp', params[:upload].original_filename)
+    if params[:upload] && params[:formation_id]
+      
+      formation_id = params[:formation_id]
+
+      # Enregistre le fichier localement (format = Date + nom du fichier)
+      filename = I18n.l(Time.now, format: :long) + ' - ' + params[:upload].original_filename
+
+      file_with_path = Rails.root.join('public', 'tmp', filename)
       File.open(file_with_path, 'wb') do |file|
-          file.write(params[:upload].read)
+        file.write(params[:upload].read)
       end
 
-      # capture output
-      @stream = capture_stdout do
-        @importes = @errors = 0	
+      log = ImportLog.new(model_type: 'Etudiants', fichier: filename, user_id: current_user.id)
 
-        index = 0
+      @importes = @errors = 0 
+      index = 1
 
-        CSV.foreach(file_with_path, headers:true, col_sep:';', quote_char:'"', encoding:'UTF-8') do |row|
-          index += 1
+      # IMPORT XLS
+      Spreadsheet.client_encoding = 'UTF-8'
+      book = Spreadsheet.open file_with_path
+      sheet1 = book.worksheet 0
+      headers = Etudiant.xls_headers
 
-          etudiant = Etudiant.new(nom:row['nom'].strip, prénom:row['prénom'].strip, 
-                                  email:row['email'], mobile:row['mobile'], formation_id:params[:formation_id])
-           
-          if etudiant.valid? 
-            etudiant.save if params[:save] == 'true'
-            @importes += 1
-          else
-            puts "Ligne ##{index}"
-            puts "!! étudiant INVALIDE !! Erreur => #{etudiant.errors.messages} | Source: #{row}"
-            puts
-            # puts user.changes
-            @errors += 1
-          end
-          puts "- -" * 40
-          puts
+      sheet1.each 1 do |row|
+        index += 1
+
+        next unless row[0]
+
+        etudiant = Etudiant
+                        .where("lower(nom) = ? AND lower(prénom) = ?", 
+                          row[headers.index 'Nom'].strip.downcase, 
+                          row[headers.index 'Prénom'].strip.downcase)
+                        .first_or_initialize
+
+        etudiant.nom = row[headers.index 'Nom'].strip.upcase 
+        etudiant.prénom = row[headers.index 'Prénom'].strip
+        etudiant.email = row[headers.index 'Email']
+        etudiant.mobile = row[headers.index 'Mobile']
+        etudiant.formation_id = formation_id
+ 
+        # MAJ existant ? si l'id est égal à 0 => c'est une création
+        msg = "ETUDIANT #{etudiant.new_record? ? 'NEW' : 'UPDATE'} => id:#{etudiant.id} changes:#{etudiant.changes}"
+
+        if etudiant.valid? 
+          etudiant.save if params[:save] == 'true'
+        else
+          msg << " || ERREURS: " + etudiant.errors.messages.map{|m| "#{m.first} => #{m.last}"}.join(',')
         end
-        puts "----------- Les modifications n'ont pas été enregistrées ! ---------------" unless params[:save] == 'true'
-        puts
 
-        puts "=" * 40
-        puts "Lignes importées: #{@importes} | Lignes ignorées: #{@errors}"
-        puts "=" * 40
+        _etat = ( etudiant.valid? ? ImportLogLine.etats[:succès] : ImportLogLine.etats[:echec]) 
+        log.import_log_lines.build(etat: _etat, num_ligne: index, message: msg)
+
+        etudiant.valid? ? @importes += 1 : @errors += 1 
       end
 
-      # save output            
-      #@now = DateTime.now.to_s
-      #File.open("public/Documents/Import_logements-#{@now}.txt", "w") { |file| file.write @out }
+      _etat = if @errors.zero?
+        ImportLog.etats[:succès] 
+      else 
+        if @errors < @importes 
+          ImportLog.etats[:warning]
+        else
+          ImportLog.etats[:echec]
+        end
+      end   
+      
+      log.update(etat: _etat, nbr_lignes: @importes + @errors, lignes_importees: @importes)
+      log.update(message: (params[:save] == 'true' ? "Importation" : "Simulation") )
+ 
+      if @errors > 0
+        log.update(message: log.message + " | #{@errors} lignes rejetées !")
+      end   
+      log.save
+      
+      flash[:notice] = "L'importation a bien été exécutée"
+      redirect_to import_logs_path
     else
-      flash[:error] = "Manque le fichier source ou la formation pour pouvoir lancer l'importation !"
-      redirect_to action: 'import_etudiants'
+      flash[:error] = "Manque le fichier source pour pouvoir lancer l'importation !"
+      redirect_to action: 'import'
     end  
+
   end
 
   def swap_intervenant
@@ -608,20 +653,6 @@ class ToolsController < ApplicationController
   end
 
   def export_intervenants_do
-  	# @csv_string = CSV.generate(col_sep:';', encoding:'UTF-8') do | csv |
-    #   csv << ["id", "nom","prenom", "email", "status", "remise_dossier_srh", "linkedin_url", "titre1", "titre2", "spécialité", "téléphone_fixe", "téléphone_mobile", "bureau", "adresse", "cp", "ville",'cree le', 'modifie le' ]
-      
-    #   Intervenant.all.each do |c|
-    #     fields_to_export = [c.id, c.nom, c.prenom, c.email, c.status, c.remise_dossier_srh, c.linkedin_url, c.titre1, c.titre2, c.spécialité, c.téléphone_fixe, c.téléphone_mobile, c.bureau, c.adresse, c.cp, c.ville, c.created_at, c.updated_at]
-        
-    #     csv << fields_to_export
-    #   end
-    # end
-    
-    # filename = "Export_Intervenants_#{Date.today.to_s}"
-    # response.headers['Content-Disposition'] = 'attachment; filename="' + filename + '.csv"'
-    # render "export_intervenants_do.csv.erb"
-
     intervenants = Intervenant.all
 
     book = Intervenant.generate_xls(intervenants)  
@@ -640,20 +671,6 @@ class ToolsController < ApplicationController
     unless params[:formation_id].blank?
       etudiants = etudiants.where(formation_id: params[:formation_id])
     end
-
-  	# @csv_string = CSV.generate(col_sep:';', encoding:'UTF-8') do | csv |
-    #   csv << ["id", "nom","prénom", "email", "mobile", "formation_id", "formation_nom","créé le", "modifié le"]
-      
-    #   @etudiants.all.each do |c|
-    #     fields_to_export = [c.id, c.nom, c.prénom, c.email, c.mobile, c.formation_id, c.formation.nom, c.created_at, c.updated_at]
-        
-    #     csv << fields_to_export
-    #   end
-    # end
-    
-    # filename = "Export_Etudiants_#{Date.today.to_s}"
-    # response.headers['Content-Disposition'] = 'attachment; filename="' + filename + '.csv"'
-    # render "export_etudiants_do.csv.erb"
 
     book = Etudiant.generate_xls(etudiants)  
     file_contents = StringIO.new

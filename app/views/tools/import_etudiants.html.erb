@@ -11,16 +11,7 @@
 
 <%= form_tag({action: "import_etudiants_do", method: :post}, multipart: true) do %>
   <div>
-    <h3>Cette fonction permet l'importation d'une liste d'étudiants à partir d'un fichier CSV</h3>
-    <ul>
-      <li>
-        Le fichier source doit contenir les colonnes suivantes: 
-        <b>nom;prénom;email;mobile</b>
-      </li>
-      <li>Ce fichier doit être au format CSV, Encodage: <b>UTF-8</b>, Séparateur: <b>Point-virgule</b>, Noms des colonnes: <b>Première ligne</b>
-      </li>
-      <li>Exemple de fichier conforme : <%= link_to "exemple_import_étudiants.csv", "/exemple_import_étudiants.csv" %></li>
-    </ul>
+    <h3>Cette fonction permet l'importation d'une liste d'étudiants à partir d'une feuille Excel</h3>
   </div>
 
   <div class="row">
@@ -34,7 +25,7 @@
 
   <div class="field">
     <%= label :filename, "Fichier source" %>
-    <%= file_field_tag 'upload', accept: 'text/csv' %>
+    <%= file_field_tag 'upload', accept: '.xls' %>
   </div>
   <br>
   

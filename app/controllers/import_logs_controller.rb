@@ -4,14 +4,14 @@ class ImportLogsController < ApplicationController
   # GET /import_logs
   # GET /import_logs.json
   def index
-    @import_logs = ImportLog.order(:id).reverse_order
+    @import_logs = ImportLog.includes(:user).order(:id).reverse_order
   end
 
   # GET /import_logs/1
   # GET /import_logs/1.json
   def show
     if params[:filter]
-      @import_log_lines = @import_log.import_log_lines.where(etat:1)      
+      @import_log_lines = @import_log.import_log_lines.where(etat: 1)      
     else
       @import_log_lines = @import_log.import_log_lines      
     end

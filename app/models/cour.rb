@@ -273,8 +273,10 @@ class Cour < ActiveRecord::Base
 
     book = Spreadsheet::Workbook.new
     sheet = book.create_worksheet name: 'Planning'
-
+		bold = Spreadsheet::Format.new :weight => :bold, :size => 10
+	
     sheet.row(0).concat Cour.xls_headers
+		sheet.row(0).default_format = bold
     
     index = 1
     cours.each do |c|

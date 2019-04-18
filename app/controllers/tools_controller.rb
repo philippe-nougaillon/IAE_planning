@@ -608,44 +608,58 @@ class ToolsController < ApplicationController
   end
 
   def export_intervenants_do
-  	@csv_string = CSV.generate(col_sep:';', encoding:'UTF-8') do | csv |
-      csv << ["id", "nom","prenom", "email", "status", "remise_dossier_srh", "linkedin_url", "titre1", "titre2", "spécialité", "téléphone_fixe", "téléphone_mobile", "bureau", "adresse", "cp", "ville",'cree le', 'modifie le' ]
+  	# @csv_string = CSV.generate(col_sep:';', encoding:'UTF-8') do | csv |
+    #   csv << ["id", "nom","prenom", "email", "status", "remise_dossier_srh", "linkedin_url", "titre1", "titre2", "spécialité", "téléphone_fixe", "téléphone_mobile", "bureau", "adresse", "cp", "ville",'cree le', 'modifie le' ]
       
-      Intervenant.all.each do |c|
-        fields_to_export = [c.id, c.nom, c.prenom, c.email, c.status, c.remise_dossier_srh, c.linkedin_url, c.titre1, c.titre2, c.spécialité, c.téléphone_fixe, c.téléphone_mobile, c.bureau, c.adresse, c.cp, c.ville, c.created_at, c.updated_at]
+    #   Intervenant.all.each do |c|
+    #     fields_to_export = [c.id, c.nom, c.prenom, c.email, c.status, c.remise_dossier_srh, c.linkedin_url, c.titre1, c.titre2, c.spécialité, c.téléphone_fixe, c.téléphone_mobile, c.bureau, c.adresse, c.cp, c.ville, c.created_at, c.updated_at]
         
-        csv << fields_to_export
-      end
-    end
+    #     csv << fields_to_export
+    #   end
+    # end
     
-    filename = "Export_Intervenants_#{Date.today.to_s}"
-    response.headers['Content-Disposition'] = 'attachment; filename="' + filename + '.csv"'
-    render "export_intervenants_do.csv.erb"
+    # filename = "Export_Intervenants_#{Date.today.to_s}"
+    # response.headers['Content-Disposition'] = 'attachment; filename="' + filename + '.csv"'
+    # render "export_intervenants_do.csv.erb"
+
+    intervenants = Intervenant.all
+
+    book = Intervenant.generate_xls(intervenants)  
+    file_contents = StringIO.new
+    book.write file_contents # => Now file_contents contains the rendered file output
+    filename = "Export_Intervenants_#{Date.today.to_s}.xls"
+    send_data file_contents.string.force_encoding('binary'), filename: filename 
   end
 
   def etudiants
   end
 
   def export_etudiants_do
-    @etudiants = Etudiant.all
+    etudiants = Etudiant.all
 
     unless params[:formation_id].blank?
-      @etudiants = @etudiants.where(formation_id:params[:formation_id])
+      etudiants = etudiants.where(formation_id: params[:formation_id])
     end
 
-  	@csv_string = CSV.generate(col_sep:';', encoding:'UTF-8') do | csv |
-      csv << ["id", "nom","prénom", "email", "mobile", "formation_id", "formation_nom","créé le", "modifié le"]
+  	# @csv_string = CSV.generate(col_sep:';', encoding:'UTF-8') do | csv |
+    #   csv << ["id", "nom","prénom", "email", "mobile", "formation_id", "formation_nom","créé le", "modifié le"]
       
-      @etudiants.all.each do |c|
-        fields_to_export = [c.id, c.nom, c.prénom, c.email, c.mobile, c.formation_id, c.formation.nom, c.created_at, c.updated_at]
+    #   @etudiants.all.each do |c|
+    #     fields_to_export = [c.id, c.nom, c.prénom, c.email, c.mobile, c.formation_id, c.formation.nom, c.created_at, c.updated_at]
         
-        csv << fields_to_export
-      end
-    end
+    #     csv << fields_to_export
+    #   end
+    # end
     
-    filename = "Export_Etudiants_#{Date.today.to_s}"
-    response.headers['Content-Disposition'] = 'attachment; filename="' + filename + '.csv"'
-    render "export_etudiants_do.csv.erb"
+    # filename = "Export_Etudiants_#{Date.today.to_s}"
+    # response.headers['Content-Disposition'] = 'attachment; filename="' + filename + '.csv"'
+    # render "export_etudiants_do.csv.erb"
+
+    book = Etudiant.generate_xls(etudiants)  
+    file_contents = StringIO.new
+    book.write file_contents # => Now file_contents contains the rendered file output
+    filename = "Export_Etudiants_#{Date.today.to_s}.xls"
+    send_data file_contents.string.force_encoding('binary'), filename: filename 
   end
 
   def etats_services

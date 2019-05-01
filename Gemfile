@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 ruby '2.4.5'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.10'
+gem 'rails', '4.2.11'
 
 gem 'mysql2','~> 0.3.18'
 
@@ -31,7 +31,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem "bootstrap_form", "~> 2.7"
 gem 'simple_calendar', '~> 2.0'
-gem 'devise', '3.4.1'
+gem "devise", ">= 4.6.0"
 gem 'devise-i18n'
 gem 'audited', '~> 4.3'
 gem 'rack-cors'

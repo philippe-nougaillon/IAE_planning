@@ -1,20 +1,17 @@
-<div class="page-header">
-  <h1>
-    <span class="glyphicon glyphicon-info-sign"></span>
-    Mémo application planning
-  </h1>
-</div>
-
 <div class="jumbotron">
+  <h3>
+    <span class="glyphicon glyphicon-info-sign"></span>
+    Mémo
+  </h3>
   Aide-mémoire de l'application Planning, à l'usage des utilisateurs et des administrateurs
 </div>
 
-<hr />
-
-<h1>
-  <span class="glyphicon glyphicon-calendar"></span>
-  Planning
-</h1>
+<div class="page-header">
+  <h1>
+    <span class="glyphicon glyphicon-calendar"></span>
+    Planning des cours
+  </h1>
+</div>
 
 <div class="row">
   <div class="col-md-4">
@@ -22,7 +19,7 @@
       <a href="/Images/guide/cours1.png">
         <img src="/Images/guide/cours1.png" alt="Planning journalier" style="width:100%">
         <div class="caption">
-          <p>Liste des cours</p>
+          <p>Liste des cours à venir</p>
         </div>
       </a>
     </div>
@@ -32,7 +29,7 @@
       <a href="/Images/guide/cours_selection.png">
         <img src="/Images/guide/cours_selection.png" alt="Occupation des salles" style="width:100%;height: 250px">
         <div class="caption">
-          <p>Sélection d'une formation</p>
+          <p>Liste des cours d'une formation</p>
         </div>
       </a>
     </div>
@@ -42,7 +39,7 @@
       <a href="/Images/guide/cours_new.png">
         <img src="/Images/guide/cours_new.png" alt="Planning mensuel" style="width:100%">
         <div class="caption">
-          <p>Ajout d'un cours et réservation de salle</p>
+          <p>Formulaire de réservation de salle</p>
         </div>
       </a>
     </div>
@@ -81,14 +78,74 @@
       <li>Le cours est dans l'état 'Confirmé' mais aucune salle n'a été réservée</li>
     </ul>
 </ul>
+
 <br>
-<hr />
 
 
-<h1>
-  <span class="glyphicon glyphicon-briefcase"></span>
-  Formations
-</h1>
+<div class="page-header">
+  <h1>
+    <span class="glyphicon glyphicon-blackboard"></span>
+    Liste des salles
+  </h1>
+</div>
+
+<div class="row">
+  <div class="col-md-3">
+    <div class="thumbnail">
+      <a href="/Images/guide/salles1.png">
+        <img src="/Images/guide/salles1.png" alt="Occupation des salles jour" style="width:100%;height: 200px">
+        <div class="caption">
+          <p>Occupation des salles (jour)</p>
+        </div>
+      </a>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="thumbnail">
+      <a href="/Images/guide/salles2.png">
+        <img src="/Images/guide/salles2.png" alt="Occupation des salles semaine" style="width:100%;height: 200px">
+        <div class="caption">
+          <p>Occupation des salles (semaine)</p>
+        </div>
+      </a>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="thumbnail">
+      <a href="/Images/guide/cours3.png">
+        <img src="/Images/guide/cours3.png" alt="Occupation des salles semaine détail" style="width:100%">
+        <div class="caption">
+          <p>Occupation salles en détail (semaine)</p>
+        </div>
+      </a>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="thumbnail">
+      <a href="/Images/guide/cours4.png">
+        <img src="/Images/guide/cours4.png" alt="Occupation des salles semaine détail" style="width:100%">
+        <div class="caption">
+          <p>Occupation salles en détail (semaine)</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+<ul>
+    <li>Gestion de la capacité (alerte si dépassement)</li>
+    <li>Visualisation des créneaux horaires libres/occupés pour une date, une salle</li>
+    <strong>Pour autoriser les doublons: entrez 0 dans capacité</strong>
+</ul>
+<br>
+
+<br>
+
+<div class="page-header">
+  <h1>
+    <span class="glyphicon glyphicon-briefcase"></span>
+    Formations
+  </h1>
+</div>
 
 <div class="row">
   <div class="col-md-4">
@@ -146,13 +203,13 @@
     </li>
 </ul>
 <br>
-<hr />
 
-
-<h1>
-  <span class="glyphicon glyphicon-user"></span>
-  Intervenants
-</h1>
+<div class="page-header">
+  <h1>
+    <span class="glyphicon glyphicon-user"></span>
+    Intervenants
+  </h1>
+</div>
 
 <div class="row">
   <div class="col-md-4">
@@ -203,13 +260,13 @@
   <li>La saisie des Responsabilités n'est accessible que par les membres du groupe RH</li>
 </ul>
 <br>
-<hr />
 
-
-<h1>
-  <span class="glyphicon glyphicon-education"></span>
-  Etudiants
-</h1>
+<div class="page-header">
+  <h1>
+    <span class="glyphicon glyphicon-education"></span>
+    Etudiants
+  </h1>
+</div>
 
 <div class="row">
   <div class="col-md-4">
@@ -249,69 +306,13 @@
     <li>La saisie des coordonnées de l'étudiant permet de lui envoyer une notification par email/SMS en cas d'annulation de cours (option)</li>
 </ul>
 <br>
-<hr />
 
-
-<h1>
-  <span class="glyphicon glyphicon-blackboard"></span>
-  Liste des salles
-</h1>
-
-<div class="row">
-  <div class="col-md-3">
-    <div class="thumbnail">
-      <a href="/Images/guide/salles1.png">
-        <img src="/Images/guide/salles1.png" alt="Occupation des salles jour" style="width:100%;height: 200px">
-        <div class="caption">
-          <p>Occupation des salles (jour)</p>
-        </div>
-      </a>
-    </div>
-  </div>
-  <div class="col-md-3">
-    <div class="thumbnail">
-      <a href="/Images/guide/salles2.png">
-        <img src="/Images/guide/salles2.png" alt="Occupation des salles semaine" style="width:100%;height: 200px">
-        <div class="caption">
-          <p>Occupation des salles (semaine)</p>
-        </div>
-      </a>
-    </div>
-  </div>
-  <div class="col-md-3">
-    <div class="thumbnail">
-      <a href="/Images/guide/cours3.png">
-        <img src="/Images/guide/cours3.png" alt="Occupation des salles semaine détail" style="width:100%">
-        <div class="caption">
-          <p>Occupation salles en détail (semaine)</p>
-        </div>
-      </a>
-    </div>
-  </div>
-  <div class="col-md-3">
-    <div class="thumbnail">
-      <a href="/Images/guide/cours4.png">
-        <img src="/Images/guide/cours4.png" alt="Occupation des salles semaine détail" style="width:100%">
-        <div class="caption">
-          <p>Occupation salles en détail (semaine)</p>
-        </div>
-      </a>
-    </div>
-  </div>
+<div class="page-header">
+  <h1>
+    <span class="glyphicon glyphicon-user"></span>
+    Utilisateurs
+  </h1>
 </div>
-<ul>
-    <li>Gestion de la capacité (alerte si dépassement)</li>
-    <li>Visualisation des créneaux horaires libres/occupés pour une date, une salle</li>
-    <strong>Pour autoriser les doublons: entrez 0 dans capacité</strong>
-</ul>
-<br>
-<hr />
-
-
-<h1>
-  <span class="glyphicon glyphicon-user"></span>
-  Utilisateurs
-</h1>
 
 <ul>
     <li>Il existe 4 rôles utilisateur :</li>
@@ -323,13 +324,14 @@
     </ul>
 </ul>
 <br>
-<hr />
 
 
-<h1>
-  <span class="glyphicon glyphicon-wrench"></span>
-  Outils
-</h1>
+<div class="page-header">
+  <h1>
+    <span class="glyphicon glyphicon-wrench"></span>
+    Outils
+  </h1>
+</div>
 
 <div class="row">
   <div class="col-md-4">
@@ -383,12 +385,13 @@
   </ul>
 </ul>
 <br>
-<hr />
 
-<h1>
-  <span class="glyphicon glyphicon-download-alt"></span>
-  Importation des données
-</h1>
+<div class="page-header">
+  <h1>
+    <span class="glyphicon glyphicon-download-alt"></span>
+    Importation des données
+  </h1>
+</div>
 
 <ul>
     <li>
@@ -411,24 +414,8 @@
     <br>
     
     <li>
-      Les formations, intervenants, étudiants et les utilisateurs peuvent être importés en masse à partir d'un fichier
+      Les formations, intervenants, étudiants peuvent être importés en masse à partir d'un fichier XLS
     </li>
-    <ul>
-      <li>
-        Ce fichier doit être au format CSV, Encodage: <b>UTF-8</b>, 
-        Séparateur: <b>Point-virgule</b>, 
-        Noms des colonnes: <b>Première ligne</b>
-      </li>
-    </ul>
-
-    <ul>
-        <li>
-          Si besoin, utilisez un 
-          <a href="https://subtitletools.com/convert-text-files-to-utf8-online">
-            convertisseur UTF8 en ligne 
-          </a>
-        </li>
-    </ul>
 
   	<br>
     <li>
@@ -439,25 +426,25 @@
     </li>
 </ul>
 <br>
-<hr />
 
-
-<h1>
-  <span class="glyphicon glyphicon-export"></span>
-  Exportation des données
-</h1>
+<div class="page-header">
+  <h1>
+    <span class="glyphicon glyphicon-export"></span>
+    Exportation des données
+  </h1>
+</div>
 
 <ul>
-    <li>Toutes les données sont exportables au format CSV</li>
+    <li>Toutes les données sont exportables au format Microsoft Excel (XLS)</li>
 </ul>
 <br>
-<hr />
 
-
-<h1>
-  <span class="glyphicon glyphicon-search"></span>
-  Audit des modifications
-</h1>
+<div class="page-header">
+  <h1>
+    <span class="glyphicon glyphicon-search"></span>
+    Audit des modifications
+  </h1>
+</div>
 
 <div class="row">
   <div class="col-md-4">
@@ -496,13 +483,14 @@
     <li>Chaque modification apportée aux données est enregistrée dans un journal, avec la date, l'utilisateur, la table, le champs et la valeur avant/après modification</li>
 </ul>
 <br>
-<hr />
 
 
-<h1>
-  <span class="glyphicon glyphicon-list-alt"></span>
-  Etats de services
-</h1>
+<div class="page-header">
+  <h1>
+    <span class="glyphicon glyphicon-list-alt"></span>
+    Etats de services
+  </h1>
+</div>
 
 <ul>
     <li>Récapitule les cours <b>réalisés</b> sur une période donnée par un intervenant</li>
@@ -510,37 +498,41 @@
     <li>Etat liquidatif en PDF</li>
 </ul>
 <br>
-<hr />
 
 
-<h1>
-  <span class="glyphicon glyphicon-transfer"></span>
-  API
-</h1>
+<div class="page-header">
+  <h1>
+    <span class="glyphicon glyphicon-transfer"></span>
+    API
+  </h1>
+</div>
+
 <ul>
     <li>Une API fournit les données du planning au format JSON</li>
     <li>Ex: https://planning.iae-paris.com/api/v1/cours.json?d=20190701 </li>
 </ul>
 <br>
-<hr />
 
 
-<h1>
-  <span class="glyphicon glyphicon-asterisk"></span>
-  Notification
-</h1>
+<div class="page-header">
+  <h1>
+    <span class="glyphicon glyphicon-asterisk"></span>
+    Notification
+  </h1>
+</div>
+
 <ul>
     <li>Les chargés de scolarité et les étudiants peuvent recevoir une notification par email/SMS(à venir) lors de l'annulation de cours(option)</li>
     <li>Chaque fin de semaine, les intervenants recoivent leur planning de la semaine à venir (option)</li>
 </ul>
 <br>
-<hr />
 
-
-<h1>
-  <span class="glyphicon glyphicon-phone"></span>
-  Mobile
-</h1>
+<div class="page-header">
+  <h1>
+    <span class="glyphicon glyphicon-phone"></span>
+    Mobile
+  </h1>
+</div>
 
 <div class="row">
   <div class="col-md-4">
@@ -581,13 +573,14 @@
   <li>Adapté au standard PWA (Progressive Web App)</li>
 </ul>
 <br>
-<hr />
 
 
-<h1>
-  <span class="glyphicon glyphicon-film"></span>
-  Affichage sur panneaux lumineux
-</h1>
+<div class="page-header">
+  <h1>
+    <span class="glyphicon glyphicon-film"></span>
+    Affichage sur panneaux lumineux
+  </h1>
+</div>
 
 <div class="row">
   <div class="col-md-6">
@@ -615,12 +608,14 @@
     <li>Planning du jour optimisé pour la diffusion sur un grands écrans, généralement installés à l'entrée des salles de cours, dans les couloirs ou à l'accueil</li>
 </ul>
 <br>
-<hr />
 
-<h1>
-  <span class="glyphicon glyphicon-envelope"></span>
-  Contact
-</h1>
+<div class="page-header">
+  <h1>
+    <span class="glyphicon glyphicon-envelope"></span>
+    Contact
+  </h1>
+</div>
+
 <p>
   <kbd>Vos commentaires et propositions sont les bienvenus, ils m'aident à améliorer l'application...
     <br>

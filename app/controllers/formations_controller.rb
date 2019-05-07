@@ -65,14 +65,14 @@ class FormationsController < ApplicationController
     @formation = Formation.new
     15.times { @formation.unites.build }
     10.times { @formation.etudiants.build } 
-    3.times { @formation.vacations.build }
+    10.times { @formation.vacations.build }
   end
 
   # GET /formations/1/edit
   def edit
-    2.times { @formation.unites.build }
-    2.times { @formation.etudiants.build } 
-    2.times { @formation.vacations.build }
+    3.times { @formation.unites.build }
+    3.times { @formation.etudiants.build } 
+    3.times { @formation.vacations.build }
   end
 
   # POST /formations
@@ -128,6 +128,6 @@ class FormationsController < ApplicationController
                     :abrg, :user_id, :color, :Forfait_HETD, :Taux_TD, :Code_Analytique, :catalogue, :archive, :hss,
                     unites_attributes: [:id, :num, :nom, :_destroy],
                     etudiants_attributes: [:id, :nom, :prénom, :email, :mobile, :_destroy],
-                    vacations_attributes: [:id, :date, :intervenant_id, :titre, :qte, :forfaithtd, :_destroy])
+                    vacations_attributes: [:id, :date, :intervenant_id, :titre, :qte, :forfaithtd, :commentaires, :_destroy])
     end
 end

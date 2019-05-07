@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190212114219) do
+ActiveRecord::Schema.define(version: 20190507135448) do
 
   create_table "audits", force: :cascade do |t|
     t.integer  "auditable_id",    limit: 4
@@ -178,6 +178,7 @@ ActiveRecord::Schema.define(version: 20190212114219) do
     t.date     "debut"
     t.date     "fin"
     t.integer  "formation_id",   limit: 4
+    t.string   "commentaires",   limit: 255
   end
 
   add_index "responsabilites", ["formation_id"], name: "index_responsabilites_on_formation_id", using: :btree
@@ -236,6 +237,7 @@ ActiveRecord::Schema.define(version: 20190212114219) do
     t.datetime "updated_at",                                         null: false
     t.date     "date"
     t.integer  "qte",            limit: 4
+    t.string   "commentaires",   limit: 255
   end
 
   add_index "vacations", ["formation_id"], name: "index_vacations_on_formation_id", using: :btree

@@ -11,9 +11,8 @@ class Intervenant < ActiveRecord::Base
 									allow_destroy:true, 
 									reject_if: lambda {|attributes| attributes['titre'].blank? || 
 																	attributes['debut'].blank? ||
-																	attributes['fin'].blank? ||
 																	attributes['formation_id'].blank? ||
-																	 attributes['heures'].blank? }
+																	attributes['heures'].blank? }
 
 	has_many :vacations
 

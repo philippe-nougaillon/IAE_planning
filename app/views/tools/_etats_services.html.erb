@@ -8,7 +8,7 @@
     </div> 
 
     <% @vacations = intervenant.vacations.where("date BETWEEN ? AND ?", @start_date, @end_date) %>
-    <% @responsabilites = intervenant.responsabilites.where("debut < DATE(?) AND fin > DATE(?)", @end_date, @start_date) %>
+    <% @responsabilites = intervenant.responsabilites.where("debut BETWEEN ? AND ?", @start_date, @end_date) %>
     <% cumul_hetd = cumul_vacations = cumul_resps = cumul_tarif = cumul_duree = 0 %>
     <% nbr_heures_statutaire = intervenant.nbr_heures_statutaire || 0 %>
 
@@ -117,7 +117,7 @@
             <% cumul_resps += montant_responsabilite %>
             <tr>
                 <td><%= l resp.debut %></td>
-                <td><%= l resp.fin %></td>
+                <td />
                 <td><%= link_to resp.formation.nom, resp.formation, target:"_new" %></td>
                 <td><%= resp.formation.Code_Analytique %></td>
                 <td><%= resp.titre %></td>

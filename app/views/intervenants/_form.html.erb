@@ -83,14 +83,10 @@
         <div class="row">
           <li>
             <div class="col-sm-2">
-              <%= r.date_field :debut, label:"Début" %>
+              <%= r.date_field :debut, label:"Date" %>
             </div>
 
-            <div class="col-sm-2">
-              <%= r.date_field :fin %>
-            </div>
-
-            <div class="col-sm-4">
+            <div class="col-sm-6">
               <%= r.select :titre, Intervenant.liste_responsabilites, include_blank: true %>
             </div>
 
@@ -103,7 +99,11 @@
             <div class="col-sm-1">
               <%= r.text_field :heures, label:"Forfait" %>
             </div>
-            
+
+            <div class="col-sm-8">
+              <%= r.text_field :commentaires, label:"Commentaires" %>
+            </div>
+
             <div class="col-sm-2">
               <br>
               <%= r.check_box :_destroy, label:"Supprimer ?" %>

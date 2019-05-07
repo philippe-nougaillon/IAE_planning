@@ -168,7 +168,7 @@
 
             <div class="col-sm-3">
               <%= vacation.collection_select :intervenant_id, 
-                                              Intervenant.where(doublon:false), :id, :nom,
+                                              Intervenant.where(doublon:false), :id, :nom_prenom,
                                               {include_blank: true, label: "Intervenant", class: "select2"} %>
             </div>  
 
@@ -181,11 +181,15 @@
             </div>
 
             <div class="col-sm-2">
-              <%= vacation.text_field :forfaithtd, label:"Forfait HTD" %>
+              <%= vacation.text_field :forfaithtd, label: "Forfait HTD" %>
             </div>
 
+            <div class="col-sm-9">
+              <%= vacation.text_field :commentaires, label: "Commentaires" %>
+            </div>
+            
             <div class="col-sm-2">
-              <%= vacation.check_box :_destroy, label:"Supprimer ?" %>
+              <%= vacation.check_box :_destroy, label: "Supprimer ?" %>
             </div>
           </li> 
         </div>

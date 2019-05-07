@@ -85,66 +85,62 @@
 
 <% if policy(:tool).can_see_RHGroup_private_tool? %>
   <% if @intervenant.responsabilites.any? %>
-    <h3>
+    <h2>
       <small>Responsabilités</small>
-    </h3>
+    </h2>
 
-    <ul>
+    <table class="table table-striped table-condensed">
+      <thead>
+        <th>Date</th>
+        <th>Titre</th>
+        <th>Formation</th>
+        <th>Qté</th>
+        <th>Commentaires</th>
+      </thead>
+
       <% @intervenant.responsabilites.each do |r| %>
-        <div class="row">
-          <li>
-            <div class="col-sm-1">
+        <tr>
+            <td>
               <%= l r.debut %>
-            </div>  
-            <div class="col-sm-1">
-              <%= l r.fin %>
-            </div>  
-            <div class="col-sm-3">
+            </td>
+            <td>
               <%= r.titre %>
-            </div>  
-            <div class="col-sm-3">
+            </td>
+            <td>
               <%= link_to(r.formation.nom, r.formation) %>
-            </div>  
-            <div class="col-sm-1">
+            </td>
+            <td>
               <%= r.heures %>h
-            </div>
-          </li> 
-        </div>
+            </td>
+            <td>
+              <%= r.commentaires %>
+            </td>
+        </tr>
       <% end %>
-    </ul>
+    </table>
   <% end %>
 <% end %>
 
 <% if @intervenant.vacations.any? %>
-  <div class="page-header"> 
-    <h3>
-      <small>Vacations</small>
-    </h3>
-  </div>
+  <h2>
+    <small>Vacations</small>
+  </h2>
 
-  <ul>
+  <table class="table table-striped table-condensed table-hover">
+    <thead>
+      <th>Date</th>
+      <th>Intervenant</th>
+      <th>Activité</th>
+      <th>Qté</th>
+      <th>Forfait HTD</th>
+      <th>Commentaires</th>
+    </thead>
+
     <% @intervenant.vacations.each do |vacation| %>
-      <div class="row">
-        <li>
-          <div class="col-sm-2">
-            <%= vacation.date if vacation.date %>
-          </div>  
-          <div class="col-sm-3">
-            <%= link_to(vacation.formation.nom, vacation.formation) %>
-          </div>  
-          <div class="col-sm-2">
-            <%= vacation.titre %>
-          </div>
-          <div class="col-sm-1">
-            <%= vacation.qte %>
-          </div>  
-          <div class="col-sm-1">
-            <%= vacation.forfaithtd %>h
-          </div>
-        </li> 
-      </div>
+      <%= render vacation %>
     <% end %>
-  </ul>
+  </table>
+
 <% end %>
 
 <div id="audit" class="collapse">

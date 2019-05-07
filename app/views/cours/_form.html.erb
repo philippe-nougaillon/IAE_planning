@@ -46,7 +46,7 @@
   <div class="form-group">
     <%= f.label :formation_id, class:"control-label col-sm-2" %>
     <div class="col-sm-5">
-      <%= f.collection_select(:formation_id, Formation.all, :id, :nom_promo, {include_blank: true}, class:"form-control select2") %>
+      <%= f.collection_select(:formation_id, Formation.unscoped.all, :id, :nom_promo, {include_blank: true}, class:"form-control select2") %>
     </div>
   </div>
 

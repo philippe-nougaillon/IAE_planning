@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190507135448) do
+ActiveRecord::Schema.define(version: 20190514133252) do
 
   create_table "audits", force: :cascade do |t|
     t.integer  "auditable_id",    limit: 4
@@ -167,6 +167,7 @@ ActiveRecord::Schema.define(version: 20190507135448) do
     t.integer  "nbr_heures_statutaire", limit: 4
     t.date     "date_naissance"
     t.string   "memo",                  limit: 255
+    t.boolean  "notifier"
   end
 
   create_table "responsabilites", force: :cascade do |t|

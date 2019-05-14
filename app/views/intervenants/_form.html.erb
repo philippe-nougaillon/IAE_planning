@@ -20,12 +20,6 @@
       <%= f.text_field :titre1, label:"Titre" %>
       <%= f.text_field :bureau %>
       <%= f.text_field :linkedin_url, label:"Profil LinkedIn", placeholder:'URL du profil public' %>
-
-      <% if current_user.admin? %>
-        <%= f.check_box :doublon, 
-                        label:"Autoriser les doublons ?", 
-                        title:"Autorise les doublons de cours sur un même créneau horaire !" %>
-      <% end %>
     </div>
 
     <div class="col-sm-1">
@@ -46,9 +40,8 @@
 
       <div class="col-sm-6">
         <%= f.date_field :remise_dossier_srh, label:"Date remise dossier SRH" %>
-        <br><br><br>
+        <br>
       </div>
-
 
       <div class="col-sm-12">
         <%= f.text_field :adresse %>
@@ -70,9 +63,25 @@
       <!---
       <%= f.file_field :photo %>
       -->
+
+      <% if current_user.admin? %>
+          <div class="col-sm-6">
+            <%= f.check_box :doublon, 
+                            label:"Autoriser les doublons ?", 
+                            title:"Autorise les doublons de cours sur un même créneau horaire !" 
+            %>
+          </div>
+          
+          <div class="col-sm-6">
+            <%= f.check_box :notifier, 
+                              label: "Notifier les prochains cours ?",
+                              title: "Envoyer la liste des cours de la semaine prochaine"
+            %>
+          </div>
+      <% end %>
+
     </div>   
   </div>
-
 
   <% if policy(:tool).can_see_RHGroup_private_tool? %>
     <div class="page-header"> 

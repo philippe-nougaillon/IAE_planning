@@ -78,12 +78,9 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   # Mail Gandi
-  #config.action_mailer.delivery_method = :sendmail
-  #config.action_mailer.sendmail_settings = {arguments: '-i'}
-
-  config.action_mailer.default_url_options = { host: 'planning.iae-paris.com', protocol: 'http' }
-  # config.action_mailer.default_url_options = { host: 'iae-planning.philnoug.com', protocol: 'https' }
-  
+  config.action_mailer.delivery_method = :sendmail
+  config.action_mailer.sendmail_settings = {arguments: '-i'}
+  config.action_mailer.default_url_options = { host: 'planning.iae-paris.com', protocol: 'https' }
   config.action_mailer.asset_host = "https://planning.iae-paris.com"
 
 end

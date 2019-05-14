@@ -9,9 +9,35 @@ namespace :cours do
   	end
   end
 
-  desc "Passer les cours J - 1  en état Confirmé vers l'état Réalisé"
+  desc "Passer les cours J - 1 en état Confirmé vers l'état Réalisé"
   task update_etat_realises: :environment do
     	Cour.where("DATE(debut)=?", Date.today - 1.day).where(etat:Cour.etats[:confirmé]).update_all(etat:Cour.etats[:réalisé])
+  end
+
+  desc "Envoyer la liste des cours aux intervenants" 
+  task envoyer_liste_cours: :environment do
+    start_day = Date.today.beginning_of_week + 1.week
+    end_day   = Date.today.end_of_week + 1.week
+    cours = Cour.where("debut BETWEEN (?) AND (?)", start_day, end_day).order(:intervenant_id, :debut)
+
+    liste_des_cours_a_envoyer = []
+    intervenant = cours.first.intervenant
+
+    cours.each do |c|
+      if c.intervenant != intervenant
+        if intervenant.notifier? && !intervenant.email.blank?
+          puts "- Intervenant: #{intervenant.nom_prenom} @ => #{intervenant.email}"
+          liste_des_cours_a_envoyer.each do |c|
+            puts c
+          end
+          IntervenantMailer.notifier_cours_semaine_prochaine(intervenant, liste_des_cours_a_envoyer).deliver_now
+        end
+        intervenant = c.intervenant
+        liste_des_cours_a_envoyer = []
+      end
+
+      liste_des_cours_a_envoyer << "#{I18n.l(c.debut.to_date, format: :day)} #{I18n.l(c.debut, format: :short)}-#{I18n.l(c.fin, format: :heures_min)} => #{c.formation.nom} #{c.nom}"
+    end
   end
 
 end

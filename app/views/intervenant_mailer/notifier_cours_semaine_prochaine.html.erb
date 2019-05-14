@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Vos cours de la semaine prochaine</h1>
+    <p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <% @les_cours.each do |c| %>
+                <tr>
+                    <td><%= c %></td>
+                </tr>
+            <% end %>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td><%= "\n Total: #{@les_cours.size} cours" %></td>
+            <tr>
+        </tfoot>
+    </table>
+
+    </p>
+    <p>Merci de vérifier ce récapitulatif et de nous signaler rapidement les omissions ou erreurs éventuelles.</p>
+  </body>
+</html>

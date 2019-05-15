@@ -1,32 +1,33 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
-  </head>
-  <body>
-    <h1>Vos cours de la semaine prochaine</h1>
-    <p>
-    <table class="table">
-        <thead>
-            <tr>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            <% @les_cours.each do |c| %>
-                <tr>
-                    <td><%= c %></td>
-                </tr>
-            <% end %>
-        </tbody>
-        <tfoot>
-            <tr>
-                <td><%= "\n Total: #{@les_cours.size} cours" %></td>
-            <tr>
-        </tfoot>
-    </table>
+    <head>
+        <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+    </head>
+  
+    <body>
+        <%= image_tag("logo_iae.png") %>
 
-    </p>
-    <p>Merci de vérifier ce récapitulatif et de nous signaler rapidement les omissions ou erreurs éventuelles.</p>
-  </body>
+        <h2>Rappel de vos cours de la semaine prochaine :</h2>
+
+        <table class="table">
+            <tbody>
+                <% @les_cours.each do |c| %>
+                    <tr>
+                        <td><%= c %></td>
+                    </tr>
+                <% end %>
+                <br>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td><%= "\n Total: #{@les_cours.size} cours" %></td>
+                <tr>
+            </tfoot>
+        </table>
+
+        <p>
+            Merci de vérifier ce récapitulatif 
+            et de nous signaler rapidement les erreurs ou omissions éventuelles.
+        </p>
+    </body>
 </html>

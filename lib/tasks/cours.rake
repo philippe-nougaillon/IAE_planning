@@ -23,21 +23,29 @@ namespace :cours do
     liste_des_cours_a_envoyer = []
     intervenant = cours.first.intervenant
 
+    envoyes = 0
     cours.each do |c|
       if c.intervenant != intervenant
         if intervenant.notifier? && !intervenant.email.blank?
-          puts "- Intervenant: #{intervenant.nom_prenom} @ => #{intervenant.email}"
+          envoyes += 1
+          puts "- Envoi mail : #{intervenant.nom_prenom} @ => #{intervenant.email}"
+
           liste_des_cours_a_envoyer.each do |c|
             puts c
           end
-          IntervenantMailer.notifier_cours_semaine_prochaine(intervenant, liste_des_cours_a_envoyer).deliver_now
+
+          IntervenantMailer
+                  .notifier_cours_semaine_prochaine(intervenant, liste_des_cours_a_envoyer)
+                  .deliver_now
         end
+
         intervenant = c.intervenant
         liste_des_cours_a_envoyer = []
       end
 
-      liste_des_cours_a_envoyer << "#{I18n.l(c.debut.to_date, format: :day)} #{I18n.l(c.debut, format: :short)}-#{I18n.l(c.fin, format: :heures_min)} => #{c.formation.nom} #{c.nom}"
+      liste_des_cours_a_envoyer << "#{I18n.l(c.debut.to_date, format: :day)} #{I18n.l(c.debut, format: :short)}-#{I18n.l(c.fin, format: :heures_min)} => #{c.formation.nom} - #{c.nom}"
     end
+    puts "* #{envoyes} mail(s) envoyé(s) *"
   end
 
 end

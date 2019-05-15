@@ -39,6 +39,8 @@ Rails.application.routes.draw do
   get 'tools/nouvelle_saison'
   post 'tools/nouvelle_saison_create'
 
+  get 'tools/notifier_intervenants'
+
   get 'salles/occupation'
   get 'salles/occupation', as: :occupation_des_salles
 

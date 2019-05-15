@@ -979,4 +979,17 @@ class ToolsController < ApplicationController
     return _ok
   end
 
+  def notifier_intervenants
+    require 'rake'
+
+    Rake::Task.clear # necessary to avoid tasks being loaded several times in dev mode
+    Rails.application.load_tasks # providing your application name is 'sample'
+      
+    # capture output
+    @stdout_stream = capture_stdout do
+      Rake::Task['cours:envoyer_liste_cours'].reenable # in case you're going to invoke the same task second time.
+      Rake::Task['cours:envoyer_liste_cours'].invoke
+    end
+  end  
+
 end

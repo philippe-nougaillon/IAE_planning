@@ -1,4 +1,5 @@
 class IntervenantMailer < ApplicationMailer
+    default from: "IAE-Paris <planningiae@univ-paris1.fr>"
 
     def etat_services(intervenant_id, cours_ids, start_date, end_date)
         @cours = Cour.where(id:cours_ids)

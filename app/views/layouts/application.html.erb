@@ -53,7 +53,7 @@
   </head>
 
   <body>
-    <nav class="navbar navbar-default" role="navigation">
+    <nav class="navbar navbar-<%= request.host == 'planning.iae-paris.com' ? 'default' : 'inverse' %>" role="navigation">
       <div class="container-fluid">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -63,7 +63,7 @@
             <span class="icon-bar"></span>
           </button>
           <span class="navbar-brand">
-              <%= image_tag("logo_iae.png") %>
+              <%= image_tag("logo_iae@195.png") %>
           </span>
         </div>
         <div id="navbar" class="collapse navbar-collapse">

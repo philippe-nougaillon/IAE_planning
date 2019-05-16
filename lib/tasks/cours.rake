@@ -18,7 +18,10 @@ namespace :cours do
   task envoyer_liste_cours: :environment do
     start_day = Date.today.beginning_of_week + 1.week
     end_day   = Date.today.end_of_week + 1.week
-    cours = Cour.where("debut BETWEEN (?) AND (?)", start_day, end_day).order(:intervenant_id, :debut)
+    cours     = Cour
+                  .where("debut BETWEEN (?) AND (?)", start_day, end_day)
+                  .where(etat: Cour.etats.values_at(:planifié, :confirmé))
+                  .order(:intervenant_id, :debut)
 
     liste_des_cours_a_envoyer = []
     intervenant = cours.first.intervenant
@@ -28,7 +31,7 @@ namespace :cours do
       if c.intervenant != intervenant
         if intervenant.notifier? && !intervenant.email.blank?
           envoyes += 1
-          puts "- Envoi mail : #{intervenant.nom_prenom} @ => #{intervenant.email}"
+          puts "- Envoi mail à : '#{intervenant.nom_prenom}' @:#{intervenant.email}"
 
           liste_des_cours_a_envoyer.each do |c|
             puts c

@@ -49,7 +49,8 @@ module ToolsHelper
     end
 
     def convertir_id_salles(audit)
-
+        # Cherche dans la ligne d'audit si changement de salle 
+        # Converti l'id_salle en Nom de salle 
         if audit.audited_changes.include?("salle_id") && audit.action !=  'destroy'
             salle_id = audit.audited_changes["salle_id"] 
             if salle_id.class.name == "Array" 
@@ -59,17 +60,16 @@ module ToolsHelper
                 if salle_id = salle_id.last 
                     salle_after = Salle.find(salle_id).nom 
                 end 
-                return "#{salle_before} -> #{salle_after}"
+                return "#{salle_before} => #{salle_after}"
             else 
                 if salle_id.class.name == "Integer" 
                     salle_after = Salle.find(salle_id).nom 
                 else 
                     salle_after = salle_id 
                 end
-                return "= #{salle_after}"
+                return salle_after
             end  
         end 
-
     end
 
 end

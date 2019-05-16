@@ -695,7 +695,7 @@ class ToolsController < ApplicationController
     end
 
     unless params[:status].blank?
-      @cours =  Cour.where(etat: Cour.etats[:réalisé]).where("debut between ? and ?", @start_date, @end_date)
+      @cours =  Cour.where(etat: Cour.etats.values_at(:planifié, :confirmé, :réalisé)).where("debut between ? and ?", @start_date, @end_date)
 
       # Peupler la liste des intervenants ayant eu des cours en principal ou binome
       ids = @cours.distinct(:intervenant_id).pluck(:intervenant_id)
@@ -720,6 +720,15 @@ class ToolsController < ApplicationController
         render "tools/etats_services.csv.erb"
       end
 
+      format.xls do
+
+        book = Cour.generate_etats_services_xls(@cours, @intervenants, @start_date, @end_date)
+        file_contents = StringIO.new
+        book.write file_contents # => Now file_contents contains the rendered file output
+        filename = "Export_Cours.xls"
+        send_data file_contents.string.force_encoding('binary'), filename: filename 
+      end
+
       format.pdf do
         filename = "Etats_de_services_#{Date.today.to_s}"
         response.headers['Content-Disposition'] = 'attachment; filename="' + filename + '.pdf"'
@@ -734,6 +743,10 @@ class ToolsController < ApplicationController
     @types  = @audits.pluck(:auditable_type).uniq
     @actions= @audits.pluck(:action).uniq
     
+    unless params[:start_date].blank? && params[:end_date].blank? 
+      @audits = @audits.where("created_at BETWEEN (?) AND (?)", params[:start_date], params[:end_date])
+    end
+
     unless params[:type].blank?
       @audits = @audits.where(auditable_type: params[:type])
     end

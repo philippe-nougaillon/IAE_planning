@@ -10,8 +10,9 @@
 </div>
 
 <div>
-  <h3>Récapitule les cours <b>réalisés</b> sur une période donnée par un intervenant</h3>
-  <i>(Formations archivées comprises)</i>
+  <h3>Récapitule les cours sur une période donnée par un intervenant</h3>
+  <b>Uniquement les cours réalisés pour les intervenants CEV.<br>
+     Tous les cours planifiés/confirmés/réalisés pour les autres statuts.</b>
 </div>
 <br>
 
@@ -59,10 +60,10 @@
     <%= render partial: 'etats_services', locals: {intervenant: intervenant } %>
 
     <div class="text-right">
-        <%= link_to url_for(params.merge(intervenant_id: intervenant.id, format: 'csv')), 
+        <%= link_to url_for(params.merge(intervenant_id: intervenant.id, format: 'xls')), 
                             class: 'btn btn-default btn-xs' do %>
                 <span class="glyphicon glyphicon-share"></span>
-                Export CSV
+                Export XLS
         <% end %>
 
         <%= link_to url_for(params.merge(intervenant_id: intervenant.id, format: 'pdf')), 

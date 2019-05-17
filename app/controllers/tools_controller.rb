@@ -760,10 +760,22 @@ class ToolsController < ApplicationController
     end
 
     unless params[:chgt_salle].blank?
-      @audits = @audits.where("audited_changes like ?", "%salle_id%")
+      audit_chgt_salle_id = @audits.where("audited_changes like '%salle_id%'").map {|audit|
+        audit.audited_changes['salle_id'] != nil ? audit.id : nil
+      }.compact
+      @audits = @audits.where(id: audit_chgt_salle_id) 
     end
 
     @audits = @audits.includes(:user).paginate(page: params[:page], per_page: 20)
+
+    if params[:commit] == "Exporter"
+      book = CustomAudit.generate_xls(@audits)  
+      file_contents = StringIO.new
+      book.write file_contents # => Now file_contents contains the rendered file output
+      filename = "Export_Audits.xls"
+      send_data file_contents.string.force_encoding('binary'), filename: filename
+    end
+
   end
 
   def taux_occupation_jours

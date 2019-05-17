@@ -173,7 +173,9 @@
             </div>  
 
             <div class="col-sm-4">
-              <%= vacation.text_field :titre, placeholder: 'Tutorat', label: "Activité" %>
+              <%= vacation.select :titre, 
+                                    options_for_select(Vacation.activités.collect {|a| ["#{a.first} => #{a.last}"]}), 
+                                    { include_blank: true, label: "Activité" }  %>
             </div>
 
             <div class="col-sm-1">
@@ -181,7 +183,10 @@
             </div>
 
             <div class="col-sm-2">
-              <%= vacation.text_field :forfaithtd, label: "Forfait HTD" %>
+              <%= vacation.select :forfaithtd, 
+                                    options_for_select(Vacation.activités.values), 
+                                    { include_blank: true, label: "Forfait HTD" }  %>
+
             </div>
 
             <div class="col-sm-9">
@@ -196,7 +201,8 @@
       <% end %>
     </ul>
     <%= f.submit class: "btn btn-primary" %>    
-    <br>
   </div>
 
 <% end %>
+<br>
+<br>

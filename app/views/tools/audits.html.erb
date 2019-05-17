@@ -32,21 +32,24 @@
                         options_for_select(@actions, params[:action_name]), include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
               </div>
 
-              <div class="col-sm-3">
+              <div class="col-sm-4">
                   <%= label_tag "Rechercher" %>
                   <div class="input-group">       
                     <%= text_field_tag :search, params[:search], class:"form-control" %>
                     <span class="input-group-btn">
                       <%= submit_tag 'Filtrer', class:"btn btn-success" %>
                     </span>
+                    <span class="input-group-btn">
+                      <%= submit_tag 'Exporter', class:"btn btn-default" %>
+                    </span>
                   </div>
               </div>
 
-              <% if params[:type] == 'Cour' %>
+              <% if params[:start_date].present? && params[:end_date].present? && params[:type] == 'Cour' %>
                 <div class="col-sm-5">
                     <br>
                     <%= check_box_tag :chgt_salle, 1, params[:chgt_salle], onchange:'this.form.submit()' %>
-                    <%= label_tag :chgt_salle, "Que les changements de salle ?" %>
+                    <%= label_tag :chgt_salle, "Ne voir que les changements de salle ?" %>
                 </div>
               <% end %>    
             </div>

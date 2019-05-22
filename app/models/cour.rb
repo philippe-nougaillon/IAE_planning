@@ -449,9 +449,6 @@ class Cour < ActiveRecord::Base
     sheet.row(0).default_format = bold
     
     index = 1
-
-    cours = cours.where(etat: Cour.etats[:réalisé])
-
     total_hetd = 0
     
     intervenants.each do | intervenant |

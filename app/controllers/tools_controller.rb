@@ -711,6 +711,7 @@ class ToolsController < ApplicationController
     @cumul_hetd = @cumul_vacations = @cumul_resps = 0
 
     respond_to do |format|
+      
       format.html
 
       format.csv do
@@ -721,7 +722,6 @@ class ToolsController < ApplicationController
       end
 
       format.xls do
-
         book = Cour.generate_etats_services_xls(@cours, @intervenants, @start_date, @end_date)
         file_contents = StringIO.new
         book.write file_contents # => Now file_contents contains the rendered file output

@@ -1,4 +1,4 @@
-<% if intervenant.status = Intervenant.statuses[:CEV] %>
+<% if intervenant.status == Intervenant.statuses[:CEV] %>
     <% @cours = @cours.where(etat: Cour.etats[:réalisé]) %>
 <% end %>
 <% cours_ids = @cours.where(intervenant: intervenant).order(:debut).pluck(:id) %>

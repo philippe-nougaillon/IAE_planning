@@ -63,14 +63,16 @@
         <%= link_to url_for(params.merge(intervenant_id: intervenant.id, format: 'xls')), 
                             class: 'btn btn-default btn-xs' do %>
                 <span class="glyphicon glyphicon-share"></span>
-                Export XLS
+                Export EXCEL
         <% end %>
 
+        <!--
         <%= link_to url_for(params.merge(intervenant_id: intervenant.id, format: 'pdf')), 
                             class: 'btn btn-danger btn-xs' do %>
                 <span class="glyphicon glyphicon-share"></span>
                 Export PDF
         <% end %>
+        -->    
     </div>
 
 <% end %>

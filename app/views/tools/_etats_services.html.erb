@@ -98,6 +98,7 @@
         <% @vacations.each_with_index do |vacation, index| %>
             <% montant_vacation = ((Cour.Tarif * vacation.forfaithtd) * vacation.qte).round(2) %>
             <% cumul_vacations += montant_vacation %>
+            <% cumul_hetd += (vacation.qte * vacation.forfaithtd) %>
             <% formation = Formation.unscoped.find(vacation.formation_id) %> 
             <tr>
                 <td>V</td>
@@ -111,7 +112,13 @@
                 <td colspan="2">
                 <td class="text-right"><%= vacation.forfaithtd %></td>
                 <td class="text-right"><%= number_to_currency(montant_vacation) %></td>
-                <td />
+                <td class="text-right">
+                    <%= cumul_hetd %>
+                    <% if (nbr_heures_statutaire > 0) && (cumul_hetd >= nbr_heures_statutaire) %>
+                            <i class="glyphicon glyphicon-plus-sign" />
+                            <%= cumul_hetd - nbr_heures_statutaire %>
+                    <% end %>
+                </td>
             </tr>
 
             <% if index == @vacations.size - 1 %>
@@ -127,6 +134,8 @@
         <% @responsabilites.each_with_index do |resp, index| %>
             <% montant_responsabilite = (resp.heures * Cour.Tarif).round(2) %>
             <% cumul_resps += montant_responsabilite %>
+            <% cumul_hetd += resp.heures %>
+
             <tr>
                 <td>R</td>
                 <td><%= l resp.debut %></td>
@@ -138,7 +147,13 @@
                 <td class="text-right"><%= resp.heures %></td>
                 <td colspan="3" />
                 <td class="text-right"><%= number_to_currency(montant_responsabilite) %></td>
-                <td />
+                <td class="text-right">
+                    <%= cumul_hetd %>
+                    <% if (nbr_heures_statutaire > 0) && (cumul_hetd >= nbr_heures_statutaire) %>
+                            <i class="glyphicon glyphicon-plus-sign" />
+                            <%= cumul_hetd - nbr_heures_statutaire %>
+                    <% end %>
+                </td>
             </tr>
             <% if index == @responsabilites.size - 1 %>
                 <tr>

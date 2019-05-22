@@ -524,8 +524,9 @@ class Cour < ActiveRecord::Base
               'TD', 1,
               vacation.forfaithtd,
               montant_vacation,
-              cumul_hetd
-        ]
+              cumul_hetd,
+              ((nbr_heures_statutaire > 0) && (cumul_hetd >= nbr_heures_statutaire) ? cumul_hetd - nbr_heures_statutaire : nil)
+            ]
         sheet.row(index).replace fields_to_export
         index += 1
       end
@@ -548,7 +549,8 @@ class Cour < ActiveRecord::Base
               nil, nil, nil,
               'TD', 1, nil,
               montant_responsabilite,
-              cumul_hetd
+              cumul_hetd,
+              ((nbr_heures_statutaire > 0) && (cumul_hetd >= nbr_heures_statutaire) ? cumul_hetd - nbr_heures_statutaire : nil)
         ]
         sheet.row(index).replace fields_to_export
         index += 1

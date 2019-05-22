@@ -163,29 +163,29 @@
         <div class="row">
           <li>
             <div class="col-sm-2">
-              <%= vacation.date_field :date %>
+              <%= vacation.date_field :date, label: "*Date" %>
             </div>
 
             <div class="col-sm-3">
               <%= vacation.collection_select :intervenant_id, 
                                               Intervenant.where(doublon:false), :id, :nom_prenom,
-                                              {include_blank: true, label: "Intervenant", class: "select2"} %>
+                                              {include_blank: true, label: "*Intervenant", class: "select2"} %>
             </div>  
 
             <div class="col-sm-4">
               <%= vacation.select :titre, 
-                                    options_for_select(Vacation.activités.collect {|a| ["#{a.first} => #{a.last}"]}), 
-                                    { include_blank: true, label: "Activité" }  %>
+                                    options_for_select(Vacation.activités.keys), 
+                                    { include_blank: true, label: "*Activité" } %>
             </div>
 
             <div class="col-sm-1">
-              <%= vacation.number_field :qte, label: "Qté" %>
+              <%= vacation.number_field :qte, label: "*Qté" %>
             </div>
 
             <div class="col-sm-2">
               <%= vacation.select :forfaithtd, 
                                     options_for_select(Vacation.activités.values), 
-                                    { include_blank: true, label: "Forfait HTD" }  %>
+                                    { include_blank: true, label: "*Forfait HTD" } %>
 
             </div>
 

@@ -490,16 +490,16 @@ class Cour < ActiveRecord::Base
             c.nom_ou_ue,
             c.etat,
             c.commentaires,
-            c.duree.to_s.gsub(/\./, ','),
+            c.duree,
             (c.hors_service_statutaire ? "OUI" : ''),
             (c.elearning ? "OUI" : ''), 
             (c.intervenant && c.intervenant_binome ? "OUI" : ''),
             c.CMTD?, 
-            formation.Taux_TD.to_s.gsub(/\./, ','),
-            c.HETD.to_s.gsub(/\./, ','),
-            montant_service.to_s.gsub(/\./, ','),
-            cumul_hetd.to_s.gsub(/\./, ','),
-            ((nbr_heures_statutaire > 0) && (cumul_hetd >= nbr_heures_statutaire) ? "#{cumul_hetd - nbr_heures_statutaire}" : '')
+            formation.Taux_TD,
+            c.HETD,
+            montant_service,
+            cumul_hetd,
+            ((nbr_heures_statutaire > 0) && (cumul_hetd >= nbr_heures_statutaire) ? cumul_hetd - nbr_heures_statutaire : nil)
           ]
 
           sheet.row(index).replace fields_to_export
@@ -511,16 +511,16 @@ class Cour < ActiveRecord::Base
         fields_to_export = [
               'V',
               intervenant.nom_prenom,
-              vacation.date,
+              I18n.l(vacation.date.to_date),
               nil,
               vacation.formation.nom,
               vacation.formation.Code_Analytique,
               vacation.titre,
-              nil, 
+              nil, nil, 
               vacation.qte,
-              nil, nil, nil, nil,
-              vacation.forfaithtd.to_s.gsub(/\./, ','),
-              montant_vacation.to_s.gsub(/\./, ',')
+              nil, nil, nil, nil, nil,
+              vacation.forfaithtd,
+              montant_vacation
         ]
         sheet.row(index).replace fields_to_export
         index += 1
@@ -538,9 +538,9 @@ class Cour < ActiveRecord::Base
               resp.titre,
               nil,
               nil, 
-              resp.heures.to_s.gsub(/\./, ','), 
+              resp.heures, 
               nil, nil, nil, nil, nil, nil,
-              montant_responsabilite.to_s.gsub(/\./, ',')
+              montant_responsabilite
         ]
         sheet.row(index).replace fields_to_export
         index += 1

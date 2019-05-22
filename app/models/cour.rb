@@ -508,6 +508,8 @@ class Cour < ActiveRecord::Base
 
       @vacations.each do |vacation|
         montant_vacation = ((Cour.Tarif * vacation.forfaithtd) * (vacation.qte || 0)).round(2)
+        cumul_hetd += (vacation.qte * vacation.forfaithtd)
+        
         fields_to_export = [
               'V',
               intervenant.nom_prenom,
@@ -518,9 +520,11 @@ class Cour < ActiveRecord::Base
               vacation.titre,
               nil, nil, 
               vacation.qte,
-              nil, nil, nil, nil, nil,
+              nil, nil, nil, 
+              'TD', 1,
               vacation.forfaithtd,
-              montant_vacation
+              montant_vacation,
+              cumul_hetd
         ]
         sheet.row(index).replace fields_to_export
         index += 1
@@ -528,6 +532,8 @@ class Cour < ActiveRecord::Base
 
       @responsabilites.each do |resp|
         montant_responsabilite = (resp.heures * Cour.Tarif).round(2)
+        cumul_hetd += resp.heures
+
         fields_to_export = [
               'R',
               intervenant.nom_prenom,
@@ -539,8 +545,10 @@ class Cour < ActiveRecord::Base
               nil,
               nil, 
               resp.heures, 
-              nil, nil, nil, nil, nil, nil,
-              montant_responsabilite
+              nil, nil, nil,
+              'TD', 1, nil,
+              montant_responsabilite,
+              cumul_hetd
         ]
         sheet.row(index).replace fields_to_export
         index += 1

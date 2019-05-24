@@ -7,15 +7,27 @@ class Vacation < ActiveRecord::Base
 
 
   def self.activités
-    {
-      "Direction mémoire" => 0.25,
-      "Membre jury"	=> 0.75,
-      "Rapports de stage" => 1,
-      "Tutorat apprenti" =>	2,
-      "VAE examen dossier/participation au jury" => 3,
-      "Réunion pédagogique_jury de MAE"	=>	7.5,
-      "Entretiens de sélection" => 1	
-    }
+    [
+      "Direction mémoire",
+      "Membre jury",
+      "Rapports de stage",
+      "Tutorat apprenti",
+      "VAE examen dossier/participation au jury",
+      "Réunion pédagogique_jury de MAE",
+      "Entretiens de sélection"	
+  ]
+  end
+
+  def self.forfaits_htd
+    [
+      0.25,
+      0.75,
+      1,
+      2,
+      3,
+      7.5,
+      1	
+  ]
   end
 
 end

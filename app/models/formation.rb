@@ -22,7 +22,6 @@ class Formation < ActiveRecord::Base
 																	attributes['date'].blank? ||
 																	attributes['qte'].blank? ||
 																	attributes['forfaithtd'].blank?	}
-
 	belongs_to :user
 
 	validates :nom, :nbr_etudiants, :nbr_heures, :abrg, presence: true

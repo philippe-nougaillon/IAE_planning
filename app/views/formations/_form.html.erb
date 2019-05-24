@@ -173,9 +173,7 @@
             </div>  
 
             <div class="col-sm-4">
-              <%= vacation.select :titre, 
-                                    options_for_select(Vacation.activités.keys), 
-                                    { include_blank: true, label: "*Activité" } %>
+              <%= vacation.select :titre, Vacation.activités, include_blank: true, label: "*Activité" %>
             </div>
 
             <div class="col-sm-1">
@@ -183,10 +181,7 @@
             </div>
 
             <div class="col-sm-2">
-              <%= vacation.select :forfaithtd, 
-                                    options_for_select(Vacation.activités.values), 
-                                    { include_blank: true, label: "*Forfait HTD" } %>
-
+              <%= vacation.select :forfaithtd, Vacation.forfaits_htd, include_blank: true, label: "*Forfait HTD" %>
             </div>
 
             <div class="col-sm-9">

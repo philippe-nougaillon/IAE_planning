@@ -1,6 +1,6 @@
 <div class="page-header">
   <div class="btn-group pull-right">
-    <% if current_user.admin? %>
+    <% if policy(:tool).can_see_RHGroup_private_tool? %>
       <%= link_to edit_intervenant_path(@intervenant), class: 'btn btn-primary' do %>
         <span class="glyphicon glyphicon-pencil"></span>
         Modifier
@@ -66,20 +66,19 @@
 </div>
 
 <% if @formations.any? %>
-  <h3>
+  <h2>
     <small>
       <%= "Formation".pluralize(@formations.count) %>
       <%= "dispensée".pluralize(@formations.count) %>
     </small>
-  </h3>
+  </h2>
 
   <% @formations.each_with_index do |formation, index| %>
     <%= link_to formation.nom, 
                 cours_path(formation_id: formation, 
                             intervenant_id: @intervenant, 
                             intervenant: @intervenant.nom_prenom,
-                            filter: 'all') %>
-    <%= '|' if index != @formations.size - 1 %>
+                            filter: 'all') %><%= ',' if index != @formations.size - 1 %>
   <% end %>
 <% end %>
 
@@ -92,8 +91,8 @@
     <table class="table table-striped table-condensed">
       <thead>
         <th>Date</th>
-        <th>Titre</th>
         <th>Formation</th>
+        <th>Titre</th>
         <th>Forfait</th>
         <th>Commentaires</th>
       </thead>
@@ -104,10 +103,10 @@
               <%= l r.debut %>
             </td>
             <td>
-              <%= r.titre %>
+              <%= link_to(r.formation.nom, r.formation) %>
             </td>
             <td>
-              <%= link_to(r.formation.nom, r.formation) %>
+              <%= r.titre %>
             </td>
             <td>
               <%= r.heures %>h
@@ -129,8 +128,9 @@
   <table class="table table-striped table-condensed table-hover">
     <thead>
       <th>Date</th>
-      <th>Intervenant</th>
+      <th>Formation</th>
       <th>Activité</th>
+      <th>Intervenant</th>
       <th>Qté</th>
       <th>Forfait HTD</th>
       <th>Commentaires</th>

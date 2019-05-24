@@ -36,12 +36,12 @@ class IntervenantsController < ApplicationController
   # GET /intervenants/new
   def new
     @intervenant = Intervenant.new
-    2.times { @intervenant.responsabilites.build }
+    10.times { @intervenant.responsabilites.build }
   end
 
   # GET /intervenants/1/edit
   def edit
-    1.times { @intervenant.responsabilites.build }
+    3.times { @intervenant.responsabilites.build }
   end
 
   # POST /intervenants

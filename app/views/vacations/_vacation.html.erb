@@ -3,10 +3,13 @@
         <%= l vacation.date if vacation.date %>
     </td>
     <td>
-        <%= vacation.intervenant.nom %>
+        <%= link_to(vacation.formation.nom, vacation.formation) %>
     </td>
     <td>
         <%= vacation.titre %>
+    </td>
+    <td>
+        <%= vacation.intervenant.nom %>
     </td>
     <td>
         <%= vacation.qte %>

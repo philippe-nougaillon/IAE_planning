@@ -29,7 +29,7 @@
 </div>
 
 <h3>
-  <%= @cour.formation.nom_promo %> -> 
+  <%= @cour.formation.try(:nom_promo) %> -> 
   <%= @cour. nom_ou_ue %>
 </h3>
 
@@ -50,7 +50,7 @@
 
 <p>
   <strong>Formation:</strong>
-  <%= link_to @cour.formation.nom_promo, @cour.formation %>
+  <%= link_to @cour.formation.try(:nom_promo), @cour.formation %>
 </p>
 
 <p>
@@ -87,7 +87,7 @@
           <td><%= l(audit.created_at, format: :short) %></td>
           <td><%= audit.user.email if audit.user %></td>
           <td><%= audit.action %></td>
-          <td><%= sanitize audit.pretty_changes %></td>
+          <td><%= sanitize prettify(audit).join('<br>') %></td>
           <td><%= convertir_id_salles(audit) %></td>
         </tr>  
       <% end %>

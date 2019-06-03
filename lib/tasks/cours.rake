@@ -16,12 +16,21 @@ namespace :cours do
 
   desc "Envoyer la liste des cours aux intervenants" 
   task envoyer_liste_cours: :environment do
+
+    puts "-" * 80
+
     start_day = Date.today.beginning_of_week + 1.week
+    puts start_day
+
     end_day   = Date.today.end_of_week + 1.week
-    cours     = Cour
-                  .where("debut BETWEEN (?) AND (?)", start_day, end_day)
-                  .where(etat: Cour.etats.values_at(:planifié, :confirmé))
-                  .order(:intervenant_id, :debut)
+    puts end_day
+
+    cours = Cour
+              .where("debut BETWEEN (?) AND (?)", start_day, end_day)
+              .where(etat: Cour.etats.values_at(:planifié, :confirmé))
+              .order(:intervenant_id, :debut)
+
+    puts cours.count
 
     liste_des_cours_a_envoyer = []
     intervenant = cours.first.intervenant
@@ -29,18 +38,10 @@ namespace :cours do
     envoyes = 0
     cours.each do |c|
       if c.intervenant != intervenant
-        if intervenant.notifier? && !intervenant.email.blank?
-          envoyes += 1
-          puts "- Envoi mail à : '#{intervenant.nom_prenom}' @:#{intervenant.email}"
+        puts intervenant.id, intervenant.nom
+        puts liste_des_cours_a_envoyer
 
-          liste_des_cours_a_envoyer.each do |c|
-            puts c
-          end
-
-          IntervenantMailer
-                  .notifier_cours_semaine_prochaine(intervenant, liste_des_cours_a_envoyer)
-                  .deliver_now
-        end
+        envoyes += 1 if envoyer_liste_cours_a_intervenant(intervenant, liste_des_cours_a_envoyer)  
 
         intervenant = c.intervenant
         liste_des_cours_a_envoyer = []
@@ -48,7 +49,28 @@ namespace :cours do
 
       liste_des_cours_a_envoyer << "#{I18n.l(c.debut.to_date, format: :day)} #{I18n.l(c.debut, format: :short)}-#{I18n.l(c.fin, format: :heures_min)} => #{c.formation.nom} - #{c.nom}"
     end
+
+    envoyes += 1 if envoyer_liste_cours_a_intervenant(intervenant, liste_des_cours_a_envoyer)  
+
     puts "* #{envoyes} mail(s) envoyé(s) *"
+  end
+
+  def envoyer_liste_cours_a_intervenant(intervenant, liste)
+    if intervenant.notifier? && !intervenant.email.blank?
+      puts "- Envoi mail à : '#{intervenant.nom_prenom}<#{intervenant.email}>'"
+
+      liste.each do |c|
+        puts c
+      end
+
+      IntervenantMailer
+              .notifier_cours_semaine_prochaine(intervenant, liste)
+              .deliver_now
+
+      return true
+    else
+      return false
+    end
   end
 
 end

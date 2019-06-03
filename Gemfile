@@ -43,7 +43,7 @@ gem 'will_paginate-bootstrap'
 gem 'icalendar'
 gem 'pundit'
 
-gem 'sucker_punch'
+#gem 'sucker_punch'
 gem "select2-rails"
 
 # generate PDF

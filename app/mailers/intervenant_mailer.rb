@@ -1,5 +1,6 @@
 class IntervenantMailer < ApplicationMailer
-    default from: "IAE-Paris <planningiae@univ-paris1.fr>"
+    #default from: "IAE-Paris <planningiae@univ-paris1.fr>"
+    default from: "IAE-Paris <planning-iae@philnoug.com>"
 
     def etat_services(intervenant_id, cours_ids, start_date, end_date)
         @cours = Cour.where(id:cours_ids)
@@ -10,7 +11,7 @@ class IntervenantMailer < ApplicationMailer
     end
 
     def notifier_cours_semaine_prochaine(intervenant, les_cours)
-        logger.debug "[MAILER]"
+        #logger.debug "[MAILER]"
         @les_cours = les_cours
         mail(to: intervenant.email, subject:"[PLANNING] Cours de la semaine prochaine")
     end

@@ -31,8 +31,8 @@ module Iae
       end
     end
 
-    config.active_job.queue_adapter = :sucker_punch
-    SuckerPunch.logger = Logger.new("#{Rails.root}/log/sucker_punch.log")
+    #config.active_job.queue_adapter = :sucker_punch
+    #SuckerPunch.logger = Logger.new("#{Rails.root}/log/sucker_punch.log")
     
     # config.web_console.development_only = false
       

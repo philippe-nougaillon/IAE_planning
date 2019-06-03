@@ -5,9 +5,11 @@
     </head>
   
     <body>
+        <%= image_tag("logo_iae.png") %>
+
         <h2>Rappel de vos cours de la semaine prochaine :</h2>
 
-        <table class="table">
+        <table style="border: 1px solid black;">
             <tbody>
                 <% @les_cours.each do |c| %>
                     <tr>
@@ -16,6 +18,7 @@
                 <% end %>
                 <br>
             </tbody>
+            <br>
             <tfoot>
                 <tr>
                     <td><%= "\n Total: #{@les_cours.size} cours" %></td>

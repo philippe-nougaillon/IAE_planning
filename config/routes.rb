@@ -40,6 +40,7 @@ Rails.application.routes.draw do
   post 'tools/nouvelle_saison_create'
 
   get 'tools/notifier_intervenants'
+  post 'tools/notifier_intervenants_do'
 
   get 'salles/occupation'
   get 'salles/occupation', as: :occupation_des_salles

@@ -16,9 +16,6 @@ namespace :cours do
 
   desc "Envoyer la liste des cours aux intervenants" 
   task envoyer_liste_cours: :environment do
-
-    puts "-" * 80
-
     start_day = Date.today.beginning_of_week + 1.week
     puts start_day
 
@@ -30,15 +27,16 @@ namespace :cours do
               .where(etat: Cour.etats.values_at(:planifié, :confirmé))
               .order(:intervenant_id, :debut)
 
-    puts cours.count
+    puts "#{cours.count} cours"
+    puts "- " * 60
 
     liste_des_cours_a_envoyer = []
     intervenant = cours.first.intervenant
 
     envoyes = 0
-    cours.each do |c|
+    cours.each do | c |
       if c.intervenant != intervenant
-        puts intervenant.id, intervenant.nom
+        puts "#{intervenant.nom} (#{intervenant.id})" 
         puts liste_des_cours_a_envoyer
 
         envoyes += 1 if envoyer_liste_cours_a_intervenant(intervenant, liste_des_cours_a_envoyer)  
@@ -57,11 +55,13 @@ namespace :cours do
 
   def envoyer_liste_cours_a_intervenant(intervenant, liste)
     if intervenant.notifier? && !intervenant.email.blank?
-      puts "- Envoi mail à : '#{intervenant.nom_prenom}<#{intervenant.email}>'"
+      puts
+      puts "- Envoi mail à : #{intervenant.nom_prenom} (#{intervenant.id}) => #{intervenant.email}"
 
       liste.each do |c|
         puts c
       end
+      puts
 
       IntervenantMailer
               .notifier_cours_semaine_prochaine(intervenant, liste)

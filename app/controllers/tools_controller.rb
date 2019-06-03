@@ -1005,6 +1005,10 @@ class ToolsController < ApplicationController
   end
 
   def notifier_intervenants
+
+  end
+
+  def notifier_intervenants_do
     require 'rake'
 
     Rake::Task.clear # necessary to avoid tasks being loaded several times in dev mode
@@ -1016,5 +1020,5 @@ class ToolsController < ApplicationController
       Rake::Task['cours:envoyer_liste_cours'].invoke
     end
   end  
-
+  
 end

@@ -30,11 +30,18 @@
 
         <div class="row">
           <div class="col-sm-6">
-            <%= f.check_box :hors_catalogue, label:"Hors catalogue ?" %>
+            <%= f.check_box :hors_catalogue, label: "Hors catalogue ?" %>
           </div>
           <div class="col-sm-6">
-            <% if @formation.cours.where("DATE(debut) >= ?", Date.today).count.zero? %>
+            <% if @formation.archive? %>
               <%= f.check_box :archive, label: "Archivée ?" %>
+            <% else %>
+              <% if @formation.cours.where("DATE(debut) >= ?", Date.today).count.zero? %>
+                <%= f.check_box :archive, label: "Archivée ?" %>
+              <% else %>
+                <%= f.check_box :archive, label: "Archivée ?", disabled: true, 
+                title: "Vous ne pouvez pas archiver cette formation car des cours à venir existent dans le planning !" %>
+              <% end %>
             <% end %>  
           </div>
         </div>

@@ -1,4 +1,4 @@
-class Unite < ActiveRecord::Base
+class Unite < ApplicationRecord
 
   belongs_to :formation
 

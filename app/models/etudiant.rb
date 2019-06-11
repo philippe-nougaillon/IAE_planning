@@ -1,6 +1,6 @@
 # Encoding: utf-8
 
-class Etudiant < ActiveRecord::Base
+class Etudiant < ApplicationRecord
 
   audited
   

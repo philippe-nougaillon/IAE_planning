@@ -14,7 +14,7 @@
         <td><%= check_box_tag "[cours_id][#{cours.id}]", true, true %></td>                
         <td><%= l(cours.debut.to_date) %></td>
         <td><%= "#{l(cours.debut, format: :heures_min)}-#{l(cours.fin, format: :heures_min)}" %></td>
-        <td><%= cours.formation.nom_promo %></td>
+        <td><%= cours.try(:formation).try(:nom_promo) %></td>
         <td><%= cours.intervenant.nom_prenom %>
           <% if cours.intervenant_binome %>
             <%= cours.intervenant_binome.nom_prenom %>
@@ -32,7 +32,9 @@
       <h3>Salles disponibles</h3>
       <% @salles_dispos.each do |salle| %>
         <%= link_to salle, 
-                    cours_action_do_path(params.merge(salle_id: Salle.find_by(nom: salle))),
+                    cours_action_do_path(params
+                                          .permit!
+                                          .merge(salle_id: Salle.find_by(nom: salle))),
                     method: :post, 
                     class: "btn btn-success btn-xs" %>
       <% end %>

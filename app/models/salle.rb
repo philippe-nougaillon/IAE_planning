@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-class Salle < ActiveRecord::Base
+class Salle < ApplicationRecord
 	
 	audited
 	

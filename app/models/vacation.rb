@@ -1,4 +1,4 @@
-class Vacation < ActiveRecord::Base
+class Vacation < ApplicationRecord
 
   audited
 

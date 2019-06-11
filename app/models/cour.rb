@@ -1,6 +1,6 @@
 # Encoding: utf-8
 
-class Cour < ActiveRecord::Base
+class Cour < ApplicationRecord
 
   audited
 
@@ -38,7 +38,7 @@ class Cour < ActiveRecord::Base
   end
 
   def self.actions_admin
-    ["Changer de salle", "Changer d'état", "Changer de date", "Changer d'intervenant"] + self.actions
+    ["Changer de salle", "Changer d'état", "Changer de date"] + self.actions
   end
 
   def self.etendue_horaire

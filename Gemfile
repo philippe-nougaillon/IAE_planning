@@ -35,7 +35,7 @@ gem "devise"
 gem 'devise-i18n'
 gem 'audited', '~> 4.3'
 # gem 'rack-cors'
-# gem 'carrierwave', '0.11.0'
+gem 'carrierwave', '0.11.0'
 gem 'capture_stdout'
 #gem 'rails-erd'
 gem 'will_paginate'

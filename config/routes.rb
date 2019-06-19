@@ -66,7 +66,14 @@ Rails.application.routes.draw do
         resources :cours
     end 
     namespace :v2 do 
-        resources :cours
+
+        resources :cours do
+          collection do
+            get 'in_progress'
+          end
+        end
+
+        resources :etudiants
     end 
   end 
 

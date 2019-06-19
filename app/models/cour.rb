@@ -138,7 +138,7 @@ class Cour < ApplicationRecord
   # 
 
   def formation_json_v2
-    self.formation.nom
+    self.formation.try(:nom)
   end
 
   def salle_json_v2
@@ -150,7 +150,7 @@ class Cour < ApplicationRecord
   end
 
   def formation_color_json_v2
-      self.formation.color
+      self.formation.try(:color)
   end
 
   # ETATS DE SERVICES 

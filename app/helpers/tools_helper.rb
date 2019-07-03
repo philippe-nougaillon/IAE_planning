@@ -4,12 +4,12 @@ module ToolsHelper
         pretty_changes = []
         
         audit.audited_changes.each do |c|
-            if audit.action == 'create'
-                pretty_changes << "#{c.first}' initialisé à '#{c.last}'"
-            elsif audit.action == 'update' 
-                pretty_changes << "'#{c.first}' modifié de '#{c.last.first}' à '#{c.last.last}'" 
+            if audit.action == 'update'
+                pretty_changes << "'#{c.first}' modifié de '#{c.last.first}' à '#{c.last.last}'"
             else 
-                pretty_changes << "'#{c.first}' était à '#{c.last}'"
+                unless c.last.blank?
+                    pretty_changes << "'#{c.first}' #{audit.action == 'update' ? 'initialisé à' : 'était'} '#{c.last}'"
+                end
             end
         end
         pretty_changes

@@ -11,14 +11,15 @@ class FormationsController < ApplicationController
   # GET /formations
   # GET /formations.json
   def index
+    params[:nom] ||= session[:nom]  # ???? 
+ 
     params[:catalogue] ||= 'yes'
     params[:paginate] ||= 'pages'
-
-    params[:nom] ||= session[:nom]
+    params[:column] ||= session[:column]
+    params[:direction] ||= session[:direction]
     
-
     unless params[:archive].blank?
-      @formations = Formation.unscoped.where(archive:true)
+      @formations = Formation.unscoped.where(archive: true)
     else
       @formations = Formation.all
     end
@@ -28,7 +29,7 @@ class FormationsController < ApplicationController
     end
 
     unless params[:apprentissage].blank?
-      @formations = @formations.where(apprentissage:true)
+      @formations = @formations.where(apprentissage: true)
     end
 
     unless params[:promo].blank?
@@ -37,22 +38,24 @@ class FormationsController < ApplicationController
 
     case params[:catalogue]
     when 'yes'
-      @formations = @formations.where(hors_catalogue:false)
+      @formations = @formations.where(hors_catalogue: false)
     when 'no'
-      @formations = @formations.where(hors_catalogue:true)
+      @formations = @formations.where(hors_catalogue: true)
     when 'all'
     end
 
-    @formations = @formations.order(:nom, :promo)
+    session[:nom] = params[:nom] # ???? 
+    session[:column] = params[:column]
+    session[:direction] = params[:direction]
+
+    @formations = @formations.reorder("#{sort_column} #{sort_direction}") 
     
     @all_formations = @formations
     if params[:paginate] == 'pages'
-       @formations = @formations.paginate(page:params[:page], per_page:20)
+       @formations = @formations.paginate(page: params[:page], per_page: 20)
     end
 
-    @diplomes = Formation.where.not(diplome:nil).select(:diplome).uniq.pluck(:diplome).sort
-
-    session[:nom] = params[:nom]
+    @diplomes = Formation.where.not(diplome: nil).select(:diplome).uniq.pluck(:diplome).sort
   end
 
   # GET /formations/1
@@ -70,9 +73,9 @@ class FormationsController < ApplicationController
 
   # GET /formations/1/edit
   def edit
-    3.times { @formation.unites.build }
-    3.times { @formation.etudiants.build } 
-    3.times { @formation.vacations.build }
+    5.times { @formation.unites.build }
+    5.times { @formation.etudiants.build } 
+    10.times { @formation.vacations.build }
   end
 
   # POST /formations
@@ -119,6 +122,18 @@ class FormationsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_formation
       @formation = Formation.unscoped.find(params[:id])
+    end
+
+    def sortable_columns
+      ['formations.nom', 'formations.abrg','formations.nbr_etudiants','formations.Code_Analytique']
+    end
+
+    def sort_column
+        sortable_columns.include?(params[:column]) ? params[:column] : 'id'
+    end
+
+    def sort_direction
+        %w[asc desc].include?(params[:direction]) ? params[:direction] : 'asc'
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

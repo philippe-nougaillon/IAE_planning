@@ -17,7 +17,7 @@
         <div class="row">
 
           <div class="col-sm-5">
-            <%= label_tag :nom, "Nom/Abrg/Code/Promo" %>
+            <%= label_tag :nom, "Nom/Abrg./Code/Promo" %>
             <div class="input-group">    
               <%= text_field_tag :nom, params[:nom], include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
               <span class="input-group-btn">
@@ -62,10 +62,10 @@
     <table class="table table-hover table-striped">
       <thead>
         <tr>
-          <th>Nom</th>
-          <th>Abr.</th>
-          <th>Etudiants</th>
-          <th>Code</th>
+          <th><%= sort_link 'formations.nom', 'Nom' %></th>
+          <th><%= sort_link 'formations.abrg', 'Abrg.' %></th>
+          <th><%= sort_link 'formations.nbr_etudiants', 'Etudiants' %></th>
+          <th><%= sort_link 'formations.Code_Analytique', 'Code' %></th>
           <th>Planifiés</th>
           <th>Confirmés</th>
           <th>Réalisés</th>

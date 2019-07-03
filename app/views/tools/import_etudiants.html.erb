@@ -12,8 +12,10 @@
 <%= form_tag({action: "import_etudiants_do", method: :post}, multipart: true) do %>
   <div>
     <h3>Cette fonction permet l'importation d'une liste d'étudiants à partir d'une feuille Excel</h3>
+    <p>Les champs obligatoires sont : 'Nom', 'Prénom', 'Email', 'Mobile' </p>
   </div>
-
+  <br />
+  
   <div class="row">
     <div class="col-sm-4">
       <%= label_tag "Formation" %>    

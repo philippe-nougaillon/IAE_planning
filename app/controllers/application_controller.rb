@@ -11,6 +11,8 @@ class ApplicationController < ActionController::Base
   before_action :detect_device_format
   before_action :set_layout_variables
 
+  helper_method :sort_column, :sort_direction
+
   private
     def set_layout_variables
       @ctrl = params[:controller]
@@ -35,5 +37,5 @@ class ApplicationController < ActionController::Base
       flash[:error] = "You are not authorized to perform this action."
       redirect_to(request.referrer || root_path)
     end
-  
+
 end

@@ -8,7 +8,10 @@ class UsersController < ApplicationController
   def index
     authorize User
 
-    @users = User.order(:admin, :email)
+    params[:column] ||= session[:column]
+    params[:direction] ||= session[:direction]
+
+    @users = User.all
 
     unless params[:search].blank?
       @users = @users.where("nom like ? or prénom like ? or email like ?", "%#{params[:search]}%", "%#{params[:search]}%", "%#{params[:search]}%"  )
@@ -22,7 +25,12 @@ class UsersController < ApplicationController
       @users = @users.where(reserver:true)
     end
 
-    @users = @users.paginate(page:params[:page], per_page:20)
+    session[:column] = params[:column]
+    session[:direction] = params[:direction]
+
+    @users = @users
+                .order("#{sort_column} #{sort_direction}")
+                .paginate(page: params[:page], per_page: 20)
   end
 
   # GET /users/1
@@ -91,6 +99,18 @@ class UsersController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_user
       @user = User.find(params[:id])
+    end
+
+    def sortable_columns
+      ['users.nom','users.email']
+    end
+
+    def sort_column
+        sortable_columns.include?(params[:column]) ? params[:column] : "id"
+    end
+
+    def sort_direction
+        %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

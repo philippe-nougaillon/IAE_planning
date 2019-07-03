@@ -18,11 +18,58 @@
 </div>
 
 <p>
+  <strong>Places:</strong>
+  <%= @salle.places %>
+</p>
+
+<p>
   <strong>Bloc:</strong>
   <%= @salle.bloc %>
 </p>
 
-<p>
-  <strong>Places:</strong>
-  <%= @salle.places %>
-</p>
+<% if current_user.admin? %>
+    <h3><small>Audit des modifications</small></h3>
+    <table class="table table-condensed">
+      <% @salle.audits.includes(:user).reverse.each do | audit | %>
+        <tr>
+          <td><%= l(audit.created_at, format: :short) %></td>
+          <td><%= audit.try(:user).try(:email) %></td>
+          <td><%= audit.action %></td>
+          <td><%= sanitize prettify(audit).join('<br>') %></td>
+        </tr>  
+      <% end %>
+    </table>
+<% end %>
+
+<h3>
+  <small>Historique des attributions</small>
+</h3>
+
+<table class="table table-condensed">
+  <thead>
+    <th>Date</th>
+    <th>Qui</th>
+    <th>Cours</th>
+    <th>Formation</th>
+    <th>Date du cours</th>
+    <th>Action</th>
+    <th>Salle</th>
+  </thead>
+  <% @audits.includes(:user).reverse.each do |audit| %>
+      <% if extract_salle_id(audit) ==  @salle.id %>
+        <% if Cour.exists?(audit.auditable_id) %>
+          <tr>
+            <td><%= l(audit.created_at, format: :perso) %></td>
+            <td><%= audit.try(:user).try(:email) %></td>
+            <td><%= link_to audit.auditable_id, cour_path(audit.auditable_id) %></td>
+            <td><%= Cour.find(audit.auditable_id).try(:formation).try(:nom) %></td>
+            <td><%= l(Cour.find(audit.auditable_id).debut, format: :perso) %></td>
+            <td><%= (audit.action == 'create' ? 'Attribution' : 'Changement') %></td>
+            <td><%= convertir_id_salles(audit) %></td>
+          </tr>
+        <% end %>
+      <% end %>
+    <% end %>  
+</table>
+
+

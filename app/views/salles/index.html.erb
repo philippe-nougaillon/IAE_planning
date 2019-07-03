@@ -16,8 +16,8 @@
       <div class="form-group">
         <div class="row">
           <div class="col-sm-2">
-            <%= label_tag "Subjet" %>    
-              <%= select_tag :subjet_id, 
+            <%= label_tag "Salle" %>    
+              <%= select_tag :salle_id, 
                       options_from_collection_for_select(Salle.order(:nom), :id, :nom, params[:salle_id]), 
                         include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
           </div>
@@ -30,12 +30,13 @@
   <table class="table table-hover table-striped">
     <thead>
       <tr>
-        <th>Nom salle</th>
-        <th>Bloc</th>
+        <th>Nom</th>
         <th>Nbr places</th>
+        <th>Bloc</th>
         <th colspan="2"></th>
       </tr>
     </thead>
+
     <tfoot>
       <tr>
         <th /><th /><th /><th />
@@ -43,23 +44,7 @@
     </tfoot>
 
     <tbody>
-      <% @salles.each do |salle| %>
-        <tr>
-          <td><b><%= salle.nom %></b></td>
-          <td><%= salle.bloc %></td>
-          <td><%= salle.places %></td>
-          <td>
-            <%= link_to edit_salle_path(salle), class: "btn btn-default" do %>
-              <i class="glyphicon glyphicon-pencil"></i>
-            <% end %>
-            <% unless Cour.where(salle_id:salle).any? %>
-              <%= link_to(salle, method: :delete, data:{confirm: 'Confirmez-vous ?'}, class: "btn btn-default") do %>
-                <i class="glyphicon glyphicon-remove"></i>
-              <% end %>
-            <% end %>
-          </td>
-        </tr>
-      <% end %>
+        <%= render @salles %>
     </tbody>
   </table>
 </div>

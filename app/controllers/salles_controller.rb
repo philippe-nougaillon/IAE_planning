@@ -69,6 +69,11 @@ class SallesController < ApplicationController
   # GET /salles/1.json
   def show
     authorize Salle
+    @audits = Audited::Audit
+                  .where(auditable_type: 'Cour')
+                  .where.not(action: 'destroy')
+                  .where("audited_changes like '%salle_id%'")
+
   end
 
   # GET /salles/new

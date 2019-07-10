@@ -42,8 +42,14 @@
         </div>
         <br>
   
-        <%= check_box_tag :am, '1', params[:am] %> Matin 
-        <%= check_box_tag :pm, '1', params[:pm] %> Après-midi
+        <%= check_box_tag :am, '1', params[:am] %> Matin (9h-12h)
+        <br />
+        <%= check_box_tag :pm, '1', params[:pm] %> Après-midi (13h-16h)
+        <br />
+        <%= check_box_tag :soir1, '1', params[:soir1] %> Soir (19h-22h)
+        <%= check_box_tag :soir2, '1', params[:soir2] %> (18h15-20h15)
+        <%= check_box_tag :soir3, '1', params[:soir3] %> (20h15-22h15) 
+        
       </div>
 
       <div class="col-sm-1"></div>

@@ -183,10 +183,18 @@ class ToolsController < ApplicationController
           end
         end
 
+        binome = nil
+        if row[headers.index 'Binôme']
+          nom_binome = row[headers.index 'Binôme'].strip.split(' ').first.upcase
+          prenom_binome = row[headers.index 'Binôme'].strip.split(' ').last
+          binome = Intervenant.where(nom: nom_binome, prenom: prenom_binome).first_or_initialize
+        end
+
         cours.debut = debut
         cours.fin = fin
         cours.duree = ((fin - debut)/3600)
-        cours.intervenant_id = intervenant.id
+        cours.intervenant = intervenant
+        cours.intervenant_binome = binome
         cours.formation_id = params[:formation_id]
 
         cours.ue = row[headers.index 'UE'] ? row[headers.index 'UE'].gsub(' ','') : ""
@@ -231,7 +239,6 @@ class ToolsController < ApplicationController
       redirect_to action: 'import'
     end  
   end
-
 
   def import_intervenants
   end
@@ -568,7 +575,23 @@ class ToolsController < ApplicationController
             new_cours_pm.duree = 3
             new_cours_pm.debut = Time.parse(current_date.to_s + " 13:00 UTC")
             new_cours_pm.fin = eval("new_cours_pm.debut + #{new_cours_pm.duree}.hour")
-          end  
+          end
+          # cours du soir
+          if params[:soir1]
+            new_cours.duree = 3
+            new_cours.debut = Time.parse(current_date.to_s + " 19:00 UTC")
+            new_cours.fin = eval("new_cours.debut + #{new_cours.duree}.hour")
+          end
+          if params[:soir2]
+            new_cours.duree = 2
+            new_cours.debut = Time.parse(current_date.to_s + " 18:15 UTC")
+            new_cours.fin = eval("new_cours.debut + #{new_cours.duree}.hour")
+          end
+          if params[:soir1]
+            new_cours.duree = 2
+            new_cours.debut = Time.parse(current_date.to_s + " 20:15 UTC")
+            new_cours.fin = eval("new_cours.debut + #{new_cours.duree}.hour")
+          end
         else
           # calcul de la date & heure de début et de fin  
           new_cours.duree = duree
@@ -609,7 +632,7 @@ class ToolsController < ApplicationController
 		  puts "=" * 60
 	  	puts
 	  	puts "----------- Les modifications n'ont pas été enregistrées ---------------" unless params[:save] == 'true'
-	end  	
+	  end  	
   end
 
   def export

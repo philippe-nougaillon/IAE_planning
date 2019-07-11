@@ -107,13 +107,15 @@
 
           <ul class="nav navbar-nav navbar-right">
             <% unless user_signed_in? %>
-              |
-              <%= link_to guide_index_path do %>
-                <span class="glyphicon glyphicon-info-sign"></span>
-                Mémo
-              <% end %>
-              | 
-              <a href="/users/sign_in"><span class="glyphicon glyphicon-log-in"></span> Connexion</a>
+              <li>
+                <%= link_to guide_index_path do %>
+                  <span class="glyphicon glyphicon-info-sign"></span>
+                  Mémo
+                <% end %>
+              </li>
+              <li>
+                <a href="/users/sign_in"><span class="glyphicon glyphicon-log-in"></span> Connexion</a>
+              </li>
             <% else %>
               <%= current_user.username %>
               |

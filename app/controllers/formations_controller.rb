@@ -16,7 +16,7 @@ class FormationsController < ApplicationController
     params[:catalogue] ||= 'yes'
     params[:paginate] ||= 'pages'
     params[:column] ||= session[:column]
-    params[:direction] ||= session[:direction]
+    params[:direction_formations] ||= session[:direction_formations]
     
     unless params[:archive].blank?
       @formations = Formation.unscoped.where(archive: true)
@@ -46,7 +46,7 @@ class FormationsController < ApplicationController
 
     session[:nom] = params[:nom] # ???? 
     session[:column] = params[:column]
-    session[:direction] = params[:direction]
+    session[:direction_formations] = params[:direction_formations]
 
     @formations = @formations.reorder("#{sort_column} #{sort_direction}") 
     
@@ -129,11 +129,11 @@ class FormationsController < ApplicationController
     end
 
     def sort_column
-        sortable_columns.include?(params[:column]) ? params[:column] : 'id'
+        sortable_columns.include?(params[:column]) ? params[:column] : 'nom'
     end
 
     def sort_direction
-        %w[asc desc].include?(params[:direction]) ? params[:direction] : 'asc'
+        %w[asc desc].include?(params[:direction_formations]) ? params[:direction_formations] : 'asc'
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

@@ -7,7 +7,7 @@ class EtudiantsController < ApplicationController
   # GET /etudiants.json
   def index
     params[:column] ||= session[:column]
-    params[:direction] ||= session[:direction]
+    params[:direction_etudiants] ||= session[:direction_etudiants]
 
     @etudiants = Etudiant.all
 
@@ -20,7 +20,7 @@ class EtudiantsController < ApplicationController
     end
 
     session[:column] = params[:column]
-    session[:direction] = params[:direction]
+    session[:direction_etudiants] = params[:direction_etudiants]
 
     @etudiants = @etudiants
                     .includes(:formation)
@@ -93,11 +93,11 @@ class EtudiantsController < ApplicationController
     end
 
     def sort_column
-        sortable_columns.include?(params[:column]) ? params[:column] : "id"
+        sortable_columns.include?(params[:column]) ? params[:column] : "nom, prénom"
     end
 
     def sort_direction
-        %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
+        %w[asc desc].include?(params[:direction_etudiants]) ? params[:direction_etudiants] : "asc"
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

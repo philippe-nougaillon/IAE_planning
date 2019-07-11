@@ -104,7 +104,7 @@ class IntervenantsController < ApplicationController
     end
 
     def sort_column
-        sortable_columns.include?(params[:column]) ? params[:column] : "id"
+        sortable_columns.include?(params[:column]) ? params[:column] : "nom"
     end
 
     def sort_direction

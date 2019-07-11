@@ -392,7 +392,6 @@ class ToolsController < ApplicationController
     end  
   end
 
-
   def import_etudiants
   end
 
@@ -521,12 +520,6 @@ class ToolsController < ApplicationController
   end
 
   def creation_cours_do
-  	# if params[:duree].blank?
-    #   flash[:alert] = "Erreur... manque la durée"
-    #   redirect_to action: 'creation_cours'
-    #   return
-    # end 
-
 	  @start_date = Date.civil(params[:cours]["start_date(1i)"].to_i,
                          	 params[:cours]["start_date(2i)"].to_i,
                          	 params[:cours]["start_date(3i)"].to_i)
@@ -557,7 +550,7 @@ class ToolsController < ApplicationController
         ok_semaines = !params.include?('semaines') || (params[:semaines] && params[:semaines].include?(current_date.cweek.to_s))
         
         # création du cours
-        new_cours = Cour.new(formation_id:params[:formation_id], intervenant_id:params[:intervenant_id], nom:nom_cours, salle_id:salle_id)
+        new_cours = Cour.new(formation_id: params[:formation_id], intervenant_id: params[:intervenant_id], nom: nom_cours, salle_id: salle_id)
 
         if params[:am] || params[:pm]
           if params[:am]

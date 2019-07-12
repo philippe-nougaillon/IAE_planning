@@ -530,7 +530,6 @@ class ToolsController < ApplicationController
 
     # Calcul le nombre de jours à traiter dans la période à traiter
   	@ndays = (@end_date - @start_date).to_i + 1 
-	  duree = params[:duree]
 	  salle_id = params[:salle_id]
     nom_cours = params[:nom]
     semaines = params[:semaines]
@@ -549,82 +548,79 @@ class ToolsController < ApplicationController
         # test semaine 
         ok_semaines = !params.include?('semaines') || (params[:semaines] && params[:semaines].include?(current_date.cweek.to_s))
         
-        # création du cours
+        cours = []
+
+        # création du cours type
         new_cours = Cour.new(formation_id: params[:formation_id], intervenant_id: params[:intervenant_id], nom: nom_cours, salle_id: salle_id)
 
-        if params[:am] || params[:pm]
-          if params[:am]
-            new_cours.duree = 3
-            new_cours.debut = Time.parse(current_date.to_s + " 9:00 UTC")
-            new_cours.fin = eval("new_cours.debut + #{new_cours.duree}.hour")
-          elsif params[:pm]
-            new_cours.duree = 3
-            new_cours.debut = Time.parse(current_date.to_s + " 13:00 UTC")
-            new_cours.fin = eval("new_cours.debut + #{new_cours.duree}.hour")
-          end
-          # création du cours de l'après midi si besoin
-          if (params[:am] && params[:pm])
-            new_cours_pm = Cour.new(formation_id:params[:formation_id], intervenant_id:params[:intervenant_id], nom:nom_cours, salle_id:salle_id)
-            new_cours_pm.duree = 3
-            new_cours_pm.debut = Time.parse(current_date.to_s + " 13:00 UTC")
-            new_cours_pm.fin = eval("new_cours_pm.debut + #{new_cours_pm.duree}.hour")
-          end
-          # cours du soir
-          if params[:soir1]
-            new_cours.duree = 3
-            new_cours.debut = Time.parse(current_date.to_s + " 19:00 UTC")
-            new_cours.fin = eval("new_cours.debut + #{new_cours.duree}.hour")
-          end
-          if params[:soir2]
-            new_cours.duree = 2
-            new_cours.debut = Time.parse(current_date.to_s + " 18:15 UTC")
-            new_cours.fin = eval("new_cours.debut + #{new_cours.duree}.hour")
-          end
-          if params[:soir1]
-            new_cours.duree = 2
-            new_cours.debut = Time.parse(current_date.to_s + " 20:15 UTC")
-            new_cours.fin = eval("new_cours.debut + #{new_cours.duree}.hour")
-          end
-        else
-          # calcul de la date & heure de début et de fin  
-          new_cours.duree = duree
-          new_cours.debut = Time.parse(current_date.to_s + " #{params[:cours]["start_date(4i)"]}:#{params[:cours]["start_date(5i)"]} UTC")
-          new_cours.fin = eval("new_cours.debut + #{new_cours.duree}.hour")
+        # cours du matin
+        if params[:am]
+          c = new_cours.dup
+          c.duree = 3
+          c.debut = Time.parse(current_date.to_s + " 9:00 UTC")
+          c.fin = eval("c.debut + #{c.duree}.hour")
+          cours << c
+        end  
+
+        # cours après midi
+        if params[:pm]
+          c = new_cours.dup
+          c.duree = 3
+          c.debut = Time.parse(current_date.to_s + " 13:00 UTC")
+          c.fin = eval("c.debut + #{c.duree}.hour")
+          cours << c
         end
 
-        if ok_jours && ok_semaines
-          msg = "#{I18n.l(new_cours.debut, format: :long)} à #{I18n.l(new_cours.fin, format: :heures_min)}"
-          # création du cours
-          if new_cours.valid?
-            new_cours.save if params[:save] == 'true'
-            puts "[OK] #{msg}"
-            @cours_créés += 1
-          else
-            puts "[KO => #{new_cours.errors.full_messages}] #{msg}"
-            @erreurs += 1
+        # cours du soir
+        if params[:soir]
+          c = new_cours.dup
+          case params[:soir_params]
+          when '1'
+            c.duree = 3
+            c.debut = Time.parse(current_date.to_s + " 19:00 UTC")
+          when '2'  
+            c.duree = 2
+            c.debut = Time.parse(current_date.to_s + " 18:15 UTC")
+          when '3'  
+            c.duree = 2
+            c.debut = Time.parse(current_date.to_s + " 20:15 UTC")
           end
-          # création de deux cours (matin+soir)
-          if (params[:am] && params[:pm])
-            msg = "#{I18n.l(new_cours_pm.debut, format: :long)} => #{I18n.l(new_cours_pm.fin, format: :heures_min)}"
-            if new_cours_pm.valid?
-              new_cours_pm.save if params[:save] == 'true'
-              puts "[Création OK] #{msg}"              
+          c.fin = eval("c.debut + #{c.duree}.hour")
+          cours << c
+        end
+ 
+        if params[:other]
+          # calcul de la date & heure de début et de fin  
+          c = new_cours.dup
+          c.duree = params[:duree]
+          c.debut = Time.parse(current_date.to_s + " #{params[:cours]["start_date(4i)"]}:#{params[:cours]["start_date(5i)"]} UTC")
+          c.fin = eval("c.debut + #{c.duree}.hour")
+          cours << c
+        end
+
+        cours.each do | new_cours |  
+          if ok_jours && ok_semaines
+            msg = "#{I18n.l(new_cours.debut, format: :long)}-#{I18n.l(new_cours.fin, format: :heures_log)}"
+            # création du cours
+            if new_cours.valid?
+              new_cours.save if params[:save] == 'true'
+              puts "[OK] #{msg}"
               @cours_créés += 1
             else
-              puts "[Erreur!] #{msg}"
+              puts "[KO!] #{msg} => #{new_cours.errors.full_messages.join(', ')}"
               @erreurs += 1
-            end  
-          end  
+            end
+          end
         end
         
 	  		current_date = current_date + 1.day
 	  	end
 	  	puts
-		  puts "=" * 60
-	  	puts "Création termninée | #{@cours_créés} créneaux_créés | #{@erreurs} erreurs"
-		  puts "=" * 60
+		  puts "=" * 120
+	  	puts "Création termninée | #{@cours_créés} cours #{'créé'.pluralize(@cours_créés)} | #{@erreurs} #{'erreur'.pluralize(@erreurs)}"
+		  puts "=" * 120
 	  	puts
-	  	puts "----------- Les modifications n'ont pas été enregistrées ---------------" unless params[:save] == 'true'
+	  	puts "--------!-!-! Les modifications n'ont pas été enregistrées !-!-!----------" unless params[:save] == 'true'
 	  end  	
   end
 

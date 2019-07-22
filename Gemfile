@@ -42,6 +42,7 @@ gem 'will_paginate'
 gem 'will_paginate-bootstrap'
 gem 'pundit'
 gem "select2-rails"
+# gem 'rails-ujs'
 
 # generate PDF
 gem 'wicked_pdf'

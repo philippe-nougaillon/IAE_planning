@@ -16,10 +16,10 @@ namespace :cours do
 
   desc "Envoyer la liste des cours aux intervenants" 
   task envoyer_liste_cours: :environment do
-    start_day = Date.today.beginning_of_week + 1.week
+    start_day = Date.today.beginning_of_month + 1.month
     puts start_day
 
-    end_day   = Date.today.end_of_week + 1.week
+    end_day   = Date.today.end_of_month + 1.month
     puts end_day
 
     cours = Cour

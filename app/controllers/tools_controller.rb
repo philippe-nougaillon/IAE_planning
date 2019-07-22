@@ -1017,7 +1017,6 @@ class ToolsController < ApplicationController
   end
 
   def notifier_intervenants
-
   end
 
   def notifier_intervenants_do

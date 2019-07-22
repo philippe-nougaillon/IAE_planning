@@ -48,24 +48,25 @@
     <table class="table table-hover table-striped">
       <thead>
         <tr>
-          <th>Nom</th>
+          <th><%= sort_link 'intervenants.nom', 'Nom' %></th>
           <th>Prénom</th>
           <th>Titre</th>
-          <th>Statut</th>
+          <th><%= sort_link 'intervenants.status', 'Statut' %></th>
           <th>Doublons?</th>
-          <th>Heures</th>
-          <th>Date SRH</th>
-          <th colspan="2"></th>
+          <th><%= sort_link 'intervenants.nbr_heures_statutaire', 'Heures' %></th>
+          <th><%= sort_link 'intervenants.remise_dossier_srh', 'Date_SRH' %></th>
+          <th><%= sort_link 'intervenants.created_at', 'Créé il y a' %></th>
+          <th></th>
         </tr>
       </thead>
       <tfoot>
         <tr>
-          <% 8.times do %><th /><% end %>
+          <% 9.times do %><th /><% end %>
         </tr>
       </tfoot>
 
       <tbody>
-        <% @intervenants.includes(:cours).each do |intervenant| %>
+        <% @intervenants.each do |intervenant| %>
           <tr>
             <td><b><%= link_to intervenant.nom, intervenant %></b></td>
             <td><b><%= intervenant.prenom %></b></td>
@@ -74,6 +75,7 @@
             <td><%= intervenant.doublon ? "Autorisés" : "" %></td>
             <td><%= intervenant.nbr_heures_statutaire %></td>
             <td><%= l(intervenant.remise_dossier_srh.to_date) if intervenant.remise_dossier_srh %></td>
+            <td><%= time_ago_in_words(intervenant.created_at) %></td>
             <td>
               <%= link_to edit_intervenant_path(intervenant), class: "btn btn-default" do %>
                 <i class="glyphicon glyphicon-pencil"></i>

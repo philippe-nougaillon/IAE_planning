@@ -12,11 +12,11 @@
 </h4>
 
 <b>
-  <%= cours.formation.nom %>
+  <%= cours.try(:formation).try(:nom) %>
 </b>
 <br>
 
-<%= cours.intervenant.nom_prenom %><br>
+<%= cours.try(:intervenant).try(:nom_prenom) %><br>
 
 <% if cours.intervenant_binome %>
   <br>

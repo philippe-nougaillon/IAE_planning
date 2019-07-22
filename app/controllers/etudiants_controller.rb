@@ -6,6 +6,9 @@ class EtudiantsController < ApplicationController
   # GET /etudiants
   # GET /etudiants.json
   def index
+    params[:column] ||= session[:column]
+    params[:direction_etudiants] ||= session[:direction_etudiants]
+
     @etudiants = Etudiant.all
 
     unless params[:nom].blank?
@@ -16,7 +19,13 @@ class EtudiantsController < ApplicationController
       @etudiants = @etudiants.where(formation_id:params[:formation_id])
     end
 
-    @etudiants = @etudiants.includes(:formation).paginate(page:params[:page], per_page:20)
+    session[:column] = params[:column]
+    session[:direction_etudiants] = params[:direction_etudiants]
+
+    @etudiants = @etudiants
+                    .includes(:formation)
+                    .order("#{sort_column} #{sort_direction}")
+                    .paginate(page: params[:page], per_page: 20)
   end
 
   # GET /etudiants/1
@@ -79,8 +88,21 @@ class EtudiantsController < ApplicationController
       @etudiant = Etudiant.find(params[:id])
     end
 
+    def sortable_columns
+      ['etudiants.nom','etudiants.email','etudiants.mobile']
+    end
+
+    def sort_column
+        sortable_columns.include?(params[:column]) ? params[:column] : "nom, prénom"
+    end
+
+    def sort_direction
+        %w[asc desc].include?(params[:direction_etudiants]) ? params[:direction_etudiants] : "asc"
+    end
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def etudiant_params
       params.require(:etudiant).permit(:formation_id, :nom, :prénom, :email, :mobile)
     end
+    
 end

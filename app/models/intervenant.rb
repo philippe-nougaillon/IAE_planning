@@ -1,6 +1,6 @@
 # ENCODING: UTF-8
 
-class Intervenant < ActiveRecord::Base
+class Intervenant < ApplicationRecord
 
 	audited
 

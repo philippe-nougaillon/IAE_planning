@@ -1,6 +1,6 @@
 # Encoding: utf-8
 
-class ImportLogLine < ActiveRecord::Base
+class ImportLogLine < ApplicationRecord
   belongs_to :import_log
 
   enum etat: [:succès, :echec]

@@ -60,14 +60,18 @@
     <%= render partial: 'etats_services', locals: {intervenant: intervenant } %>
 
     <div class="text-right">
-        <%= link_to url_for(params.merge(intervenant_id: intervenant.id, format: 'xls')), 
+        <%= link_to url_for(params
+                                .permit(:start_date, :end_date, :status)
+                                .merge(intervenant_id: intervenant.id, format: 'xls')), 
                             class: 'btn btn-default btn-xs' do %>
                 <span class="glyphicon glyphicon-share"></span>
                 Export EXCEL
         <% end %>
 
         <!--
-        <%= link_to url_for(params.merge(intervenant_id: intervenant.id, format: 'pdf')), 
+        <%= link_to url_for(params
+                                .permit(:start_date, :end_date, :status)
+                                .merge(intervenant_id: intervenant.id, format: 'pdf')), 
                             class: 'btn btn-danger btn-xs' do %>
                 <span class="glyphicon glyphicon-share"></span>
                 Export PDF

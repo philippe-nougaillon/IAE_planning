@@ -169,7 +169,7 @@ class CoursController < ApplicationController
         filename = "Export_iCalendar_#{Date.today.to_s}"
         response.headers['Content-Disposition'] = 'attachment; filename="' + filename + '.ics"'
         headers['Content-Type'] = "text/calendar; charset=UTF-8"
-        render text: @calendar.to_ical
+        render plain: @calendar.to_ical
       end
 
       format.pdf do
@@ -269,7 +269,6 @@ class CoursController < ApplicationController
                 .order(:debut)
 
     case action_name 
-
       when 'Changer de salle'
         salle = !params[:salle_id].blank? ? Salle.find(params[:salle_id]) : nil
         @cours.each do |c|
@@ -349,7 +348,7 @@ class CoursController < ApplicationController
     respond_to do |format|
       format.html do
         unless flash[:error]
-          flash[:notice] = "Action '#{action_name}' appliquée à #{params[:cours_id].count} cours."
+          flash[:notice] = "Action '#{action_name}' appliquée à #{params.permit![:cours_id].keys.size} cours."
         end
         redirect_to cours_path
       end
@@ -370,7 +369,7 @@ class CoursController < ApplicationController
       format.ics do
         response.headers['Content-Disposition'] = 'attachment; filename="' + filename + '.ics"'
         headers['Content-Type'] = "text/calendar; charset=UTF-8"
-        render text: @calendar.to_ical
+        render plain: @calendar.to_ical
       end
 
       format.pdf do

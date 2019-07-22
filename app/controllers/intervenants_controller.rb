@@ -11,7 +11,10 @@ class IntervenantsController < ApplicationController
   # GET /intervenants
   # GET /intervenants.json
   def index
-    @intervenants = Intervenant.order(:nom)
+    params[:column] ||= session[:column]
+    params[:direction] ||= session[:direction]
+
+    @intervenants = Intervenant.all
 
     unless params[:nom].blank?
       @intervenants = @intervenants.where("nom like ? or prenom like ?", "%#{params[:nom]}%", "%#{params[:nom]}%" )
@@ -24,7 +27,13 @@ class IntervenantsController < ApplicationController
     unless params[:status].blank?
       @intervenants = @intervenants.where("status = ?", params[:status])
     end
-    @intervenants = @intervenants.paginate(:page => params[:page], :per_page => 10)
+
+    session[:column] = params[:column]
+    session[:direction] = params[:direction]
+
+    @intervenants = @intervenants
+                      .reorder("#{sort_column} #{sort_direction}")  
+                      .paginate(page: params[:page], per_page: 10)
   end
 
   # GET /intervenants/1
@@ -90,6 +99,18 @@ class IntervenantsController < ApplicationController
       @intervenant = Intervenant.find(params[:id])
     end
 
+    def sortable_columns
+      ['intervenants.nom','intervenants.created_at','intervenants.status','intervenants.nbr_heures_statutaire','intervenants.remise_dossier_srh']
+    end
+
+    def sort_column
+        sortable_columns.include?(params[:column]) ? params[:column] : "nom"
+    end
+
+    def sort_direction
+        %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
+    end
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def intervenant_params
       params.require(:intervenant).permit(:nom, :prenom, :email, :linkedin_url, :titre1, :titre2, :spécialité,
@@ -97,4 +118,5 @@ class IntervenantsController < ApplicationController
        :nbr_heures_statutaire, :date_naissance, :memo, :notifier,
        responsabilites_attributes: [:id, :debut, :fin, :titre, :formation_id, :heures, :commentaires, :_destroy])
     end
+
 end

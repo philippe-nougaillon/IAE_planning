@@ -231,8 +231,9 @@
       <% end %>
     <% else %>
       Aucun résultat à afficher... 
-      <%= link_to "Effacer les filtres pour voir tous les cours", url_for(params.merge(commit:'RàZ filtres')) %>
-    <% end %>
+      <%= link_to "Effacer les filtres pour voir tous les cours", 
+          url_for(params.permit!.merge(commit: 'RàZ filtres')) %>
+      <% end %>
 <% else %>
   <i><b>Veuillez choisir une date...</b></i>
 <% end %>

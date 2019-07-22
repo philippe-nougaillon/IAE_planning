@@ -1,12 +1,16 @@
 <div class="simple-calendar">
   <% if @week_selector_visible %>
     <div class="calendar-heading">
-      <%= link_to url_for(params.merge(semaine:(params[:semaine].to_i > 1 ? params[:semaine].to_i - 1 : '1' ))),
+      <%= link_to url_for(params
+                            .permit(:formation, :ue, :intervenant, :semaine, :start_date, :etat, :filter, :view)
+                            .merge(semaine:(params[:semaine].to_i > 1 ? params[:semaine].to_i - 1 : '1' ))),
              class: "btn btn-default" do %>
           <i class="glyphicon glyphicon-backward"></i>
       <% end %>
       <span class="calendar-title">Semaine <b><%= calendar.week_number %></b></span>
-      <%= link_to url_for(params.merge(semaine:(params[:semaine].to_i < 52 ? params[:semaine].to_i + 1 : '52' ))),
+      <%= link_to url_for(params
+                            .permit(:formation, :ue, :intervenant, :semaine, :start_date, :etat, :filter, :view)
+                            .merge(semaine:(params[:semaine].to_i < 52 ? params[:semaine].to_i + 1 : '52' ))),
                class: "btn btn-default" do %>
           <i class="glyphicon glyphicon-forward"></i>
       <% end %>

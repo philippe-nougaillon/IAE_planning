@@ -22,11 +22,12 @@
         <%= label_tag :debut, "A partir du" %><br>
         <%= datetime_select :cours, :start_date, minute_step:15 %>
         <br><br>
+
         <%= label_tag :fin, "Jusqu'au" %><br>
         <%= date_select :cours, :end_date %>
         <br><br>
 
-        <%= label_tag :semaines, "Semaines" %>
+        <%= label_tag :semaines, "Semaines *" %>
         <%= select_tag :semaines, options_for_select((1..52).to_a), 
                           include_blank:true, multiple:true, class:"form-control" %>
         <br>
@@ -42,13 +43,30 @@
         </div>
         <br>
   
-        <%= check_box_tag :am, '1', params[:am] %> Matin 
-        <%= check_box_tag :pm, '1', params[:pm] %> Après-midi
+        <%= label_tag :periode, "Période" %><br>
+        <%= check_box_tag :am, '1', params[:am] %> Matin (9h-12h)
+        <br />
+
+        <%= check_box_tag :pm, '1', params[:pm] %> Après-midi (13h-16h)
+        <br />
+
+        <%= check_box_tag :soir, '1', params[:soir] %> Soir
+        <%= radio_button_tag :soir_params, '1', params[:soir_params] == 1 %> (19h-22h)
+        <%= radio_button_tag :soir_params, '2', params[:soir_params] == 2 %> (18h15-20h15)
+        <%= radio_button_tag :soir_params, '3', params[:soir_params] == 3 %> (20h15-22h15) 
+        <br>
+
+        <%= check_box_tag :other, '1', params[:other] %> Autre. Durée: 
+        <%= select_tag :duree, 
+                        options_for_select([0.5,1.0,1.5,2.0,2.5,3.0,3.5,4.0], 3.0), 
+                        include_blank:true %> h
       </div>
 
       <div class="col-sm-1"></div>
 
       <div class="col-sm-6">
+        <div class="row">
+
         <%= label_tag "Formation" %>    
         <%= select_tag :formation_id, 
               options_from_collection_for_select(Formation.all, :id, :nom_promo), class:"form-control select2", include_blank:true %>
@@ -59,24 +77,14 @@
               options_from_collection_for_select(Intervenant.all, :id, :nom_prenom), class:"form-control select2", include_blank:true %>
         <br>
 
-        <div class="form-group">
-          <div class="col-sm-6">
-            <%= label_tag :nom, "Nom du cours" %>
-            <%= text_field_tag :nom, params[:nom], class:"form-control" %>
-          </div>
+        <%= label_tag :nom, "Nom du cours *" %>
+        <%= text_field_tag :nom, params[:nom], class:"form-control" %>
+        <br>
 
-          <div class="col-sm-3">
-            <%= label_tag :duree, "Durée (h)" %>
-            <%= select_tag :duree, options_for_select(['0.5','1.0','1.5','2.0','2.5','3.0','3.5','4.0']), 
-                              include_blank:true, class:"form-control" %>
-          </div>
-
-          <div class="col-sm-3">
-          <%= label_tag :salle_id, "Salle" %>
-            <%= select_tag :salle_id, options_from_collection_for_select(Salle.all, :id, :nom_places, params[:salle_id]), include_blank: true, class:"form-control" %>
-          </div>
-        </div>
-        <br><br><br><br>
+        <%= label_tag :salle_id, "Salle *" %>
+        <%= select_tag :salle_id, options_from_collection_for_select(Salle.all, :id, :nom_places, params[:salle_id]), include_blank: true, class:"form-control" %>
+        * Optionnel
+        <br><br>
 
         <div class="field">
           <b>Enregistrer les changements ?</b> <br>
@@ -92,7 +100,7 @@
           <%= submit_tag "Lancer la création", class: "btn btn-success" %>
         </div>
 
-    </div>
+      </div>
   </div>
   
 <% end %>

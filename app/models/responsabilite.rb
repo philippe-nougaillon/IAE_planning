@@ -1,4 +1,4 @@
-class Responsabilite < ActiveRecord::Base
+class Responsabilite < ApplicationRecord
 
   audited
 

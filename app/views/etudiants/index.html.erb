@@ -19,22 +19,24 @@
     <%= form_tag request.path, method: :get do %>
       <div class="form-group">
         <div class="row">
-          <div class="col-sm-4">
-            <%= label_tag :nom, "Nom" %>    
-            <%= text_field_tag :nom, params[:nom], include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
-          </div>
 
           <div class="col-sm-5">
             <%= label_tag "Formation" %>    
-            <div class="input-group">
-              <%= select_tag :formation_id, 
-                    options_from_collection_for_select(Formation.all, :id, :nom, params[:formation_id]), 
+            <%= select_tag :formation_id, 
+                    options_from_collection_for_select(Formation.unscoped.all, :id, :nom, params[:formation_id]), 
                       class:"form-control select2", include_blank:true, onchange:'this.form.submit()' %>
+          </div>
+
+          <div class="col-sm-5">
+            <%= label_tag :nom, "Nom" %>    
+            <div class="input-group">
+              <%= text_field_tag :nom, params[:nom], include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
                 <span class="input-group-btn">
                 <%= submit_tag 'Filtrer', class:"btn btn-success" %>
               </span>
              </div> 
           </div>
+
           
         </div>
       </div>  
@@ -45,12 +47,12 @@
   <table class="table table-striped table-hover">
     <thead>
       <tr>
-        <th>Nom</th>
+        <th><%= sort_link 'etudiants.nom', 'Nom' %></th>
         <th>Prénom</th>
-        <th>Email</th>
-        <th>Mobile</th>
+        <th><%= sort_link 'etudiants.email', 'Email' %></th>
+        <th><%= sort_link 'etudiants.mobile', 'Mobile' %></th>
         <th>Formation</th>
-        <th></th>
+        <th colspan="2"></th>
       </tr>
     </thead>
 

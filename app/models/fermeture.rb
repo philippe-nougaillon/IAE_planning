@@ -1,4 +1,4 @@
-class Fermeture < ActiveRecord::Base
+class Fermeture < ApplicationRecord
 	
 	audited
 

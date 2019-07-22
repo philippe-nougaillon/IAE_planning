@@ -14,7 +14,10 @@
             <% if params[:formation].blank? %>
               <%= link_to meeting.formation.nom, meeting %><br>
             <% end %> 
-            <%= link_to meeting.intervenant.nom_prenom, url_for(params.merge(intervenant_id:meeting.intervenant_id)) %>
+            <%= link_to meeting.intervenant.nom_prenom, 
+                        url_for(params
+                            .permit(:formation, :ue, :intervenant, :semaine, :start_date, :etat, :filter, :view)
+                            .merge(intervenant_id:meeting.intervenant_id)) %>
             <br>
             <%= meeting.nom_ou_ue %>
           </div>

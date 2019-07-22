@@ -220,6 +220,7 @@ fr:
       long: "%A %d %B %Y %Hh%M"
       short: "%d %b %Hh%M"
       heures_min: "%H:%M"
+      heures_log: "%Hh%M"
       perso: "%d/%m/%Y %Hh%M"
     pm: pm
   will_paginate:

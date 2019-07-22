@@ -1,6 +1,6 @@
 # Encoding: UTF-8
 
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   
   audited
   

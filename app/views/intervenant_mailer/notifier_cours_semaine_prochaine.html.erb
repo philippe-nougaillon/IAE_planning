@@ -7,7 +7,7 @@
     <body>
         <%= image_tag("logo_iae.png") %>
 
-        <h2>Rappel de vos cours de la semaine prochaine :</h2>
+        <h2>Rappel de vos cours du mois prochain :</h2>
 
         <table>
             <tbody>
@@ -19,16 +19,18 @@
                 <br>
             </tbody>
             <br>
-            <tfoot>
-                <tr>
-                    <td><%= "\n Total: #{@les_cours.size} cours" %></td>
-                <tr>
-            </tfoot>
         </table>
 
         <p>
-            Merci de vérifier ce récapitulatif 
-            et de nous signaler rapidement les erreurs ou omissions éventuelles.
+            Merci de vérifier ce récapitulatif.<br>
+            En cas d'erreur/omission/modification, 
+            merci de prendre contact avec votre gestionnaire de formation au plus vite.<br>
+            <%= @gestionnaires.each do | f, g | %>
+                <%= f %> => <%= g ? g : '?' %><br>
+            <% end %>
+
+            Bien cordialement<br>
+            IAE Paris  
         </p>
     </body>
 </html>

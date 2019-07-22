@@ -1,6 +1,6 @@
 # Encoding: utf-8
 
-class ImportLog < ActiveRecord::Base
+class ImportLog < ApplicationRecord
 
   belongs_to :user
   has_many :import_log_lines

@@ -9,13 +9,15 @@ class ApplicationController < ActionController::Base
 
   before_action :authenticate_user!, except: [:index_slide, :index, :occupation]
   before_action :detect_device_format
-  before_filter :set_layout_variables
+  before_action :set_layout_variables
+
+  helper_method :sort_column, :sort_direction
 
   private
     def set_layout_variables
       @ctrl = params[:controller]
       @sitename ||= request.subdomains.any? ? request.subdomains(0).first.upcase : "IAE-Planning DEV"
-      @sitename.concat(" v2.12")
+      @sitename.concat(" v3.0")
 
       if current_user
         @cours_params = {}
@@ -35,5 +37,5 @@ class ApplicationController < ActionController::Base
       flash[:error] = "You are not authorized to perform this action."
       redirect_to(request.referrer || root_path)
     end
-  
+
 end

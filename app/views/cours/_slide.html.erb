@@ -5,7 +5,7 @@
   </td>
   
   <td>
-    <h3><%= cours.formation.nom_promo %></h3>
+    <h3><%= cours.try(:formation).try(:nom_promo) %></h3>
     <h4><%= link_to cours.nom_ou_ue, cours %></h4>
 
     <% if pct = cours.progress_bar_pct2 %>

@@ -1,6 +1,6 @@
 # Encoding: utf-8
 
-class Cour < ActiveRecord::Base
+class Cour < ApplicationRecord
 
   audited
 
@@ -38,7 +38,7 @@ class Cour < ActiveRecord::Base
   end
 
   def self.actions_admin
-    ["Changer de salle", "Changer d'état", "Changer de date", "Changer d'intervenant"] + self.actions
+    ["Changer de salle", "Changer d'état", "Changer de date"] + self.actions
   end
 
   def self.etendue_horaire
@@ -64,7 +64,7 @@ class Cour < ActiveRecord::Base
 
   def self.xls_headers
       %w{id Date_début Heure_début Date_fin Heure_fin Formation_id Formation
-          Code_Analytique Intervenant_id Intervenant UE Intitulé Binôme? Etat
+          Code_Analytique Intervenant_id Intervenant Binôme UE Intitulé Etat
           Salle Durée E-learning? HSS? Taux_TD HETD Commentaires Créé_le Par Modifié_le}  
   end
 
@@ -72,6 +72,7 @@ class Cour < ActiveRecord::Base
   def start_time
     self.debut.to_datetime 
   end
+
   def end_time
     self.fin.to_datetime
   end
@@ -138,7 +139,7 @@ class Cour < ActiveRecord::Base
   # 
 
   def formation_json_v2
-    self.formation.nom
+    self.formation.try(:nom)
   end
 
   def salle_json_v2
@@ -150,7 +151,7 @@ class Cour < ActiveRecord::Base
   end
 
   def formation_color_json_v2
-      self.formation.color
+      self.formation.try(:color)
   end
 
   # ETATS DE SERVICES 
@@ -224,48 +225,6 @@ class Cour < ActiveRecord::Base
     end
   end
 
-
-  # CSV 
-
-  # def self.generate_csv(cours, exporter_binome, voir_champs_privés = false)
-  #   require 'csv'
-    
-  #   CSV.generate(col_sep:';', quote_char:'"', encoding:'UTF-8') do | csv |
-  #       csv << ['id','Date début','Heure début','Date fin','Heure fin','Formation_id','Formation',
-  #               'Code_Analytique','Intervenant_id','Intervenant','UE','Intitulé','Binôme?','Etat',
-  #               'Salle','Durée','HSS ? (Hors Service Statutaire)','E-learning', 'Taux_TD','HETD',
-  #               'Commentaires','Cours créé le','Par','Cours modifié le']
-    
-  #       cours.each do |c|
-  #         formation = Formation.unscoped.find(c.formation_id)
-  #         fields_to_export = [c.id, c.debut.to_date.to_s, c.debut.to_s(:time), c.fin.to_date.to_s, c.fin.to_s(:time), 
-  #           c.formation_id, formation.nom_promo, formation.Code_Analytique, 
-  #           c.intervenant_id, c.intervenant.nom_prenom, c.ue, c.nom, 
-  #           (c.intervenant_binome ? "#{c.intervenant.nom}/#{c.intervenant_binome.nom}" : ''), 
-  #           c.etat, (c.salle ? c.salle.nom : ""), 
-  #           c.duree.to_s.gsub(/\./, ','),
-  #           (c.hors_service_statutaire ? "OUI" : ''),
-  #           (c.elearning ? "OUI" : ''), 
-  #           (voir_champs_privés ? formation.Taux_TD : ''),
-  #           (voir_champs_privés ? c.HETD.to_s.gsub(/\./, ',') : ''),
-  #           (voir_champs_privés ? c.commentaires : ''),
-  #           c.created_at,
-  #           c.audits.first.user.try(:email),
-  #           c.updated_at
-  #         ]
-  #         csv << fields_to_export
-          
-  #         # créer une ligne d'export supplémentaire pour le cours en binome
-  #         if exporter_binome and c.intervenant_binome
-  #           fields_to_export[8] = c.intervenant_binome_id
-  #           fields_to_export[9] = c.intervenant_binome.nom_prenom 
-  #           csv << fields_to_export
-  #         end  
-  #       end
-  #   end
-  # end
-
-
   def self.generate_xls(cours, exporter_binome, voir_champs_privés = false)
     require 'spreadsheet'    
     
@@ -288,8 +247,9 @@ class Cour < ActiveRecord::Base
             I18n.l(c.fin.to_date), 
             c.fin.to_s(:time), 
             c.formation_id, formation.nom_promo, formation.Code_Analytique, 
-            c.intervenant_id, c.intervenant.nom_prenom, c.ue, c.nom, 
-            (c.intervenant_binome ? "#{c.intervenant.nom}/#{c.intervenant_binome.nom}" : nil), 
+            c.intervenant_id, c.intervenant.nom_prenom,
+            c.intervenant_binome.try(:nom_prenom), 
+            c.ue, c.nom, 
             c.etat, (c.salle ? c.salle.nom : nil), 
             c.duree,
             (c.elearning ? "OUI" : nil), 

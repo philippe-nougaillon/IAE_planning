@@ -1,4 +1,4 @@
-class Formation < ActiveRecord::Base
+class Formation < ApplicationRecord
 	
 	audited
 	

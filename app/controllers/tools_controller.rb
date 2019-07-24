@@ -671,7 +671,19 @@ class ToolsController < ApplicationController
   def export_intervenants_do
     intervenants = Intervenant.all
 
-    book = Intervenant.generate_xls(intervenants)  
+    date_debut = params[:date_debut]
+    date_fin = params[:date_fin]
+
+    unless date_debut.blank? and date_fin.blank?
+      intervenants_id = Cour.where("debut BETWEEN (?) AND (?)", date_debut, date_fin).pluck(:intervenant_id).uniq
+      intervenants = intervenants.where(id: intervenants_id)
+    end
+
+    unless params[:status].blank?
+      intervenants = intervenants.where("status = ?", params[:status])
+    end
+
+    book = Intervenant.generate_xls(intervenants, date_debut, date_fin)  
     file_contents = StringIO.new
     book.write file_contents # => Now file_contents contains the rendered file output
     filename = "Export_Intervenants_#{Date.today.to_s}.xls"

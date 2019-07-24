@@ -65,10 +65,10 @@ class Intervenant < ApplicationRecord
 	end
 
 	def self.xls_headers
-		%w{Id Nom Prénom Email Statut Remise_dossier_srh Linkedin_url Titre1 Titre2 Spécialité Téléphone_fixe Téléphone_mobile Bureau Adresse CP Ville Créé_le Modifié_le}  
+		%w{Id Nom Prénom Email Statut Remise_dossier_srh Linkedin_url Titre1 Titre2 Spécialité Téléphone_fixe Téléphone_mobile Bureau Adresse CP Ville Créé_le Modifié_le NbrHeuresCours}
 	end
 
-	def self.generate_xls(intervenants)
+	def self.generate_xls(intervenants, date_debut, date_fin)
 		require 'spreadsheet'    
 		
 		Spreadsheet.client_encoding = 'UTF-8'
@@ -82,6 +82,10 @@ class Intervenant < ApplicationRecord
 		
 		index = 1
 		intervenants.each do |i|
+			if date_debut.present?
+				nbr_heures_cours = i.cours.where("debut BETWEEN (?) AND (?)", date_debut, date_fin).sum(:duree).to_f
+			end
+
 			fields_to_export = [
 				i.id, 
 				i.nom, 
@@ -100,11 +104,10 @@ class Intervenant < ApplicationRecord
 				i.cp, 
 				i.ville, 
 				i.created_at, 
-				i.updated_at
+				i.updated_at,
+				nbr_heures_cours.present? ? nbr_heures_cours : nil
 			]
-       
 			sheet.row(index).replace fields_to_export
-			#logger.debug "#{index} #{fields_to_export}"
 			index += 1
 		end
 	

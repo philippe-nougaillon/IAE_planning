@@ -13,7 +13,7 @@ class User < ApplicationRecord
 
   validates :nom, :prénom, presence: true    
 
-  default_scope { order(:nom, :prénom) } 
+  default_scope { order(:nom) } 
 
   def username 
   	"#{self.email.split('@').first} #{self.admin? ? "(admin)" : '' }"

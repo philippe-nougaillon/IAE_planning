@@ -64,6 +64,8 @@ class ToolsController < ApplicationController
 
         cours.ue = row['UE'] ? row['UE'].gsub(' ','') : ""
         cours.nom = row['Intitulé']
+        cours.elearning = true if row['E-learning?'] == 'OUI'
+        cours.hors_service_statutaire = true if row['HSS?'] == 'OUI'
 
         msg = "COURS #{cours.new_record? ? 'NEW' : 'UPDATE'} => id:#{id} changes:#{cours.changes}"
 
@@ -199,6 +201,8 @@ class ToolsController < ApplicationController
 
         cours.ue = row[headers.index 'UE'] ? row[headers.index 'UE'].gsub(' ','') : ""
         cours.nom = row[headers.index 'Intitulé']
+        cours.elearning = true if row[headers.index 'E-learning?'] == 'OUI'
+        cours.hors_service_statutaire = true if row[headers.index 'HSS?'] == 'OUI'
 
         msg = "COURS #{cours.new_record? ? 'NEW' : 'UPDATE'} => id:#{id} changes:#{cours.changes}"
 

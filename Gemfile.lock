@@ -106,7 +106,7 @@ GEM
     mini_racer (0.2.6)
       libv8 (>= 6.9.411)
     minitest (5.11.3)
-    mysql2 (0.4.10)
+    mysql2 (0.5.2)
     nio4r (2.3.1)
     nokogiri (1.10.3)
       mini_portile2 (~> 2.4.0)
@@ -224,7 +224,7 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   mini_racer
-  mysql2 (~> 0.4.4)
+  mysql2 (= 0.5.2)
   pundit
   rails (= 5.2.3)
   record_tag_helper (~> 1.0)

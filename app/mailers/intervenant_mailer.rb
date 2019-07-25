@@ -11,10 +11,9 @@ class IntervenantMailer < ApplicationMailer
     end
 
     def notifier_cours_semaine_prochaine(intervenant, les_cours, gestionnaires)
-        #logger.debug "[MAILER]"
         @les_cours = les_cours
         @gestionnaires = gestionnaires
-        mail(to: intervenant.email, subject:"[PLANNING] Cours de la semaine prochaine")
+        mail(to: intervenant.email, subject:"[PLANNING] Vos cours du mois prochain")
     end
 
 end

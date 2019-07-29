@@ -18,9 +18,7 @@ class FermeturesController < ApplicationController
         @fermetures = @fermetures.where("fermetures.date BETWEEN DATE(?) AND DATE(?)", @date, @date_fin)
       end
     end
-
     @fermetures = @fermetures.paginate(page:params[:page], per_page:10)
-
   end
 
   # GET /fermetures/1

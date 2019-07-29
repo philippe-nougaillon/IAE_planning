@@ -189,24 +189,21 @@
   </table>
 <% end %>
 
-<div id="audit" class="collapse">
-  <% if current_user.admin? %>
-    <% if @formation.audits.any? %>
+<div id="audit" class="collapse-out">
+  <% if @formation.audits.any? %>
+    <h3><span class="glyphicon glyphicon-search"></span> Audit des modifications</h3>
+    <table class="table table-bordered table-hover table-condensed">
+      <thead>
+        <th>Date</th>
+        <th>Utilisateur</th>            
+        <th>Type</th>
+        <th>Record_id</th>
+        <th>Action</th>
+        <th>Modifications</th>
+      </thead>
 
-      <h3>
-        <small>Audit des modifications</small>
-      </h3>
+      <%= render partial: 'tools/audit', collection: @formation.audits %>
 
-      <table class="table table-condensed">
-        <% @formation.audits.includes(:user).reverse.each do |audit| %>
-          <tr>
-            <td><%= l(audit.created_at, format: :short) %></td>
-            <td><%= audit.user.try(:email) %></td>
-            <td><%= audit.action %></td>
-            <td><%= sanitize prettify(audit).join('<br>') %></td>
-          </tr>  
-        <% end %>
-      </table>
-    <% end %>
+    </table>
   <% end %>
 </div> 

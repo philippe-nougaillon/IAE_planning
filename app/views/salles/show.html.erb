@@ -18,6 +18,11 @@
 </div>
 
 <p>
+  <strong>Nom:</strong>
+  <%= @salle.nom %>
+</p>
+
+<p>
   <strong>Places:</strong>
   <%= @salle.places %>
 </p>
@@ -27,25 +32,25 @@
   <%= @salle.bloc %>
 </p>
 
-<% if current_user.admin? %>
-    <h3><small>Audit des modifications</small></h3>
-    <table class="table table-condensed">
-      <% @salle.audits.includes(:user).reverse.each do | audit | %>
-        <tr>
-          <td><%= l(audit.created_at, format: :short) %></td>
-          <td><%= audit.try(:user).try(:email) %></td>
-          <td><%= audit.action %></td>
-          <td><%= sanitize prettify(audit).join('<br>') %></td>
-        </tr>  
-      <% end %>
-    </table>
-<% end %>
+<h3><span class="glyphicon glyphicon-search"></span> Audit des modifications</h3>
+<table class="table table-bordered table-hover table-condensed">
+  <thead>
+    <th>Date</th>
+    <th>Utilisateur</th>            
+    <th>Type</th>
+    <th>Record_id</th>
+    <th>Action</th>
+    <th>Modifications</th>
+  </thead>
+  <%= render partial: 'tools/audit', collection: @salle.audits.includes(:user).reverse %>
+</table>
 
 <h3>
-  <small>Historique des attributions</small>
+  <span class="glyphicon glyphicon-refresh"></span>
+  Audit des attributions
 </h3>
 
-<table class="table table-condensed">
+<table class="table table-bordered table-hover table-condensed">
   <thead>
     <th>Date</th>
     <th>Qui</th>
@@ -56,18 +61,18 @@
     <th>Salle</th>
   </thead>
   <% @audits.includes(:user).reverse.each do |audit| %>
-      <% if extract_salle_id(audit) ==  @salle.id %>
-        <% if Cour.exists?(audit.auditable_id) %>
-          <tr>
-            <td><%= l(audit.created_at, format: :perso) %></td>
-            <td><%= audit.try(:user).try(:email) %></td>
-            <td><%= link_to audit.auditable_id, cour_path(audit.auditable_id) %></td>
-            <td><%= Cour.find(audit.auditable_id).try(:formation).try(:nom) %></td>
-            <td><%= l(Cour.find(audit.auditable_id).debut, format: :perso) %></td>
-            <td><%= (audit.action == 'create' ? 'Attribution' : 'Changement') %></td>
-            <td><%= convertir_id_salles(audit) %></td>
-          </tr>
-        <% end %>
+      <% if extract_salle_id(audit) == @salle.id %>
+          <% if cour = Cour.where(id: audit.auditable_id).first %>
+            <tr>
+              <td><%= l(audit.created_at, format: :perso) %></td>
+              <td><%= audit.try(:user).try(:email) %></td>
+              <td><%= link_to audit.auditable_id, cour_path(cour) %></td>
+              <td><%= cour.try(:formation).try(:nom) %></td>
+              <td><%= l(cour.debut, format: :perso) %></td>
+              <td><%= audit.action.humanize %></td>
+              <td><%= convertir_id_salles(audit) %></td>
+            </tr>
+          <% end %>  
       <% end %>
     <% end %>  
 </table>

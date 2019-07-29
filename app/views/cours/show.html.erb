@@ -12,11 +12,6 @@
       <% end %>
     <% end %>
 
-    <a href="#audit" data-toggle="collapse" class='btn btn-default'>
-      <span class="glyphicon glyphicon-search"></span>
-      Audit
-    </a>
-
     <%= link_to cours_path, class: 'btn btn-default' do %>
       <span class="glyphicon glyphicon-list-alt"></span>
       Retour
@@ -71,26 +66,19 @@
 </p>
 <br>
 
-<div id="audit" class="collapse in">
-  <% if @cour.audits.any? %>
-    <h3>Audit des modifications</h3>
-    <table class="table table-condensed">
-      <thead>
-        <th>Date</th>
-        <th>Qui</th>
-        <th>Action</th>
-        <th>Modifications</th>
-        <th>Salle</th>
-      </thead>
-      <% @cour.audits.includes(:user).reverse.each do |audit| %>
-        <tr>
-          <td><%= l(audit.created_at, format: :short) %></td>
-          <td><%= audit.user.email if audit.user %></td>
-          <td><%= audit.action %></td>
-          <td><%= sanitize prettify(audit).join('<br>') %></td>
-          <td><%= convertir_id_salles(audit) %></td>
-        </tr>  
-      <% end %>
-    </table>
-  <% end %>
-</div>
+<% if @cour.audits.any? %>
+  <h3><span class="glyphicon glyphicon-search"></span> Audit des modifications</h3>
+  <table class="table table-bordered table-hover table-condensed">
+    <thead>
+      <th>Date</th>
+      <th>Utilisateur</th>            
+      <th>Type</th>
+      <th>Record_id</th>
+      <th>Action</th>
+      <th>Modifications</th>
+    </thead>
+
+    <%= render partial: 'tools/audit', collection: @cour.audits %>
+
+  </table>
+<% end %>

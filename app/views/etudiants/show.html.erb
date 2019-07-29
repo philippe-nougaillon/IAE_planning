@@ -22,6 +22,12 @@
 <br><br>
 
 <dl class="dl-horizontal">
+  <dt>Nom:</dt>
+  <dd><%= @etudiant.nom %></dd>
+
+  <dt>Prénom:</dt>
+  <dd><%= @etudiant.prénom %></dd>
+
   <dt>Email:</dt>
   <dd><%= @etudiant.email %></dd>
 
@@ -31,21 +37,19 @@
   <dt>Formation:</dt>
   <dd><%= link_to @etudiant.formation.try(:nom), @etudiant.formation %></dd>
 </dl>
+<br />
 
-<div id="audit" class="collapse">
-  <% if current_user.admin? %>
-    <% if @etudiant.audits.any? %>
-      <h3>Audit des modifications</h3>
-      <table class="table table-condensed">
-        <% @etudiant.audits.includes(:user).reverse.each do |audit| %>
-          <tr>
-            <td><%= l(audit.created_at, format: :short) %></td>
-            <td><%= audit.user.email if audit.user %></td>
-            <td><%= audit.action %></td>
-            <td><%= sanitize prettify(audit).join('<br>') %></td>
-          </tr>  
-        <% end %>
-      </table>
-    <% end %>
-  <% end %>
+<div id="audit" class="collapse-out">
+  <h3><span class="glyphicon glyphicon-search"></span> Audit des modifications</h3>
+  <table class="table table-bordered table-hover table-condensed">
+    <thead>
+      <th>Date</th>
+      <th>Utilisateur</th>            
+      <th>Type</th>
+      <th>Record_id</th>
+      <th>Action</th>
+      <th>Modifications</th>
+    </thead>
+    <%= render partial: 'tools/audit', collection: @etudiant.audits %>
+  </table>
 </div> 

@@ -70,7 +70,7 @@ group :development do
     gem 'spring'
       
     # Access an IRB console on exception pages or by using <%= console %> in views
-    gem 'web-console', '~> 2.0'
+    gem 'web-console', '>= 3.3.0'
   
     #gem 'scout_apm'
     #gem 'brakeman', require: false

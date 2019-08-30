@@ -17,71 +17,64 @@ namespace :cours do
   end
 
   desc "Envoyer la liste des cours aux intervenants" 
-  task envoyer_liste_cours: :environment do
+  task :envoyer_liste_cours, [:draft] => :environment do |task, args|
+
+    puts "MODE DRAFT" if args.draft
+
     start_day = Date.today.beginning_of_month + 1.month
     end_day   = Date.today.end_of_month + 1.month
     puts "Période du #{start_day} au #{end_day}"
 
-    cours = Cour
-              .where("debut BETWEEN (?) AND (?)", start_day, end_day)
-              .where(etat: Cour.etats.values_at(:planifié, :confirmé))
-              .order(:intervenant_id, :debut)
-
-    puts "#{cours.count} cours trouvés"
-    puts "- " * 50
-
-    liste_des_cours_a_envoyer = []
-    liste_des_gestionnaires = {}
     envoyes = 0
 
-    intervenant = cours.first.intervenant
-    formation = cours.first.formation
+    Intervenant.all.each do |intervenant| 
 
-    cours.each do | c |
-      if c.intervenant != intervenant
-        puts "Intervenant: #{intervenant.nom} (##{intervenant.id})" 
-        
+      cours = Cour.where("debut BETWEEN (?) AND (?)", start_day, end_day)
+                   .where(etat: Cour.etats.values_at(:planifié, :confirmé))
+                   .where.not(intervenant_id: 445)
+                   .where("intervenant_id = ? OR intervenant_binome_id = ?", intervenant.id, intervenant.id)
+
+      if cours.any?
+        puts "#{intervenant.nom_prenom} (##{intervenant.id})" 
+                      
+        liste_des_cours_a_envoyer = []
+        liste_des_gestionnaires = {}
+
+        cours.each do |c|
+          intitulé_cours = "#{I18n.l(c.debut.to_date, format: :day)} #{I18n.l(c.debut.to_date)} #{I18n.l(c.debut, format: :heures_min)}-#{I18n.l(c.fin, format: :heures_min)} #{c.formation.nom}/#{c.nom_ou_ue}"
+          liste_des_cours_a_envoyer << intitulé_cours
+          if c.formation
+            liste_des_gestionnaires[c.formation.nom] = c.formation.try(:user).try(:email)
+          end
+        end
+        puts "#{liste_des_cours_a_envoyer.count} cours a envoyer: #{liste_des_cours_a_envoyer}"  
+
         liste_des_gestionnaires.each do | formation, gest |
           puts "Formation: #{formation} / #{gest ? "Gestionnaire: #{gest}" : '?'}"
         end
 
-        puts "Cours: #{liste_des_cours_a_envoyer}"  
-
-        envoyes += 1 if envoyer_liste_cours_a_intervenant(intervenant, liste_des_cours_a_envoyer, liste_des_gestionnaires) 
-        intervenant = c.intervenant
-        liste_des_cours_a_envoyer = []
-        liste_des_gestionnaires = {}
+        unless args.draft
+          envoyes += 1 if envoyer_liste_cours_a_intervenant(intervenant, liste_des_cours_a_envoyer, liste_des_gestionnaires) 
+        end
 
         puts "#-" * 50
-      end
-
-      if c.formation
-        liste_des_gestionnaires[c.formation.nom] = c.formation.try(:user).try(:email)
-      end
-
-      liste_des_cours_a_envoyer << "#{I18n.l(c.debut.to_date, format: :day)} #{I18n.l(c.debut, format: :short)}-#{I18n.l(c.fin, format: :heures_min)} #{c.nom_ou_ue}"
+      end 
     end
 
-    # pour le dernier de la liste
-    puts "Intervenant: #{intervenant.nom} (##{intervenant.id})" 
-    puts "Cours: #{liste_des_cours_a_envoyer}"  
-    envoyes += 1 if envoyer_liste_cours_a_intervenant(intervenant, liste_des_cours_a_envoyer, liste_des_gestionnaires)  
-    puts "#-" * 50
-
-    puts "* #{envoyes} mail(s) envoyé(s) *"
+    puts "* #{envoyes} mail(s) envoyé(s) *" unless args.draft
   end
 
   def envoyer_liste_cours_a_intervenant(intervenant, liste, gestionnaires)
     if intervenant.notifier? && !intervenant.email.blank?
-      puts "Planning envoyé à: #{intervenant.email}"
+      puts "OK => Planning envoyé à: #{intervenant.email}"
 
       IntervenantMailer
-              .notifier_cours_semaine_prochaine(intervenant, liste, gestionnaires)
-              .deliver_now
+               .notifier_cours_semaine_prochaine(intervenant, liste, gestionnaires)
+               .deliver_now
 
       return true
     else
-      puts "Manque le flag 'Notification?' ou l'adresse email => Planning pas envoyé !" 
+      puts "!KO => Manque le flag 'Notification?' et/ou l'adresse email" 
       return false
     end
   end

@@ -1044,7 +1044,7 @@ class ToolsController < ApplicationController
     # capture output
     @stdout_stream = capture_stdout do
       Rake::Task['cours:envoyer_liste_cours'].reenable # in case you're going to invoke the same task second time.
-      Rake::Task['cours:envoyer_liste_cours'].invoke
+      Rake::Task['cours:envoyer_liste_cours'].invoke(params[:draft].present?)
     end
   end  
   

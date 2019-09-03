@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    </head>
+  
+    <body>
+        <p>
+            Bonjour,
+            <br /><br />
+            L'IAE Paris-Sorbonne a le plaisir de vous transmettre le récapitulatif de vos cours programmés du <%=l @debut %> au <%=l @fin %>
+        </p>
+        <br />
+
+        <table class="table table-condensed table-striped">
+            <tbody>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Heure</th>
+                        <th>Formation</th>
+                        <th>Intitulé du cours</th>
+                    </tr>
+                </thead>
+                <% @cours.each do |c| %>
+                    <tr>
+                        <td><%= I18n.l(c.debut.to_date, format: :day) %> <%= I18n.l(c.debut.to_date) %></td>
+                        <td><%= I18n.l(c.debut, format: :heures_min) %>-<%= I18n.l(c.fin, format: :heures_min) %></td>
+                        <td><%= c.formation.nom %></td>
+                        <td><%= c.nom_ou_ue %></td>
+                    </tr>
+                <% end %>
+            </tbody>
+        </table>
+
+        <p>
+            <b>
+                Nous vous remercions de vérifier ce récapitulatif et de prendre contact 
+                avec votre gestionnaire de formation au plus vite en cas d'erreur/omission/modification.
+            </b>
+            <br>
+            <table class="table table-condensed table-bordered" style="width: 50%">
+                <thead>
+                    <tr>
+                        <th>Formation</th>
+                        <th>Adresse email du gestionnaire de formation</th>
+                    </tr>
+                </thead>
+                <% @gestionnaires.each do | f, g | %>
+                    <tr>
+                        <td><%= f %></td>
+                        <td><%= g %></td>
+                    </tr>
+                <% end %>
+            </table>
+            <br />
+
+            Nous vous remercions de votre implication à l'IAE Paris-Sorbonne.
+            <br /><br />
+            Bien cordialement
+            <br />
+            IAE Paris
+            <br />
+            <%= image_tag("logo_iae.png") %>
+        </p>
+        <small>
+            <%= link_to "Voir le planning", root_url %>
+        </small>
+    </body>
+</html>

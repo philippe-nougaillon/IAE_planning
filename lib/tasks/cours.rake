@@ -21,9 +21,9 @@ namespace :cours do
 
     puts "MODE DRAFT" if args.draft
 
-    start_day = Date.today.beginning_of_month + 1.month
-    end_day   = Date.today.end_of_month + 1.month
-    puts "Période du #{start_day} au #{end_day}"
+    start_day = Date.today #.beginning_of_month + 1.month
+    end_day   = Date.today.end_of_month # + 1.month
+    puts "Période du #{I18n.l start_day} au #{I18n.l end_day}"
 
     envoyes = 0
 
@@ -47,34 +47,36 @@ namespace :cours do
             liste_des_gestionnaires[c.formation.nom] = c.formation.try(:user).try(:email)
           end
         end
-        puts "#{liste_des_cours_a_envoyer.count} cours a envoyer: #{liste_des_cours_a_envoyer}"  
+        puts "#{liste_des_cours_a_envoyer.count} cours à envoyer: #{liste_des_cours_a_envoyer}"  
 
         liste_des_gestionnaires.each do | formation, gest |
-          puts "Formation: #{formation} / #{gest ? "Gestionnaire: #{gest}" : '?'}"
+          puts "Gestionnaire #{formation} = #{gest}"
         end
 
-        unless args.draft
-          envoyes += 1 if envoyer_liste_cours_a_intervenant(intervenant, liste_des_cours_a_envoyer, liste_des_gestionnaires) 
-        end
+        envoyes += 1 if envoyer_liste_cours_a_intervenant(args.draft, start_day, end_day, intervenant, cours, liste_des_gestionnaires) 
 
         puts "#-" * 50
       end 
     end
 
-    puts "* #{envoyes} mail(s) envoyé(s) *" unless args.draft
+    puts "* #{envoyes} mail(s) envoyé(s) *"
   end
 
-  def envoyer_liste_cours_a_intervenant(intervenant, liste, gestionnaires)
+  def envoyer_liste_cours_a_intervenant(draft, debut, fin, intervenant, cours, gestionnaires)
     if intervenant.notifier? && !intervenant.email.blank?
       puts "OK => Planning envoyé à: #{intervenant.email}"
 
-      IntervenantMailer
-               .notifier_cours_semaine_prochaine(intervenant, liste, gestionnaires)
-               .deliver_now
+      unless draft
+        IntervenantMailer
+            .notifier_cours(debut, fin, intervenant, cours, gestionnaires)
+            .deliver_now
+      end
 
       return true
     else
-      puts "!KO => Manque le flag 'Notification?' et/ou l'adresse email" 
+      puts "!KO => Manque le flag 'Notification?'" unless intervenant.notifier? 
+      puts "!KO => Manque l'adresse email" if intervenant.email.blank? 
+
       return false
     end
   end

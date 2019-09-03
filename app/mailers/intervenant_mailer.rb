@@ -10,10 +10,12 @@ class IntervenantMailer < ApplicationMailer
         mail(to: @intervenant.email, subject:"[PLANNING] Etat de services")
     end
 
-    def notifier_cours_semaine_prochaine(intervenant, les_cours, gestionnaires)
-        @les_cours = les_cours
+    def notifier_cours(debut, fin, intervenant, cours, gestionnaires)
+        @debut = debut
+        @fin = fin
+        @cours = cours
         @gestionnaires = gestionnaires
-        mail(to: intervenant.email, subject:"[PLANNING] Vos cours du mois prochain")
+        mail(to: intervenant.email, subject:"[PLANNING] Rappel de vos cours du #{l debut} au #{l fin}")
     end
 
 end

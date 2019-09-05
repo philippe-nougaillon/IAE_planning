@@ -61,11 +61,15 @@
             Bien cordialement
             <br />
             IAE Paris
-            <br />
+            <br /><br />
             <%= image_tag("logo_iae.png") %>
+            <br />
+            <small>
+                <%= link_to "planning des cours".upcase! , root_url %>
+                |
+                <%= link_to "plan d'accès au campus biopark".upcase!, image_path("Plan_d_acces_Campus_BioPark_-_IAE_Paris.pdf") %>
+                <br />
+            </small>
         </p>
-        <small>
-            <%= link_to "Voir le planning", root_url %>
-        </small>
     </body>
 </html>

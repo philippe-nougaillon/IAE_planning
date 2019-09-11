@@ -56,7 +56,9 @@ gem 'yaml_db'
 # The `content_tag_for` method has been removed from Rails. To continue using it, add the `record_tag_helper` gem to your Gemfile:
 gem 'record_tag_helper', '~> 1.0'
 
-#gem 'rack-cors'
+# Access-Control-Allow-Origin (pour l'APP React)
+gem 'rack-cors'
+
 #gem 'rails-erd'
 #gem 'icalendar'
 #gem 'sucker_punch'

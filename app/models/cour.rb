@@ -21,7 +21,7 @@ class Cour < ApplicationRecord
   before_save :change_etat_si_salle
   before_save :annuler_salle_si_cours_est_annulé
 
-  after_validation :call_notifier
+  # after_validation :call_notifier
 
   enum etat: [:planifié, :à_réserver, :confirmé, :reporté, :annulé, :réalisé]
   

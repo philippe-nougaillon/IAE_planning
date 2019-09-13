@@ -35,7 +35,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem "bootstrap_form", "~> 2.7"
 gem 'simple_calendar', '~> 2.0'
-gem "devise"
+gem 'devise', '>= 4.7.1'
 gem 'devise-i18n'
 gem 'audited', '~> 4.3'
 gem 'carrierwave', '0.11.0'

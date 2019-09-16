@@ -9,11 +9,7 @@
   </h1>
 </div>
 
-<div>
-  <h3>Récapitule les cours sur une période donnée par un intervenant</h3>
-  <b>Uniquement les cours réalisés pour les intervenants CEV.<br>
-     Tous les cours planifiés/confirmés/réalisés pour les autres statuts.</b>
-</div>
+<h3>Récapitule les cours réalisés sur une période donnée, par intervenant</h3>
 <br>
 
 <%= form_tag(request.path, method: :get) do %>
@@ -21,12 +17,12 @@
 
         <div class="col-sm-2">
             <%= label_tag "Du" %>    
-            <%= text_field_tag :start_date, params[:start_date], type:'date', class:"form-control" %>
+            <%= text_field_tag :start_date, params[:start_date], type: 'date', class: "form-control" %>
         </div>
 
         <div class="col-sm-2">
             <%= label_tag "Au" %>    
-            <%= text_field_tag :end_date, params[:end_date], type:'date', class:"form-control" %>
+            <%= text_field_tag :end_date, params[:end_date], type: 'date', class: "form-control" %>
         </div>
 
         <div class="col-sm-2">
@@ -34,7 +30,7 @@
             <%= select_tag :status, 
                 options_for_select(Intervenant.statuses, 
                 params[:status]), include_blank:true,
-                class:"form-control", onchange:'this.form.submit()' %>
+                class: "form-control", onchange: 'this.form.submit()' %>
         </div>
 
         <div class="col-sm-4">
@@ -50,7 +46,6 @@
                 </div>
             <% end %>
        </div>
-
     </div>
 <% end %>
 
@@ -68,7 +63,6 @@
                 Export EXCEL
         <% end %>
 
-        <!--
         <%= link_to url_for(params
                                 .permit(:start_date, :end_date, :status)
                                 .merge(intervenant_id: intervenant.id, format: 'pdf')), 
@@ -76,7 +70,6 @@
                 <span class="glyphicon glyphicon-share"></span>
                 Export PDF
         <% end %>
-        -->    
     </div>
 
 <% end %>

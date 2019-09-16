@@ -44,7 +44,7 @@ namespace :cours do
           intitulé_cours = "#{I18n.l(c.debut.to_date, format: :day)} #{I18n.l(c.debut.to_date)} #{I18n.l(c.debut, format: :heures_min)}-#{I18n.l(c.fin, format: :heures_min)} #{c.formation.nom}/#{c.nom_ou_ue}"
           liste_des_cours_a_envoyer << intitulé_cours
           if c.formation
-            liste_des_gestionnaires[c.formation.nom] = c.formation.courriel
+            liste_des_gestionnaires[c.formation.nom] = (c.formation.courriel ? c.formation.courriel : c.formation.try(:user).try(:email))
           end
         end
         puts "#{liste_des_cours_a_envoyer.count} cours à envoyer: #{liste_des_cours_a_envoyer}"  

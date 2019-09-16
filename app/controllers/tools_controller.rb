@@ -201,8 +201,8 @@ class ToolsController < ApplicationController
 
         cours.ue = row[headers.index 'UE'] ? row[headers.index 'UE'].gsub(' ','') : ""
         cours.nom = row[headers.index 'Intitulé']
-        cours.elearning = true if row[headers.index 'E-learning?'] == 'OUI'
-        cours.hors_service_statutaire = true if row[headers.index 'HSS?'] == 'OUI'
+        cours.elearning = true if row[headers.index 'E-learning?'].upcase == 'OUI'
+        cours.hors_service_statutaire = true if row[headers.index 'HSS?'].upcase == 'OUI'
 
         msg = "COURS #{cours.new_record? ? 'NEW' : 'UPDATE'} => id:#{id} changes:#{cours.changes}"
 

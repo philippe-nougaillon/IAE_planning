@@ -1,5 +1,5 @@
-<% cours_ids = @cours.where(intervenant: intervenant).joins(:formation).order("formations.code_analytique").pluck(:id) %>
-<% cours_ids << @cours.where(intervenant_binome: intervenant).joins(:formation).order("formations.code_analytique").pluck(:id) %>
+<% cours_ids = @cours.where(intervenant: intervenant).where.not(hors_service_statutaire: true).joins(:formation).order("formations.code_analytique").pluck(:id) %>
+<% cours_ids << @cours.where(intervenant_binome: intervenant).where.not(hors_service_statutaire: true).joins(:formation).order("formations.code_analytique").pluck(:id) %>
 <% cours_ids = cours_ids.flatten %>
 
 <h2>

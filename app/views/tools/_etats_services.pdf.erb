@@ -4,7 +4,6 @@
 
 <h2>
     Etat liquidatif des vacations d'enseignements
-    <%= @start_date.to_date.year %>
     <br>
     <small>
         <i>Décrets 87-889 du 29/10/1987 et 88-994 du 18/10/88 - CA du 9/09/2019</i><br />
@@ -27,11 +26,11 @@
 <table class="table_pdf" style="width: 100%;">
     <thead>
         <th>Code</th>
+        <th>Dest. fi.</th>
         <th>Date</th>
         <th>Heure</th>
         <th>Formation</th>
         <th>Intitulé</th>
-        <th></th>
         <th>Durée</th>
         <th>CM/TD</th>
         <th>Taux</th>
@@ -57,25 +56,11 @@
 
         <tr>
             <td><%= formation.Code_Analytique_avec_indice(c) %></td>
+            <td><%= formation.Code_Analytique_avec_indice(c).include?('DISTR') ? "101PAIE" : "102PAIE" %></td>
             <td><%= l(c.debut.to_date) %></td>
             <td style="text-align: right;"><%= c.debut.strftime("%k:%M") %></td>
             <td><%= formation.abrg %></td>
             <td><%= "#{c.ue} #{c.nom_ou_ue}" %></td>
-            <td class="text-center">
-                <% unless c.commentaires.blank? %>
-                    <span class="glyphicon glyphicon-comment" title="<%= c.commentaires %>" />
-                <% end %>
-                <% if c.elearning %>
-                    <span class="glyphicon glyphicon-home" />
-                <% end %>
-                <% if c.hors_service_statutaire || formation.hss %>
-                    <span class="glyphicon glyphicon-remove" />
-                <% end %>
-                <% if c.intervenant_id && c.intervenant_binome_id %>
-                    <span class="glyphicon glyphicon-user" title="<%= c.intervenant.nom_prenom %>" />
-                    <span class="glyphicon glyphicon-user" title="<%= c.intervenant_binome.nom_prenom %>" />
-                <% end %>
-            </td>
             <td style="text-align: right;"><%= c.duree.to_f %></td>
             <td class="text-center"><%= c.CMTD? %></td>
             <td style="text-align: right;"><%= c.Taux_TD %></td>
@@ -85,8 +70,7 @@
     <% end %>
 
     <tr>
-        <th colspan="5"><%= cours_ids.count %> cours au total</th>
-        <th />
+        <th colspan="6"><%= cours_ids.count %> cours au total</th>
         <th style="text-align: right;"><%= cumul_duree %></th>
         <th /><th /> 
         <th style="text-align: right;"><%= cumul_hetd %></th>
@@ -100,11 +84,11 @@
         <% formation = Formation.unscoped.find(vacation.formation_id) %> 
         <tr>
             <td><%= formation.Code_Analytique %></td>
+            <td><%= formation.Code_Analytique_avec_indice(c).include?('DISTR') ? "101PAIE" : "102PAIE" %></td>
             <td><%= l vacation.date %></td>
             <td />
             <td><%= formation.nom %></td>
             <td><%= vacation.titre %></td>
-            <td />
             <td style="text-align: right;"><%= vacation.qte %></td>
             <td colspan="2">
             <td style="text-align: right;"><%= vacation.forfaithtd %></td>
@@ -127,11 +111,11 @@
 
         <tr>
             <td><%= resp.formation.Code_Analytique %></td>
+            <td><%= resp.formation.Code_Analytique_avec_indice(c).include?('DISTR') ? "101PAIE" : "102PAIE" %></td>
             <td><%= l resp.debut %></td>
             <td />
             <td><%= resp.formation.nom %></td>
             <td><%= resp.titre %></td>
-            <td />
             <td style="text-align: right;"><%= resp.heures %></td>
             <td colspan="3" />
             <td style="text-align: right;"><%= number_to_currency(montant_responsabilite) %></td>

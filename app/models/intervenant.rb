@@ -65,7 +65,7 @@ class Intervenant < ApplicationRecord
 	end
 
 	def self.xls_headers
-		%w{Id Nom Prénom Email Statut Remise_dossier_srh Linkedin_url Titre1 Titre2 Spécialité Téléphone_fixe Téléphone_mobile Bureau Adresse CP Ville Créé_le Modifié_le NbrHeuresCours}
+		%w{Id Nom Prénom Email Statut Remise_dossier_srh Linkedin_url Titre1 Titre2 Spécialité Téléphone_fixe Téléphone_mobile Bureau Adresse CP Ville Créé_le Modifié_le Notifier? NbrHeuresCours}
 	end
 
 	def self.generate_xls(intervenants, date_debut, date_fin)
@@ -105,6 +105,7 @@ class Intervenant < ApplicationRecord
 				i.ville, 
 				i.created_at, 
 				i.updated_at,
+				i.notifier?,
 				nbr_heures_cours.present? ? nbr_heures_cours : nil
 			]
 			sheet.row(index).replace fields_to_export

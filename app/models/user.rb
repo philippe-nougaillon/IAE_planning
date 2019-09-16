@@ -29,4 +29,8 @@ class User < ApplicationRecord
         .include?(self.email)
   end
 
+  def nom_et_prénom
+    "#{self.nom.upcase if self.nom} #{self.prénom.upcase if self.prénom}"
+  end 
+
 end

@@ -1,6 +1,3 @@
-<% if intervenant.status == Intervenant.statuses[:CEV] %>
-    <% @cours = @cours.where(etat: Cour.etats[:réalisé]) %>
-<% end %>
 <% cours_ids = @cours.where(intervenant: intervenant).order(:debut).pluck(:id) %>
 <% cours_ids << @cours.where(intervenant_binome: intervenant).order(:debut).pluck(:id) %>
 <% cours_ids = cours_ids.flatten %>
@@ -52,7 +49,6 @@
                 <td><%= formation.Code_Analytique_avec_indice(c) %></td>
                 <td>
                     <%= link_to "#{c.ue} #{c.nom_ou_ue}", edit_cour_path(c), target:"_new" %>
-                    <%= "(#{c.etat})" %>
                 </td>
                 <td class="text-center">
                     <% unless c.commentaires.blank? %>

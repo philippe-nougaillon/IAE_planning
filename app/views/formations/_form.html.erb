@@ -64,32 +64,32 @@
       </div>
 
       <div class="col-sm-6">
-        <%= f.collection_select :user_id, User.where.not(admin:true).order(:email), :id, :email, {include_blank: true, label:"Gestionnaire de formation"} %>
+        <%= f.collection_select :user_id, User.where.not(nom: nil).order(:nom), :id, :nom_et_prénom, {include_blank: true, label:"Gestionnaire de formation"} %>
         
         <div class="row">
           <div class="col-sm-5">
-            <%= f.number_field :nbr_etudiants, label:"Nombre d'étudiants prévus" %>
+            <%= f.number_field :nbr_etudiants, label: "Nombre d'étudiants prévus" %>
           </div>  
           <div class="col-sm-5">
-            <%= f.number_field :nbr_heures, label:"Nombre d'heures prévues" %>
+            <%= f.number_field :nbr_heures, label: "Nombre d'heures prévues" %>
           </div>  
         </div>  
 
         <div class="row">
-          <div class="col-sm-5">
-            <%= f.text_field :Code_Analytique, label:"Code Analytique (EOTP)" %>
+          <div class="col-sm-6">
+            <%= f.text_field :Code_Analytique, label: "Code Analytique (EOTP)" %>
           </div>
-          <div class="col-sm-5">
-            <%= f.text_field :Taux_TD, label:"Taux TD" %>
+          <div class="col-sm-3">
+            <%= f.text_field :Taux_TD, label: "Taux TD" %>
           </div>
-        </div>
-        <div class="row">
-          <div class="col-sm-5">
+          <div class="col-sm-3">
+            <br />
             <%= f.check_box :hss, label: "HSS?", title: "Cochez pour ne pas imputer dans les états de services" %>
           </div>
-        </div>  
+        </div>
 
-        <%= f.text_area :memo, label:"Mémo" %>
+        <%= f.text_area :memo, label: "Mémo" %>
+        <%= f.text_field :courriel, label: "Adresse mail générique de la formation", placeholder: "mastermmc.app.iae@univ-paris1.fr" %>
 
         <%= f.submit class: "btn btn-primary" %>     
       </div>

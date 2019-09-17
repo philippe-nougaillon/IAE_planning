@@ -201,8 +201,8 @@ class ToolsController < ApplicationController
 
         cours.ue = row[headers.index 'UE'] ? row[headers.index 'UE'].gsub(' ','') : ""
         cours.nom = row[headers.index 'Intitulé']
-        cours.elearning = true if row[headers.index 'E-learning?'] == 'OUI'
-        cours.hors_service_statutaire = true if row[headers.index 'HSS?'] == 'OUI'
+        cours.elearning = true if row[headers.index 'E-learning?'].upcase == 'OUI'
+        cours.hors_service_statutaire = true if row[headers.index 'HSS?'].upcase == 'OUI'
 
         msg = "COURS #{cours.new_record? ? 'NEW' : 'UPDATE'} => id:#{id} changes:#{cours.changes}"
 
@@ -723,7 +723,8 @@ class ToolsController < ApplicationController
     end
 
     unless params[:status].blank?
-      @cours =  Cour.where(etat: Cour.etats.values_at(:planifié, :confirmé, :réalisé)).where("debut between ? and ?", @start_date, @end_date)
+      #@cours =  Cour.where(etat: Cour.etats.values_at(:planifié, :confirmé, :réalisé)).where("debut between ? and ?", @start_date, @end_date)
+      @cours =  Cour.réalisé.where("debut between ? and ?", @start_date, @end_date)
 
       # Peupler la liste des intervenants ayant eu des cours en principal ou binome
       ids = @cours.distinct(:intervenant_id).pluck(:intervenant_id)

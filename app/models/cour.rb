@@ -139,7 +139,7 @@ class Cour < ApplicationRecord
   # 
 
   def formation_json_v2
-    self.formation.try(:nom)
+    self.formation.try(:nom) || ""
   end
 
   def salle_json_v2

@@ -35,7 +35,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem "bootstrap_form", "~> 2.7"
 gem 'simple_calendar', '~> 2.0'
-gem "devise"
+gem 'devise', '>= 4.7.1'
 gem 'devise-i18n'
 gem 'audited', '~> 4.3'
 gem 'carrierwave', '0.11.0'
@@ -46,24 +46,22 @@ gem 'pundit'
 gem "select2-rails"
 # gem 'rails-ujs'
 
-# generate PDF
+# PDF
 gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary'
 
-# generate XLSX sheet
+# XLSX sheet
 gem 'spreadsheet'
 gem 'yaml_db'
+
+# iCal
+gem 'icalendar'
 
 # The `content_tag_for` method has been removed from Rails. To continue using it, add the `record_tag_helper` gem to your Gemfile:
 gem 'record_tag_helper', '~> 1.0'
 
 # Access-Control-Allow-Origin (pour l'APP React)
 gem 'rack-cors'
-
-#gem 'rails-erd'
-#gem 'icalendar'
-#gem 'sucker_punch'
-#gem 'dotenv-rails', groups: [:development, :test]
 
 group :development do
     # Call 'debugger' anywhere in the code to stop execution and get a debugger console

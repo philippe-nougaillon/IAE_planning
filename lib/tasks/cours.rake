@@ -22,7 +22,7 @@ namespace :cours do
     puts "MODE DRAFT" if args.draft
 
     start_day = Date.today #.beginning_of_month + 1.month
-    end_day   = Date.today.end_of_month # + 1.month
+    end_day   = Date.today.end_of_month + 1.day # + 1.month
     puts "Période du #{I18n.l start_day} au #{I18n.l end_day}"
 
     envoyes = 0

@@ -39,8 +39,10 @@
             </table>
 
             <b><i>
-                Attention, la salle est susceptible d'être modifiée. Nous vous invitons à vous connecter à l'appli planning la veille de votre cours pour vérifier la salle attribuée
-                <%= link_to "Planning", root_url(intervenant: @intervenant.nom_prenom, start_date: @debut) %> 
+                Attention, la salle est susceptible d'être modifiée. 
+                Nous vous invitons à vous connecter à 
+                <%= link_to "l'appli planning", root_url(start_date: @debut, intervenant: @intervenant.nom_prenom) %> 
+                la veille de votre cours pour vérifier la salle attribuée.
             </b></i>
 
             <p>

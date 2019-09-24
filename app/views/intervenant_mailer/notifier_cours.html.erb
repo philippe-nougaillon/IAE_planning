@@ -30,7 +30,7 @@
                         <tr>
                             <td><%= I18n.l(c.debut.to_date, format: :day) %> <%= I18n.l(c.debut.to_date) %></td>
                             <td><%= I18n.l(c.debut, format: :heures_min) %>-<%= I18n.l(c.fin, format: :heures_min) %></td>
-                            <td><%= c.formation.nom %></td>
+                            <td><%= c.try(:formation).try(:nom) %></td>
                             <td><%= c.nom_ou_ue %></td>
                             <td><%= c.salle.nom %></td>
                         </tr>

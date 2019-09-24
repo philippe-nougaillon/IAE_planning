@@ -12,7 +12,7 @@ class IntervenantMailer < ApplicationMailer
 
     def notifier_cours(debut, fin, intervenant, cours, gestionnaires)
         @debut = debut
-        @fin = fin
+        @fin = fin - 1.day
         @cours = cours
         @gestionnaires = gestionnaires
         @intervenant = intervenant

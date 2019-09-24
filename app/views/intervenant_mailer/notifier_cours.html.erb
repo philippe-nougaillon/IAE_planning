@@ -32,7 +32,7 @@
                             <td><%= I18n.l(c.debut, format: :heures_min) %>-<%= I18n.l(c.fin, format: :heures_min) %></td>
                             <td><%= c.try(:formation).try(:nom) %></td>
                             <td><%= c.nom_ou_ue %></td>
-                            <td><%= c.salle.nom %></td>
+                            <td><%= c.try(:salle).try(:nom) %></td>
                         </tr>
                     <% end %>
                 </tbody>

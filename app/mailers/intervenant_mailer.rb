@@ -1,5 +1,4 @@
 class IntervenantMailer < ApplicationMailer
-    #default from: "IAE-Paris <planningiae@univ-paris1.fr>"
     default from: "IAE-Paris <planning-iae@philnoug.com>"
 
     def etat_services(intervenant_id, cours_ids, start_date, end_date)
@@ -16,7 +15,7 @@ class IntervenantMailer < ApplicationMailer
         @cours = cours
         @gestionnaires = gestionnaires
         @intervenant = intervenant
-        mail(to: @intervenant.email, subject:"[PLANNING] Rappel de vos cours du #{l @debut} au #{l @fin}")
+        mail(to: @intervenant.email, subject:"[PLANNING] Rappel de vos cours à l'IAE Paris du #{l @debut} au #{l @fin}")
     end
 
 end

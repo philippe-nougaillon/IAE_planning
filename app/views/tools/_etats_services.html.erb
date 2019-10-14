@@ -35,7 +35,7 @@
 
             <% if c.imputable? %>
                 <% cumul_hetd += c.HETD %>
-                <% montant_service = c.montant_service.round(2) %>
+                <% montant_service = c.montant_service #.round(2) %>
                 <% cumul_tarif += montant_service %>
             <% end %>
 
@@ -69,7 +69,7 @@
                 <td class="text-center"><%= c.CMTD? %></td>
                 <td class="text-right"><%= c.Taux_TD %></td>
                 <td class="text-right"><%= c.HETD %></td>
-                <td class="text-right"><%= number_to_currency(montant_service) %></td>
+                <td class="text-right"><%= montant_service %></td>
                 <td class="text-right">
                     <%= cumul_hetd %>
                     <% if (nbr_heures_statutaire > 0) && (cumul_hetd >= nbr_heures_statutaire) %>
@@ -87,7 +87,7 @@
             <th class="text-right"><%= cumul_duree %></th>
             <th /><th /> 
             <th class="text-right"><%= cumul_hetd %></th>
-            <th class="text-right"><%= number_to_currency(cumul_tarif) %></th> 
+            <th class="text-right"><%= cumul_tarif %></th> 
             <th class="text-right"><%= cumul_hetd %></th>   
         </tr>
 
@@ -167,15 +167,15 @@
                 <% if nbr_heures_statutaire > 0 %>
                     <small>
                         Nbr Heures Statutaires: 
-                        <%= number_with_precision(nbr_heures_statutaire, precision: 2) %> h
+                        <%= nbr_heures_statutaire %> h
                         <% if (nbr_heures_statutaire > 0) && (cumul_hetd >= nbr_heures_statutaire) %>
                             | Dépassement: 
-                            <%= number_with_precision((cumul_hetd - nbr_heures_statutaire) , precision: 2) %> h
+                            <%= (cumul_hetd - nbr_heures_statutaire) %> h
                         <% end %>
                     </small>
                 <% end %>
             </th>
-            <th class="text-right"><%= number_to_currency(cumul_resps + cumul_vacations + cumul_tarif ) %></th>
+            <th class="text-right"><%= cumul_resps + cumul_vacations + cumul_tarif %></th>
         </tfoot>
     </table>
 <% end %>

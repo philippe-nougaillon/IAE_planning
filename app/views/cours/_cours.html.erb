@@ -21,11 +21,6 @@
         <% end %>
     </td>
     <td>
-        <% if cours.ue %>
-        <%= link_to cours.ue, cours_path(ue:cours.ue) %>
-        <% end %>
-    </td>
-    <td>
         <% if cours.url? && cours.elearning  %>
             <%= link_to cours.nom.split(' ').first, target:"_blank" do %>
                 <%= cours.nom.split(' ').last %>

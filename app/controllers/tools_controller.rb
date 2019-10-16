@@ -146,63 +146,106 @@ class ToolsController < ApplicationController
           end
         end
 
-        jour_debut = row[headers.index 'Date_début']
-        if jour_debut.class == Date
-          jour_debut = jour_debut.day.to_s + "/" + jour_debut.month.to_s + "/" + jour_debut.year.to_s        
-        end
-          
-        jour_fin = row[headers.index 'Date_fin']
-        if jour_fin.class == Date
-          jour_fin = jour_fin.day.to_s + "/" + jour_fin.month.to_s + "/" + jour_fin.year.to_s        
-        end
-
-        horaire_debut = row[headers.index 'Heure_début']
-        # si Excel converti la colone heure en DateHeure, on ne prend que l'heure et minute
-        if horaire_debut.class == DateTime
-          horaire_debut = horaire_debut.hour.to_s + ":" + horaire_debut.minute.to_s
-        end  
-
-        horaire_fin = row[headers.index 'Heure_fin']
-        if horaire_fin.class == DateTime
-          horaire_fin = horaire_fin.hour.to_s + ":" + horaire_fin.minute.to_s
-        end  
-
-        debut = Time.parse(jour_debut + " " + horaire_debut + 'UTC')
-        fin   = Time.parse(jour_fin + " " +  horaire_fin + 'UTC')
-
-        intervenant = nil
-        if row[headers.index 'Intervenant']
-          if row[headers.index 'Intervenant'] == 'A CONFIRMER'
-            intervenant = Intervenant.where(nom:'A', prenom:'CONFIRMER').first
+        jour = row[headers.index 'Date'].to_s
+        horaires = row[headers.index 'Horaires']
+        
+        unless jour.blank? || horaires.blank?
+          if horaires.include?('-')
+            horaire_debut = horaires.split('-').first
+            horaire_fin = horaires.split('-').last
           else  
-            nom = row[headers.index 'Intervenant'].strip.split(' ').first.upcase
-            prenom = row[headers.index 'Intervenant'].strip.split(' ').last
-            intervenant = Intervenant.where(nom:nom, prenom:prenom).first_or_initialize
-            if intervenant.new_record?
-              intervenant.email = "?"
-              intervenant.save if params[:save] == 'true'
-            end
+            horaire_debut = horaire_fin = horaires
           end
+
+          if horaire_debut && horaire_fin
+            horaire_debut.gsub!('h',':')
+            horaire_debut.gsub!(' ','')
+            horaire_fin.gsub!('h',':')
+            horaire_fin.gsub!(' ','')
+  
+            debut = Time.parse(jour + " " + horaire_debut + 'UTC') 
+            fin   = Time.parse(jour + " " +  horaire_fin + 'UTC')
+          end
+        end
+   
+        intervenant = nil
+        if nom = row[headers.index 'Interlocuteur']
+
+          if nom.include?('.')
+            # Personne physique
+            nom_intervenant = nom.split('.').last 
+            prénom_intervenant = nom.split('.').first 
+
+            intervenant = Intervenant
+                            .where(nom: nom_intervenant, prenom: prénom_intervenant)
+                            .first_or_initialize do |i|
+                                i.nom = nom_intervenant
+                                i.prenom = prénom_intervenant
+                                i.doublon = false
+                            end
+          else
+            # Groupe
+            intervenant = Intervenant
+                            .where(nom: nom)
+                            .first_or_initialize do |i|
+                                i.nom = nom
+                                i.doublon = true
+                            end
+          end
+          intervenant.save if intervenant.valid? && params[:save] == 'true'
         end
 
         binome = nil
-        if row[headers.index 'Binôme']
-          nom_binome = row[headers.index 'Binôme'].strip.split(' ').first.upcase
-          prenom_binome = row[headers.index 'Binôme'].strip.split(' ').last
-          binome = Intervenant.where(nom: nom_binome, prenom: prenom_binome).first_or_initialize
+        if nom = row[headers.index 'Binôme']
+          if nom.include?('.')
+            # Personne physique
+            nom_intervenant = nom.split('.').last 
+            prénom_intervenant = nom.split('.').first 
+
+            intervenant_binome = Intervenant
+                            .where(nom: nom_intervenant, prenom: prénom_intervenant)
+                            .first_or_initialize do |i|
+                                i.nom = nom_intervenant
+                                i.prenom = prénom_intervenant
+                                i.doublon = false
+                            end
+          else
+            # Groupe
+            intervenant_binome = Intervenant
+                            .where(nom: nom)
+                            .first_or_initialize do |i|
+                                i.nom = nom
+                                i.doublon = true
+                            end
+          end
+          intervenant_binome.save if intervenant_binome.valid? && params[:save] == 'true'
         end
 
-        cours.debut = debut
-        cours.fin = fin
-        cours.duree = ((fin - debut)/3600)
-        cours.intervenant = intervenant
-        cours.intervenant_binome = binome
-        cours.formation_id = params[:formation_id]
+        salle = nil
+        if lieu = row[headers.index 'Lieu']
+          salle = Salle
+                      .where(nom: lieu)
+                      .first_or_initialize do |s|
+                        s.nom = lieu
+                        s.places = 0
+                      end
+          salle.save if salle.valid? && params[:save] == 'true'
+        end
 
-        cours.ue = row[headers.index 'UE'] ? row[headers.index 'UE'].gsub(' ','') : ""
-        cours.nom = row[headers.index 'Intitulé']
-        cours.elearning = true if row[headers.index 'E-learning?'].try(:upcase) == 'OUI'
-        cours.hors_service_statutaire = true if row[headers.index 'HSS?'].try(:upcase) == 'OUI'
+        if debut && fin
+          cours.debut = debut + 1.year
+          cours.fin = fin + 1.year
+          cours.duree = (cours.fin - cours.debut) / 3600
+
+          cours.formation_id = params[:formation_id]
+          cours.intervenant = intervenant
+          cours.intervenant_binome = intervenant_binome
+          cours.nom = row[headers.index 'Opération']
+          cours.commentaires = row[headers.index 'Observations']
+          cours.salle = salle
+        end
+
+        puts cours.inspect
 
         msg = "COURS #{cours.new_record? ? 'NEW' : 'UPDATE'} => id:#{id} changes:#{cours.changes}"
 

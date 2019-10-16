@@ -16,8 +16,8 @@ class ApplicationController < ActionController::Base
   private
     def set_layout_variables
       @ctrl = params[:controller]
-      @sitename ||= request.subdomains.any? ? request.subdomains(0).first.upcase : "IAE-Planning DEV"
-      @sitename.concat(" v3.1.b")
+      @sitename ||= request.subdomains.any? ? request.subdomains(0).first.upcase : "Planning TDF"
+      @sitename.concat(" v1.0")
 
       if current_user
         @cours_params = {}

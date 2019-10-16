@@ -12,11 +12,11 @@ class Cour < ApplicationRecord
   validates :debut, :formation_id, :intervenant_id, :duree, presence: true
   validate :check_chevauchement_intervenant
   validate :check_chevauchement, if: Proc.new {|cours| cours.salle_id }
-  validate :jour_fermeture
-  validate :reservation_dates_must_make_sense
+  # validate :jour_fermeture
+  # validate :reservation_dates_must_make_sense
 
-  before_validation :update_date_fin
-  before_validation :sunday_morning_praise_the_dawning
+  # before_validation :update_date_fin
+  # before_validation :sunday_morning_praise_the_dawning
 
   before_save :change_etat_si_salle
   before_save :annuler_salle_si_cours_est_annulé
@@ -62,10 +62,14 @@ class Cour < ApplicationRecord
     return [nombre_heures_cours_jour, nombre_heures_cours_soir]   
   end
 
+  # def self.xls_headers
+  #     %w{id Date_début Heure_début Date_fin Heure_fin Formation_id Formation
+  #         Code_Analytique Intervenant_id Intervenant Binôme UE Intitulé Etat
+  #         Salle Durée E-learning? HSS? Taux_TD HETD Commentaires Créé_le Par Modifié_le}  
+  # end
+
   def self.xls_headers
-      %w{id Date_début Heure_début Date_fin Heure_fin Formation_id Formation
-          Code_Analytique Intervenant_id Intervenant Binôme UE Intitulé Etat
-          Salle Durée E-learning? HSS? Taux_TD HETD Commentaires Créé_le Par Modifié_le}  
+    %w{ID Date Horaires Interlocuteur Binôme Opération Lieu Observations}  
   end
 
   # Simple_calendar attributes

@@ -13,7 +13,7 @@
   <% end %>
   <h1>
     <span class="glyphicon glyphicon-calendar"></span>
-    Planning des cours
+    Planning des opérations
   </h1>
 </div>
 
@@ -22,19 +22,14 @@
       <div class="form-group">
         <div class="row">
           <div class="col-sm-5">
-              <%= label_tag "Formation" %>   
-              <%= select_tag :formation, grouped_options_for_select(Formation.for_select, params[:formation]), class:"form-control select2", include_blank:true, onchange:'this.form.submit()' %>
-          </div>
-
-          <div class="col-sm-2">
-              <%= label_tag :ue, "U.E." %>   
-              <%= select_tag :ue, options_for_select(@les_ue, params[:ue]), class:"form-control select2", include_blank:true, onchange:'this.form.submit()' %>
-          </div>
-
-          <div class="col-sm-5">
               <%= label_tag "Intervenant" %>    
+              <%= select_tag :intervenant_id, options_from_collection_for_select(Intervenant.all, 'id', 'nom', params[:intervenant_id]), class:"form-control select2", include_blank:true, onchange:'this.form.submit()' %>
+          </div>
+
+          <div class="col-sm-7">
+              <%= label_tag "Salle" %>    
               <div class="input-group">
-                <%= select_tag :intervenant, grouped_options_for_select(Intervenant.for_select, params[:intervenant]), class:"form-control select2", include_blank:true, onchange:'this.form.submit()' %>
+                <%= select_tag :salle_id, options_from_collection_for_select(Salle.all, 'id', 'nom', params[:salle_id]), class:"form-control select2", include_blank:true, onchange:'this.form.submit()' %>
                 <span class="input-group-btn">
                   <%= submit_tag 'Filtrer', class:"btn btn-success" %>
                   <%= submit_tag 'RàZ filtres', class:"btn btn-default" %>
@@ -44,12 +39,6 @@
         </div>
     
         <div class="row">
-          <div class="col-sm-1">
-            <%= label_tag "Semaine" %>    
-            <%= select_tag :semaine, 
-                    options_for_select(@week_numbers, params[:semaine]), 
-                      include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
-          </div>
 
           <div class="col-sm-2">
             <%= label_tag "A partir du" %>    
@@ -125,7 +114,7 @@
                 <th>Durée</th>
                 <th>Formation</th>
                 <th>Intervenant</th>
-                <th colspan="2">Intitulé cours</th>
+                <th>Intitulé cours</th>
                 <th>Etat</th>
                 <th>Salle</th>
                 <% if user_signed_in? %>
@@ -182,7 +171,7 @@
 
         <% if params[:paginate] == 'pages' %>
           <div class="page_info">
-            <%= page_entries_info @cours, model:Cour %>
+            <%= page_entries_info @cours, model: "Opération" %>
           </div>
 
           <%= will_paginate @cours, renderer: BootstrapPagination::Rails %>

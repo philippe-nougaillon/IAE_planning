@@ -17,7 +17,7 @@ class Intervenant < ApplicationRecord
 	has_many :vacations
 
 	validates_uniqueness_of :nom, scope: :email, case_sensitive: false
-	validates :nom, :email, :prenom, :status, presence: true
+	#validates :nom, :email, :prenom, :status, presence: true
 	
   	enum status: [:CEV, :Permanent, :PR, :MCF, :MCF_HDR, :PAST, :PRAG, :Admin]
 
@@ -27,8 +27,8 @@ class Intervenant < ApplicationRecord
 
 	def self.for_select
 		{
-		  'Groupes (Doublons autorisés)' => where(doublon:true).map { |i| "#{i.nom} #{i.prenom}" },
-		  'Individus' => where("intervenants.doublon = ? OR intervenants.doublon is null", false).map { |i| "#{i.nom} #{i.prenom}"  }
+		  'Groupes (Doublons autorisés)' => where(doublon:true).map { |i| i.nom },
+		  'Individus' => where("intervenants.doublon = ? OR intervenants.doublon is null", false).map { |i| i.nom }
 		}
 	end
 

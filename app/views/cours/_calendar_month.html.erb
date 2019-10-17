@@ -14,9 +14,8 @@
             <%= l(meeting.fin, format: :heures_min) %>
             <%= "| Salle: #{meeting.salle.nom}" if meeting.salle %>  
             <br>
-            <% if params[:formation].blank? %>
-              <%= link_to meeting.try(:formation).try(:nom), meeting %><br>
-            <% end %> 
+
+            <span style="background-color:<%= meeting.intervenant.color %>;padding-left: 7px;margin-right: 5px;"></span>
             <%= link_to meeting.intervenant.nom_prenom, 
                         url_for(params
                                   .permit(:formation, :ue, :intervenant, :semaine, :start_date, :etat, :filter, :view)

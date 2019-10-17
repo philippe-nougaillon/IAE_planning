@@ -49,16 +49,13 @@
           <% end %>  
 
           <% formation = Formation.unscoped.find(meeting.formation_id) %>
-          <div style="height:<%= 30 + (15 * meeting.duree) %>px;border-left:6px;border-left-style:solid;border-left-color:<%= formation.color %>;padding-left:5px;">
+          <div style="height:<%= 30 + (15 * meeting.duree) %>px;border-left:6px;border-left-style:solid;border-left-color:<%= meeting.intervenant.color %>;padding-left:5px;">
             <b><%= l(meeting.debut, format: :heures_min) %></b>  
              - <%= l(meeting.fin, format: :heures_min) %>
             <br>
 
-            <% if formation.abrg %>
-              <%= link_to formation.abrg, edit_cour_path(meeting, from:'planning_salles'), title:meeting.nom %>
-            <% else %>
-              <%= link_to formation.nom, meeting %>
-            <% end %>
+            <%= link_to meeting.intervenant.nom, edit_cour_path(meeting, from:'planning_salles'), title:meeting.nom %>
+            <%= truncate(meeting.nom) %>
           </div>
         <% end %>
       <% end %>

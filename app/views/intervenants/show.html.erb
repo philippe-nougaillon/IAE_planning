@@ -35,6 +35,7 @@
       <small>Mobile</small><br>
       <%= @intervenant.téléphone_mobile %>
     </h3>
+    <br> 
   </div>
 
   <div class="col-sm-6">
@@ -42,11 +43,19 @@
       <small>Prénom</small><br>
       <%= @intervenant.prenom %>
     </h2>
-    <br> 
+    <br />
+
+    <h3>
+      <small>Couleur</small><br>
+      <span style="background-color:<%= @intervenant.color %>;padding-left: 30px;margin-left: 5px"> </span>
+    </h3>
+    <br /> 
+
     <h3>
       <small>Courriel</small><br>
       <%= mail_to @intervenant.email %>
     </h3>
+
   </div>
 </div>
 

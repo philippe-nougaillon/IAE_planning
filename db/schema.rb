@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_16_075848) do
+ActiveRecord::Schema.define(version: 2019_10_17_080113) do
 
   create_table "audits", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.integer "auditable_id"
@@ -160,6 +160,7 @@ ActiveRecord::Schema.define(version: 2019_09_16_075848) do
     t.date "date_naissance"
     t.string "memo"
     t.boolean "notifier"
+    t.string "color"
   end
 
   create_table "responsabilites", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|

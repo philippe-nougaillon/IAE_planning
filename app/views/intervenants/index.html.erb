@@ -48,6 +48,7 @@
     <table class="table table-hover table-striped">
       <thead>
         <tr>
+          <th />
           <th><%= sort_link 'intervenants.nom', 'Nom' %></th>
           <th>Prénom</th>
           <th>Titre</th>
@@ -68,6 +69,7 @@
       <tbody>
         <% @intervenants.each do |intervenant| %>
           <tr>
+            <td><span style="background-color:<%= intervenant.color %>;padding-left: 10px;"></span></td>
             <td><b><%= link_to intervenant.nom, intervenant %></b></td>
             <td><b><%= intervenant.prenom %></b></td>
             <td><%= intervenant.titre1 %>

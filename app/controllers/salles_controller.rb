@@ -36,31 +36,31 @@ class SallesController < ApplicationController
       @date = params[:start_date].to_date
     end
 
-    if user_signed_in?
-      #
-      # Calcul du taux d'occupation
-      #
+    # if user_signed_in?
+    #   #
+    #   # Calcul du taux d'occupation
+    #   #
 
-      # salles concernées
-      @salles_dispo = Salle.salles_de_cours.count
-      @salles_dispo_samedi = Salle.salles_de_cours_du_samedi.count
+    #   # salles concernées
+    #   @salles_dispo = Salle.salles_de_cours.count
+    #   @salles_dispo_samedi = Salle.salles_de_cours_du_samedi.count
 
-      # cumul les heures de cours du jour et du soir
-      @nombre_heures_cours = [Cour.cumul_heures(@date).first, 
-                              Cour.cumul_heures(@date).last]
+    #   # cumul les heures de cours du jour et du soir
+    #   @nombre_heures_cours = [Cour.cumul_heures(@date).first, 
+    #                           Cour.cumul_heures(@date).last]
 
-      # amplitude 
-      @nb_heures_journée = Salle.nb_heures_journée
-      @nb_heures_soirée = Salle.nb_heures_soirée
+    #   # amplitude 
+    #   @nb_heures_journée = Salle.nb_heures_journée
+    #   @nb_heures_soirée = Salle.nb_heures_soirée
 
-      # nombre d'heures salles
-      @heures_dispo_salles = [@salles_dispo * @nb_heures_journée, 
-                              @salles_dispo_samedi * @nb_heures_soirée] 
+    #   # nombre d'heures salles
+    #   @heures_dispo_salles = [@salles_dispo * @nb_heures_journée, 
+    #                           @salles_dispo_samedi * @nb_heures_soirée] 
 
-      # taux d'occupation  
-      @taux_occupation = [(@nombre_heures_cours.first * 100 / @heures_dispo_salles.first),
-                           (@nombre_heures_cours.last * 100 / @heures_dispo_salles.last)]
-    end
+    #   # taux d'occupation  
+    #   @taux_occupation = [(@nombre_heures_cours.first * 100 / @heures_dispo_salles.first),
+    #                        (@nombre_heures_cours.last * 100 / @heures_dispo_salles.last)]
+    # end
 
     session[:start_date] = params[:start_date]
   end

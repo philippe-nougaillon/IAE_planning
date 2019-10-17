@@ -14,11 +14,11 @@
     </td>
     <td>
         <span style="background-color:<%= cours.intervenant.color %>;padding-left: 7px;margin-right: 5px;"></span>
-        <%= link_to cours.intervenant.nom_prenom, cours.intervenant %>
+        <%= link_to cours.intervenant.nom, cours.intervenant %>
         <% if cours.intervenant_binome %>
             <br>
             <span style="background-color:<%= cours.intervenant_binome.color %>;padding-left: 7px;margin-right: 5px;"></span>
-            <%= link_to cours.intervenant_binome.nom_prenom, cours.intervenant_binome %>
+            <%= link_to cours.intervenant_binome.nom, cours.intervenant_binome %>
         <% end %>
     </td>
     <td>

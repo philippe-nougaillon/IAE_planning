@@ -192,8 +192,15 @@ class ToolsController < ApplicationController
                                 i.doublon = true
                             end
           end
-          intervenant.save if intervenant.valid? && params[:save] == 'true'
+        else
+          intervenant = Intervenant
+                .where(nom: '?')
+                .first_or_initialize do |i|
+                    i.nom = '?'
+                    i.doublon = true
+                end
         end
+        intervenant.save if intervenant.valid? && params[:save] == 'true'
 
         binome = nil
         if nom = row[headers.index 'Binôme']
@@ -224,9 +231,9 @@ class ToolsController < ApplicationController
         salle = nil
         if lieu = row[headers.index 'Lieu']
           salle = Salle
-                      .where(nom: lieu)
+                      .where(nom: lieu.strip)
                       .first_or_initialize do |s|
-                        s.nom = lieu
+                        s.nom = lieu.strip
                         s.places = 0
                       end
           salle.save if salle.valid? && params[:save] == 'true'

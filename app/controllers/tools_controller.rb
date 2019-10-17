@@ -173,8 +173,8 @@ class ToolsController < ApplicationController
 
           if nom.include?('.')
             # Personne physique
-            nom_intervenant = nom.split('.').last 
-            prénom_intervenant = nom.split('.').first 
+            nom_intervenant = nom.strip.split('.').last 
+            prénom_intervenant = nom.strip.split('.').first 
 
             intervenant = Intervenant
                             .where(nom: nom_intervenant, prenom: prénom_intervenant)
@@ -185,10 +185,11 @@ class ToolsController < ApplicationController
                             end
           else
             # Groupe
+            nom_intervenant = nom.strip 
             intervenant = Intervenant
-                            .where(nom: nom)
+                            .where(nom: nom_intervenant)
                             .first_or_initialize do |i|
-                                i.nom = nom
+                                i.nom = nom_intervenant
                                 i.doublon = true
                             end
           end
@@ -206,8 +207,8 @@ class ToolsController < ApplicationController
         if nom = row[headers.index 'Binôme']
           if nom.include?('.')
             # Personne physique
-            nom_intervenant = nom.split('.').last 
-            prénom_intervenant = nom.split('.').first 
+            nom_intervenant = nom.strip.split('.').last 
+            prénom_intervenant = nom.strip.split('.').first 
 
             intervenant_binome = Intervenant
                             .where(nom: nom_intervenant, prenom: prénom_intervenant)
@@ -218,10 +219,11 @@ class ToolsController < ApplicationController
                             end
           else
             # Groupe
+            nom_intervenant = nom.strip 
             intervenant_binome = Intervenant
-                            .where(nom: nom)
+                            .where(nom: nom_intervenant)
                             .first_or_initialize do |i|
-                                i.nom = nom
+                                i.nom = nom_intervenant
                                 i.doublon = true
                             end
           end

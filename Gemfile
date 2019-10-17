@@ -23,6 +23,8 @@ gem 'mini_racer'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
+#gem 'jquery-turbolinks'
+#gem "select2-rails"
 
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
@@ -43,8 +45,6 @@ gem 'capture_stdout'
 gem 'will_paginate'
 gem 'will_paginate-bootstrap'
 gem 'pundit'
-gem "select2-rails"
-# gem 'rails-ujs'
 
 # PDF
 gem 'wicked_pdf'

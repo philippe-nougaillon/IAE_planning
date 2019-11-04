@@ -1,4 +1,4 @@
-<%= form_tag(cours_action_do_path) do %>
+<%= form_tag :action_do_cours do %>
 
   <div class="page-header">
   	<h2><%= params[:action_name] %></h2>
@@ -32,7 +32,7 @@
       <h3>Salles disponibles</h3>
       <% @salles_dispos.each do |salle| %>
         <%= link_to salle, 
-                    cours_action_do_path(params
+                    action_do_cours_path(params
                                           .permit!
                                           .merge(salle_id: Salle.find_by(nom: salle))),
                     method: :post, 

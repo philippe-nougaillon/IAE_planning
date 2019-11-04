@@ -20,7 +20,7 @@
               <%= text_field_tag :date_debut, params[:date_debut], type:'date', onchange:'this.form.submit()', class:"form-control" %>
           </div>
 
-          <div class="col-sm-2">
+          <div class="col-sm-3">
             <%= label_tag "Au" %>    
             <div class="input-group">
               <%= text_field_tag :date_fin, params[:date_fin], type:'date', onchange:'this.form.submit()', class:"form-control" %>
@@ -29,6 +29,16 @@
               </span>
             </div>
           </div>
+
+          <div class="col-sm-2">
+            <%= label_tag "Afficher" %>
+            <br> 
+            <%= radio_button_tag :paginate, "pages", (params[:paginate]=='pages'), onchange:'this.form.submit()' %>
+            Pages 
+            <%= radio_button_tag :paginate, "all", (params[:paginate]=='all'), onchange:'this.form.submit()' %>
+            Tout 
+          </div>
+
         </div>
       </div>  
     <% end %>
@@ -59,8 +69,12 @@
       <% end %>
     </tbody>
   </table>
-  <div class="page_info">
-    <%= page_entries_info @fermetures, model:Fermeture %>
-  </div>
-  <%= will_paginate @fermetures, renderer: BootstrapPagination::Rails %>
+
+  <% if params[:paginate] == 'pages' %>
+    <div class="page_info">
+      <%= page_entries_info @fermetures, model: Fermeture %>
+    </div>
+    <%= will_paginate @fermetures, renderer: BootstrapPagination::Rails %>
+  <% end %>  
+
 </div>

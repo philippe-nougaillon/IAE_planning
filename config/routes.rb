@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   
   resources :cours do
     collection do
-      get :planning, to: "cours#index_slide"
+      get :planning, to: 'cours#index_slide'
 
       post :action
       post :action_do
@@ -12,9 +12,9 @@ Rails.application.routes.draw do
   end
     
   resources :salles do
-      collection do
-        get :occupation
-      end
+    collection do
+      get :occupation
+    end
   end
 
   resources :formations
@@ -26,7 +26,7 @@ Rails.application.routes.draw do
  
   resources :import_logs do
     member do
-      get 'download_imported_file'
+      get :download_imported_file
     end
   end
   
@@ -75,7 +75,7 @@ Rails.application.routes.draw do
     namespace :v2 do 
         resources :cours do
           collection do
-            get 'in_progress'
+            get :in_progress
           end
         end
         resources :etudiants

@@ -156,31 +156,71 @@ class Cour < ApplicationRecord
 
   # ETATS DE SERVICES 
 
+  # def Taux_TD
+  #   # Taux particuliers
+  #   if ["Jeu d'entreprise", "Pratique de l'entreprise", "Simulation de gestion"].include?(self.nom)
+  #     1
+  #   else
+  #     # Taux général de la formation
+  #     Formation.unscoped.find(self.formation_id).Taux_TD
+  #   end
+  # end
+
   def Taux_TD
-    # Taux particuliers
-    if ["Jeu d'entreprise", "Pratique de l'entreprise", "Simulation de gestion"].include?(self.nom)
-      1
+    case Formation.unscoped.find(self.formation_id).nomTauxTD
+    when 'TD'
+      41.41
+    when 'CM'
+      62.09
+    when 'CM++'
+      124.23
     else
-      # Taux général de la formation
-      Formation.unscoped.find(self.formation_id).Taux_TD
+      0
     end
   end
 
   def HETD
-    self.duree * (self.Taux_TD.to_f || 0)
-  end
-
-  def CMTD?
-    self.Taux_TD == 1.5 ? 'CM' : 'TD'
-  end  
-
-  def self.Tarif
-    41.41
+    case Formation.unscoped.find(self.formation_id).nomTauxTD
+    when 'TD'
+      1
+    when 'CM'
+      1.5
+    when 'CM++'
+      3
+    else
+      0
+    end
   end
 
   def montant_service
-    self.HETD * Cour.Tarif
+    # self.HETD * Cour.Tarif(self.Taux_TD)
+    self.duree * self.Taux_TD
   end
+
+  # def CMTD?
+  #   case self.Taux_TD
+  #   when 1.5  
+  #     'CM'
+  #   when 3
+  #     'TD'
+  #   else 
+  #     '?'
+  #   end
+  # end  
+
+  # def self.Tarif(taux)
+  #   case taux
+  #   when 1
+  #     41.41
+  #   when 1.5
+  #     62.09
+  #   when 3
+  #     99.99
+  #   else
+  #     0
+  #   end
+  # end
+
 
   def imputable?
     !(self.hors_service_statutaire || Formation.unscoped.find(self.formation_id).hss)

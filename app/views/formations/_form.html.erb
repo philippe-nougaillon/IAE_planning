@@ -80,7 +80,7 @@
             <%= f.text_field :Code_Analytique, label: "Code Analytique (EOTP)" %>
           </div>
           <div class="col-sm-3">
-            <%= f.text_field :Taux_TD, label: "Taux TD" %>
+            <%= f.select :nomTauxTD, ['','TD','CM','CM++'] ,label: "Taux TD" %>
           </div>
           <div class="col-sm-3">
             <br />

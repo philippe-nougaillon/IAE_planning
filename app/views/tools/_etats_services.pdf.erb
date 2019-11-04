@@ -43,7 +43,7 @@
         <% cumul_duree += c.duree %> 
 
         <% if c.imputable? %>
-            <% cumul_hetd += c.HETD %>
+            <% cumul_hetd += c.duree.to_f * c.HETD %>
             <% montant_service = c.montant_service.round(2) %>
             <% cumul_tarif += montant_service %>
             <% formation = Formation.unscoped.find(c.formation_id) %>
@@ -62,7 +62,7 @@
             <td><%= formation.abrg %></td>
             <td><%= "#{c.ue} #{c.nom_ou_ue}" %></td>
             <td style="text-align: right;"><%= c.duree.to_f %></td>
-            <td class="text-center"><%= c.CMTD? %></td>
+            <td class="text-center"><%= formation.nomTauxTD %></td>
             <td style="text-align: right;"><%= c.Taux_TD %></td>
             <td style="text-align: right;"><%= c.HETD %></td>
             <td style="text-align: right;"><%= number_to_currency(montant_service) %></td>

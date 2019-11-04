@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_16_075848) do
+ActiveRecord::Schema.define(version: 2019_11_04_141951) do
 
   create_table "audits", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.integer "auditable_id"
@@ -109,6 +109,7 @@ ActiveRecord::Schema.define(version: 2019_09_16_075848) do
     t.boolean "archive"
     t.boolean "hss"
     t.string "courriel"
+    t.string "nomTauxTD"
     t.index ["archive"], name: "index_formations_on_archive"
     t.index ["user_id"], name: "index_formations_on_user_id"
   end

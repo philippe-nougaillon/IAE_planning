@@ -14,19 +14,21 @@
 
     <table class="table table-hover table-striped table-bordered">
         <thead>
-            <th>Type</th>
-            <th>Date</th>
-            <th>Heure</th>
-            <th>Formation</th>
-            <th>Code</th>
-            <th>Intitulé</th>
-            <th></th>
-            <th>Durée</th>
-            <th>CM/TD</th>
-            <th>Taux</th>
-            <th>HETD</th>
-            <th style="width: 100px;">Montant</th>
-            <th>Cumul_HETD</th>
+            <tr>
+                <th>Type</th>
+                <th>Date</th>
+                <th>Heure</th>
+                <th>Formation</th>
+                <th>Code</th>
+                <th>Intitulé</th>
+                <th></th>
+                <th>Durée</th>
+                <th>CM/TD</th>
+                <th>Taux</th>
+                <th>HETD</th>
+                <th style="width: 100px;">Montant</th>
+                <th>Cumul_HETD</th>
+            </tr>
         </thead>
 
         <% cours_ids.each do |id| %>
@@ -34,8 +36,8 @@
             <% cumul_duree += c.duree %> 
 
             <% if c.imputable? %>
-                <% cumul_hetd += c.HETD %>
-                <% montant_service = c.montant_service #.round(2) %>
+                <% cumul_hetd += c.duree.to_f * c.HETD %>
+                <% montant_service = c.montant_service.round(2) %>
                 <% cumul_tarif += montant_service %>
             <% end %>
 
@@ -43,13 +45,11 @@
 
             <tr>
                 <td>C</td>
-                <td><%= link_to l(c.debut.to_date), cours_path(start_date:c.debut.to_date) %></td>
+                <td><%= link_to l(c.debut.to_date), cours_path(start_date: c.debut.to_date) %></td>
                 <td class="text-right"><%= c.debut.strftime("%k:%M") %></td>
                 <td><%= link_to formation.abrg, formation_path(formation), target:"_new", title: formation.nom_promo %></td>
                 <td><%= formation.Code_Analytique_avec_indice(c) %></td>
-                <td>
-                    <%= link_to "#{c.ue} #{c.nom_ou_ue}", edit_cour_path(c), target:"_new" %>
-                </td>
+                <td><%= link_to "#{c.ue} #{c.nom_ou_ue}", edit_cour_path(c), target:"_new" %></td>
                 <td class="text-center">
                     <% unless c.commentaires.blank? %>
                         <span class="glyphicon Soutenance de Sarah PELLERIN  glyphicon-comment" title="<%= c.commentaires %>" />
@@ -66,7 +66,7 @@
                     <% end %>
                 </td>
                 <td class="text-right"><%= c.duree.to_f %></td>
-                <td class="text-center"><%= c.CMTD? %></td>
+                <td class="text-center"><%= formation.nomTauxTD %></td>
                 <td class="text-right"><%= c.Taux_TD %></td>
                 <td class="text-right"><%= c.HETD %></td>
                 <td class="text-right"><%= montant_service %></td>
@@ -162,20 +162,22 @@
         <% end %>
 
         <tfoot>
-            <th colspan="11" class="text-right">
-                TOTAL <br>
-                <% if nbr_heures_statutaire > 0 %>
-                    <small>
-                        Nbr Heures Statutaires: 
-                        <%= nbr_heures_statutaire %> h
-                        <% if (nbr_heures_statutaire > 0) && (cumul_hetd >= nbr_heures_statutaire) %>
-                            | Dépassement: 
-                            <%= (cumul_hetd - nbr_heures_statutaire) %> h
-                        <% end %>
-                    </small>
-                <% end %>
-            </th>
-            <th class="text-right"><%= cumul_resps + cumul_vacations + cumul_tarif %></th>
+            <tr>
+                <th colspan="11" class="text-right">
+                    TOTAL <br>
+                    <% if nbr_heures_statutaire > 0 %>
+                        <small>
+                            Nbr Heures Statutaires: 
+                            <%= nbr_heures_statutaire %> h
+                            <% if (nbr_heures_statutaire > 0) && (cumul_hetd >= nbr_heures_statutaire) %>
+                                | Dépassement: 
+                                <%= (cumul_hetd - nbr_heures_statutaire) %> h
+                            <% end %>
+                        </small>
+                    <% end %>
+                </th>
+                <th class="text-right"><%= cumul_resps + cumul_vacations + cumul_tarif %></th>
+            </tr>
         </tfoot>
     </table>
 <% end %>

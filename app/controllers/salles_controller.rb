@@ -71,8 +71,9 @@ class SallesController < ApplicationController
     authorize Salle
     @audits = Audited::Audit
                   .where(auditable_type: 'Cour')
-                  .where.not(action: 'destroy')
                   .where("audited_changes like '%salle_id%'")
+                  .order('id DESC')
+                  .limit(5000)
 
   end
 

@@ -82,7 +82,7 @@ class Cour < ApplicationRecord
   end
 
   def manque_de_places? 
-    (self.salle.places > 0 && self.formation.nbr_etudiants > self.salle.places)
+    (self.salle.places > 0 && Formation.unscoped.find(self.formation_id).nbr_etudiants > self.salle.places)
   end
 
   def nom_ou_ue

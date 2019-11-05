@@ -1,6 +1,9 @@
 module ToolsHelper
 
+    # Rendre l'audit lisible 
+
     def prettify(audit)    
+
         pretty_changes = []
         
         audit.audited_changes.each do |c|
@@ -9,6 +12,30 @@ module ToolsHelper
                 if salle = convertir_id_salles(audit)
                     pretty_changes << salle
                 end
+            elsif key == 'Formation'
+                ids = audit.audited_changes['formation_id']
+                case ids.class.name
+                when 'Integer'
+                    pretty_changes << "#{key} initialisée à '#{Formation.unscoped.find(ids).nom}'"
+                when 'Array'
+                    pretty_changes << "#{key} changée de '#{Formation.unscoped.find(ids.first).nom}' à '#{Formation.unscoped.find(ids.last).nom}'"
+                end 
+            elsif key == 'Intervenant'
+                ids = audit.audited_changes['intervenant_id']
+                case ids.class.name
+                when 'Integer'
+                    pretty_changes << "#{key} initialisé à '#{Intervenant.find(ids).nom_prenom}'"
+                when 'Array'
+                    pretty_changes << "#{key} changé de '#{Intervenant.find(ids.first).nom_prenom}' à '#{Intervenant.find(ids.last).nom_prenom}'"
+                end 
+            elsif key == 'User'
+                ids = audit.audited_changes['user_id']
+                case ids.class.name
+                when 'Integer'
+                    pretty_changes << "#{key} initialisé à '#{User.find(ids).nom_et_prénom}'"
+                when 'Array'
+                    pretty_changes << "#{key} changé de '#{User.find(ids.first).nom_et_prénom if ids.first}' à '#{User.find(ids.last).nom_et_prénom}'"
+                end 
             else
                 if audit.action == 'update'
                     unless c.last.first.blank? && c.last.last.blank?    
@@ -70,9 +97,9 @@ module ToolsHelper
                     salle_after = Salle.find(salle_id).nom 
                 end 
                 if salle_before
-                    return "Salle changée de #{salle_before} à #{salle_after}"
+                    return "Salle changée de '#{salle_before}' à '#{salle_after}'"
                 else
-                    return "Cours mis en salle #{salle_after}"
+                    return "Cours mis en salle '#{salle_after}"
                 end
             else 
                 if salle_id.class.name == 'Integer' 
@@ -80,7 +107,7 @@ module ToolsHelper
                 else 
                     salle_after = salle_id 
                 end
-                return salle_after
+                return "Salle initialisée à '#{salle_after}'"
             end  
         end 
     end

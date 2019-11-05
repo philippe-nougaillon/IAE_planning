@@ -156,10 +156,14 @@ class Cour < ApplicationRecord
 
   # ETATS DE SERVICES 
 
+  def self.Tarif
+    41.41
+  end
+
   def Taux_TD
     case Formation.unscoped.find(self.formation_id).nomTauxTD
     when 'TD'
-      41.41
+      Cour.Tarif
     when 'CM'
       62.09
     when '3xTD'

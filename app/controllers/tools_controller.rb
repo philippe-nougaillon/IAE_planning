@@ -729,7 +729,7 @@ class ToolsController < ApplicationController
       # Peupler la liste des intervenants ayant eu des cours en principal ou binome
       ids = @cours.distinct(:intervenant_id).pluck(:intervenant_id)
       ids << @cours.distinct(:intervenant_binome_id).pluck(:intervenant_binome_id)
-      @intervenants = Intervenant.where(id: ids).where(status: params[:status]).where(doublon: false)
+      @intervenants = Intervenant.where(id: ids).where(status: params[:status])
       @intervenants_for_select = @intervenants
     end 
 

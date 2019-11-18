@@ -4,7 +4,7 @@
 
 $(document).on 'turbolinks:load', ->
   $('#check_all_trigger').change -> 
-    #console.log("Check_all_trigger changed to: ", @.checked)
+    console.log("Check_all_trigger changed to: ", @.checked)
     if @.checked 
     then $(".check_all").each -> this.checked = true     
     else $(".check_all").each -> this.checked = null    

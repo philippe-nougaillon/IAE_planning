@@ -64,6 +64,8 @@ gem 'record_tag_helper', '~> 1.0'
 # Access-Control-Allow-Origin (pour l'APP React)
 gem 'rack-cors'
 
+gem 'exception_notification'
+
 group :development do
     # Call 'debugger' anywhere in the code to stop execution and get a debugger console
     #gem 'debugger'

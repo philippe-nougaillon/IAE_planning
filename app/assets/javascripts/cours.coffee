@@ -2,7 +2,9 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
-$ ->
-  $('#check_all').click -> 
-    $('.check_all').attr "checked", @.checked
-  $('[data-toggle="tooltip"]').tooltip()
+$(document).on 'turbolinks:load', ->
+  $('#check_all_trigger').change -> 
+    #console.log("Check_all_trigger changed to: ", @.checked)
+    if @.checked 
+    then $(".check_all").each -> this.checked = true     
+    else $(".check_all").each -> this.checked = null    

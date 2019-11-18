@@ -34,7 +34,7 @@ module ToolsHelper
                 when 'Integer'
                     pretty_changes << "#{key} initialisé à '#{User.find(ids).nom_et_prénom}'"
                 when 'Array'
-                    pretty_changes << "#{key} changé de '#{User.find(ids.first).nom_et_prénom if ids.first}' à '#{User.find(ids.last).nom_et_prénom}'"
+                    pretty_changes << "#{key} changé de '#{User.find(ids.first).nom_et_prénom if ids.first}' à '#{User.find(ids.last).nom_et_prénom if ids.last}'"
                 end 
             else
                 if audit.action == 'update'

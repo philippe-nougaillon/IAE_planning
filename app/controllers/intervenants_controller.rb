@@ -45,6 +45,7 @@ class IntervenantsController < ApplicationController
   # GET /intervenants/new
   def new
     @intervenant = Intervenant.new
+    @intervenant.notifier = true
     10.times { @intervenant.responsabilites.build }
   end
 

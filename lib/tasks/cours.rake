@@ -63,7 +63,7 @@ namespace :cours do
   end
 
   def envoyer_liste_cours_a_intervenant(draft, debut, fin, intervenant, cours, gestionnaires)
-    if intervenant.notifier? && !intervenant.email.blank?
+    if intervenant.notifier? && !intervenant.email.blank? && intervenant.email != '?'
       puts "OK => Planning envoyé à: #{intervenant.email}"
 
       unless draft

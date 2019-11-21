@@ -10,12 +10,12 @@
           <b><%= l(meeting.debut, format: :heures_min) %></b>  
            - <%= l(meeting.fin, format: :heures_min) %>
           <br>
-          <% if meeting.formation.abrg %>
+          <% if meeting.try(:formation).try(:abrg) %>
             <% if meeting.salle_id == nil %>
               <%= link_to meeting.formation.abrg, edit_cour_path(meeting, from:'planning_salles'), title:meeting.nom %>
             <% end %>
           <% else %>
-            <%= link_to meeting.formation.nom, meeting %>
+            <%= link_to meeting.try(:formation).try(:nom), meeting %>
           <% end %>
       <% end %>
     <% end %>

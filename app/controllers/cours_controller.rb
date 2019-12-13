@@ -453,7 +453,7 @@ class CoursController < ApplicationController
             redirect_to cours_path(view:"calendar_rooms", start_date:@cour.debut)
           else
             if params[:from] == 'occupation'
-              redirect_to occupation_des_salles_path, notice: "Cours ##{@cour.id} ajouté avec succès."
+              redirect_to occupation_salles_path, notice: "Cours ##{@cour.id} ajouté avec succès."
             else
               redirect_to cours_url, notice: 'Cours modifié avec succès.'
             end

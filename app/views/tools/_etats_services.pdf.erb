@@ -84,7 +84,7 @@
         <% formation = Formation.unscoped.find(vacation.formation_id) %> 
         <tr>
             <td><%= formation.Code_Analytique %></td>
-            <td><%= formation.Code_Analytique_avec_indice(c).include?('DISTR') ? "101PAIE" : "102PAIE" %></td>
+            <td><%= formation.Code_Analytique.include?('DISTR') ? "101PAIE" : "102PAIE" %></td>
             <td><%= l vacation.date %></td>
             <td />
             <td><%= formation.nom %></td>

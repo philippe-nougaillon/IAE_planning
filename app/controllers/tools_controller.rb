@@ -723,13 +723,18 @@ class ToolsController < ApplicationController
     end
 
     unless params[:status].blank?
-      #@cours =  Cour.where(etat: Cour.etats.values_at(:planifié, :confirmé, :réalisé)).where("debut between ? and ?", @start_date, @end_date)
-      @cours =  Cour.réalisé.where("debut between ? and ?", @start_date, @end_date)
-
       # Peupler la liste des intervenants ayant eu des cours en principal ou binome
+      @cours =  Cour.réalisé.where("debut between ? and ?", @start_date, @end_date)
       ids = @cours.distinct(:intervenant_id).pluck(:intervenant_id)
       ids << @cours.distinct(:intervenant_binome_id).pluck(:intervenant_binome_id)
-      @intervenants = Intervenant.where(id: ids).where(status: params[:status])
+
+      # Ajouter les vacataires
+      ids << Vacation
+                .where("date between ? and ?", @start_date, @end_date)
+                .distinct(:intervenant_id)
+                .pluck(:intervenant_id)
+
+      @intervenants = Intervenant.where(id: ids.flatten).where(status: params[:status])
       @intervenants_for_select = @intervenants
     end 
 

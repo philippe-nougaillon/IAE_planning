@@ -120,7 +120,7 @@
             <% if index == @vacations.size - 1 %>
                 <tr>
                     <th>V</th>
-                    <th colspan="10"><%= pluralize(@vacations.count, 'vacation') %> au total</th>
+                    <th colspan="10"><%= pluralize(@vacations.size, 'vacation', plural: 'vacations') %> au total</th>
                     <th class="text-right"><%= number_to_currency(cumul_vacations) %></th>
                     <th />
                 </tr>
@@ -176,7 +176,7 @@
                         </small>
                     <% end %>
                 </th>
-                <th class="text-right"><%= cumul_resps + cumul_vacations + cumul_tarif %></th>
+                <th class="text-right"><%= number_to_currency(cumul_resps + cumul_vacations + cumul_tarif) %></th>
             </tr>
         </tfoot>
     </table>

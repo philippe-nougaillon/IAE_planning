@@ -34,6 +34,8 @@ class SallesController < ApplicationController
 
     unless params[:start_date].blank?
       @date = params[:start_date].to_date
+    else
+      @date = Date.today
     end
 
     if user_signed_in?

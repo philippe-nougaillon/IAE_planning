@@ -30,7 +30,11 @@ class Cour < ApplicationRecord
   end
 
   def style
-    Cour.styles[Cour.etats[self.etat]]
+    Cour.styles[
+      Cour.etats[
+        self.etat = self.etat || 'planifié'
+      ]
+    ]
   end
   
   def self.actions

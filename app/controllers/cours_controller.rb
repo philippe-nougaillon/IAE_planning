@@ -189,7 +189,11 @@ class CoursController < ApplicationController
     
     if params[:planning_date]
       # Afficher tous les cours du jours
-      @planning_date = Date.parse(params[:planning_date])
+      begin
+        @planning_date = Date.parse(params[:planning_date])
+      rescue
+        @planning_date = Date.today
+      end
       # si date du jour, on ajoute l'heure qu'il est
       @planning_date = @now if @planning_date == Date.today
     else

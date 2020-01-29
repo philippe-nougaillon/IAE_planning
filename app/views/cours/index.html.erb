@@ -162,7 +162,7 @@
                     <th />
                   <% end %>
                   <th />
-                  <% if params[:paginate] == 'all' or @cours.total_pages == @cours.current_page %>
+                  <% if params[:paginate] == 'all' %>
                     <th>
                       <%= number_with_precision(@all_cours.sum(:duree), precision: 1) %>h
                     </th>

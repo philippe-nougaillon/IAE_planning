@@ -52,7 +52,11 @@ class CoursController < ApplicationController
       @date = Date.commercial(year, params[:semaine].to_i, 1)
     else
       unless params[:start_date].blank?
-        @date = Date.parse(params[:start_date]) 
+        begin
+          @date = Date.parse(params[:start_date])
+        rescue
+          @date = Date.today
+        end 
       else
         @date = Date.today
       end
@@ -123,7 +127,7 @@ class CoursController < ApplicationController
     @all_cours = @cours
 
     if (params[:view] == 'list' and params[:paginate] == 'pages' and request.variant.include?(:desktop)) 
-      @cours = @cours.paginate(page:params[:page], per_page:20)
+      @cours = @cours.paginate(page: clean_page(params[:page]), per_page:20)
     end
 
     if request.variant.include?(:phone)
@@ -494,4 +498,12 @@ class CoursController < ApplicationController
                                     :intervenant_binome_id, :hors_service_statutaire,
                                     :commentaires, :elearning)
     end
+
+    def clean_page(page)
+      begin 
+        WillPaginate::PageNumber(page)
+      rescue WillPaginate::InvalidPage
+        1  
+      end 
+    end 
 end

@@ -52,7 +52,11 @@ class CoursController < ApplicationController
       @date = Date.commercial(year, params[:semaine].to_i, 1)
     else
       unless params[:start_date].blank?
-        @date = Date.parse(params[:start_date]) 
+        begin
+          @date = Date.parse(params[:start_date])
+        rescue
+          @date = Date.today
+        end 
       else
         @date = Date.today
       end

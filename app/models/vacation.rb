@@ -14,8 +14,9 @@ class Vacation < ApplicationRecord
       "Tutorat apprenti",
       "VAE examen dossier/participation au jury",
       "Réunion pédagogique_jury de MAE",
-      "Entretiens de sélection"	
-  ]
+      "Entretiens de sélection",
+      "Cours e-learning"
+    ]
   end
 
   def self.forfaits_htd
@@ -27,7 +28,7 @@ class Vacation < ApplicationRecord
       3,
       7.5,
       1	
-  ]
+    ]
   end
 
 end

@@ -121,7 +121,7 @@ class Intervenant < ApplicationRecord
 private
 	def envoyer_mail
 		if self.status == 'CEV' and self.doublon == false 
-			IntervenantMailer.notifier_srh(self).deliver_now
+			IntervenantMailer.notifier_srh(self).deliver_later
 		end
 	end
 

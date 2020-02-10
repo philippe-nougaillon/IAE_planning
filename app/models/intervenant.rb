@@ -18,10 +18,13 @@ class Intervenant < ApplicationRecord
 
 	validates_uniqueness_of :nom, scope: :email, case_sensitive: false
 	validates :nom, :email, :prenom, :status, presence: true
+	validates :email, format: { with: URI::MailTo::EMAIL_REGEXP } 
 	
   	enum status: [:CEV, :Permanent, :PR, :MCF, :MCF_HDR, :PAST, :PRAG, :Admin]
 
 	default_scope { order(:nom, :prenom) } 
+
+	after_create :envoyer_mail
 
     #mount_uploader :photo, AvatarUploader
 
@@ -113,6 +116,13 @@ class Intervenant < ApplicationRecord
 		end
 	
 		return book
+	end
+
+private
+	def envoyer_mail
+		if self.status == 'CEV' and self.doublon == false 
+			IntervenantMailer.notifier_srh(self).deliver_now
+		end
 	end
 
 end

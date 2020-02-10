@@ -18,4 +18,9 @@ class IntervenantMailer < ApplicationMailer
         mail(to: @intervenant.email, subject:"[PLANNING] Rappel de vos cours à l'IAE Paris du #{l @debut} au #{l @fin}")
     end
 
+    def notifier_srh(intervenant)
+        @intervenant = intervenant
+        mail(to: 'srh.iae@univ-paris1.fr', subject: "[PLANNING] Un nouvel intervenant nommé '#{intervenant.nom_prenom}' vient d'être créé")
+    end
+
 end

@@ -61,7 +61,7 @@ gem 'icalendar'
 gem 'record_tag_helper', '~> 1.0'
 
 # Access-Control-Allow-Origin (pour l'APP React)
-gem "rack-cors", ">= 1.0.4"
+gem "rack-cors"
 
 
 gem 'exception_notification'
@@ -84,7 +84,3 @@ group :development do
     #gem 'scout_apm'
     #gem 'brakeman', require: false
 end
-
-# group :test do
-#   gem 'minitest-reporters'
-# end

@@ -234,7 +234,7 @@ DEPENDENCIES
   mini_racer
   mysql2 (~> 0.5.3)
   pundit
-  rack-cors (>= 1.0.4)
+  rack-cors
   rails (= 5.2.4.1)
   record_tag_helper (~> 1.0)
   sassc-rails

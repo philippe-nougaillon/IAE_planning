@@ -15,4 +15,9 @@ class UserMailer < ApplicationMailer
   	mail(to: email , subject: "[PLANNING] Cours du #{l(@cours.debut, format: :long).humanize} (#{@cours.nom_ou_ue}) est #{@etat}")
   end
 
+  def notifier_fin_envoi_prochains_cours(n)
+    @envoyes = n
+    mail(to: 'respfd.iae@univ-paris1.fr; philippe.nougaillon@gmail.com', subject: "[PLANNING] Notifications intervenants envoyées")
+  end
+
 end

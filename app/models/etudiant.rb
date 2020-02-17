@@ -8,6 +8,7 @@ class Etudiant < ApplicationRecord
   validates :nom, uniqueness: {scope: [:formation_id]}
 
   validates :email, presence: true
+  validates :email, format: { with: URI::MailTo::EMAIL_REGEXP } 
   
   belongs_to :formation
 

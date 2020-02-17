@@ -19,6 +19,9 @@ namespace :cours do
   desc "Envoyer la liste des cours aux intervenants" 
   task :envoyer_liste_cours, [:draft] => :environment do |task, args|
 
+    # Quitter si nous ne sommes pas le 24 du mois et pas en draftmode 
+    next if Date.today.day != 24 && !args.draft 
+
     puts "MODE DRAFT" if args.draft
 
     start_day = Date.today.beginning_of_month + 1.month
@@ -60,10 +63,18 @@ namespace :cours do
     end
 
     puts "* #{envoyes} mail(s) envoyé(s) *"
+
+    # Envoyer le récap à Barbara et à moi
+    unless args.draft
+      UserMailer
+        .notifier_fin_envoi_prochains_cours(envoyes)
+        .deliver_now
+    end 
+
   end
 
   def envoyer_liste_cours_a_intervenant(draft, debut, fin, intervenant, cours, gestionnaires)
-    if intervenant.notifier? && !intervenant.email.blank? && intervenant.email != '?'
+    if !intervenant.email.blank? && intervenant.email != '?'
       puts "OK => Planning envoyé à: #{intervenant.email}"
 
       unless draft
@@ -74,7 +85,6 @@ namespace :cours do
 
       return true
     else
-      puts "!KO => Manque le flag 'Notification planning ?'" unless intervenant.notifier? 
       puts "!KO => Manque l'adresse email" if intervenant.email.blank? 
 
       return false

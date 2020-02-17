@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_05_154058) do
+ActiveRecord::Schema.define(version: 2020_02_17_124232) do
 
   create_table "audits", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.integer "auditable_id"
@@ -78,6 +78,19 @@ ActiveRecord::Schema.define(version: 2019_11_05_154058) do
     t.string "mobile"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "civilité"
+    t.string "lieu_naissance"
+    t.string "pays_naissance"
+    t.string "nationalité"
+    t.string "adresse"
+    t.string "cp"
+    t.string "ville"
+    t.string "dernier_ets"
+    t.string "dernier_diplôme"
+    t.string "cat_diplôme"
+    t.string "num_sécu"
+    t.string "nom_marital"
+    t.date "date_de_naissance"
     t.index ["formation_id"], name: "index_etudiants_on_formation_id"
   end
 

@@ -1,0 +1,17 @@
+<tr>
+    <td><b><%= link_to etudiant.nom, etudiant %></b></td>
+    <td><%= etudiant.prénom %></td>
+    <td><%= etudiant.email %></td>
+    <td><%= etudiant.mobile %></td>
+    <td>
+        <% if etudiant.formation_id %>
+            <% formation = Formation.unscoped.find(etudiant.formation_id) %>
+            <%= link_to formation.nom, formation %>
+        <% end %>
+    </td>
+    <td>
+        <%= link_to edit_etudiant_path(etudiant), class:"btn btn-default" do %>
+            <i class="glyphicon glyphicon-pencil"></i>
+        <% end %>
+    </td>
+</tr>

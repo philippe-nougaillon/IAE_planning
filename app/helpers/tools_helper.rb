@@ -18,7 +18,11 @@ module ToolsHelper
                 when 'Integer'
                     pretty_changes << "#{key} initialisée à '#{Formation.unscoped.find(ids).nom}'"
                 when 'Array'
-                    pretty_changes << "#{key} changée de '#{Formation.unscoped.find(ids.first).nom}' à '#{Formation.unscoped.find(ids.last).nom}'"
+                    if ids.last 
+                        pretty_changes << "#{key} changée de '#{Formation.unscoped.find(ids.first).nom}' à '#{Formation.unscoped.find(ids.last).nom}'"
+                    else
+                        pretty_changes << "#{key} changée de '#{Formation.unscoped.find(ids.first).nom}' à 'nil'"
+                    end
                 end 
             elsif key == 'Intervenant'
                 ids = audit.audited_changes['intervenant_id']

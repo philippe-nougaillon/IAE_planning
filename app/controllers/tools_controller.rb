@@ -7,6 +7,7 @@ class ToolsController < ApplicationController
   require 'capture_stdout'
 
   def index
+    authorize :tool, :index?
   end
 
   def import_csv_do

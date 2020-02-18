@@ -5,11 +5,6 @@
       Modification
     <% end %>
 
-    <a href="#audit" data-toggle="collapse" class='btn btn-default'>
-      <span class="glyphicon glyphicon-search"></span>
-      Audit
-    </a>
-
     <%= link_to etudiants_path, class: 'btn btn-default' do %>
       <span class="glyphicon glyphicon-list-alt"></span>
       Retour
@@ -67,57 +62,96 @@
       <small>Email</small><br>
       <%= @etudiant.email %>
     </h3>
+  </div>
+  <div class="col-sm-3">
     <h3>
       <small>Mobile</small><br>
       <%= @etudiant.mobile %>
     </h3>
-    
+  </div>
+
+</div>
+
+<div class="panel panel-info">
+
+  <div class="panel-heading">Informations complémentaires</div>
+
+  <div class="panel-body">
+
+    <dl class="dl-horizontal">
+      <dt>Lieu de Naissance:</dt>
+      <dd><%= @etudiant.lieu_naissance %></dd>
+
+      <dt>Pays de Naissance:</dt>
+      <dd><%= @etudiant.pays_naissance %></dd>
+
+      <dt>Nationalité:</dt>
+      <dd><%= @etudiant.nationalité %></dd>
+
+      <dt>Adresse:</dt>
+      <dd><%= @etudiant.adresse %></dd>
+
+      <dt>Code postal:</dt>
+      <dd><%= @etudiant.cp %></dd>
+
+      <dt>Ville:</dt>
+      <dd><%= @etudiant.ville %></dd>
+
+      <dt>Dernier établissement fréquenté:</dt>
+      <dd><%= @etudiant.dernier_ets %></dd>
+
+      <dt>Dernier diplôme obtenu:</dt>
+      <dd><%= @etudiant.dernier_diplôme %></dd>
+
+      <dt>Catégorie du diplôme:</dt>
+      <dd><%= @etudiant.cat_diplôme %></dd>
+
+      <dt>Numéro Sécurité Sociale:</dt>
+      <dd><%= @etudiant.num_sécu %></dd>
+
+      <dt>Numéro APOGEE:</dt>
+      <dd><%= @etudiant.num_apogée %></dd>
+
+      <dt>Poste Occupé:</dt>
+      <dd><%= @etudiant.poste_occupé %></dd>
+
+      <dt>Entreprise:</dt>
+      <dd><%= @etudiant.nom_entreprise %></dd>
+
+      <dt>Adresse:</dt>
+      <dd><%= @etudiant.adresse_entreprise %></dd>
+
+      <dt>CP:</dt>
+      <dd><%= @etudiant.cp_entreprise %></dd>
+
+      <dt>Ville:</dt>
+      <dd><%= @etudiant.ville_entreprise %></dd>
+    </dl>
+
+    <div class="btn-toolbar text-center" role="toolbar">
+      <a href="#audit" data-toggle="collapse" class='btn btn-default'>
+        <span class="glyphicon glyphicon-search"></span>
+        Audit
+        <span class="caret"></span>
+      </a>
+    </div>
+
+    <div id="audit" class="collapse">
+      <h3><span class="glyphicon glyphicon-search"></span> Audit des modifications</h3>
+      <table class="table table-bordered table-hover table-condensed">
+        <thead>
+          <th>Date</th>
+          <th>Utilisateur</th>            
+          <th>Type</th>
+          <th>Record_id</th>
+          <th>Action</th>
+          <th>Modifications</th>
+        </thead>
+        <%= render partial: 'tools/audit', collection: @etudiant.audits %>
+      </table>
+    </div> 
+
   </div>
 </div>
 
-<dl class="dl-horizontal">
-  <dt>Lieu de Naissance:</dt>
-  <dd><%= @etudiant.lieu_naissance %></dd>
 
-  <dt>Pays de Naissance:</dt>
-  <dd><%= @etudiant.pays_naissance %></dd>
-
-  <dt>Nationalité:</dt>
-  <dd><%= @etudiant.nationalité %></dd>
-
-  <dt>Adresse:</dt>
-  <dd><%= @etudiant.adresse %></dd>
-
-  <dt>Code postal:</dt>
-  <dd><%= @etudiant.cp %></dd>
-
-  <dt>Ville:</dt>
-  <dd><%= @etudiant.ville %></dd>
-
-  <dt>Dernier établissement fréquenté:</dt>
-  <dd><%= @etudiant.dernier_ets %></dd>
-
-  <dt>Dernier diplôme obtenu:</dt>
-  <dd><%= @etudiant.dernier_diplôme %></dd>
-
-  <dt>Catégorie du diplôme:</dt>
-  <dd><%= @etudiant.cat_diplôme %></dd>
-
-  <dt>Numéro Sécurité Sociale:</dt>
-  <dd><%= @etudiant.num_sécu %></dd>
-</dl>
-
-<div id="audit" class="collapse-out">
-  <h3><span class="glyphicon glyphicon-search"></span> Audit des modifications</h3>
-  <table class="table table-bordered table-hover table-condensed">
-    <thead>
-      <th>Date</th>
-      <th>Utilisateur</th>            
-      <th>Type</th>
-      <th>Record_id</th>
-      <th>Action</th>
-      <th>Modifications</th>
-    </thead>
-    <%= render partial: 'tools/audit', collection: @etudiant.audits %>
-  </table>
-</div> 

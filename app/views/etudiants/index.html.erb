@@ -20,12 +20,21 @@
       <div class="form-group">
         <div class="row">
 
-          <div class="col-sm-5">
+          <div class="col-sm-3">
             <%= label_tag :nom, "Nom" %>    
             <%= text_field_tag :nom, params[:nom], include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
           </div>
 
-          <div class="col-sm-5">
+          <div class="col-sm-2">
+            <%= label_tag :workflow_state, "Statut" %>
+            <%= select_tag :workflow_state, options_for_select(Etudiant.workflow_spec.states.keys.to_a, params[:workflow_state]), 
+                                    include_blank: true,
+                                    class: "form-control", 
+                                    onchange: 'this.form.submit()' %>
+          </div>
+
+
+          <div class="col-sm-4">
             <%= label_tag "Formation" %>    
             <div class="input-group">
               <%= select_tag :formation_id, 
@@ -48,12 +57,19 @@
       <tr>
         <th><%= sort_link 'etudiants.nom', 'Nom' %></th>
         <th>Prénom</th>
-        <th><%= sort_link 'etudiants.email', 'Email' %></th>
-        <th><%= sort_link 'etudiants.mobile', 'Mobile' %></th>
+        <th><%= sort_link 'etudiants.date_de_naissance', 'Né(e) le' %></th>
+        <th><%= sort_link 'etudiants.workflow_state', 'Statut' %></th>
         <th>Formation</th>
+        <th>Entreprise</th>
         <th colspan="2"></th>
       </tr>
     </thead>
+
+    <tfoot>
+      <tr>
+        <% 7.times do %><th></th><% end %>
+      </tr>
+    </tfoot>
 
     <tbody>
       <%= render @etudiants %>
@@ -61,7 +77,7 @@
   </table>
 
   <div class="page_info">
-      <%= page_entries_info @etudiants, model: 'Etudiant' %>
+    <%= page_entries_info @etudiants, model: 'Etudiant' %>
   </div>
   
   <%= will_paginate @etudiants, renderer: BootstrapPagination::Rails %>

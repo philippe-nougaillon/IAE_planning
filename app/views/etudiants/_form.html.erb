@@ -17,7 +17,7 @@
   <% end %>
 
   <div class="row">
-    <div class="col-sm-3">
+    <div class="col-sm-4">
       <%= f.collection_select(:formation_id, Formation.unscoped.all, :id, :nom, {include_blank: true}, class:"select2") %>
 
       <%= f.text_field :civilité %>
@@ -64,6 +64,7 @@
     </div>
 
     <div class="col-sm-3">
+      <%= f.select :workflow_state, Etudiant.workflow_spec.states.keys.to_a, include_blank: true, label: "Statut" %>
       <%= f.text_field :num_apogée, label: "Numéro APOGEE" %>
       <%= f.text_field :poste_occupé %>
       <%= f.text_field :nom_entreprise, label: "Nom Entreprise" %>

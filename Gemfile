@@ -69,6 +69,10 @@ gem 'exception_notification'
 # Sucker Punch is a single-process Ruby asynchronous processing library.
 gem 'sucker_punch', '~> 2.0'
 
+# Ruby finite-state-machine-inspired API for modeling workflow 
+gem 'workflow'
+gem 'workflow-activerecord'
+
 
 group :development do
     # Call 'debugger' anywhere in the code to stop execution and get a debugger console

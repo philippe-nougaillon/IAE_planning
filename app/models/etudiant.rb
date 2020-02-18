@@ -1,16 +1,25 @@
 # Encoding: utf-8
 
 class Etudiant < ApplicationRecord
+  include Workflow
+  include WorkflowActiverecord
 
   audited
   
   validates :nom, :prénom, :civilité, presence: true
   # validates :nom, uniqueness: {scope: [:formation_id]}
-
   validates :email, presence: true
   validates :email, format: { with: URI::MailTo::EMAIL_REGEXP } 
   
   belongs_to :formation
+
+  workflow do
+    state :prospect
+    state :candidat
+    state :étudiant
+    state :diplomé
+    state :non_diplomé
+  end
 
   def self.xls_headers
 		%w{Id Nom Prénom Email Mobile Formation_id Formation_nom Créé_le Modifié_le}  

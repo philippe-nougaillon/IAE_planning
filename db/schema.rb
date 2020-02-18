@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_18_104426) do
+ActiveRecord::Schema.define(version: 2020_02_18_123302) do
 
   create_table "audits", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.integer "auditable_id"
@@ -97,7 +97,9 @@ ActiveRecord::Schema.define(version: 2020_02_18_104426) do
     t.string "adresse_entreprise"
     t.string "cp_entreprise"
     t.string "ville_entreprise"
+    t.string "workflow_state"
     t.index ["formation_id"], name: "index_etudiants_on_formation_id"
+    t.index ["workflow_state"], name: "index_etudiants_on_workflow_state"
   end
 
   create_table "fermetures", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|

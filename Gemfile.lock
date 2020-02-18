@@ -211,6 +211,10 @@ GEM
     will_paginate-bootstrap (1.0.2)
       will_paginate (>= 3.0.3)
     wkhtmltopdf-binary (0.12.4)
+    workflow (2.0.2)
+    workflow-activerecord (4.1.7)
+      activerecord (>= 3.0, < 6.1)
+      workflow (~> 2.0)
     yaml_db (0.7.0)
       rails (>= 3.0)
       rake (>= 0.8.7)
@@ -251,6 +255,8 @@ DEPENDENCIES
   will_paginate
   will_paginate-bootstrap
   wkhtmltopdf-binary
+  workflow
+  workflow-activerecord
   yaml_db
 
 RUBY VERSION

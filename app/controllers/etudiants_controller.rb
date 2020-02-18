@@ -15,6 +15,10 @@ class EtudiantsController < ApplicationController
       @etudiants = @etudiants.where("nom like ? ", "%#{params[:nom]}%")
     end
 
+    unless params[:workflow_state].blank?
+      @etudiants = @etudiants.where("etudiants.workflow_state = ?", params[:workflow_state].to_s.downcase)
+    end
+
     unless params[:formation_id].blank?
       @etudiants = @etudiants.where(formation_id:params[:formation_id])
     end
@@ -106,7 +110,8 @@ class EtudiantsController < ApplicationController
             .permit(:formation_id, :nom, :prénom, :email, :mobile, :civilité, :nom_marital, :date_de_naissance, 
                     :lieu_naissance, :pays_naissance, :nationalité, :adresse, :cp, :ville, :dernier_ets, 
                     :dernier_diplôme, :cat_diplôme, :num_sécu, 
-                    :num_apogée, :poste_occupé, :nom_entreprise, :adresse_entreprise, :cp_entreprise, :ville_entreprise)
+                    :num_apogée, :poste_occupé, :nom_entreprise, :adresse_entreprise, :cp_entreprise, :ville_entreprise,
+                    :workflow_state)
     end
     
 end

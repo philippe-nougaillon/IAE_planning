@@ -22,8 +22,18 @@ class Etudiant < ApplicationRecord
   end
 
   def self.xls_headers
-		%w{Id Nom Prénom Email Mobile Formation_id Formation_nom Créé_le Modifié_le}  
-	end
+    [ 'Civilité', 'NOM', 'NOM marital', 'Prénom', 'Date de naissance', 
+      nil, nil, 
+      'Lieu de naissance', 'Pays de la ville de naissance', 'Nationalité',
+      'Mail', 'Adresse', 'CP', 'Ville', 'Téléphone',
+      'Dernier établmt fréquenté', 'Dernier diplôme obtenu', 'Catégorie "Science" diplôme', 
+      'Numéro Sécurité sociale',
+      nil, nil, nil, 
+      'Numéro Apogée étudiant', 'Poste occupé', 
+      nil, 
+      'Nom Entreprise', 'Adresse entreprise', 'CP entreprise', 'Ville entreprise'  
+    ]
+end
 
 	def self.generate_xls(etudiants)
 		require 'spreadsheet'    

@@ -12,7 +12,7 @@ class EtudiantsController < ApplicationController
     @etudiants = Etudiant.all
 
     unless params[:nom].blank?
-      @etudiants = @etudiants.where("nom like ? ", "%#{params[:nom]}%")
+      @etudiants = @etudiants.where("nom like ? OR nom_entreprise like ?", "%#{params[:nom]}%", "%#{params[:nom]}%")
     end
 
     unless params[:workflow_state].blank?

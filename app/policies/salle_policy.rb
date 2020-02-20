@@ -6,7 +6,7 @@ class SallePolicy < ApplicationPolicy
   end
 
   def index?
-    user.admin?
+    user
   end
 
   def show?

@@ -6,6 +6,8 @@ class FermeturesController < ApplicationController
   # GET /fermetures
   # GET /fermetures.json
   def index
+    authorize Fermeture
+
     params[:paginate] ||= 'pages'
 
     @fermetures = Fermeture.all

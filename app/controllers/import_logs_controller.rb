@@ -4,6 +4,8 @@ class ImportLogsController < ApplicationController
   # GET /import_logs
   # GET /import_logs.json
   def index
+    authorize ImportLog
+    
     @import_logs = ImportLog.includes(:user).order(:id).reverse_order
   end
 

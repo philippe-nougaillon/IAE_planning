@@ -11,6 +11,8 @@ class FormationsController < ApplicationController
   # GET /formations
   # GET /formations.json
   def index
+    authorize Formation
+
     params[:nom] ||= session[:nom]  # ???? 
  
     params[:catalogue] ||= 'yes'

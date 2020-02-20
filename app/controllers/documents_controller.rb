@@ -6,6 +6,8 @@ class DocumentsController < ApplicationController
   # GET /documents
   # GET /documents.json
   def index
+    authorize Document
+
     @documents = Document.all
 
     if current_user.formation 

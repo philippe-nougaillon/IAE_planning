@@ -6,6 +6,8 @@ class EtudiantsController < ApplicationController
   # GET /etudiants
   # GET /etudiants.json
   def index
+    authorize Etudiant
+
     params[:column] ||= session[:column]
     params[:direction_etudiants] ||= session[:direction_etudiants]
 

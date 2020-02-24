@@ -457,6 +457,15 @@ class CoursController < ApplicationController
     respond_to do |format|
       if @cour.update(cour_params)
         format.html do
+          # notifier ?
+          logger.debug "[DEBUG] #{params[:notifier]}"
+
+          if params[:notifier] == "Enregistrer et notifier les étudiants"
+            n = @cour.formation.etudiants.count
+            logger.debug "Notifier #{n} étudiants"
+          end
+
+          # repartir à la page où a eu lieu la demande de modification
           if params[:from] == 'planning_salles'
             redirect_to cours_path(view:"calendar_rooms", start_date:@cour.debut)
           else

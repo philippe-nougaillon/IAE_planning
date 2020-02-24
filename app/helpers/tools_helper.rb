@@ -41,9 +41,9 @@ module ToolsHelper
                     pretty_changes << "#{key} changé de '#{User.find(ids.first).nom_et_prénom if ids.first}' à '#{User.find(ids.last).nom_et_prénom if ids.last}'"
                 end 
             elsif key == 'Debut' and audit.audited_changes['debut'].class.name == 'Array'
-                pretty_changes << "Horaire de début modifiée de '#{I18n.l(c.last.first, format: :long)}' à '#{I18n.l(c.last.last, format: :long)}'"
+                pretty_changes << "Horaire de début modifié de '#{I18n.l(c.last.first, format: :long)}' à '#{I18n.l(c.last.last, format: :long)}'"
             elsif key == 'Fin' and audit.audited_changes['fin'].class.name == 'Array'
-                pretty_changes << "Horaire de fin modifiée de '#{I18n.l(c.last.first, format: :long)}' à '#{I18n.l(c.last.last, format: :long)}'"
+                pretty_changes << "Horaire de fin modifié de '#{I18n.l(c.last.first, format: :long)}' à '#{I18n.l(c.last.last, format: :long)}'"
             else
                 if audit.action == 'update'
                     unless c.last.first.blank? && c.last.last.blank?    

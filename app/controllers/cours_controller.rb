@@ -457,12 +457,11 @@ class CoursController < ApplicationController
     respond_to do |format|
       if @cour.update(cour_params)
         format.html do
-          # notifier ?
-          logger.debug "[DEBUG] #{params[:notifier]}"
-
-          if params[:notifier] == "Enregistrer et notifier les étudiants"
-            n = @cour.formation.etudiants.count
-            logger.debug "Notifier #{n} étudiants"
+          # notifier les étudiants des changements ?
+          if params[:notifier] == "Enregistrer et notifier les étudiants des changements"
+            @cour.formation.etudiants.each do | etudiant |
+              EtudiantMailer.notifier_modification_cours(etudiant, @cour).deliver_later
+            end
           end
 
           # repartir à la page où a eu lieu la demande de modification

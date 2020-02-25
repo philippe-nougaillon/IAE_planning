@@ -46,14 +46,6 @@
       <%= label_tag "Nouvel état" %>    
       <%= select_tag :etat, options_for_select(Cour.etats, params[:etat]), include_blank:true, class:"form-control" %>
     </div>
-    <div class="col-sm-6">
-      <%= label_tag "Notification" %><br>
-      <%= check_box_tag :email %> Avertir les étudiants par courriel ? (que pour "annulé" et "reporté")<br> 
-      <!--
-      <%= check_box_tag :sms %> Informer les étudiants par SMS ?
-      -->
-      <br><br><br>
-    </div>
 
   <% elsif params[:action_name] == "Changer de date" %>
     <div class="col-sm-2">

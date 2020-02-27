@@ -33,8 +33,7 @@
                                     onchange: 'this.form.submit()' %>
           </div>
 
-
-          <div class="col-sm-4">
+          <div class="col-sm-6">
             <%= label_tag "Formation" %>    
             <div class="input-group">
               <%= select_tag :formation_id, 
@@ -60,7 +59,8 @@
         <th><%= sort_link 'etudiants.date_de_naissance', 'Né(e) le' %></th>
         <th><%= sort_link 'etudiants.workflow_state', 'Statut' %></th>
         <th>Formation</th>
-        <th>Entreprise</th>
+        <th><%= sort_link 'etudiants.nom_entreprise', 'Entreprise' %></th>
+        <th><%= sort_link 'etudiants.updated_at', 'MàJ il y a' %></th>
         <th colspan="2"></th>
       </tr>
     </thead>
@@ -77,7 +77,7 @@
   </table>
 
   <div class="page_info">
-    <%= page_entries_info @etudiants, model: 'Etudiant' %>
+    <%= page_entries_info @etudiants, model: 'étudiant' %>
   </div>
   
   <%= will_paginate @etudiants, renderer: BootstrapPagination::Rails %>

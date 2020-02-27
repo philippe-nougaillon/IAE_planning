@@ -95,7 +95,7 @@ class EtudiantsController < ApplicationController
     end
 
     def sortable_columns
-      ['etudiants.nom','etudiants.email','etudiants.mobile']
+      ['etudiants.nom', 'etudiants.date_de_naissance', 'etudiants.workflow_state', 'etudiants.nom_entreprise', 'etudiants.updated_at']
     end
 
     def sort_column

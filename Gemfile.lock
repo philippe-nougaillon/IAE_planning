@@ -115,7 +115,7 @@ GEM
     minitest (5.14.0)
     mysql2 (0.5.3)
     nio4r (2.5.2)
-    nokogiri (1.10.8)
+    nokogiri (1.10.9)
       mini_portile2 (~> 2.4.0)
     orm_adapter (0.5.0)
     pundit (2.1.0)
@@ -262,4 +262,4 @@ RUBY VERSION
    ruby 2.6.0p0
 
 BUNDLED WITH
-   2.0.2
+   1.16.1

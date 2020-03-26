@@ -478,14 +478,15 @@ class Cour < ApplicationRecord
       @vacations.each do |vacation|
         montant_vacation = ((Cour.Tarif * vacation.forfaithtd) * (vacation.qte || 0)).round(2)
         cumul_hetd += (vacation.qte * vacation.forfaithtd)
+        formation = Formation.unscoped.find(vacation.formation_id)
         
         fields_to_export = [
               'V',
               intervenant.nom_prenom,
               I18n.l(vacation.date.to_date),
               nil,
-              vacation.formation.nom,
-              vacation.formation.Code_Analytique,
+              formation.nom,
+              formation.Code_Analytique,
               vacation.titre,
               nil, nil, 
               vacation.qte,
@@ -503,14 +504,15 @@ class Cour < ApplicationRecord
       @responsabilites.each do |resp|
         montant_responsabilite = (resp.heures * Cour.Tarif).round(2)
         cumul_hetd += resp.heures
+        formation = Formation.unscoped.find(resp.formation_id)
 
         fields_to_export = [
               'R',
               intervenant.nom_prenom,
               I18n.l(resp.debut),
               nil,
-              resp.formation.nom,
-              resp.formation.Code_Analytique,
+              formation.nom,
+              formation.Code_Analytique,
               resp.titre,
               nil,
               nil, 

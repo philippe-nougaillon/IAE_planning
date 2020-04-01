@@ -63,11 +63,10 @@
             <span class="icon-bar"></span>
           </button>
           <span class="navbar-brand">
-              <%= image_tag("logo_iae@195.png") %>
+              <%= image_tag("logo_iae@195.png", height: 35) %>
           </span>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
-          <br>
           <ul class="nav navbar-nav">
             <li class="<%= (@ctrl=='cours' ? 'active' : '') %>">
               <%= link_to cours_path(@cours_params) do %>

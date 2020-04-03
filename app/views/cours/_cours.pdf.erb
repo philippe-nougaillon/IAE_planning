@@ -1,6 +1,6 @@
 <% if cours.formation != formation %>
     <% formation = cours.formation %>
-    <tr><td><b><%= formation.nom %></b></td></tr>
+    <tr><td><b><%= formation.try(:nom) %></b></td></tr>
 <% end %>
 
 <tr>

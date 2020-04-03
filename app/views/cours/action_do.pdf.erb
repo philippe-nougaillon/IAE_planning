@@ -1,6 +1,6 @@
 <% formation = @cours.first.formation %>
 <h2>
-    <%= formation.nom %>
+    <%= formation.try(:nom) %>
 </h2>
 <br>
 

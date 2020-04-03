@@ -1,18 +1,26 @@
 <tr>
   <td>
-    <h3><%= l(cours.debut, format: :heures_min) %></h3>
-    <%= l(cours.fin, format: :heures_min) %>
+    <h3>
+      <%= l(cours.debut, format: :heures_min) %>
+      <small>
+        - <%= l(cours.fin, format: :heures_min) %>
+      </small>
+    </h3>
   </td>
   
   <td>
-    <h3><%= cours.try(:formation).try(:nom_promo) %></h3>
-    <h4><%= link_to cours.nom_ou_ue, cours %></h4>
+    <h3>
+      <span style="background-color:<%= cours.try(:formation).try(:color) %>;padding-left: 7px;margin-right: 5px;"></span>
+      <%= cours.try(:formation).try(:nom_promo) %>
+    </h3>
+    
+    <h4 class="text-primary"><i><%= cours.nom_ou_ue %></i></h4>
 
     <% if pct = cours.progress_bar_pct2 %>
       <div class="progress">
-        <div class="progress-bar progress-bar-striped active" 
+        <div class="progress-bar " 
             role="progressbar" aria-valuemin="0" aria-valuemax="100" 
-            style="width:<%= pct %>%">
+            style="width: <%= pct %>%; opacity: 0.1;">
         </div>
       </div>
     <% else %>
@@ -20,7 +28,7 @@
     <% end %>
   </td>
 
-  <td style="vertical-align: middle;">
+  <td>
     <h3>
       <%= cours.intervenant.nom_prenom %>
       <% if cours.intervenant_binome_id %>
@@ -29,7 +37,7 @@
     </h3>
   </td>
   
-  <td style="text-align: center;vertical-align: middle;">
+  <td style="text-align: center;">
     <% if salle = cours.salle %>
       <h2>
         <span class="label <%= cours.style %>">

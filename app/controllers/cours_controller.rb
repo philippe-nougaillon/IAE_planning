@@ -189,7 +189,7 @@ class CoursController < ApplicationController
     # page courante
     session[:page_slide] ||= 0
 
-    @now = Time.now.in_time_zone("Paris")
+    @now = Time.now.in_time_zone("Paris") + 2.hours
     
     if params[:planning_date]
       # Afficher tous les cours du jours
@@ -206,7 +206,7 @@ class CoursController < ApplicationController
     end
 
     @cours = Cour.where(etat: Cour.etats.values_at(:planifié, :confirmé))
-                 .where("DATE(debut) = ?", @planning_date.to_date)
+                 .where("DATE(fin) = ? AND fin > ?", @planning_date.to_date, @planning_date.to_s(:db))
                  .includes(:formation, :intervenant, :salle) 
                  .order(:debut)
 

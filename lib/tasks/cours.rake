@@ -44,7 +44,7 @@ namespace :cours do
         liste_des_gestionnaires = {}
 
         cours.each do |c|
-          intitulé_cours = "#{I18n.l(c.debut.to_date, format: :day)} #{I18n.l(c.debut.to_date)} #{I18n.l(c.debut, format: :heures_min)}-#{I18n.l(c.fin, format: :heures_min)} #{c.formation.nom}/#{c.nom_ou_ue}"
+          intitulé_cours = "#{I18n.l(c.debut.to_date, format: :day)} #{I18n.l(c.debut.to_date)} #{I18n.l(c.debut, format: :heures_min)}-#{I18n.l(c.fin, format: :heures_min)} #{c.try(:formation).try(:nom)}/#{c.nom_ou_ue}"
           liste_des_cours_a_envoyer << intitulé_cours
           if c.formation
             liste_des_gestionnaires[c.formation.nom] = (c.formation.courriel ? c.formation.courriel : c.formation.try(:user).try(:email))
@@ -85,7 +85,7 @@ namespace :cours do
 
       return true
     else
-      puts "!KO => Manque l'adresse email" if intervenant.email.blank? 
+      puts "!KO => Manque l'adresse email de '#{intervenant.nom_prenom}' (= #{intervenant.email})" 
 
       return false
     end

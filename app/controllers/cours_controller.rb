@@ -177,9 +177,11 @@ class CoursController < ApplicationController
       end
 
       format.pdf do
-        filename = "Export_Planning_#{Date.today.to_s}"
-        response.headers['Content-Disposition'] = 'attachment; filename="' + filename + '.pdf"'
-        render pdf: filename, :layout => 'pdf.html'
+        # filename = "Export_Planning_#{Date.today.to_s}"
+        # response.headers['Content-Disposition'] = 'attachment; filename="' + filename + '.pdf"'
+        # render pdf: filename, :layout => 'pdf.html'
+        flash[:error] = "Export PDF indisponible pour le moment !"
+        redirect_to cours_path 
       end
 
     end
@@ -381,10 +383,11 @@ class CoursController < ApplicationController
       end
 
       format.pdf do
-        render pdf: filename, 
-              layout: 'pdf.html', 
-              encoding: 'UTF-8'
-
+        # render pdf: filename, 
+        #       layout: 'pdf.html', 
+        #       encoding: 'UTF-8'
+        flash[:error] = "Export PDF indisponible pour le moment !"
+        redirect_to cours_path 
       end
 
     end

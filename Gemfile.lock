@@ -118,6 +118,8 @@ GEM
     nokogiri (1.10.9)
       mini_portile2 (~> 2.4.0)
     orm_adapter (0.5.0)
+    puma (4.3.3)
+      nio4r (~> 2.0)
     pundit (2.1.0)
       activesupport (>= 3.0.0)
     rack (2.2.2)
@@ -236,6 +238,7 @@ DEPENDENCIES
   jquery-turbolinks
   mini_racer
   mysql2 (~> 0.5.3)
+  puma (>= 4.3.1)
   pundit
   rack-cors
   rails (= 5.2.4.1)

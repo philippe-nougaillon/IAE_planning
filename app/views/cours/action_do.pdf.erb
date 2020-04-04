@@ -1,4 +1,4 @@
-<% formation = @cours.first.formation %>
+<% formation = Formation.unscoped.find(@cours.first.formation_id) %>
 <h2>
     <%= formation.try(:nom) %>
 </h2>

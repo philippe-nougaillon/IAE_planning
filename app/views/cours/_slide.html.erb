@@ -30,9 +30,9 @@
 
   <td>
     <h3>
-      <%= cours.intervenant.nom_prenom %>
+      <%= cours.try(:intervenant).try(:nom_prenom) %>
       <% if cours.intervenant_binome_id %>
-          / <%= cours.intervenant_binome.nom_prenom %>
+          / <%= cours.try(:intervenant_binome).try(:nom_prenom) %>
       <% end %>
     </h3>
   </td>

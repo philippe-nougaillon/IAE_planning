@@ -67,7 +67,7 @@ gem 'record_tag_helper', '~> 1.0'
 gem "rack-cors"
 
 
-gem 'exception_notification'
+# gem 'exception_notification'
 
 # Sucker Punch is a single-process Ruby asynchronous processing library.
 gem 'sucker_punch', '~> 2.0'

@@ -73,9 +73,6 @@ GEM
     devise-i18n (1.9.0)
       devise (>= 4.7.1)
     erubi (1.9.0)
-    exception_notification (4.4.0)
-      actionmailer (>= 4.0, < 7)
-      activesupport (>= 4.0, < 7)
     execjs (2.7.0)
     ffi (1.12.2)
     globalid (0.4.2)
@@ -231,7 +228,6 @@ DEPENDENCIES
   coffee-rails
   devise (>= 4.7.1)
   devise-i18n
-  exception_notification
   icalendar
   jbuilder (~> 2.0)
   jquery-rails

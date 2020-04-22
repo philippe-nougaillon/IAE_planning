@@ -84,11 +84,11 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: 'planning.iae-paris.com', protocol: 'https' }
   
   # Exception Notification
-  Rails.application.config.middleware.use ExceptionNotification::Rack,
-  :email => {
-    :email_prefix => "[IAE Planning ERROR]",
-    :sender_address => %{"philnoug" <philippe.nougaillon@gmail.com>},
-    :exception_recipients => %w{philippe.nougaillon@gmail.com}
-  }
+  # Rails.application.config.middleware.use ExceptionNotification::Rack,
+  # :email => {
+  #   :email_prefix => "[IAE Planning ERROR]",
+  #   :sender_address => %{"philnoug" <philippe.nougaillon@gmail.com>},
+  #   :exception_recipients => %w{philippe.nougaillon@gmail.com}
+  # }
 
 end

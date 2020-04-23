@@ -50,7 +50,7 @@ gem "select2-rails"
 # gem 'rails-ujs'
 
 # PDF
-gem 'wicked_pdf'
+gem 'wicked_pdf', '~> 2.0'
 gem 'wkhtmltopdf-binary'
 
 # XLSX sheet

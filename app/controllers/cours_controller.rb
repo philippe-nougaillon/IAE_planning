@@ -381,9 +381,9 @@ class CoursController < ApplicationController
       end
 
       format.pdf do
-        render pdf: filename, 
-              layout: 'pdf.html', 
-              encoding: 'UTF-8'
+        render pdf: filename, encoding: 'UTF-8'
+        #       layout: 'pdf.html', 
+        #       encoding: 'UTF-8'
       end
 
     end

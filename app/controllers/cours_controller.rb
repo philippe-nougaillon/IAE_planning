@@ -381,7 +381,7 @@ class CoursController < ApplicationController
       end
 
       format.pdf do
-        send_data generate_pdf(filename).render, 
+        send_data generate_pdf(@cours, filename).render, 
                   :type => "application/pdf", 
                   :filename => filename
 
@@ -518,9 +518,33 @@ class CoursController < ApplicationController
       end 
     end 
 
-    def generate_pdf(filename)
+    def generate_pdf(cours, filename, show_comments = false)
       pdf = Prawn::Document.new
-      pdf.text "Hello World :)"
+
+      pdf.font_size 18
+      pdf.text cours.first.formation.nom
+      pdf.move_down 20
+
+      data = [ ['Date', 'Heure', 'Durée', 'Intervenant', 'Binôme', 'UE', 'Intitulé', 'Obs'] ]
+
+      cours.each do | c |
+        data += [ 
+                  [
+                    l(c.debut.to_date, format: :long),
+                    "#{l(c.debut, format: :heures_min)} #{l(c.fin, format: :heures_min)}",
+                    "#{"%1.2f" % c.duree} h", 
+                    c.intervenant.nom_prenom,
+                    c.intervenant_binome.try(:nom_prenom),
+                    c.try(:ue),
+                    c.nom_ou_ue,
+                    show_comments ? c.commentaires : ''
+                  ] 
+                ]
+      end
+
+      pdf.font_size 8
+      pdf.table(data, header: true, column_widths: [100, 40, 40, 100, 100, 25, 100, 30])
+
       return pdf
     end
 

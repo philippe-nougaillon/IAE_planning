@@ -381,9 +381,11 @@ class CoursController < ApplicationController
       end
 
       format.pdf do
-        render pdf: filename, encoding: 'UTF-8'
-        #       layout: 'pdf.html', 
-        #       encoding: 'UTF-8'
+        send_data generate_pdf(filename).render, 
+                  :type => "application/pdf", 
+                  :filename => filename
+
+        return 
       end
 
     end
@@ -515,4 +517,11 @@ class CoursController < ApplicationController
         1  
       end 
     end 
-end
+
+    def generate_pdf(filename)
+      pdf = Prawn::Document.new
+      pdf.text "Hello World :)"
+      return pdf
+    end
+
+  end

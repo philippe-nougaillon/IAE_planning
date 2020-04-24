@@ -524,7 +524,7 @@ class CoursController < ApplicationController
       data = [ ['Formation/Date', 'Heure', 'Durée', 'Intervenant', 'Binôme', 'UE', 'Intitulé', 'Obs'] ]
 
       formation = nil
-      cours.each do | c |
+      cours.includes(:intervenant, :formation).each do | c |
         if c.formation != formation
           data += [ ["<b><i><color rgb='6495ED'><font size='9'>#{c.formation.nom}</font></color></i></b>"] ]
           formation = c.formation

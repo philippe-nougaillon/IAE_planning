@@ -178,10 +178,11 @@ class CoursController < ApplicationController
 
       format.pdf do
         filename = "Export_Planning_#{Date.today.to_s}"
-        response.headers['Content-Disposition'] = 'attachment; filename="' + filename + '.pdf"'
-        render pdf: filename, :layout => 'pdf.html'
+        send_data generate_pdf(@cours, filename, false).render, 
+          :type => "application/pdf", 
+          :filename => filename
+        return 
       end
-
     end
   end
 

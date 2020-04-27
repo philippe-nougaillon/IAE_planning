@@ -47,15 +47,12 @@ gem 'will_paginate'
 gem 'will_paginate-bootstrap'
 gem 'pundit'
 gem "select2-rails"
-# gem 'rails-ujs'
 
 # PDF
-# gem 'wkhtmltopdf-binary', '~> 0.12.5'
-# gem 'wicked_pdf', '~> 1.4'
-
+gem 'wkhtmltopdf-binary', '~> 0.12.5'
+gem 'wicked_pdf', '~> 1.4'
 gem 'prawn', '~> 2.2'
 gem 'prawn-table', '~> 0.2'
-
 
 # XLSX sheet
 gem 'spreadsheet'

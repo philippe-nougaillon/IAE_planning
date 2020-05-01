@@ -113,7 +113,7 @@ class ExportPdf
 
         # Sous-total des Cours
         data += [ [   
-            "<i><b>#{ cours_ids.count } cour.s au total</i></b>",
+            "<i><b>#{ cours_ids.flatten.count } cours au total</i></b>",
             nil, nil, nil, nil, nil,
             cumul_duree,
             nil, nil,

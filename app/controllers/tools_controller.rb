@@ -799,8 +799,16 @@ class ToolsController < ApplicationController
 
       format.pdf do
         filename = "Etats_de_services_#{Date.today.to_s}"
-        response.headers['Content-Disposition'] = 'attachment; filename="' + filename + '.pdf"'
-        render pdf: filename, :layout => 'pdf.html'
+        pdf = ExportPdf.new
+        pdf.export_etats_de_services(@cours, @intervenants, @start_date, @end_date)
+
+        send_data pdf.render,
+            filename: filename.concat('.pdf'),
+            type: 'application/pdf',
+            disposition: 'inline'	
+
+        # response.headers['Content-Disposition'] = 'attachment; filename="' + filename + '.pdf"'
+        # render pdf: filename, :layout => 'pdf.html'
       end
 
     end

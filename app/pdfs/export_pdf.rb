@@ -53,10 +53,8 @@ class ExportPdf
     def export_etats_de_services(cours, intervenants, start_date, end_date)
         intervenant = intervenants.first
 
-        cours_ids = cours.where(intervenant: intervenant).where("hors_service_statutaire IS NOT TRUE").joins(:formation).order("formations.code_analytique").pluck(:id)
-        cours_ids << cours.where(intervenant_binome: intervenant).where("hors_service_statutaire IS NOT TRUE").joins(:formation).order("formations.code_analytique").pluck(:id)
-        # todo: Flatten sur resultat requete et pas après
-        cours_ids = cours_ids.flatten
+        cours_ids = cours.where(intervenant: intervenant).where("hors_service_statutaire IS NOT TRUE").joins(:formation).order("formations.code_analytique").pluck(:id).flatten
+        cours_ids << cours.where(intervenant_binome: intervenant).where("hors_service_statutaire IS NOT TRUE").joins(:formation).order("formations.code_analytique").pluck(:id).flatten
         
         vacations = intervenant.vacations.where("date BETWEEN ? AND ?", start_date, end_date)
         responsabilites = intervenant.responsabilites.where("debut BETWEEN ? AND ?", start_date, end_date)
@@ -65,9 +63,24 @@ class ExportPdf
         nbr_heures_statutaire = intervenant.nbr_heures_statutaire || 0
         cumul_eotp, cumul_eotp_durée = {}, {}
 
-        data = [ ['Code','Dest. fi.','Date','Heure','Formation','Intitulé','Durée','CM/TD','Taux','HETD','Montant'] ]
- 
-        cours_ids.each do |id|
+        image "#{@image_path}/logo@100.png", :height => 40, :position => :center
+        move_down @margin_down
+
+        font "Helvetica"
+        text "Etat liquidatif des vacations d'enseignements", size: 18
+        font_size 10
+        text "Décrets 87-889 du 29/10/1987 et 88-994 du 18/10/88 - CA du 9/09/2019"
+        text "Centre de coût 7322GRH"
+        move_down @margin_down
+
+        text intervenant.nom_prenom
+        text "Du #{I18n.l(start_date.to_date)} au #{I18n.l(end_date.to_date)}"
+        move_down @margin_down
+
+        data = [ ['Code','Dest. fi.','Date','Heure','Formation','Intitulé','Durée','CM/TD','Taux','HETD','Montant €'] ]
+
+        # Cours 
+        cours_ids.flatten.each do |id|
             c = Cour.find(id)
             cumul_duree += c.duree 
     
@@ -95,18 +108,18 @@ class ExportPdf
                 c.Taux_TD,
                 c.HETD,
                 montant_service
-                ] ]
+            ] ]
         end    
 
         # Sous-total des Cours
         data += [ [   
+            "<i><b>#{ cours_ids.count } cour.s au total</i></b>",
             nil, nil, nil, nil, nil,
-            "<i><b>#{cours_ids.count} cour.s au total</i></b>",
             cumul_duree,
             nil, nil,
             cumul_hetd,
-            cumul_tarif
-            ] ]
+            "<b>#{cumul_tarif}</b>"
+        ] ]
 
 
         # Vacations
@@ -127,14 +140,13 @@ class ExportPdf
                 nil, nil,
                 vacation.forfaithtd,
                 montant_vacation
-                ] ] 
+            ] ] 
     
             if index == vacations.size - 1
                 data += [ [
-                    nil, nil, nil, nil, nil,  
                     "<b><i>#{vacations.size} vacation.s au total</i></b>",
-                    nil, nil, nil, nil,
-                    cumul_vacations
+                    nil, nil, nil, nil, nil, nil, nil, nil, nil,  
+                    "<b>#{cumul_vacations}</b>"
                 ] ]
             end
         end
@@ -161,7 +173,7 @@ class ExportPdf
                 data += [ [
                     nil, nil, nil, nil, nil, nil, nil, nil, nil,
                     "#{responsabilites.count} responsabilité.s au total",
-                    cumul_resps,
+                    "<b>#{cumul_resps}</b>",
                     nil
                     ] ]
             end
@@ -169,31 +181,61 @@ class ExportPdf
 
 
         # Grand TOTAL
-        s = ""
+        s = nil
         if nbr_heures_statutaire > 0
-            s = "Nbr Heures Statutaires: #{nbr_heures_statutaire} h"
+            s = "#{nbr_heures_statutaire} h statutaire.s"
             if (nbr_heures_statutaire > 0) && (cumul_hetd >= nbr_heures_statutaire)
                 s += "Dépassement: #{cumul_hetd - nbr_heures_statutaire} h"
             end
         end
 
-        data += [ [nil, nil, nil, nil, nil, "<b><i>TOTAL #{s} </i></b>", nil, nil, nil, nil, cumul_resps + cumul_vacations + cumul_tarif] ]
-
+        data += [ ["<b><i>TOTAL </i></b>", nil, nil, nil, nil, s, nil, nil, nil, nil, "<b>#{cumul_resps + cumul_vacations + cumul_tarif}</b>"] ]
 
         # Générer la Table
-        font "Helvetica"
         font_size 7
-        table(data, 
-                  header: true, 
-                  cell_style: { :inline_format => true })
-  
+        table(data, header: true, 
+                column_widths: {0 => 105, 1 => 40, 2 => 50, 3 => 30, 4=> 70, 6 => 30, 7 => 35, 8 => 35, 9 => 30, 10 => 50},
+                row_colors: ["F0F0F0", "FFFFFF"]) do | table | 
+                    table.cells.style(inline_format: true, border_width: 1, border_color: 'C0C0C0')
+                    table.column(6..10).style(:align => :right)
+                end
 
+        move_down @margin_down
+
+        # Tableau récap par code OTP
+        data = [ ['Code EOTP', 'Total services', 'Nbr heures de cours' ]]    
+
+        cumul_eotp.each do |eotp|
+            data += [ [
+                eotp.first,
+                eotp.last,
+                cumul_eotp_durée[eotp.first].to_f,
+            ] ]
+        end
+
+        table data, header: true, row_colors: ["F0F0F0", "FFFFFF"] do 
+            column(1..2).style(:align => :right)
+            cells.style(inline_format: true, border_width: 1, border_color: 'C0C0C0')
+        end
+
+        move_down @margin_down
+
+        font "Helvetica"
+        font_size 10
+
+        text "Fait à Paris le #{I18n.l(Date.today)}", style: :italic
+        move_down @margin_down
+
+        y_position = cursor
+        bounding_box([0, y_position], :width => 250, :height => 100) do
+            text "Eric LAMARQUE"
+            text "Directeur de l'IAE de Paris", size: 8
+        end
+        bounding_box([250, y_position], :width => 250) do
+            text "Barbara FITSCH-MOURAS"
+            text "Responsable du service Formation et développement", size: 8 
+        end    
         
     end
-
-
-
-
-
 
 end

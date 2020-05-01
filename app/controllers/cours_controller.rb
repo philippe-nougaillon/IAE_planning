@@ -178,10 +178,13 @@ class CoursController < ApplicationController
 
       format.pdf do
         filename = "Export_Planning_#{Date.today.to_s}"
-        send_data generate_pdf(@cours, filename, false).render, 
-          :type => "application/pdf", 
-          :filename => filename
-        return 
+        pdf = ExportPdf.new
+        pdf.export_liste_des_cours(@cours, false)
+
+        send_data pdf.render,
+            filename: filename.concat('.pdf'),
+            type: 'application/pdf',
+            disposition: 'inline'	
       end
     end
   end
@@ -382,11 +385,13 @@ class CoursController < ApplicationController
       end
 
       format.pdf do
-        send_data generate_pdf(@cours, filename, true).render, 
-                  :type => "application/pdf", 
-                  :filename => filename
+        pdf = ExportPdf.new
+        pdf.export_liste_des_cours(@cours, true)
 
-        return 
+        send_data pdf.render,
+            filename: filename.concat('.pdf'),
+            type: 'application/pdf',
+            disposition: 'inline'	
       end
 
     end
@@ -518,47 +523,5 @@ class CoursController < ApplicationController
         1  
       end 
     end 
-
-    def generate_pdf(cours, filename, show_comments = false)
-      pdf = Prawn::Document.new
-
-      data = [ ['Formation/Date', 'Heure', 'Durée', 'Intervenant', 'Binôme', 'UE', 'Intitulé', 'Obs'] ]
-
-      formation = nil
-      cours.includes(:intervenant, :formation).each do | c |
-        if c.formation != formation
-          data += [ ["<b><i><color rgb='6495ED'><font size='9'>#{c.formation.nom}</font></color></i></b>"] ]
-          formation = c.formation
-        end
-        data += [ generate_pdf_cell(c, show_comments) ]
-      end
-
-      pdf.font "Courier"
-      pdf.font_size 8
-      pdf.table(data, 
-                header: true, 
-                column_widths: [130, 40, 40, 100, 90, 25, 90, 25], 
-                cell_style: { :inline_format => true })
-
-
-      pdf.move_down 30
-      pdf.font_size 6
-      pdf.text "Liste au #{l(Date.today, format: :long)}"
-
-      return pdf
-    end
-
-    def generate_pdf_cell(c, show_comments)
-      [
-        l(c.debut.to_date, format: :long),
-        "#{l(c.debut, format: :heures_min)} #{l(c.fin, format: :heures_min)}",
-        "#{"%1.2f" % c.duree} h", 
-        c.intervenant.nom_prenom,
-        c.intervenant_binome.try(:nom_prenom),
-        c.try(:ue),
-        "<font size='7'>#{c.nom_ou_ue}</font>",
-        show_comments ? "<font size='6'>#{c.commentaires}</font>" : ''
-      ] 
-    end
 
   end

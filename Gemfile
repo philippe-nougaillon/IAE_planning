@@ -11,7 +11,6 @@ gem 'mysql2', '~> 0.5.3'
 gem 'puma', ">= 4.3.1"
 
 # Use SCSS for stylesheets
-#gem 'sass-rails', '~> 5.0'
 gem 'sassc-rails'
 
 # Use Uglifier as compressor for JavaScript assets
@@ -36,7 +35,7 @@ gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
 
-gem "bootstrap_form", "~> 2.7"
+gem 'bootstrap_form', '~> 2.7'
 gem 'simple_calendar', '~> 2.0'
 gem 'devise', '>= 4.7.1'
 gem 'devise-i18n'
@@ -65,9 +64,6 @@ gem 'record_tag_helper', '~> 1.0'
 # Access-Control-Allow-Origin (pour l'APP React)
 gem "rack-cors"
 
-
-# gem 'exception_notification'
-
 # Sucker Punch is a single-process Ruby asynchronous processing library.
 gem 'sucker_punch', '~> 2.0'
 
@@ -75,18 +71,19 @@ gem 'sucker_punch', '~> 2.0'
 gem 'workflow'
 gem 'workflow-activerecord'
 
+# gem 'exception_notification'
 
 group :development do
-    # Call 'debugger' anywhere in the code to stop execution and get a debugger console
-    #gem 'debugger'
-    #gem 'pry'
-  
     # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
     gem 'spring'
       
     # Access an IRB console on exception pages or by using <%= console %> in views
     gem 'web-console', '>= 3.3.0'
-  
-    #gem 'scout_apm'
-    #gem 'brakeman', require: false
+
+    # Call 'debugger' anywhere in the code to stop execution and get a debugger console
+    # gem 'debugger'
+    # gem 'pry'
+
+    # gem 'scout_apm'
+    # gem 'brakeman', require: false
 end

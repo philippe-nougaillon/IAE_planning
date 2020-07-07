@@ -9,6 +9,7 @@ class IntervenantMailer < ApplicationMailer
         mail(to: @intervenant.email, subject:"[PLANNING] Etat de services")
     end
 
+    # Mail preview:  http://localhost:3000/rails/mailers/intervenant_mailer
     def notifier_cours(debut, fin, intervenant, cours, gestionnaires)
         @debut = debut
         @fin = fin - 1.day

@@ -17,7 +17,8 @@ class UserMailer < ApplicationMailer
 
   def notifier_fin_envoi_prochains_cours(n)
     @envoyes = n
-    mail( to: ["respfd.iae@univ-paris1.fr", "philippe.nougaillon@gmail.com"], 
+    mail( to: 'respfd.iae@univ-paris1.fr',
+          bcc: 'philippe.nougaillon@gmail.com',
           subject: "[PLANNING] Notifications intervenants envoyées avec succès")
   end
 

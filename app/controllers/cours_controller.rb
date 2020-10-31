@@ -127,9 +127,9 @@ class CoursController < ApplicationController
     @all_cours = @cours
 
     if (params[:view] == 'list' and params[:paginate] == 'pages' and request.variant.include?(:desktop)) 
-      @cours = @cours.paginate(page: clean_page(params[:page]), per_page:20)
+      @cours = @cours.paginate(page: clean_page(params[:page]), per_page: 100)
     end
-
+        
     if request.variant.include?(:phone)
       @cours = @cours.paginate(page:params[:page], per_page:30)
     end

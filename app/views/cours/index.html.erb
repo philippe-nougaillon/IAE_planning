@@ -192,7 +192,7 @@
           <div class="col-sm-3 pull-right">
             <small>Action:</small>
             <div class="input-group">
-              <% if current_user.admin? || current_user.reserver? %>
+              <% if current_user.admin? %>
                 <%= select_tag "action_name", options_for_select(Cour.actions_admin), include_blank:true, class:"form-control", onchange:'this.form.submit()' %>
               <% else %>
                 <%= select_tag "action_name", options_for_select(Cour.actions), include_blank:true, class:"form-control", onchange:'this.form.submit()' %>

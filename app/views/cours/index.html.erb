@@ -192,11 +192,16 @@
           <div class="col-sm-3 pull-right">
             <small>Action:</small>
             <div class="input-group">
+
               <% if current_user.admin? %>
-                <%= select_tag "action_name", options_for_select(Cour.actions_admin), include_blank:true, class:"form-control", onchange:'this.form.submit()' %>
+                <% actions = Cour.actions_admin %>
+              <% elsif current_user.reserver? %>
+                <% actions = Cour.actions_peut_reserver %>
               <% else %>
-                <%= select_tag "action_name", options_for_select(Cour.actions), include_blank:true, class:"form-control", onchange:'this.form.submit()' %>
+                <% actions = Cour.actions %>
               <% end %>
+              <%= select_tag "action_name", options_for_select(actions), include_blank:true, class:"form-control", onchange:'this.form.submit()' %>
+
               <div class="input-group-btn">
                 <%= submit_tag 'Go', class: 'btn btn-sm btn-success' %>
               </div>

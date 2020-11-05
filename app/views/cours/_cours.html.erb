@@ -39,10 +39,10 @@
     <td>
         <span class="label <%= cours.style %>"><%= cours.etat.humanize %></span>
     </td>
-    <td>
+    <td style="white-space: nowrap;">
         <% if cours.salle %>
             <%= link_to cours.salle.nom, cours_url(start_date:cours.debut.to_date, view:'calendar_rooms', anchor:cours.salle.nom), target: :_blank %>
-            <% if cours_formation.nbr_etudiants > cours.salle.places && user_signed_in? %>
+            <% if !cours.salle.places.zero? && cours_formation.nbr_etudiants > cours.salle.places && user_signed_in? %>
                 <i class="glyphicon glyphicon-warning-sign glyph-custom-alert" 
                     data-toggle="tooltip" data-placement="bottom"
                     title="Manque <%= cours_formation.nbr_etudiants - cours.salle.places %> place.s">
@@ -55,6 +55,7 @@
                     title="Pas de salle réservée !">
             <% end %>
         <% end %>
+
         <% if user_signed_in? && !cours.commentaires.blank? %>
             <i class="glyphicon glyphicon-comment" 
                     data-toggle="tooltip" data-placement="top"

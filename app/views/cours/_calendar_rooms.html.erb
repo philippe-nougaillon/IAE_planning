@@ -40,12 +40,24 @@
 
         <% meetings.each do |meeting| %>
           <!--- chercher si conflit de salle ! -->
-          <% if Cour.where("cours.id <> ? AND salle_id = ? AND (((debut BETWEEN ? AND ?) OR (fin BETWEEN ? AND ?)) OR (debut < ? AND fin > ?))", 
+            <% unless meeting.salle.places.zero? %>
+              <% if Cour.where("cours.id <> ? AND salle_id = ? AND (((debut BETWEEN ? AND ?) OR (fin BETWEEN ? AND ?)) OR (debut < ? AND fin > ?))", 
                         meeting.id, salle.id, meeting.debut, meeting.fin, meeting.debut, meeting.fin, meeting.fin, meeting.debut)
                         .where.not(debut:meeting.fin)
                         .where.not(fin:meeting.debut)
                         .any? %>
-            <span style="background-color:black;color:yellow;">BANZAÏ !!!</span>
+                <span style="background-color:black;color:yellow;">CONFLIT SALLE !</span>
+              <% end %>
+          <% else %>
+            <% if Cour.where("cours.id <> ? AND (intervenant_id = ? OR intervenant_binome_id = ?) AND (((debut BETWEEN ? AND ?) OR (fin BETWEEN ? AND ?)) OR (debut < ? AND fin > ?))", 
+                      meeting.id, meeting.intervenant_id, meeting.intervenant_id, meeting.debut, meeting.fin, meeting.debut, meeting.fin, meeting.fin, meeting.debut)
+                      .where.not(debut:meeting.fin)
+                      .where.not(fin:meeting.debut)
+                      .any? %>
+              <% unless meeting.intervenant.try(:doublon) || meeting.intervenant_binome.try(:boublon) %>
+                <span style="background-color: red; color: white;">CONFLIT INTERVENANT !</span>
+              <% end %>
+            <% end %>
           <% end %>  
 
           <% formation = Formation.unscoped.find(meeting.formation_id) %>
@@ -55,9 +67,9 @@
             <br>
 
             <% if formation.abrg %>
-              <%= link_to formation.abrg, edit_cour_path(meeting, from:'planning_salles'), title:meeting.nom %>
+              <%= link_to formation.abrg, edit_cour_path(meeting, from:'planning_salles'), title: "#{meeting.nom} / #{meeting.intervenant.nom_prenom} / #{meeting.intervenant_binome.try(:nom_prenom)}" %>
             <% else %>
-              <%= link_to formation.nom, meeting %>
+              <%= link_to formation.nom, meeting, title: "#{meeting.nom} / #{meeting.intervenant.nom_prenom}/ #{meeting.intervenant_binome.try(:nom_prenom)}" %>
             <% end %>
           </div>
         <% end %>

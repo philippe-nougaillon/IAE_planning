@@ -38,7 +38,7 @@ class Cour < ApplicationRecord
   end
   
   def self.actions
-    ["Exporter vers Excel", "Exporter vers iCalendar", "Exporter en PDF"]
+    ["Exporter vers Excel", "Exporter vers iCalendar", "Exporter en PDF", "Supprimer"]
   end
 
   def self.actions_peut_reserver
@@ -46,7 +46,7 @@ class Cour < ApplicationRecord
   end
 
   def self.actions_admin
-    ["Changer de salle", "Changer d'état", "Changer de date", "Changer d'intervenant"] + self.actions_peut_reserver + ["Supprimer"]
+    ["Changer de salle", "Changer d'état", "Changer de date", "Changer d'intervenant", "Supprimer"]
   end
 
   def self.etendue_horaire

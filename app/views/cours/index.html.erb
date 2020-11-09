@@ -200,6 +200,7 @@
               <% else %>
                 <% actions = Cour.actions %>
               <% end %>
+
               <%= select_tag "action_name", options_for_select(actions), include_blank:true, class:"form-control", onchange:'this.form.submit()' %>
 
               <div class="input-group-btn">
